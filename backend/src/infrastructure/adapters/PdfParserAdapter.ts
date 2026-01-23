@@ -1,4 +1,7 @@
-import pdf from 'pdf-parse';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const pdf = require('pdf-parse');
+
 import type { IPdfParser } from '../../domain/interfaces/IPdfParser.js';
 import { AppError } from '../../domain/errors/AppError.js';
 import { safeExecute } from '../utils/safeExecute.js';

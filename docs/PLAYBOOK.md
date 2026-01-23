@@ -40,6 +40,12 @@ Please read the full [Coding Best Practices](../docs/standards/coding_best_pract
 ### ❌ Don'ts
 - **No `any`**: Explicitly type everything.
 - **No Logic in UI**: The frontend should only display state provided by the backend.
+- **No inline styles**: Use TailwindCSS utility classes.
+
+### 🎨 Frontend Guidelines
+- **Premium Aesthetic**: Use `Inter` font, subtle shadows, and `rounded-xl` borders.
+- **Dark Mode**: Support `dark:` variants for all components.
+- **Smart/Dumb**: `App.tsx` handles state/API, components (e.g., `TenderUpload`) just render.
 
 ### 4. Adding Validation Rules
 To add a new check for tenders (e.g., "Must be in Madrid"):

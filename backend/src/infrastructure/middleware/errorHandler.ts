@@ -13,8 +13,18 @@ export const globalErrorHandler = (
   let error = err;
 
   if (!(error instanceof AppError)) {
-    // Convert unknown errors to AppError
-    error = new AppError("Internal Server Error", 500, false);
+    // Check for MulterError (File Upload Errors)
+    if (err.name === 'MulterError') {
+      const multerErr = err as any;
+      if (multerErr.code === 'LIMIT_FILE_SIZE') {
+        error = AppError.badRequest('File is too large. Maximum allowed size is 50MB.');
+      } else {
+        error = AppError.badRequest(`File upload error: ${multerErr.message}`);
+      }
+    } else {
+      // Convert unknown errors to AppError
+      error = new AppError("Internal Server Error", 500, false);
+    }
   }
 
   const { statusCode, message, isOperational } = error as AppError;
