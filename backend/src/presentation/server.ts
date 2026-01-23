@@ -64,6 +64,9 @@ app.get("/health", (req, res) => {
 
 // Centralized Error Handler
 import { globalErrorHandler } from "../infrastructure/middleware/errorHandler.js";
+import { tenderRouter } from "./routes/TenderRoutes.js";
+
+app.use("/api/tenders", tenderRouter);
 app.use(globalErrorHandler);
 
 export { app };

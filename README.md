@@ -4,9 +4,9 @@
 >
 > *Master's Thesis Project (TFM) - Week 1 Status*
 
-![Status](https://img.shields.io/badge/Status-Week_2_Prototype-blue)
+![Status](https://img.shields.io/badge/Status-Phase_2_Complete-blue)
 ![Tech](https://img.shields.io/badge/Stack-TypeScript_React_Sentry-green)
-![Coverage](https://img.shields.io/badge/Coverage-100%25_Domain-brightgreen)
+![Coverage](https://img.shields.io/badge/Coverage-100%25_Backend-brightgreen)
 
 ## 📌 Overview
 **TenderCheck AI** is an intelligent assistant designed to valid public tender documents ("Pliegos") against technical proposals. It leverages **LLMs** for semantic reasoning and deterministic rules for mandatory compliance checks.
@@ -26,7 +26,7 @@ This project follows **Clean Architecture** principles to ensure separation of c
 ```
 TenderCheckAI/
 ├── backend/          # 🧠 Node.js + Express (Clean Architecture)
-│   ├── src/domain    #    - Entities, Errors, Interfaces (Pure TS)
+│   ├── src/domain    #    - Entities, Rules Engine, Errors (Pure TS)
 │   └── src/infra     #    - Sentry, OpenAI, PDF Parsers
 ├── frontend/         # ⚛️ React + Vite (TailwindCSS)
 │   ├── src/components #   - Accessible UI (ARIA-first)

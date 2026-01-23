@@ -19,6 +19,7 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^25.0.10",
+    "@types/pdf-parse": "^1.1.5",
     "@types/supertest": "^6.0.3",
     "@typescript-eslint/eslint-plugin": "^8.53.1",
     "@typescript-eslint/parser": "^8.53.1",
@@ -38,10 +39,13 @@
   "dependencies": {
     "@sentry/node": "^10.36.0",
     "@sentry/profiling-node": "^10.36.0",
+    "@types/multer": "^2.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "helmet": "^8.1.0",
+    "multer": "^2.0.2",
+    "pdf-parse": "^2.4.5",
     "zod": "^4.3.6"
   }
 }

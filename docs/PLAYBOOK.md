@@ -41,6 +41,13 @@ Please read the full [Coding Best Practices](../docs/standards/coding_best_pract
 - **No `any`**: Explicitly type everything.
 - **No Logic in UI**: The frontend should only display state provided by the backend.
 
+### 4. Adding Validation Rules
+To add a new check for tenders (e.g., "Must be in Madrid"):
+1. Create a class implementing `IRule` in `backend/src/domain/validation/rules/`.
+2. Implement `validate(analysis)`: Return `ValidationResult` on failure, `null` on pass/neutral.
+3. Register the rule in `backend/src/presentation/routes/TenderRoutes.ts` (Composition Root).
+
+
 ## 📝 Common Commands Cheat Sheet
 
 | Task | Command |
