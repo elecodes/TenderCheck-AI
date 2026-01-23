@@ -54,6 +54,11 @@ To add a new check for tenders (e.g., "Must be in Madrid"):
 3. Register the rule in `backend/src/presentation/routes/TenderRoutes.ts` (Composition Root).
 
 
+### 5. AI & LLM Development 🧠
+- **No API Key?** No problem. The system automatically falls back to **Mock Mode** if the API key is missing or quota is exceeded.
+- **Structured Outputs**: Always use `zodResponseFormat` when adding new AI features. Never parse raw strings.
+- **Prompting**: Keep System Prompts in the Service or a dedicated config. Use clear instructions ("You are...", "Return JSON...").
+
 ## 📝 Common Commands Cheat Sheet
 
 | Task | Command |

@@ -4,10 +4,10 @@
 >
 > *Master's Thesis Project (TFM) - Week 1 Status*
 
-![Status](https://img.shields.io/badge/Status-Phase_3_Complete-blue)
-![Tech](https://img.shields.io/badge/Stack-TypeScript_React_Sentry-green)
+![Status](https://img.shields.io/badge/Status-Phase_4_Complete-blue)
+![Tech](https://img.shields.io/badge/Stack-TypeScript_React_OpenAI-orange)
 ![Coverage](https://img.shields.io/badge/Coverage-100%25_Backend-brightgreen)
-![UI](https://img.shields.io/badge/UI-Tailwind_Dark_Mode-purple)
+![AI](https://img.shields.io/badge/AI-GPT--4o_Reference-purple)
 
 ## 📌 Overview
 **TenderCheck AI** is an intelligent assistant designed to valid public tender documents ("Pliegos") against technical proposals. It leverages **LLMs** for semantic reasoning and deterministic rules for mandatory compliance checks.
