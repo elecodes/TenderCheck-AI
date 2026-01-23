@@ -1,4 +1,4 @@
-import type { TenderAnalysis } from '../entities/TenderAnalysis.js';
+import type { TenderAnalysis } from "../entities/TenderAnalysis.js";
 
 export interface ITenderRepository {
   save(tender: TenderAnalysis): Promise<void>;

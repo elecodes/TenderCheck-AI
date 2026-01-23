@@ -7,9 +7,11 @@ Welcome to the team! This playbook defines **how we work** to ensure high qualit
 ### 1. Development
 We use **TypeScript** in Strict Mode.
 ```bash
-# Start backend in watch mode
-cd backend
-npm run dev
+# Start backend (Port 3000)
+cd backend && npm run dev
+
+# Start frontend (Port 5173)
+cd frontend && npm run dev
 ```
 
 ### 2. Testing & Quality 🧪
@@ -18,7 +20,7 @@ npm run dev
 | Command | Purpose | Requirement |
 |---------|---------|-------------|
 | `npm test` | Run all unit tests | Must pass before push |
-| `npm run test:coverage` | Generate coverage report | **Min 80%** (Lines, Branches, Functions) |
+| `npm run test:coverage` | Generate coverage report | **100% Domain**, 80% Global |
 
 > **🔴 Important:** Providing a test suite that fails the coverage threshold will cause the pipeline to fail.
 
@@ -45,4 +47,4 @@ Please read the full [Coding Best Practices](../docs/standards/coding_best_pract
 |------|---------|
 | Clean Install | `rm -rf node_modules && npm ci` |
 | Type Check | `npx tsc --noEmit` |
-| Lint | `npm run lint` (Setup coming soon) |
+| Lint | `npm run lint` (Backend & Frontend) |

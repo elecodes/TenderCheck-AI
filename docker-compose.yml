@@ -1,0 +1,17 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: builder # Use builder stage for dev to have devDependencies if needed, or separate dev stage. 
+                      # For simplicity in this initial setup, we might want to just run npm run dev.
+    image: tendercheck-backend-dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    command: npm run dev
+    environment:
+      - NODE_ENV=development
+      - PORT=3000

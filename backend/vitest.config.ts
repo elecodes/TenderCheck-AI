@@ -1,20 +1,31 @@
-/// <reference types="vitest" />
-import { defineConfig } from 'vitest/config';
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
     coverage: {
-      provider: 'v8',
-      reporter: ['text', 'json', 'html'],
+      provider: "v8",
+      reporter: ["text", "json", "html"],
+      exclude: [
+        "src/infrastructure/**", // Tier 3: 0% Coverage
+        "src/presentation/**",
+        "test/**",
+        "**/*.d.ts",
+        "**/*.config.*",
+      ],
       thresholds: {
-        lines: 80,
-        functions: 80,
-        branches: 80,
-        statements: 80
+        global: {
+          statements: 80,
+          branches: 80,
+          functions: 80,
+          lines: 80,
+        },
+        "src/domain/**": {
+          statements: 100,
+          branches: 100,
+          functions: 100,
+          lines: 100,
+        },
       },
-      include: ['src/**/*.ts'],
-      exclude: ['src/domain/entities/*.ts', 'src/domain/interfaces/*.ts'] // Interfaces don't have runtime code
     },
-    globals: true,
   },
 });

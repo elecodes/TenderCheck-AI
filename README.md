@@ -4,9 +4,9 @@
 >
 > *Master's Thesis Project (TFM) - Week 1 Status*
 
-![Status](https://img.shields.io/badge/Status-Week_1_Setup-blue)
-![Tech](https://img.shields.io/badge/Stack-TypeScript_Node_React-green)
-![Coverage](https://img.shields.io/badge/Coverage-Min_80%25-orange)
+![Status](https://img.shields.io/badge/Status-Week_2_Prototype-blue)
+![Tech](https://img.shields.io/badge/Stack-TypeScript_React_Sentry-green)
+![Coverage](https://img.shields.io/badge/Coverage-100%25_Domain-brightgreen)
 
 ## 📌 Overview
 **TenderCheck AI** is an intelligent assistant designed to valid public tender documents ("Pliegos") against technical proposals. It leverages **LLMs** for semantic reasoning and deterministic rules for mandatory compliance checks.
@@ -24,11 +24,14 @@
 This project follows **Clean Architecture** principles to ensure separation of concerns:
 
 ```
-backend/src/
-├── domain/           # 🧠 Enterprise Logic (Entities, Repository Interfaces)
-├── application/      # 🎬 Use Cases & Orchestration
-├── infrastructure/   # 🔌 External Adapters (PDF, OpenAI, DB)
-└── presentation/     # 🗣 API Controllers / UI
+TenderCheckAI/
+├── backend/          # 🧠 Node.js + Express (Clean Architecture)
+│   ├── src/domain    #    - Entities, Errors, Interfaces (Pure TS)
+│   └── src/infra     #    - Sentry, OpenAI, PDF Parsers
+├── frontend/         # ⚛️ React + Vite (TailwindCSS)
+│   ├── src/components #   - Accessible UI (ARIA-first)
+│   └── src/hooks     #    - Sentry Error Boundaries
+└── docs/             # 📚 ADRs, Standards, Playbook
 ```
 
 ## 🚀 Getting Started
@@ -48,10 +51,12 @@ npm install
 ```
 
 ### Running the Project
-```bash
-# Run Development Mode (Backend)
-npm run dev
-```
+# Run Development Mode
+# Backend (Port 3000)
+cd backend && npm run dev
+
+# Frontend (Port 5173)
+cd frontend && npm run dev
 
 ### Testing
 We enforce strict quality gates.

@@ -1,7 +1,7 @@
-import type { Requirement } from './Requirement.js';
-import type { ValidationResult } from './ValidationResult.js';
+import type { Requirement } from "./Requirement.js";
+import type { ValidationResult } from "./ValidationResult.js";
 
-export type AnalysisStatus = 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
+export type AnalysisStatus = "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
 
 export interface TenderAnalysis {
   id: string;
@@ -10,13 +10,13 @@ export interface TenderAnalysis {
   status: AnalysisStatus;
   createdAt: Date;
   updatedAt: Date;
-  
+
   // Extracted requirements from the Tender
   requirements?: Requirement[];
-  
+
   // Validation results after comparing with a proposal
   results?: ValidationResult[];
-  
+
   // Metadata
   metadata?: {
     pageCount?: number;
