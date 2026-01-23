@@ -18,6 +18,7 @@
 - **[📋 Project Plan](PROJECT_PLAN.md)**: Roadmap, Phases, and Architecture.
 - **[📑 SRS](SRS.md)**: Software Requirements Specification.
 - **[🛠 Standards](docs/standards/coding_best_practices.md)**: Coding quality and best practices.
+- **[🧪 Testing Policy](docs/standards/testing_policy.md)**: TDD quality gates and strategy.
 
 ## 🏗 Architecture
 This project follows **Clean Architecture** principles to ensure separation of concerns:

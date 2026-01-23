@@ -28,7 +28,7 @@ npm run dev
 - **Dependency Rule**: Source code dependencies must point **inwards** (Infrastructure -> Application -> Domain).
 
 ## 🛡️ Standards & Best Practices
-Please read the full [Coding Best Practices](../docs/standards/coding_best_practices.md) document.
+Please read the full [Coding Best Practices](../docs/standards/coding_best_practices.md) and [Testing Policy](../docs/standards/testing_policy.md) documents.
 
 ### ✅ Do's
 - **Validate Everything**: Use `Zod` schemas for any data entering the system (API inputs, parsed PDF text).
