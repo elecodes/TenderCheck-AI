@@ -61,4 +61,5 @@ To add a new check for tenders (e.g., "Must be in Madrid"):
 | Scope | Command | Description |
 |---|---|---|
 | Backend | `npm run ...` | (Auto-generated) |
+| Backend | `npx tsx scripts/verify_rag.ts` | Verify Legal RAG Service |
 <!-- SCRIPTS_END -->

@@ -18,10 +18,10 @@ graph TD
         Compare --> OpenAI
     end
     
-    subgraph "Knowledge Layer (MCP)"
-        Compare -- "MCP Protocol (stdio)" --> MCPServer[Knowledge MCP Server]
-        MCPServer --> VectorDB[(LanceDB - Vector Store)]
-        MCPServer --> Embeddings[Embedding Engine (Hybrid)]
+    subgraph "Knowledge Layer (Local RAG)"
+        Compare -- "Direct Call" --> LegalService[LocalRAGLegalService]
+        LegalService --> VectorBase[(In-Memory/LanceDB)]
+        LegalService --> OpenAI[Embedding Engine]
     end
     
     VectorDB <.. "Ingested" .. Docs[docs/standards/*.md]
@@ -37,13 +37,13 @@ graph TD
     *   Calling OpenAI for general text analysis.
     *   **New**: Acting as an "MCP Client" to consult the Knowledge Base.
 
-### B. Knowledge MCP Server (`/packages/knowledge-mcp`)
-*   **Role**: A specialized "Brain" that serves project standards and policy headers securely.
-*   **Protocol**: Model Context Protocol (MCP) over `stdio`.
-*   **Tool**: `consult_standards(query)`
-    *   **Input**: "What is the coverage requirement?"
-    *   **Output**: "According to `metrics_policy.md`, 80% global coverage is required."
-*   **Data Source**: Directly indexes the markdown files in `docs/standards/`.
+### B. Knowledge Layer (Local RAG)
+*   **Role**: Specialized service (`LocalRAGLegalService`) that retrieves legal context from `knowledge_base/`.
+*   **Mechanism**:
+    *   **Input**: Query string (e.g., "Presupuesto base").
+    *   **Process**: Embeds query -> Cosine Similarity -> Returns citations.
+    *   **Output**: List of `LegalCitation` objects.
+*   **Data Source**: `knowledge_base/processed/` (or in-memory mock for MVP).
 
 ### C. Vector Database (LanceDB)
 *   **Role**: Local, serverless vector storage.

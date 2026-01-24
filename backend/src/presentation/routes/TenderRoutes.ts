@@ -9,30 +9,45 @@ import { OpenAIModelService } from '../../infrastructure/services/OpenAIModelSer
 import { ValidationEngine } from '../../domain/validation/ValidationEngine.js';
 import { ScopeValidationRule } from '../../domain/validation/rules/ScopeValidationRule.js';
 
+import { LocalRAGLegalService } from '../../infrastructure/services/LocalRAGLegalService.js';
+import { MockLegalService } from '../../infrastructure/services/MockLegalService.js';
+import { ValidateProposal } from '../../application/use-cases/ValidateProposal.js';
+
 // Composition Root (Simple Manual Dependency Injection)
 // In a larger app, this would be in a dedicated DI container or factory
-const repository = new InMemoryTenderRepository();
+const tenderRepo = new InMemoryTenderRepository();
 const pdfParser = new PdfParserAdapter();
-const tenderAnalyzer = new OpenAIModelService();
+const aiService = new OpenAIModelService(); // Now implements compareProposal
 const validationEngine = new ValidationEngine([
   new ScopeValidationRule()
 ]);
 
-const createTenderUseCase = new CreateTender(
-  repository,
+// Phase 7: Legal Service Injection
+const apiKey = process.env.OPENAI_API_KEY;
+const legalService = apiKey
+    ? new LocalRAGLegalService(apiKey)
+    : new MockLegalService(); // Fallback if no key
+
+if (!apiKey) {
+    console.warn("⚠️  [TenderRoutes] No OPENAI_API_KEY found. Using MockLegalService.");
+}
+
+// Use Cases
+const createTender = new CreateTender(
+  tenderRepo,
   pdfParser,
-  tenderAnalyzer,
+  aiService,
   validationEngine
 );
 
-import { ValidateProposal } from '../../application/use-cases/ValidateProposal.js';
 const validateProposalUseCase = new ValidateProposal(
-  repository,
+  tenderRepo,
   pdfParser,
-  tenderAnalyzer
+  aiService,
+  legalService
 );
 
-const tenderController = new TenderController(createTenderUseCase);
+const tenderController = new TenderController(createTender); // Corrected to use 'createTender'
 
 const router = Router();
 const upload = multer({ 
