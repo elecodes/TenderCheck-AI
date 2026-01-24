@@ -16,6 +16,12 @@ We decided to implement a **Local RAG (Retrieval-Augmented Generation)** service
 3.  **Deployment**: Zero additional deployment overhead (no need for a separate container or sidecar).
 4.  **Flexibility**: We designed `ILegalDataSource` interface (Dependency Inversion), so we can easily swap this "In-Memory" implementation for a real MCP/Vector DB implementation later without changing the Domain logic.
 
+## Resilience Strategy (Mock Mode)
+Given the dependency on external APIs (OpenAI), we have implemented a **Circuit Breaker / Mock Fallback** pattern:
+-   **Scenario**: If OpenAI returns `429 Quota Exceeded` or `5xx Errors`.
+-   **Fallback**: The system automatically switches to a `MockEmbeddingFunction` (deterministic random vectors) and `MockLegalService` (predefined citations).
+-   **Benefit**: Allows development and demonstration of the end-to-end pipeline to continue even without active paid credits.
+
 ## Consequences
 ### Positive
 -   Reduced development time (completed in <2 days).
