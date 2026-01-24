@@ -22,6 +22,11 @@ Given the dependency on external APIs (OpenAI), we have implemented a **Circuit 
 -   **Fallback**: The system automatically switches to a `MockEmbeddingFunction` (deterministic random vectors) and `MockLegalService` (predefined citations).
 -   **Benefit**: Allows development and demonstration of the end-to-end pipeline to continue even without active paid credits.
 
+## Frontend Integration
+The Frontend (`ComparisonResults.tsx`) consumes the `legalCitations` field from the `ValidationResult` object.
+-   **Visual Indicator**: A distinct UI element (purple card) displays the Article ID and text snippet.
+-   **Condition**: The UI component only renders if `legalCitations.length > 0`.
+
 ## Consequences
 ### Positive
 -   Reduced development time (completed in <2 days).
