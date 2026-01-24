@@ -1,0 +1,28 @@
+{
+  "name": "knowledge-mcp",
+  "version": "1.0.0",
+  "description": "MCP Server for Professional Knowledge and Project Standards",
+  "type": "module",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/index.js",
+    "ingest": "ts-node src/ingest.ts"
+  },
+  "dependencies": {
+    "@langchain/community": "^0.0.28",
+    "@langchain/core": "^0.1.28",
+    "@langchain/openai": "^0.0.14",
+    "@modelcontextprotocol/sdk": "^0.6.0",
+    "@xenova/transformers": "^2.15.0",
+    "apache-arrow": "^21.1.0",
+    "dotenv": "^16.4.1",
+    "glob": "^10.3.10",
+    "vectordb": "^0.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.16",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
