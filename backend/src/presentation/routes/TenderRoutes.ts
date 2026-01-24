@@ -12,25 +12,21 @@ import { ScopeValidationRule } from '../../domain/validation/rules/ScopeValidati
 import { LocalRAGLegalService } from '../../infrastructure/services/LocalRAGLegalService.js';
 import { MockLegalService } from '../../infrastructure/services/MockLegalService.js';
 import { ValidateProposal } from '../../application/use-cases/ValidateProposal.js';
+import { OllamaModelService } from '../../infrastructure/services/OllamaModelService.js';
 
 // Composition Root (Simple Manual Dependency Injection)
 // In a larger app, this would be in a dedicated DI container or factory
 const tenderRepo = new InMemoryTenderRepository();
 const pdfParser = new PdfParserAdapter();
-const aiService = new OpenAIModelService(); // Now implements compareProposal
+const aiService = new OllamaModelService(); // Now implements compareProposal
 const validationEngine = new ValidationEngine([
   new ScopeValidationRule()
 ]);
 
-// Phase 7: Legal Service Injection
-const apiKey = process.env.OPENAI_API_KEY;
-const legalService = apiKey
-    ? new LocalRAGLegalService(apiKey)
-    : new MockLegalService(); // Fallback if no key
-
-if (!apiKey) {
-    console.warn("⚠️  [TenderRoutes] No OPENAI_API_KEY found. Using MockLegalService.");
-}
+// Phase 9: Local Embeddings (Free Tier)
+// We prioritize the Local RAG Service which now uses Transformers.js (No OpenAI Key needed)
+const legalService = new LocalRAGLegalService(); 
+console.log("✅ [TenderRoutes] using LocalRAGLegalService & OllamaModelService (Fully Local 🏠)");
 
 // Use Cases
 const createTender = new CreateTender(
