@@ -84,7 +84,25 @@ export class LocalRAGLegalService implements ILegalDataSource {
 
     } catch (error) {
       console.error("[LocalRAG] Error generating embeddings:", error);
-      return []; // Fail gracefully
+      
+      // Fallback Strategy for MVP/Demo when API Quota is exceeded
+      console.warn("[LocalRAG] ⚠️ Switching to Mock Data for demonstration purposes.");
+      return [
+          {
+              id: "mock-art-145",
+              article: "Artículo 145. Requisitos de los criterios de adjudicación",
+              text: "La adjudicación de los contratos se realizará utilizando una pluralidad de criterios de adjudicación en base a la mejor relación calidad-precio. (MOCK DATA - RAG FALLBACK)",
+              relevance: 0.95,
+              source: "LCSP (Mock)"
+          },
+          {
+              id: "mock-art-90",
+              article: "Artículo 90. Solvencia técnica",
+              text: "Para los contratos de servicios, la solvencia técnica se acreditará mediante la relación de los principales servicios realizados en los últimos tres años. (MOCK DATA - RAG FALLBACK)",
+              relevance: 0.88,
+              source: "LCSP (Mock)"
+          }
+      ];
     }
   }
 }

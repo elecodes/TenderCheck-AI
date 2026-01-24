@@ -19,6 +19,12 @@ export interface ValidationResult {
   };
   reasoning: string;
   confidence: number;
+  legalCitations?: {
+    article: string;
+    text: string;
+    relevance: number;
+    explanation?: string;
+  }[];
 }
 
 export interface TenderAnalysis {

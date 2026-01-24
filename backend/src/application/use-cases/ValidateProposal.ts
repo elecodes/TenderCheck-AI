@@ -32,10 +32,12 @@ export class ValidateProposal {
 
     // Limit to first 5 requirements for MVP performance/quota safety
     for (const req of requirements.slice(0, 5)) {
-        if (req.type === 'MANDATORY') {
+        // Relaxed condition for testing: Allow 'UNKNOWN' types too if needed, or stick to MANDATORY
+        if (req.type === 'MANDATORY' || req.type === 'UNKNOWN') {
             // New Phase 7 Logic: Search for legal context
             // We search using the requirement text itself to find relevant laws
             const legalCitations = await this.legalService.citationSearch(req.text);
+
             const legalContext = legalCitations.map(c => `${c.article}: ${c.text}`);
 
             const comparison = await this.tenderAnalyzer.compareProposal(req.text, proposalText, legalContext);
@@ -48,7 +50,12 @@ export class ValidateProposal {
                 evidence: {
                     text: comparison.sourceQuote || "No evidence found",
                     pageNumber: 0 // Mock page
-                }
+                },
+                legalCitations: legalCitations.map(c => ({
+                    article: c.article,
+                    text: c.text,
+                    relevance: c.relevance
+                }))
             });
         }
     }

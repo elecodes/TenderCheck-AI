@@ -8,6 +8,12 @@ interface ValidationResult {
     text: string;
     pageNumber: number;
   };
+  legalCitations?: {
+    article: string;
+    text: string;
+    relevance: number;
+    explanation?: string;
+  }[];
 }
 
 interface ComparisonResultsProps {
@@ -53,6 +59,27 @@ export const ComparisonResults = ({ results }: ComparisonResultsProps) => {
               <p className="text-xs font-mono text-gray-500 dark:text-gray-500 mb-1">Evidence from Proposal:</p>
               <p className="text-sm italic text-gray-700 dark:text-gray-300">"{result.evidence.text}"</p>
             </div>
+
+            {/* Legal Context (RAG) */}
+            {result.legalCitations && result.legalCitations.length > 0 && (
+              <div className="mt-4 border-l-4 border-purple-500 pl-4">
+                <span className="text-xs font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider mb-2 block">⚖️ Legal Context (LCSP)</span>
+                <div className="text-sm bg-purple-50 dark:bg-purple-900/10 p-3 rounded-r-lg space-y-3">
+                    {result.legalCitations.map((cite, cIdx) => (
+                      <div key={cIdx}>
+                        <span className="font-semibold text-purple-800 dark:text-purple-300 block mb-1">{cite.article}</span>
+                        <span className="italic opacity-90 text-gray-700 dark:text-gray-300 block pl-2 border-l-2 border-purple-200 dark:border-purple-700">
+                          "{cite.text.slice(0, 180)}..."
+                        </span>
+                      </div>
+                    ))}
+                    <div className="text-xs text-purple-600 dark:text-purple-400 mt-2 flex items-center">
+                       <span className="w-2 h-2 rounded-full bg-purple-500 mr-2"></span>
+                       Checked against Public Sector Contracts Law
+                    </div>
+                </div>
+              </div>
+            )}
           </div>
         ))}
       </div>

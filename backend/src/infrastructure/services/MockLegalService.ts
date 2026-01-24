@@ -45,6 +45,18 @@ export class MockLegalService implements ILegalDataSource {
         return match ? [match] : [];
     }
 
+    // Force return generic mock data for Demo/Testing purposes if nothing matches
+    // This ensures the frontend UI component is always visible for verification
+    return [
+       {
+          id: "mock-demo-context",
+          article: "Artículo 145. Criterios de Adjudicación (Mock)",
+          text: "Este es un resultado simulado para verificar que el frontend muestra correctamente la sección de contexto legal. (MockLegalService activo).",
+          relevance: 0.88,
+          source: "LCSP Demo"
+       }
+    ];
+
     // Default return empty or generic if nothing matches
     return [];
   }

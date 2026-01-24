@@ -28,4 +28,12 @@ export interface ValidationResult {
     comment: string;
     updatedAt: Date;
   };
+
+  // Phase 7: RAG Legal Context
+  legalCitations?: {
+      article: string; // e.g., "Art. 145.1 LCSP"
+      text: string;
+      relevance: number;
+      explanation?: string;
+  }[];
 }

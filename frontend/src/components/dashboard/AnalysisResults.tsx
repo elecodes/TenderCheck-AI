@@ -65,21 +65,41 @@ export const AnalysisResults = ({ analysis, onReset }: AnalysisResultsProps) => 
         {analysis.results && analysis.results.length > 0 ? (
           analysis.results.map((result, idx) => (
             <div key={idx} className={`p-4 rounded-xl border ${getStatusColor(result.status)} transition-all`}>
-              <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between">
                 <div className="flex items-start space-x-3">
                   <div className="mt-1">{getStatusIcon(result.status)}</div>
-                  <div>
+                  <div className="flex-1">
                     <h4 className="font-semibold text-lg">{result.requirementId}</h4>
                     <p className="mt-1">{result.reasoning}</p>
+                    
+                    {/* Evidence Box */}
                     {result.evidence && (
                       <div className="mt-3 text-sm p-3 bg-white/50 dark:bg-black/20 rounded-lg">
                         <span className="font-semibold">Evidence: </span> 
                         "{result.evidence.text}"
                       </div>
                     )}
+
+                    {/* Legal Context (RAG) */}
+                    {result.legalCitations && result.legalCitations.length > 0 && (
+                      <div className="mt-3 border-l-4 border-purple-500 pl-3">
+                        <span className="text-xs font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider mb-1 block">⚖️ Legal Context (LCSP)</span>
+                        <div className="text-sm bg-purple-50 dark:bg-purple-900/10 p-2 rounded-r-lg space-y-2">
+                           {result.legalCitations.map((cite, cIdx) => (
+                             <div key={cIdx}>
+                               <span className="font-semibold text-purple-800 dark:text-purple-300">{cite.article}:</span>{" "}
+                               <span className="italic opacity-90">{cite.text.slice(0, 150)}...</span>
+                             </div>
+                           ))}
+                           <div className="text-xs text-purple-600 dark:text-purple-400 mt-1">
+                              *Checked against Public Sector Contracts Law
+                           </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
-                <div className="text-xs font-mono opacity-70">
+                <div className="text-xs font-mono opacity-70 whitespace-nowrap ml-4">
                    Confidence: {(result.confidence * 100).toFixed(0)}%
                 </div>
               </div>
