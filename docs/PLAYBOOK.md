@@ -4,15 +4,11 @@ Welcome to the team! This playbook defines **how we work** to ensure high qualit
 
 ## ⚡ Quick Start workflows
 
-### 1. Development
-We use **TypeScript** in Strict Mode.
-```bash
-# Start backend (Port 3000)
-cd backend && npm run dev
-
-# Start frontend (Port 5173)
-cd frontend && npm run dev
-```
+### 1. Development Loop
+1.  **Start Services**: `npm run dev` (Runs Backend :3000 & Frontend :5173).
+2.  **Upload Pliego**: Go to Dashboard -> Upload Tender PDF -> Wait for Analysis.
+3.  **Validate Proposal**: Scroll down -> Upload Proposal PDF -> Click "Run Compliance Check".
+4.  **Review Results**: Check the compliance badges (MET/NOT MET) and evidence.
 
 ### 2. Testing & Quality 🧪
 **Quality is non-negotiable.** We use **Vitest** for testing and **Zod** for validation.

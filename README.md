@@ -4,10 +4,18 @@
 >
 > *Master's Thesis Project (TFM) - Week 1 Status*
 
-![Status](https://img.shields.io/badge/Status-Phase_4_Complete-blue)
+![Status](https://img.shields.io/badge/Status-Phase_5_Proposal_Validation-blue)
 ![Tech](https://img.shields.io/badge/Stack-TypeScript_React_OpenAI-orange)
 ![Coverage](https://img.shields.io/badge/Coverage-100%25_Backend-brightgreen)
 ![AI](https://img.shields.io/badge/AI-GPT--4o_Reference-purple)
+![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub_Actions-blue)
+
+## 🚀 Key Features
+- **Smart Ingestion**: Parses complex PDF structure from Tender Documents (*Pliegos*).
+- **Requirement Extraction**: Identifies mandatory technical clauses using GPT-4o.
+- **Proposal Validation**: Compares vendor proposals (*Ofertas*) against extracted requirements.
+- **Resilient AI**: Automatic fallback to simulated mock data if API limits are hit.
+- **Secure by Design**: Zod validation, Helmet protection, and strict CORS.
 
 ## 📌 Overview
 **TenderCheck AI** is an intelligent assistant designed to valid public tender documents ("Pliegos") against technical proposals. It leverages **LLMs** for semantic reasoning and deterministic rules for mandatory compliance checks.
