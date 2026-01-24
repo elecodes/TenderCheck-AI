@@ -34,14 +34,137 @@ This project follows **Clean Architecture** principles to ensure separation of c
 
 <!-- TREE_START -->
 ```text
-TenderCheckAI/
-├── backend/
-│   ├── src/
-│   └── test/
-├── frontend/
-│   ├── src/
-│   └── public/
-└── docs/
+├── PROJECT_PLAN.md
+├── README.md
+├── SRS.md
+├── backend
+│   ├── Dockerfile
+│   ├── eslint.config.js
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── src
+│   │   ├── application
+│   │   │   └── use-cases
+│   │   │       ├── CreateTender.spec.ts
+│   │   │       ├── CreateTender.ts
+│   │   │       └── ValidateProposal.ts
+│   │   ├── domain
+│   │   │   ├── entities
+│   │   │   │   ├── ComparisonResult.ts
+│   │   │   │   ├── Requirement.ts
+│   │   │   │   ├── TenderAnalysis.ts
+│   │   │   │   └── ValidationResult.ts
+│   │   │   ├── errors
+│   │   │   │   └── AppError.ts
+│   │   │   ├── interfaces
+│   │   │   │   ├── IPdfParser.ts
+│   │   │   │   ├── IRule.ts
+│   │   │   │   └── ITenderAnalyzer.ts
+│   │   │   ├── repositories
+│   │   │   │   └── ITenderRepository.ts
+│   │   │   ├── schemas
+│   │   │   │   └── TenderAnalysisSchema.ts
+│   │   │   ├── services
+│   │   │   │   ├── AIModelService.ts
+│   │   │   │   └── RequirementsExtractor.ts
+│   │   │   └── validation
+│   │   │       ├── ValidationEngine.ts
+│   │   │       └── rules
+│   │   │           └── ScopeValidationRule.ts
+│   │   ├── infrastructure
+│   │   │   ├── adapters
+│   │   │   │   └── PdfParserAdapter.ts
+│   │   │   ├── middleware
+│   │   │   │   └── errorHandler.ts
+│   │   │   ├── repositories
+│   │   │   │   └── InMemoryTenderRepository.ts
+│   │   │   ├── schemas
+│   │   │   │   └── LLMSchemas.ts
+│   │   │   ├── services
+│   │   │   │   └── OpenAIModelService.ts
+│   │   │   └── utils
+│   │   │       └── safeExecute.ts
+│   │   └── presentation
+│   │       ├── controllers
+│   │       │   └── TenderController.ts
+│   │       ├── routes
+│   │       │   └── TenderRoutes.ts
+│   │       └── server.ts
+│   ├── test
+│   │   ├── AIModelService.test.ts
+│   │   ├── AppError.test.ts
+│   │   ├── PdfParserAdapter.test.ts
+│   │   ├── RequirementsExtractor.test.ts
+│   │   ├── ScopeValidationRule.test.ts
+│   │   ├── ValidationEngine.test.ts
+│   │   ├── api_integration.test.ts
+│   │   └── security.test.ts
+│   ├── tsconfig.json
+│   └── vitest.config.ts
+├── ci_cd_plan.md
+├── docker-compose.yml
+├── docs
+│   ├── PLAYBOOK.md
+│   ├── adr
+│   │   ├── 000-template.md
+│   │   ├── 001-validation-strategy.md
+│   │   ├── 002-frontend-stack.md
+│   │   ├── 003-ai-integration.md
+│   │   ├── 003-observability.md
+│   │   ├── 004-proposal-validation.md
+│   │   └── 004-rules-engine.md
+│   ├── architecture
+│   │   └── mcp_feasibility_study.md
+│   └── standards
+│       ├── code_quality_policy.md
+│       ├── coding_best_practices.md
+│       ├── devops_policy.md
+│       ├── devsecops_free_tools.md
+│       ├── health_and_errors_policy.md
+│       ├── metrics_policy.md
+│       ├── microcopy_policy.md
+│       ├── secure_coding_practices.md
+│       ├── security_policy.md
+│       ├── sentry_policy.md
+│       ├── solid_principles.md
+│       ├── testing_policy.md
+│       └── ux_accessibility_policy.md
+├── frontend
+│   ├── README.md
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── public
+│   │   └── vite.svg
+│   ├── src
+│   │   ├── App.css
+│   │   ├── App.tsx
+│   │   ├── assets
+│   │   │   └── react.svg
+│   │   ├── components
+│   │   │   ├── dashboard
+│   │   │   │   ├── AnalysisResults.tsx
+│   │   │   │   ├── ComparisonResults.tsx
+│   │   │   │   └── TenderUpload.tsx
+│   │   │   └── ui
+│   │   │       ├── SentryErrorBoundary.tsx
+│   │   │       └── Skeleton.tsx
+│   │   ├── index.css
+│   │   ├── main.tsx
+│   │   ├── services
+│   │   │   └── api.ts
+│   │   └── types.ts
+│   ├── tailwind.config.js
+│   ├── tsconfig.app.json
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   └── vite.config.ts
+├── package-lock.json
+├── package.json
+└── scripts
+    └── docs-automator.js
 ```
 <!-- TREE_END -->
 
