@@ -32,16 +32,18 @@
 ## 🏗 Architecture
 This project follows **Clean Architecture** principles to ensure separation of concerns:
 
-```
+<!-- TREE_START -->
+```text
 TenderCheckAI/
-├── backend/          # 🧠 Node.js + Express (Clean Architecture)
-│   ├── src/domain    #    - Entities, Rules Engine, Errors (Pure TS)
-│   └── src/infra     #    - Sentry, OpenAI, PDF Parsers
-├── frontend/         # ⚛️ React + Vite (TailwindCSS)
-│   ├── src/components #   - Accessible UI (ARIA-first)
-│   └── src/hooks     #    - Sentry Error Boundaries
-└── docs/             # 📚 ADRs, Standards, Playbook
+├── backend/
+│   ├── src/
+│   └── test/
+├── frontend/
+│   ├── src/
+│   └── public/
+└── docs/
 ```
+<!-- TREE_END -->
 
 ## 🚀 Getting Started
 

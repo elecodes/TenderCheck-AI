@@ -57,8 +57,8 @@ To add a new check for tenders (e.g., "Must be in Madrid"):
 
 ## 📝 Common Commands Cheat Sheet
 
-| Task | Command |
-|------|---------|
-| Clean Install | `rm -rf node_modules && npm ci` |
-| Type Check | `npx tsc --noEmit` |
-| Lint | `npm run lint` (Backend & Frontend) |
+<!-- SCRIPTS_START -->
+| Scope | Command | Description |
+|---|---|---|
+| Backend | `npm run ...` | (Auto-generated) |
+<!-- SCRIPTS_END -->
