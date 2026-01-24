@@ -16,3 +16,20 @@ export const uploadTender = async (file: File): Promise<TenderAnalysis> => {
 
   return response.json();
 };
+
+export const validateProposal = async (tenderId: string, file: File): Promise<{ results: any[] }> => {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await fetch(`/api/tenders/${tenderId}/validate-proposal`, {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || 'Validation failed');
+  }
+
+  return response.json();
+};

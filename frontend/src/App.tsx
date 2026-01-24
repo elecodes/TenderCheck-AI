@@ -2,19 +2,28 @@ import { useState } from 'react'
 import { SentryErrorBoundary } from './components/ui/SentryErrorBoundary'
 import { TenderUpload } from './components/dashboard/TenderUpload'
 import { AnalysisResults } from './components/dashboard/AnalysisResults'
-import { uploadTender } from './services/api'
+import { ComparisonResults } from './components/dashboard/ComparisonResults'
+import { uploadTender, validateProposal } from './services/api'
 import type { TenderAnalysis } from './types'
-import { FileText, ArrowRight } from 'lucide-react'
+import { FileText, ArrowRight, Play } from 'lucide-react'
 import './App.css'
 
 function App() {
   const [isAnalyzing, setIsAnalyzing] = useState(false)
+  const [isComparing, setIsComparing] = useState(false)
   const [analysis, setAnalysis] = useState<TenderAnalysis | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [selectedProposal, setSelectedProposal] = useState<File | null>(null)
+  const [comparisonResults, setComparisonResults] = useState<any[] | null>(null)
 
   const handleFileSelect = (file: File) => {
     setSelectedFile(file)
+    setError(null)
+  }
+
+  const handleProposalSelect = (file: File) => {
+    setSelectedProposal(file)
     setError(null)
   }
 
@@ -29,6 +38,20 @@ function App() {
       setError((err as Error).message)
     } finally {
       setIsAnalyzing(false)
+    }
+  }
+
+  const handleCompare = async () => {
+    if (!analysis?.id || !selectedProposal) return
+    setIsComparing(true)
+    setError(null)
+    try {
+      const { results } = await validateProposal(analysis.id, selectedProposal)
+      setComparisonResults(results)
+    } catch (err) {
+      setError((err as Error).message)
+    } finally {
+      setIsComparing(false)
     }
   }
 
@@ -82,18 +105,23 @@ function App() {
                             selectedFile={selectedFile}
                             disabled={isAnalyzing} 
                             label="Pliego"
+                            variant="pliego"
                          />
                       </div>
 
-                      {/* Oferta Document (Disabled for now) */}
-                      <div className="space-y-4 opacity-50 pointer-events-none grayscale">
+                      {/* Oferta Document (Now Active) */}
+                      <div className="space-y-4">
                          <div className="text-center">
                             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Oferta Document</h3>
                             <p className="text-sm text-gray-500 dark:text-gray-400">The proposal document submitted for evaluation.</p>
                          </div>
-                         <div className="h-64 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl flex items-center justify-center bg-gray-50 dark:bg-gray-800/50">
-                            <span className="text-gray-400 text-sm">Coming Soon</span>
-                         </div>
+                         <TenderUpload 
+                            onFileSelect={handleProposalSelect} 
+                            selectedFile={selectedProposal}
+                            disabled={isAnalyzing} 
+                            label="Oferta"
+                            variant="oferta"
+                         />
                       </div>
                    </div>
 
@@ -117,9 +145,52 @@ function App() {
                 </div>
              </div>
           ) : (
-            <AnalysisResults analysis={analysis} onReset={() => { setAnalysis(null); setSelectedFile(null); }} />
+            <div className="space-y-12">
+               {/* 1. Requirements Extraction Results */}
+               <AnalysisResults analysis={analysis} onReset={() => { setAnalysis(null); setSelectedFile(null); setSelectedProposal(null); setComparisonResults(null); }} />
+               
+               {/* 2. Proposal Comparison Section (Option B) */}
+               {!comparisonResults ? (
+                   <div className="w-full max-w-4xl mx-auto bg-white dark:bg-gray-900/50 rounded-2xl border border-gray-200 dark:border-gray-800 p-8 shadow-xl text-center space-y-6">
+                       <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Ready to Validate Proposal?</h2>
+                       <p className="text-gray-500 dark:text-gray-400 text-lg">
+                          You have extracted the requirements. Now, upload the "Oferta" document to check for compliance.
+                       </p>
+                       
+                       <div className="max-w-md mx-auto">
+                           <TenderUpload 
+                                onFileSelect={handleProposalSelect} 
+                                selectedFile={selectedProposal}
+                                disabled={isComparing} 
+                                label="Upload Oferta"
+                                variant="oferta"
+                           />
+                       </div>
+
+                       <button
+                            onClick={handleCompare}
+                            disabled={!selectedProposal || isComparing}
+                            className={`
+                              mt-4 px-8 py-3 rounded-full font-semibold text-lg transition-colors flex items-center space-x-2 mx-auto
+                              ${!selectedProposal || isComparing
+                                 ? 'bg-gray-200 dark:bg-gray-800 text-gray-400 cursor-not-allowed' 
+                                 : 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg'
+                              }
+                            `}
+                       >
+                            {isComparing ? 'Comparing...' : 'Run Compliance Check'}
+                            {!isComparing && <Play className="w-4 h-4 ml-2 fill-current" />}
+                       </button>
+                   </div>
+               ) : (
+                   <div className="w-full max-w-4xl mx-auto">
+                       <ComparisonResults results={comparisonResults} />
+                   </div>
+               )}
+            </div>
           )}
         </main>
+
         
         <footer className="py-8 text-center text-gray-500 dark:text-gray-600 text-sm">
            &copy; 2026 TenderCheck AI. All rights reserved.

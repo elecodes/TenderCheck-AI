@@ -25,6 +25,13 @@ const createTenderUseCase = new CreateTender(
   validationEngine
 );
 
+import { ValidateProposal } from '../../application/use-cases/ValidateProposal.js';
+const validateProposalUseCase = new ValidateProposal(
+  repository,
+  pdfParser,
+  tenderAnalyzer
+);
+
 const tenderController = new TenderController(createTenderUseCase);
 
 const router = Router();
@@ -35,7 +42,22 @@ const upload = multer({
   }
 });
 
-// POST /api/tenders/analyze
+// POST /api/tenders/analyze (Pliego)
 router.post('/analyze', upload.single('file'), tenderController.analyze);
+
+// POST /api/tenders/:id/validate-proposal (Oferta)
+router.post('/:id/validate-proposal', upload.single('file'), async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (!id || typeof id !== 'string') throw new Error("Invalid Tender ID");
+    if (!req.file) throw new Error("No file uploaded");
+    
+    // Quick inline controller logic for MVP speed
+    const results = await validateProposalUseCase.execute(id, req.file.buffer);
+    res.json({ status: 'success', results });
+  } catch (error) {
+    next(error);
+  }
+});
 
 export { router as tenderRouter };

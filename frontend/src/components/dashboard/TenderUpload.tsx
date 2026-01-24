@@ -8,11 +8,22 @@ interface TenderUploadProps {
   selectedFile: File | null;
   disabled: boolean;
   label?: string;
+  variant?: 'default' | 'pliego' | 'oferta';
   className?: string;
 }
 
-export const TenderUpload = ({ onFileSelect, selectedFile, disabled, className }: TenderUploadProps) => {
+export const TenderUpload = ({ onFileSelect, selectedFile, disabled, className, variant = 'default' }: TenderUploadProps) => {
   const [dragActive, setDragActive] = useState(false);
+
+  const getBorderColor = () => {
+      if (dragActive) return "border-blue-500 bg-blue-50 dark:bg-blue-900/10";
+      if (selectedFile) return "border-green-500 bg-green-50 dark:bg-green-900/10 ring-1 ring-green-500";
+      if (variant === 'pliego') return "border-orange-200 dark:border-orange-800 hover:border-orange-400 dark:hover:border-orange-600 bg-orange-50/50 dark:bg-orange-900/10";
+      if (variant === 'oferta') return "border-blue-200 dark:border-blue-800 hover:border-blue-400 dark:hover:border-blue-600 bg-blue-50/50 dark:bg-blue-900/10";
+      return "border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 bg-gray-50 dark:bg-gray-900/50";
+  };
+
+  const IconColor = variant === 'pliego' ? 'text-orange-400' : variant === 'oferta' ? 'text-blue-400' : 'text-gray-400';
 
   const handleDrag = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -50,12 +61,7 @@ export const TenderUpload = ({ onFileSelect, selectedFile, disabled, className }
 
   const clearFile = (e: React.MouseEvent) => {
       e.stopPropagation();
-      // We need a way to clear selection, but props only have onFileSelect.
-      // For now, re-selecting triggers it. 
-      // Ideally we would have onClear.
-      // Let's assume we can't clear easily without changing parent state, 
-      // or we just select same file again.
-      // Wait, parent controls state!
+      // Parent state clearing handled by re-selection for now or parent button.
   };
 
   return (
@@ -63,18 +69,17 @@ export const TenderUpload = ({ onFileSelect, selectedFile, disabled, className }
       <div 
         className={clsx(
             "relative w-full h-full rounded-xl border-2 border-dashed transition-all duration-300 flex flex-col items-center justify-center cursor-pointer overflow-hidden group",
-            dragActive ? "border-green-500 bg-green-50 dark:bg-green-900/10" : "border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 bg-gray-50 dark:bg-gray-900/50",
-            selectedFile ? "border-green-500 bg-green-50 dark:bg-green-900/10 ring-1 ring-green-500" : ""
+            getBorderColor()
         )}
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
         onDragOver={handleDrag}
         onDrop={handleDrop}
-        onClick={() => !disabled && document.getElementById('file-upload')?.click()}
+        onClick={() => !disabled && document.getElementById(variant === 'oferta' ? 'file-upload-oferta' : 'file-upload')?.click()}
       >
         <input 
           type="file" 
-          id="file-upload" 
+          id={variant === 'oferta' ? 'file-upload-oferta' : 'file-upload'}
           className="hidden" 
           accept=".pdf"
           onChange={handleChange}
@@ -90,17 +95,19 @@ export const TenderUpload = ({ onFileSelect, selectedFile, disabled, className }
                     {selectedFile.name}
                 </h3>
                 <p className="text-sm text-green-600 dark:text-green-400 font-medium">Ready for analysis</p>
-                <button 
-                   className="mt-4 text-xs text-gray-400 hover:text-red-500 flex items-center justify-center mx-auto space-x-1 transition-colors"
-                   onClick={(e) => { e.stopPropagation(); /* TODO: Implement clear */ }}
-                >
-                    <Trash2 className="w-3 h-3" /> <span>Change File</span>
-                </button>
+                <div className="mt-4 flex justify-center">
+                    <button 
+                       className="text-xs text-gray-400 hover:text-red-500 flex items-center space-x-1 transition-colors"
+                       onClick={(e) => { e.stopPropagation(); /* Parent clear logic needed */ }}
+                    >
+                        <Trash2 className="w-3 h-3" /> <span>Change File</span>
+                    </button>
+                </div>
             </div>
         ) : (
             <div className="text-center space-y-4 pointer-events-none">
-                <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto transition-transform group-hover:scale-110 duration-300">
-                    <UploadCloud className="w-8 h-8 text-gray-400 dark:text-gray-500" />
+                <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto transition-transform group-hover:scale-110 duration-300 ${variant === 'pliego' ? 'bg-orange-100 dark:bg-orange-900/30' : variant === 'oferta' ? 'bg-blue-100 dark:bg-blue-900/30' : 'bg-gray-100 dark:bg-gray-800'}`}>
+                    <UploadCloud className={`w-8 h-8 ${IconColor}`} />
                 </div>
                 <div className="space-y-1">
                     <p className="text-gray-900 dark:text-white font-medium">
