@@ -73,3 +73,29 @@ Desarrollada como una **SPA** (Single Page Application).
 Se han documentado formalmente las siguientes decisiones:
 - **ADR-003**: Inyección de Dependencias manual para mantener la simplicidad.
 - **ADR-005**: Estrategia "Local-First" para IA y Autenticación, priorizando la privacidad de datos sensibles gubernamentales.
+
+## 3.5. Subsistema de Conocimiento (RAG)
+Para mitigar el riesgo de alucinaciones (común en los LLMs), la arquitectura incluye un módulo de **Retrieval Augmented Generation**.
+1.  **Ingesta**: El PDF se convierte a texto crudo.
+2.  **Fragmentación (Chunking)**: Se divide el texto en bloques lógicos (párrafos/cláusulas).
+3.  **Inyección de Contexto**: En lugar de usar una Vector DB externa (complejidad innecesaria para el MVP), inyectamos el texto relevante directamente en la ventana de contexto de 8k tokens de Llama 3, utilizando técnicas de *Prompt Engineering* para estructurar la salida.
+
+## 3.6. Estrategia de Diseño de Interfaz (UI/UX)
+El diseño del frontend se rige por principios de usabilidad centrados en el usuario administrativo.
+
+### 3.6.1. Heurísticas de Nielsen
+- **Visibilidad del Estado**: Uso de indicadores de carga (Spinners) y mensajes de éxito/error claros (Toasts).
+- **Consistencia**: Uso de un Design System implementado con TailwindCSS para mantener uniformidad en colores, tipografías y espaciados.
+- **Prevención de Errores**: Validación de formularios en tiempo real con `Zod` y `React Hook Form` antes del envío.
+
+### 3.6.2. Accesibilidad (A11y)
+Se cumple con el nivel AA de las WCAG 2.1:
+- Contraste de colores suficiente (verificado en Modo Oscuro).
+- Elementos interactivos con etiquetas `aria-label`.
+- Navegabilidad completa mediante teclado.
+
+## 3.7. Estrategia de Calidad y Pruebas
+La arquitectura soporta una estrategia de testing piramidal:
+- **Unit Testing (Vitest)**: Cobertura objetiva >80% en lógica de negocio (Entidades, Validadores).
+- **Integration Testing**: Verificación de los adaptadores (Ollama service, Repositorios) con datos mockeados.
+- **Static Analysis**: ESLint y TypeScript en modo estricto para prevenir errores en tiempo de compilación.
