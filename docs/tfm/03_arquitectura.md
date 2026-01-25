@@ -28,7 +28,9 @@ TenderCheckAI/
 │   │   └── presentation/       # API REST
 │   │       ├── controllers/    # Ej: AuthController, TenderController
 │   │       └── routes/         # Definición de Endpoints
-│   └── test/                   # Tests Unitarios e Integración
+│   └── test/
+│       ├── unit/           # Tests unitarios (Vitest)
+│       └── integration/    # Tests de integración (API)
 ├── frontend/
 │   ├── src/
 │   │   ├── components/         # Componentes React (UI)
