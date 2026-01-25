@@ -60,8 +60,13 @@ export const AnalysisResults = ({ analysis, onReset }: AnalysisResultsProps) => 
       </div>
 
       {/* Validation Rules List */}
+      {/* Validation Rules List OR Extracted Requirements */}
       <div className="space-y-4">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white px-1">Validation Report</h3>
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white px-1">
+           {analysis.results && analysis.results.length > 0 ? 'Validation Report' : 'Extracted Requirements'}
+        </h3>
+        
+        {/* CASE A: Show Validation Results (Comparison) */}
         {analysis.results && analysis.results.length > 0 ? (
           analysis.results.map((result, idx) => (
             <div key={idx} className={`p-4 rounded-xl border ${getStatusColor(result.status)} transition-all`}>
@@ -86,9 +91,39 @@ export const AnalysisResults = ({ analysis, onReset }: AnalysisResultsProps) => 
             </div>
           ))
         ) : (
-          <div className="text-center p-8 bg-gray-50 dark:bg-gray-800 rounded-xl border border-dashed border-gray-300 dark:border-gray-700 text-gray-500">
-             No specific validation rules were triggered or returned.
-          </div>
+          /* CASE B: Show Extracted Requirements (Initial Analysis) */
+          analysis.requirements && analysis.requirements.length > 0 ? (
+             analysis.requirements.map((req, idx) => (
+                <div key={idx} className={`p-4 rounded-xl border transition-all ${
+                    req.type === 'MANDATORY' 
+                      ? 'bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800' 
+                      : 'bg-purple-50 dark:bg-purple-900/10 border-purple-200 dark:border-purple-800'
+                }`}>
+                   <div className="flex justify-between items-start mb-2">
+                      <span className={`text-xs font-bold px-2 py-1 rounded ${
+                          req.type === 'MANDATORY' 
+                            ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' 
+                            : 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300'
+                      }`}>
+                          {req.type}
+                      </span>
+                      <span className="text-xs text-gray-500">Page {req.source.pageNumber}</span>
+                   </div>
+                   <p className="text-gray-800 dark:text-gray-200">{req.text}</p>
+                   <div className="mt-3 flex flex-wrap gap-2">
+                      {req.keywords.map((kw, kIdx) => (
+                         <span key={kIdx} className="text-xs bg-white dark:bg-black/30 px-2 py-0.5 rounded border border-gray-100 dark:border-gray-700 text-gray-500">
+                            #{kw}
+                         </span>
+                      ))}
+                   </div>
+                </div>
+             ))
+          ) : (
+            <div className="text-center p-8 bg-gray-50 dark:bg-gray-800 rounded-xl border border-dashed border-gray-300 dark:border-gray-700 text-gray-500">
+               No requirements found.
+            </div>
+          )
         )}
       </div>
     </div>

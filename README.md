@@ -4,21 +4,23 @@
 >
 > *Master's Thesis Project (TFM) - Week 1 Status*
 
-![Status](https://img.shields.io/badge/Status-Phase_5_Proposal_Validation-blue)
-![Tech](https://img.shields.io/badge/Stack-TypeScript_React_OpenAI-orange)
+![Status](https://img.shields.io/badge/Status-Phase_11_Auth_%26_Local_AI-blue)
+![Tech](https://img.shields.io/badge/Stack-TypeScript_React_Ollama-orange)
 ![Coverage](https://img.shields.io/badge/Coverage-100%25_Backend-brightgreen)
-![AI](https://img.shields.io/badge/AI-GPT--4o_Reference-purple)
-![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub_Actions-blue)
+![AI](https://img.shields.io/badge/AI-Ollama_(Llama3)-purple)
+![CI/CD](https://img.shields.io/badge/CI%2FCD-Ollama_Local-blue)
 
 ## 🚀 Key Features
 - **Smart Ingestion**: Parses complex PDF structure from Tender Documents (*Pliegos*).
-- **Requirement Extraction**: Identifies mandatory technical clauses using GPT-4o.
+- **Local AI Analysis**: Extracts requirements using **Ollama (Llama 3)** running locally (Privacy first, Zero cost).
+- **Secure Authentication**: JWT-based Login/Register system with strict validation.
+- **Requirement Extraction**: Identifies technical clauses, distinguishing **Mandatory** vs **Optional**.
 - **Proposal Validation**: Compares vendor proposals (*Ofertas*) against extracted requirements.
-- **Resilient AI**: Automatic fallback to simulated mock data if API limits are hit.
+- **Resilient Fallbacks**: Graceful handling of AI overloads or "Scope Mismatches".
 - **Secure by Design**: Zod validation, Helmet protection, and strict CORS.
 
 ## 📌 Overview
-**TenderCheck AI** is an intelligent assistant designed to valid public tender documents ("Pliegos") against technical proposals. It leverages **LLMs** for semantic reasoning and deterministic rules for mandatory compliance checks.
+**TenderCheck AI** is an intelligent assistant designed to valid public tender documents ("Pliegos") against technical proposals. It leverages **Local LLMs (Ollama)** for privacy-preserving semantic reasoning and deterministic rules for mandatory compliance checks.
 
 **Objective:** Reduce the time and error rate in the formal review of digital service tenders.
 
@@ -173,15 +175,20 @@ This project follows **Clean Architecture** principles to ensure separation of c
 ### Prerequisites
 - Node.js (LTS 20+)
 - npm
+- **[Ollama](https://ollama.com/)** (Required for AI Analysis)
 
 ### Installation
 ```bash
-# Clone the repository
+# 1. Clone the repository
 git clone <repo-url>
 
-# Install Backend Dependencies
+# 2. Install Backend Dependencies
 cd backend
 npm install
+
+# 3. Setup Ollama (Local AI)
+# Install from ollama.com, then pull the model:
+ollama pull llama3
 ```
 
 ### Running the Project

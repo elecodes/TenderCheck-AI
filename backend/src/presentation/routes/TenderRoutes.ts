@@ -4,7 +4,7 @@ import { TenderController } from '../controllers/TenderController.js';
 import { CreateTender } from '../../application/use-cases/CreateTender.js';
 import { InMemoryTenderRepository } from '../../infrastructure/repositories/InMemoryTenderRepository.js';
 import { PdfParserAdapter } from '../../infrastructure/adapters/PdfParserAdapter.js';
-import { OpenAIModelService } from '../../infrastructure/services/OpenAIModelService.js';
+import { OllamaModelService } from '../../infrastructure/services/OllamaModelService.js';
 
 import { ValidationEngine } from '../../domain/validation/ValidationEngine.js';
 import { ScopeValidationRule } from '../../domain/validation/rules/ScopeValidationRule.js';
@@ -13,7 +13,7 @@ import { ScopeValidationRule } from '../../domain/validation/rules/ScopeValidati
 // In a larger app, this would be in a dedicated DI container or factory
 const repository = new InMemoryTenderRepository();
 const pdfParser = new PdfParserAdapter();
-const tenderAnalyzer = new OpenAIModelService();
+const tenderAnalyzer = new OllamaModelService();
 const validationEngine = new ValidationEngine([
   new ScopeValidationRule()
 ]);

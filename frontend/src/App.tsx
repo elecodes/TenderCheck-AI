@@ -3,12 +3,20 @@ import { SentryErrorBoundary } from './components/ui/SentryErrorBoundary'
 import { TenderUpload } from './components/dashboard/TenderUpload'
 import { AnalysisResults } from './components/dashboard/AnalysisResults'
 import { ComparisonResults } from './components/dashboard/ComparisonResults'
+import { LoginForm } from './components/auth/LoginForm'
+import { RegisterForm } from './components/auth/RegisterForm'
 import { uploadTender, validateProposal } from './services/api'
+import { getCurrentUser, logout as logoutService, type User } from './services/auth.service'
 import type { TenderAnalysis } from './types'
-import { FileText, ArrowRight, Play } from 'lucide-react'
+import { FileText, ArrowRight, Play, LogOut, User as UserIcon } from 'lucide-react'
 import './App.css'
 
 function App() {
+  // Auth State
+  const [user, setUser] = useState<User | null>(getCurrentUser())
+  const [authView, setAuthView] = useState<'login' | 'register'>('login')
+
+  // Dashboard State
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [isComparing, setIsComparing] = useState(false)
   const [analysis, setAnalysis] = useState<TenderAnalysis | null>(null)
@@ -16,6 +24,21 @@ function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [selectedProposal, setSelectedProposal] = useState<File | null>(null)
   const [comparisonResults, setComparisonResults] = useState<any[] | null>(null)
+
+  const handleLoginSuccess = () => {
+    setUser(getCurrentUser())
+  }
+
+  const handleLogout = () => {
+    logoutService()
+    setUser(null)
+    setAuthView('login')
+    // Reset dashboard state
+    setAnalysis(null)
+    setSelectedFile(null)
+    setSelectedProposal(null)
+    setComparisonResults(null)
+  }
 
   const handleFileSelect = (file: File) => {
     setSelectedFile(file)
@@ -55,6 +78,27 @@ function App() {
     }
   }
 
+  // Auth View Render
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-[#0f1115] flex items-center justify-center p-4 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-[#0f1115] to-[#0f1115]">
+        <div className="w-full max-w-md">
+           <div className="mb-8 flex justify-center">
+              <div className="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                <FileText className="text-white w-7 h-7" />
+              </div>
+           </div>
+           {authView === 'login' ? (
+             <LoginForm onSuccess={handleLoginSuccess} onGoToRegister={() => setAuthView('register')} />
+           ) : (
+             <RegisterForm onSuccess={handleLoginSuccess} onGoToLogin={() => setAuthView('login')} />
+           )}
+        </div>
+      </div>
+    )
+  }
+
+  // Main Dashboard Render
   return (
     <SentryErrorBoundary>
       <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-100 font-sans transition-colors duration-300">
@@ -62,13 +106,30 @@ function App() {
         {/* Navbar */}
         <header className="border-b border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-black/50 backdrop-blur-md sticky top-0 z-10">
           <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-               <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
+            <div className="flex items-center space-x-3">
+               <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center shadow-md shadow-emerald-500/20">
                  <FileText className="text-white w-5 h-5" /> 
                </div>
                <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">TenderCheck AI</span>
             </div>
-            {/* Dark Mode Toggle could go here */}
+            
+            <div className="flex items-center gap-4">
+               <div className="hidden md:flex flex-col items-end mr-2">
+                  <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{user.name}</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">{user.company || 'Enterprise Account'}</span>
+               </div>
+               <div className="h-8 w-8 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-gray-500 dark:text-gray-400">
+                  <UserIcon className="w-4 h-4" />
+               </div>
+               <div className="h-8 w-px bg-gray-200 dark:bg-gray-800 mx-2"></div>
+               <button 
+                  onClick={handleLogout}
+                  className="p-2 text-gray-500 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                  title="Sign out"
+               >
+                  <LogOut className="w-5 h-5" />
+               </button>
+            </div>
           </div>
         </header>
 
@@ -134,7 +195,7 @@ function App() {
                           group relative px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 flex items-center space-x-2
                           ${!selectedFile || isAnalyzing 
                              ? 'bg-gray-200 dark:bg-gray-800 text-gray-400 cursor-not-allowed' 
-                             : 'bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-500 hover:to-yellow-600 text-white shadow-lg hover:shadow-yellow-500/25 active:scale-95'
+                             : 'bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white shadow-lg hover:shadow-emerald-500/25 active:scale-95'
                           }
                         `}
                       >
@@ -174,7 +235,7 @@ function App() {
                               mt-4 px-8 py-3 rounded-full font-semibold text-lg transition-colors flex items-center space-x-2 mx-auto
                               ${!selectedProposal || isComparing
                                  ? 'bg-gray-200 dark:bg-gray-800 text-gray-400 cursor-not-allowed' 
-                                 : 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg'
+                                 : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg'
                               }
                             `}
                        >
@@ -191,7 +252,6 @@ function App() {
           )}
         </main>
 
-        
         <footer className="py-8 text-center text-gray-500 dark:text-gray-600 text-sm">
            &copy; 2026 TenderCheck AI. All rights reserved.
         </footer>

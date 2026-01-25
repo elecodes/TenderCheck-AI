@@ -55,6 +55,18 @@ To add a new check for tenders (e.g., "Must be in Madrid"):
 - **Structured Outputs**: Always use `zodResponseFormat` when adding new AI features. Never parse raw strings.
 - **Prompting**: Keep System Prompts in the Service or a dedicated config. Use clear instructions ("You are...", "Return JSON...").
 
+### 6. Local AI Setup (Ollama) 🦙
+To run the analysis without costs/limits:
+1.  **Install Ollama**: Download from [ollama.com](https://ollama.com).
+2.  **Pull Model**: Run `ollama pull llama3`.
+3.  **Start Server**: Run `ollama serve` (or just open the app).
+4.  **Verify**: The backend logs will show `Analyzing text with Ollama...`.
+
+### 7. Authentication Flow 🔐
+- **Register**: Create a new account at `/register`. Data is stored in-memory (resets on restart).
+- **Login**: Use your credentials to get a JWT.
+- **Session**: Tenders are linked to your user session.
+
 ## 📝 Common Commands Cheat Sheet
 
 <!-- SCRIPTS_START -->

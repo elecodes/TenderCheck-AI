@@ -66,8 +66,10 @@ app.get("/health", (req, res) => {
 // Centralized Error Handler
 import { globalErrorHandler } from "../infrastructure/middleware/errorHandler.js";
 import { tenderRouter } from "./routes/TenderRoutes.js";
+import authRouter from "./routes/AuthRoutes.js";
 
 app.use("/api/tenders", tenderRouter);
+app.use("/api/auth", authRouter);
 app.use(globalErrorHandler);
 
 export { app };
