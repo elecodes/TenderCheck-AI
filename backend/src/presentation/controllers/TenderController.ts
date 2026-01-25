@@ -33,9 +33,10 @@ export class TenderController {
       } catch (error) {
         // If validation fails or other error
         if (error instanceof z.ZodError) {
-          res
-            .status(400)
-            .json({ error: "Validation Error", details: error.errors });
+          res.status(400).json({
+            error: "Validation Error",
+            details: (error as any).errors,
+          });
           return; // Return after sending response to prevent further execution
         }
         // Re-throw any other unexpected errors from the inner try block
@@ -51,8 +52,14 @@ export class TenderController {
       }
 
       const tenderTitle = title || originalname;
+      const userId = req.user?.userId;
+
+      if (!userId) {
+        throw new AppError("User not authenticated", 401);
+      }
 
       const result = await this.createTender.execute(
+        userId,
         tenderTitle,
         buffer,
         originalname,

@@ -4,12 +4,25 @@ import { app } from "../src/presentation/server.js";
 import { PdfParserAdapter } from "../src/infrastructure/adapters/PdfParserAdapter.js";
 import { OllamaModelService } from "../src/infrastructure/services/OllamaModelService.js";
 
+import jwt from "jsonwebtoken";
+import { JWT_SECRET_FALLBACK } from "../src/config/constants.js";
+
+const generateTestToken = () => {
+  return jwt.sign(
+    { userId: "test-user-id", email: "test@example.com" },
+    process.env.JWT_SECRET || JWT_SECRET_FALLBACK,
+    { expiresIn: "1h" },
+  );
+};
+
 describe("Integration: POST /api/tenders/analyze", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
   it("should upload a PDF, extract requirements, and return 201", async () => {
+    const token = generateTestToken();
+
     // Spy on the real PdfParserAdapter to return fake text without needing a real PDF
     const parseSpy = vi
       .spyOn(PdfParserAdapter.prototype, "parse")
@@ -22,6 +35,7 @@ describe("Integration: POST /api/tenders/analyze", () => {
       .spyOn(OllamaModelService.prototype, "analyze")
       .mockResolvedValue({
         id: "123",
+        userId: "test-user-id",
         tenderTitle: "Integration Test Tender",
         requirements: [
           {
@@ -50,6 +64,7 @@ describe("Integration: POST /api/tenders/analyze", () => {
 
     const response = await request(app)
       .post("/api/tenders/analyze")
+      .set("Authorization", `Bearer ${token}`)
       .attach("file", Buffer.from("fake pdf content"), "test.pdf")
       .field("title", "Integration Test Tender");
 
@@ -64,12 +79,22 @@ describe("Integration: POST /api/tenders/analyze", () => {
   });
 
   it("should return 400 if no file is uploaded", async () => {
+    const token = generateTestToken();
     const response = await request(app)
       .post("/api/tenders/analyze")
+      .set("Authorization", `Bearer ${token}`)
       .send({ title: "No File" });
 
     expect(response.status).toBe(400);
     expect(response.body).toHaveProperty("message");
     expect(response.body.status).toBe("error");
+  });
+
+  it("should return 401 if no token provided", async () => {
+    const response = await request(app)
+      .post("/api/tenders/analyze")
+      .attach("file", Buffer.from("fake pdf content"), "test.pdf");
+
+    expect(response.status).toBe(401);
   });
 });

@@ -18,9 +18,13 @@ We have adopted a **Defense-in-Depth** strategy covering multiple layers:
     *   **File Uploads**: Double validation for PDF ingestion.
         *   *Layer 1 (Multer)*: `fileFilter` rejects non-PDF MIME types immediately.
         *   *Layer 2 (Controller)*: `Zod` validates file structure and size (Max 50MB) before business logic execution.
-    *   **Password Complexity**: Enforced Min 8 chars, 1 Uppercase, 1 Number, 1 Special Char via Zod Regex.
 
-3.  **Observability & Compliance**:
+3.  **Credential & Session Layer**:
+    *   **Password Complexity**: Enforced Min 8 chars, 1 Uppercase, 1 Number, 1 Special Char via Zod Regex.
+    *   **JWT Secret Standardization**: Centralized `JWT_SECRET_FALLBACK` in `constants.ts` to prevent token mismatch errors during local development where env vars might be missing.
+    *   **Defensive Token Loading**: Frontend `AuthContext` implements a filtering layer that rejects literal `"undefined"` strings in localStorage, preventing accidental 401 loops in the browser.
+
+4.  **Observability & Compliance**:
     *   **Sentry**: Integrated for real-time error tracking (Backend + Frontend).
     *   **Snyk**: Added dependency vulnerability scanning (`npm run security:scan`).
     *   **Husky**: Pre-commit hooks enforce `lint` and `test` to prevent bad code from entering the repo.

@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import type { User } from "../../domain/entities/User";
+import { SALT_ROUNDS, JWT_SECRET_FALLBACK } from "../../config/constants.js";
+import type { User } from "../../domain/entities/User.js";
 import type { UserRepository } from "../../domain/repositories/UserRepository.js";
 import { v4 as uuidv4 } from "uuid";
 
@@ -20,14 +21,14 @@ export class AuthService {
 
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-    const newUser: User = {
+    const newUser = {
       id: uuidv4(),
       name,
       email,
       passwordHash: hashedPassword,
-      company,
+      company: company || undefined,
       createdAt: new Date(),
-    };
+    } as User;
 
     await this.userRepository.save(newUser);
     return newUser;
@@ -49,7 +50,7 @@ export class AuthService {
 
     const token = jwt.sign(
       { userId: user.id },
-      process.env.JWT_SECRET || "super_secret_jwt_key",
+      process.env.JWT_SECRET || JWT_SECRET_FALLBACK,
       {
         expiresIn: "1d",
       },

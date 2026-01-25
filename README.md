@@ -4,7 +4,7 @@
 >
 > *Master's Thesis Project (TFM) - Week 1 Status*
 
-![Status](https://img.shields.io/badge/Status-Phase_1.3_Security_Hardened-blue)
+![Status](https://img.shields.io/badge/Status-Phase_14_History_&_Persistence-blue)
 ![Tech](https://img.shields.io/badge/Stack-TypeScript_React_Ollama-orange)
 ![Coverage](https://img.shields.io/badge/Coverage-100%25_Backend-brightgreen)
 ![AI](https://img.shields.io/badge/AI-Ollama_(Llama3)-purple)
@@ -13,7 +13,7 @@
 ## 🚀 Key Features
 - **Smart Ingestion**: Parses complex PDF structure from Tender Documents (*Pliegos*).
 - **Local AI Analysis**: Extracts requirements using **Ollama (Llama 3)** running locally (Privacy first, Zero cost).
-- **Secure Authentication**: JWT-based Login/Register system with strict validation.
+- **Auto-Auth Flow**: Seamless Registration -> Token Issue -> Dashboard redirection.
 - **Requirement Extraction**: Identifies technical clauses, distinguishing **Mandatory** vs **Optional**.
 - **Proposal Validation**: Compares vendor proposals (*Ofertas*) against extracted requirements.
 - **Resilient Fallbacks**: Graceful handling of AI overloads or "Scope Mismatches".

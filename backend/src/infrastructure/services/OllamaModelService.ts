@@ -131,6 +131,7 @@ export class OllamaModelService implements ITenderAnalyzer {
 
       const analysis: TenderAnalysis = {
         id: randomUUID(),
+        userId: "", // Will be overwritten by Use Case
         tenderTitle: parsedRaw?.tenderTitle || "Tender Analysis",
         status: "COMPLETED",
         createdAt: new Date(),
@@ -183,6 +184,7 @@ export class OllamaModelService implements ITenderAnalyzer {
       // Safe Fallback prevents 500
       return {
         id: randomUUID(),
+        userId: "",
         tenderTitle: "Error: AI Service Unavailable",
         status: "COMPLETED",
         createdAt: new Date(),

@@ -5,6 +5,7 @@ export type AnalysisStatus = "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
 
 export interface TenderAnalysis {
   id: string;
+  userId: string;
   tenderTitle: string;
   documentUrl: string; // Path or URL to the uploaded PDF
   status: AnalysisStatus;

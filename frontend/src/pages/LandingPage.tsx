@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navbar } from '../components/layout/Navbar';
-import { UploadCloud } from 'lucide-react';
+import { UploadCloud, ShieldCheck, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const LandingPage: React.FC = () => {
@@ -56,8 +56,36 @@ export const LandingPage: React.FC = () => {
       </main>
 
         {/* Feature Strip (Bottom) */}
-        <section className="absolute bottom-0 w-full border-t border-white/10 bg-gradient-to-t from-black/5 to-transparent backdrop-blur-[2px]">
-             {/* Features content can go here if needed, or keeping it clean as per image */}
+        <section className="absolute bottom-0 w-full border-t border-white/10 bg-gradient-to-t from-black/5 to-transparent backdrop-blur-[2px] py-8">
+             <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-center items-center gap-12 md:gap-24 opacity-80">
+                <div className="flex items-center gap-4 group">
+                    <div className="p-3 rounded-full bg-white/40 group-hover:bg-white/60 transition-colors">
+                        <UploadCloud className="w-6 h-6 text-[#1a1c1a]" />
+                    </div>
+                    <div className="text-left">
+                        <h4 className="font-serif font-medium text-[#1a1c1a]">Smart Extraction</h4>
+                        <p className="text-xs text-[#5a605a] uppercase tracking-wider">Automated Requirement Parsing</p>
+                    </div>
+                </div>
+                <div className="flex items-center gap-4 group">
+                    <div className="p-3 rounded-full bg-white/40 group-hover:bg-white/60 transition-colors">
+                        <ShieldCheck className="w-6 h-6 text-[#1a1c1a]" />
+                    </div>
+                    <div className="text-left">
+                        <h4 className="font-serif font-medium text-[#1a1c1a]">Compliance Check</h4>
+                        <p className="text-xs text-[#5a605a] uppercase tracking-wider">Validate against criteria</p>
+                    </div>
+                </div>
+                <div className="flex items-center gap-4 group">
+                    <div className="p-3 rounded-full bg-white/40 group-hover:bg-white/60 transition-colors">
+                        <Zap className="w-6 h-6 text-[#1a1c1a]" />
+                    </div>
+                    <div className="text-left">
+                        <h4 className="font-serif font-medium text-[#1a1c1a]">Instant Analysis</h4>
+                        <p className="text-xs text-[#5a605a] uppercase tracking-wider">Real-time AI feedback</p>
+                    </div>
+                </div>
+             </div>
         </section>
     </div>
   );

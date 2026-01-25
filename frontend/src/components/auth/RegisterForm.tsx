@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { register as registerApi } from '../../services/auth.service';
+import { useAuth } from '../../context/AuthContext';
 import { Eye, EyeOff, Lock, Mail, User, Building, ArrowRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -21,6 +21,7 @@ type RegisterFormData = z.infer<typeof registerSchema>;
 
 export function RegisterForm() {
   const navigate = useNavigate();
+  const { register: authRegister } = useAuth(); // Rename to avoid conflict with react-hook-form
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -38,9 +39,7 @@ export function RegisterForm() {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await registerApi(data.name, data.email, data.password, data.company);
-      localStorage.setItem('token', response.token);
-      localStorage.setItem('user', JSON.stringify(response.user));
+      await authRegister(data.name, data.email, data.password, data.company);
       navigate('/dashboard');
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Registration failed');
@@ -131,7 +130,7 @@ export function RegisterForm() {
             </div>
             <input
               id="password"
-              type="text"
+              type={showPassword ? "text" : "password"}
               className={`block w-full pl-10 pr-10 py-3 bg-white/5 border ${errors.password ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-emerald-500'} rounded-lg text-emerald-50 placeholder-emerald-100/20 focus:outline-none focus:ring-1 focus:ring-emerald-500/50 transition-all`}
               placeholder="••••••••"
               aria-invalid={errors.password ? 'true' : 'false'}

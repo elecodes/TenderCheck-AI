@@ -60,6 +60,7 @@ describe("CreateTender Use Case", () => {
     mockValidationEngine.validate.mockResolvedValue([]);
 
     const result = await createTender.execute(
+      "test-user-id",
       "Test Tender Title",
       Buffer.from("fake"),
       "test.pdf",

@@ -66,9 +66,10 @@ To run the analysis without costs/limits:
 4.  **Verify**: The backend logs will show `Analyzing text with Ollama...`.
 
 ### 7. Authentication Flow 🔐
-- **Register**: Create a new account at `/register`. Data is stored in-memory (resets on restart).
-- **Login**: Use your credentials to get a JWT.
-- **Session**: Tenders are linked to your user session.
+- **Register**: Create a new account at `/register`. Upon success, a JWT is issued automatically and the user is redirected to the dashboard.
+- **Login**: Use credentials to obtain a JWT.
+- **Session Persistence**: The `AuthContext` performs a defensive check on startup. If a token exists but is malformed (e.g., string `"undefined"`), it is cleared to prevent 401 loops.
+- **Protected Routes**: `/dashboard` is secured via `ProtectedRoute.tsx` on the frontend and `authMiddleware.ts` on the backend.
 
 ## 📝 Common Commands Cheat Sheet
 

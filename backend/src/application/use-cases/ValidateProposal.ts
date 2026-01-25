@@ -3,6 +3,10 @@ import type { IPdfParser } from "../../domain/interfaces/IPdfParser.js";
 import type { ITenderAnalyzer } from "../../domain/interfaces/ITenderAnalyzer.js";
 import { AppError } from "../../domain/errors/AppError.js";
 import type { ValidationResult } from "../../domain/entities/ValidationResult.js";
+import {
+  MIN_JUSTIFICATION_LENGTH,
+  MIN_ITEMS_LENGTH,
+} from "../../config/constants.js";
 
 export class ValidateProposal {
   constructor(

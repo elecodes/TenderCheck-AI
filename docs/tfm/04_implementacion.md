@@ -35,6 +35,10 @@ En lugar de depender de APIs de terceros (OpenAI), hemos integrado **Ollama** pa
     - *Problema*: El modelo tendía a marcar todo como "MANDATORY".
     - *Solución*: Implementación de heurísticos de post-procesado que detectan palabras clave (*should, could, desirable*) para corregir la etiqueta a "OPTIONAL" automáticamente.
 
+4.  **Integridad de Archivos en Subida (Browser Context)**:
+    - *Problema*: Error `net::ERR_UPLOAD_FILE_CHANGED` cuando el navegador detecta accesos al PDF mientras se intenta subir.
+    - *Solución*: Implementación de una capa de lectura en memoria (**Blob conversion**) en `api.ts` que congela el estado del archivo antes de iniciar la petición POST, garantizando una subida atómica.
+
 ## 4.4. Resultados Obtenidos
 El sistema es capaz de:
 1.  Ingestar documentos PDF complejos.

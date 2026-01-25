@@ -14,6 +14,7 @@ export class CreateTender {
   ) {}
 
   async execute(
+    userId: string,
     tenderTitle: string,
     fileBuffer: Buffer,
     originalFileName: string,
@@ -25,6 +26,7 @@ export class CreateTender {
     const newTender = await this.tenderAnalyzer.analyze(text);
 
     // 3. Enrich Entity
+    newTender.userId = userId;
     newTender.documentUrl = originalFileName;
     // Title from AI might be better, but respect user input or fallback
     newTender.tenderTitle = tenderTitle || newTender.tenderTitle;

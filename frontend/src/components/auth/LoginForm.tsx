@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { login } from '../../services/auth.service';
+import { useAuth } from '../../context/AuthContext';
 import { Eye, EyeOff, Lock, Mail, ArrowRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -19,6 +19,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
   const navigate = useNavigate();
+  const { login } = useAuth(); // Use context hook
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -36,9 +37,7 @@ export function LoginForm() {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await login(data.email, data.password);
-      localStorage.setItem('token', response.token);
-      localStorage.setItem('user', JSON.stringify(response.user));
+      await login(data.email, data.password);
       navigate('/dashboard');
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Invalid credentials');

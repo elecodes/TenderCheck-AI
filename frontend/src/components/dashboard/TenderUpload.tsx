@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent, type DragEvent } from 'react';
+import { useState, type ChangeEvent, type DragEvent, type KeyboardEvent } from 'react';
 import { UploadCloud, CheckCircle2, Trash2 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -12,7 +12,7 @@ interface TenderUploadProps {
   className?: string;
 }
 
-export const TenderUpload = ({ onFileSelect, selectedFile, disabled, className, variant = 'default' }: TenderUploadProps) => {
+export const TenderUpload = ({ onFileSelect, selectedFile, disabled, className, label, variant = 'default' }: TenderUploadProps) => {
   const [dragActive, setDragActive] = useState(false);
 
   const getBorderColor = () => {

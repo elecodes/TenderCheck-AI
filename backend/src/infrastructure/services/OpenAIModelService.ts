@@ -54,7 +54,8 @@ export class OpenAIModelService implements ITenderAnalyzer {
         ),
       });
 
-      const result = completion.choices[0].message.parsed as TenderAnalysisLLM;
+      const choice = completion.choices[0];
+      const result = (choice?.message as any)?.parsed as TenderAnalysisLLM;
 
       if (!result) {
         throw new Error("OpenAI returned null response");
@@ -62,6 +63,7 @@ export class OpenAIModelService implements ITenderAnalyzer {
 
       const analysis: TenderAnalysis = {
         id: randomUUID(),
+        userId: "",
         tenderTitle: result.tenderTitle,
         status: "COMPLETED",
         createdAt: new Date(),
@@ -101,6 +103,7 @@ export class OpenAIModelService implements ITenderAnalyzer {
   private getMockAnalysis(text: string): TenderAnalysis {
     return {
       id: randomUUID(),
+      userId: "",
       tenderTitle: "MOCK ANALYSIS: Cloud Services Tender (Fallback)",
       status: "COMPLETED",
       createdAt: new Date(),

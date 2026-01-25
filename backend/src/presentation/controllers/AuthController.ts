@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import { AuthService } from "../../application/services/AuthService.js";
 import { z } from "zod";
-import { HTTP_STATUS } from "../../config/constants.js";
+import { HTTP_STATUS, PASSWORD_MIN_LENGTH } from "../../config/constants.js";
 
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -31,17 +31,29 @@ export class AuthController {
         password,
         company,
       );
+
+      // Generate token for auto-login after registration
+      const { token } = await this.authService.login(email, password);
+
       res.status(HTTP_STATUS.CREATED).json({
         message: "User registered successfully",
-        user: { id: user.id, email: user.email, name: user.name },
+        token,
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          company: user.company,
+        },
       });
     } catch (error: any) {
       if (error instanceof z.ZodError) {
         res
           .status(HTTP_STATUS.BAD_REQUEST)
-          .json({ error: "Validation Error", details: error.errors });
+          .json({ error: "Validation Error", details: (error as any).errors });
       } else {
-        res.status(HTTP_STATUS.BAD_REQUEST).json({ error: error.message });
+        res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json({ error: (error as Error).message });
       }
     }
   };

@@ -8,6 +8,7 @@ import { OllamaModelService } from "../../infrastructure/services/OllamaModelSer
 
 import { ValidationEngine } from "../../domain/validation/ValidationEngine.js";
 import { ScopeValidationRule } from "../../domain/validation/rules/ScopeValidationRule.js";
+import { authMiddleware } from "../../infrastructure/middleware/authMiddleware.js";
 
 // Composition Root (Simple Manual Dependency Injection)
 // In a larger app, this would be in a dedicated DI container or factory
@@ -50,11 +51,17 @@ const upload = multer({
 });
 
 // POST /api/tenders/analyze (Pliego)
-router.post("/analyze", upload.single("file"), tenderController.analyze);
+router.post(
+  "/analyze",
+  authMiddleware,
+  upload.single("file"),
+  tenderController.analyze,
+);
 
 // POST /api/tenders/:id/validate-proposal (Oferta)
 router.post(
   "/:id/validate-proposal",
+  authMiddleware,
   upload.single("file"),
   async (req, res, next) => {
     try {
