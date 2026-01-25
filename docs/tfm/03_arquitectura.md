@@ -99,3 +99,17 @@ La arquitectura soporta una estrategia de testing piramidal:
 - **Unit Testing (Vitest)**: Cobertura objetiva >80% en lógica de negocio (Entidades, Validadores).
 - **Integration Testing**: Verificación de los adaptadores (Ollama service, Repositorios) con datos mockeados.
 - **Static Analysis**: ESLint y TypeScript en modo estricto para prevenir errores en tiempo de compilación.
+
+## 3.8. Principios de Diseño de Software (SOLID)
+El desarrollo del backend se ha adherido estrictamente a los principios SOLID para asegurar mantenibilidad:
+
+1.  **S - Single Responsibility Principle (SRP)**:
+    - Cada clase tiene una única razón para cambiar. Ejemplo: `OllamaModelService` solo se encarga de hablar con la IA, no de guardar datos en la DB.
+2.  **O - Open/Closed Principle (OCP)**:
+    - Las entidades están abiertas a extensión pero cerradas a modificación. Ejemplo: Podemos añadir nuevos validadores de reglas sin modificar el `ValidationEngine` principal.
+3.  **L - Liskov Substitution Principle (LSP)**:
+    - Las implementaciones de repositorios (`InMemoryUserRepository`) son intercambiables por futuras implementaciones SQL sin romper la aplicación.
+4.  **I - Interface Segregation Principle (ISP)**:
+    - Las interfaces como `ITenderAnalyzer` son pequeñas y específicas, evitando obligar a las clases a implementar métodos que no usan.
+5.  **D - Dependency Inversion Principle (DIP)**:
+    - Los Casos de Uso dependen de abstracciones (`ITenderAnalyzer`), no de detalles concretos (`OpenAI` o `Ollama`). Esto permitió migrar de OpenAI a Ollama cambiando una sola línea en `TenderRoutes.ts`.
