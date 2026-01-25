@@ -39,6 +39,7 @@ This project follows **Clean Architecture** principles to ensure separation of c
 ├── PROJECT_PLAN.md
 ├── README.md
 ├── SRS.md
+├── TFM_PLAN.md
 ├── backend
 │   ├── Dockerfile
 │   ├── eslint.config.js
@@ -46,15 +47,20 @@ This project follows **Clean Architecture** principles to ensure separation of c
 │   ├── package.json
 │   ├── src
 │   │   ├── application
+│   │   │   ├── services
+│   │   │   │   └── AuthService.ts
 │   │   │   └── use-cases
 │   │   │       ├── CreateTender.spec.ts
 │   │   │       ├── CreateTender.ts
 │   │   │       └── ValidateProposal.ts
+│   │   ├── config
+│   │   │   └── constants.ts
 │   │   ├── domain
 │   │   │   ├── entities
 │   │   │   │   ├── ComparisonResult.ts
 │   │   │   │   ├── Requirement.ts
 │   │   │   │   ├── TenderAnalysis.ts
+│   │   │   │   ├── User.ts
 │   │   │   │   └── ValidationResult.ts
 │   │   │   ├── errors
 │   │   │   │   └── AppError.ts
@@ -63,11 +69,11 @@ This project follows **Clean Architecture** principles to ensure separation of c
 │   │   │   │   ├── IRule.ts
 │   │   │   │   └── ITenderAnalyzer.ts
 │   │   │   ├── repositories
-│   │   │   │   └── ITenderRepository.ts
+│   │   │   │   ├── ITenderRepository.ts
+│   │   │   │   └── UserRepository.ts
 │   │   │   ├── schemas
 │   │   │   │   └── TenderAnalysisSchema.ts
 │   │   │   ├── services
-│   │   │   │   ├── AIModelService.ts
 │   │   │   │   └── RequirementsExtractor.ts
 │   │   │   └── validation
 │   │   │       ├── ValidationEngine.ts
@@ -77,23 +83,27 @@ This project follows **Clean Architecture** principles to ensure separation of c
 │   │   │   ├── adapters
 │   │   │   │   └── PdfParserAdapter.ts
 │   │   │   ├── middleware
+│   │   │   │   ├── authMiddleware.ts
 │   │   │   │   └── errorHandler.ts
 │   │   │   ├── repositories
-│   │   │   │   └── InMemoryTenderRepository.ts
+│   │   │   │   ├── InMemoryTenderRepository.ts
+│   │   │   │   └── InMemoryUserRepository.ts
 │   │   │   ├── schemas
 │   │   │   │   └── LLMSchemas.ts
 │   │   │   ├── services
+│   │   │   │   ├── OllamaModelService.ts
 │   │   │   │   └── OpenAIModelService.ts
 │   │   │   └── utils
 │   │   │       └── safeExecute.ts
 │   │   └── presentation
 │   │       ├── controllers
+│   │       │   ├── AuthController.ts
 │   │       │   └── TenderController.ts
 │   │       ├── routes
+│   │       │   ├── AuthRoutes.ts
 │   │       │   └── TenderRoutes.ts
 │   │       └── server.ts
 │   ├── test
-│   │   ├── AIModelService.test.ts
 │   │   ├── AppError.test.ts
 │   │   ├── PdfParserAdapter.test.ts
 │   │   ├── RequirementsExtractor.test.ts
@@ -114,23 +124,36 @@ This project follows **Clean Architecture** principles to ensure separation of c
 │   │   ├── 003-ai-integration.md
 │   │   ├── 003-observability.md
 │   │   ├── 004-proposal-validation.md
-│   │   └── 004-rules-engine.md
+│   │   ├── 004-rules-engine.md
+│   │   ├── 005-local-auth-and-ollama.md
+│   │   ├── 006-ui-theme-routing.md
+│   │   ├── 007-security-hardening.md
+│   │   └── README.md
 │   ├── architecture
 │   │   └── mcp_feasibility_study.md
-│   └── standards
-│       ├── code_quality_policy.md
-│       ├── coding_best_practices.md
-│       ├── devops_policy.md
-│       ├── devsecops_free_tools.md
-│       ├── health_and_errors_policy.md
-│       ├── metrics_policy.md
-│       ├── microcopy_policy.md
-│       ├── secure_coding_practices.md
-│       ├── security_policy.md
-│       ├── sentry_policy.md
-│       ├── solid_principles.md
-│       ├── testing_policy.md
-│       └── ux_accessibility_policy.md
+│   ├── standards
+│   │   ├── code_quality_policy.md
+│   │   ├── coding_best_practices.md
+│   │   ├── devops_policy.md
+│   │   ├── devsecops_free_tools.md
+│   │   ├── health_and_errors_policy.md
+│   │   ├── lifecycle_paradigms.md
+│   │   ├── metrics_policy.md
+│   │   ├── microcopy_policy.md
+│   │   ├── requirements_UML.md
+│   │   ├── secure_coding_practices.md
+│   │   ├── security_policy.md
+│   │   ├── sentry_policy.md
+│   │   ├── solid_principles.md
+│   │   ├── testing_policy.md
+│   │   ├── usable_forms_best_practices.md
+│   │   └── ux_accessibility_policy.md
+│   └── tfm
+│       ├── 00_analisis_detallado.md
+│       ├── 01_introduccion_objetivos.md
+│       ├── 02_marco_teorico.md
+│       ├── 03_arquitectura.md
+│       └── 04_implementacion.md
 ├── frontend
 │   ├── README.md
 │   ├── eslint.config.js
@@ -146,23 +169,36 @@ This project follows **Clean Architecture** principles to ensure separation of c
 │   │   ├── assets
 │   │   │   └── react.svg
 │   │   ├── components
+│   │   │   ├── auth
+│   │   │   │   ├── LoginForm.tsx
+│   │   │   │   └── RegisterForm.tsx
 │   │   │   ├── dashboard
 │   │   │   │   ├── AnalysisResults.tsx
 │   │   │   │   ├── ComparisonResults.tsx
+│   │   │   │   ├── Dashboard.tsx
 │   │   │   │   └── TenderUpload.tsx
+│   │   │   ├── layout
+│   │   │   │   ├── Navbar.tsx
+│   │   │   │   └── ProtectedRoute.tsx
 │   │   │   └── ui
 │   │   │       ├── SentryErrorBoundary.tsx
 │   │   │       └── Skeleton.tsx
+│   │   ├── context
+│   │   │   └── AuthContext.tsx
 │   │   ├── index.css
 │   │   ├── main.tsx
+│   │   ├── pages
+│   │   │   └── LandingPage.tsx
 │   │   ├── services
-│   │   │   └── api.ts
+│   │   │   ├── api.ts
+│   │   │   └── auth.service.ts
 │   │   └── types.ts
 │   ├── tailwind.config.js
 │   ├── tsconfig.app.json
 │   ├── tsconfig.json
 │   ├── tsconfig.node.json
 │   └── vite.config.ts
+├── lint_output.txt
 ├── package-lock.json
 ├── package.json
 └── scripts
