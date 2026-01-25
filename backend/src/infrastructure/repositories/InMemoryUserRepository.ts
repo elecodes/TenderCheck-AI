@@ -1,5 +1,5 @@
-import type { User } from '../../domain/entities/User.js';
-import type { UserRepository } from '../../domain/repositories/UserRepository.js';
+import type { User } from "../../domain/entities/User.js";
+import type { UserRepository } from "../../domain/repositories/UserRepository.js";
 
 export class InMemoryUserRepository implements UserRepository {
   private users: Map<string, User> = new Map();

@@ -20,7 +20,7 @@ export const Dashboard = () => {
   const [error, setError] = useState<string | null>(null)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [selectedProposal, setSelectedProposal] = useState<File | null>(null)
-  const [comparisonResults, setComparisonResults] = useState<any[] | null>(null)
+  const [comparisonResults, setComparisonResults] = useState<unknown[] | null>(null)
 
   const handleLogout = () => {
     logoutService()

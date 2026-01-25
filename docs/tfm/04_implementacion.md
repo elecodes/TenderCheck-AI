@@ -1,15 +1,19 @@
 # Capítulo 4: Implementación y Desarrollo
 
-## 4.1. Entorno de Desarrollo Local
-Para garantizar la soberanía de los datos y minimizar costes operativos durante la fase de desarrollo, se ha optado por un despliegue **100% local**.
+## 4.1. Análisis de Requisitos y Modelado
+Se ha formalizado el análisis funcional mediante diagramas UML, detallando los casos de uso principales (Gestión de Licitaciones, Validación de Propuestas) en el documento `docs/standards/requirements_UML.md`.
 
-### 4.1.1. Stack Tecnológico
+## 4.2. Pipeline de Desarrollo y Seguridad (DevSecOps)
+La implementación integra controles de calidad automatizados:
+- **Pre-Commit (Husky)**: Ejecuta `lint` y `test` para asegurar la calidad del código.
+- **Pre-Push (Husky)**: Ejecuta `snyk test` para prevenir la subida de dependencias vulnerables.
+- **Observabilidad**: Instrumentación con Sentry en capas Frontend y Backend.
 - **Frontend**: React + Vite + TailwindCSS (Interfaz de Usuario Reactiva).
 - **Backend**: Node.js + Express + TypeScript (API REST).
 - **IA**: Ollama (Llama 3) para inferencia local.
 - **Base de Datos**: Repositorios en Memoria (MVP) simulando arquitectura Repository Pattern para fácil migración a SQL/NoSQL.
 
-## 4.2. Sistema de Autenticación
+## 4.3. Sistema de Autenticación
 Se ha implementado un sistema de autenticación seguro basado en **JWT (JSON Web Tokens)**.
 - **Registro**: Los usuarios pueden crear cuentas; las contraseñas se almacenan hasheadas utilizando `bcrypt`.
 - **Login**: Al autenticarse, el servidor emite un token JWT firmado que el cliente almacena en `localStorage`.

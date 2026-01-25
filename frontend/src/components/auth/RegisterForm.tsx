@@ -10,7 +10,11 @@ const registerSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid work email'),
   company: z.string().optional(),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  password: z.string()
+    .min(8, 'Password must be at least 8 characters')
+    .regex(/[A-Z]/, 'One uppercase letter required')
+    .regex(/[0-9]/, 'One number required')
+    .regex(/[^a-zA-Z0-9]/, 'One special character required'),
 });
 
 type RegisterFormData = z.infer<typeof registerSchema>;
@@ -38,8 +42,8 @@ export function RegisterForm() {
       localStorage.setItem('token', response.token);
       localStorage.setItem('user', JSON.stringify(response.user));
       navigate('/dashboard');
-    } catch (err: any) {
-      setError(err.message || 'Registration failed');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Registration failed');
     } finally {
       setIsLoading(false);
     }
@@ -143,6 +147,19 @@ export function RegisterForm() {
             </button>
           </div>
           {errors.password && <p className="text-xs text-red-300 mt-1">• {errors.password.message}</p>}
+          
+          {/* Password Requirements Hint */}
+          <div className="mt-2 p-3 rounded-lg bg-emerald-900/20 border border-emerald-500/10">
+             <p className="text-[10px] uppercase tracking-wider font-semibold text-emerald-100/50 mb-1">
+               Password Requirements:
+             </p>
+             <ul className="text-xs text-emerald-100/40 space-y-0.5 list-disc pl-3">
+               <li>At least 8 characters</li>
+               <li>One uppercase letter (A-Z)</li>
+               <li>One number (0-9)</li>
+               <li>One special character (!@#$...)</li>
+             </ul>
+          </div>
         </div>
 
         <button

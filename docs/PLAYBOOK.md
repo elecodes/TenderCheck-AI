@@ -16,8 +16,10 @@ Welcome to the team! This playbook defines **how we work** to ensure high qualit
 | Command | Purpose | Requirement |
 |---------|---------|-------------|
 | `npm test` | Run all unit tests | Must pass before push |
+| `npm run security:scan` | Check for vulnerabilities (Snyk) | **0 High Severity** |
 | `npm run test:coverage` | Generate coverage report | **100% Domain**, 80% Global |
 
+> **🛡️ Security Gate:** This project uses a **pre-push hook**. You cannot push to the remote repository if `security:scan` (Snyk) finds vulnerabilities.
 > **🔴 Important:** Providing a test suite that fails the coverage threshold will cause the pipeline to fail.
 
 ### 3. Architecture Guidelines

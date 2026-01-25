@@ -1,5 +1,5 @@
-import type { ITenderRepository } from '../../domain/repositories/ITenderRepository.js';
-import type { TenderAnalysis } from '../../domain/entities/TenderAnalysis.js';
+import type { ITenderRepository } from "../../domain/repositories/ITenderRepository.js";
+import type { TenderAnalysis } from "../../domain/entities/TenderAnalysis.js";
 
 export class InMemoryTenderRepository implements ITenderRepository {
   private tenders: Map<string, TenderAnalysis> = new Map();

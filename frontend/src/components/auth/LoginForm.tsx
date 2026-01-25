@@ -8,7 +8,11 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid work email'),
-  password: z.string().min(1, 'Password is required'),
+  password: z.string()
+    .min(8, 'Password must be at least 8 characters')
+    .regex(/[A-Z]/, 'One uppercase letter required')
+    .regex(/[0-9]/, 'One number required')
+    .regex(/[^a-zA-Z0-9]/, 'One special character required'),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -36,8 +40,8 @@ export function LoginForm() {
       localStorage.setItem('token', response.token);
       localStorage.setItem('user', JSON.stringify(response.user));
       navigate('/dashboard');
-    } catch (err: any) {
-      setError(err.message || 'Invalid credentials');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Invalid credentials');
     } finally {
       setIsLoading(false);
     }
@@ -86,7 +90,7 @@ export function LoginForm() {
             <label htmlFor="password" className="block text-xs font-medium uppercase tracking-widest text-emerald-100/50">
               Password
             </label>
-            <a href="#" className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">Forgot password?</a>
+            <button type="button" className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">Forgot password?</button>
           </div>
           <div className="relative group">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-100/30 group-focus-within:text-emerald-400 transition-colors">

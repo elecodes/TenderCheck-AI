@@ -2,7 +2,6 @@ import "dotenv/config";
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
-import { z } from "zod";
 
 // Environment variable validation can be improved later with a dedicated config,
 // strictly using process.env here as per the "Secure Defaults" directive.
@@ -19,31 +18,23 @@ import { nodeProfilingIntegration } from "@sentry/profiling-node";
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
   integrations: [nodeProfilingIntegration()],
-  tracesSampleRate: 1.0, // Adjust for production
+  tracesSampleRate: 1.0,
   profilesSampleRate: 1.0,
 });
 
-// app.use(Sentry.Handlers.requestHandler());
-// app.use(Sentry.Handlers.tracingHandler());
-
-// Secure Header Logic (Custom overrides if needed, Helmet covers most OWASP recommendations via CSP/HSTS etc)
-// For example, strictly unrelated to Helmet but good practice:
+// Secure Header Logic
 app.disable("x-powered-by");
 
-// CORS configuration - strict defaults or dev mode
-// "Zero-Trust" for origins - allow specific or none by default
+// CORS configuration
 const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || [];
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps or curl requests)
       if (!origin) return callback(null, true);
       if (
         allowedOrigins.indexOf(origin) !== -1 ||
         process.env.NODE_ENV !== "production"
       ) {
-        // In dev, we might be more permissive, but for "Secure Defaults" we should be careful.
-        // For now, allowing localhost in dev is implicit if NODE_ENV is not production.
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
@@ -54,7 +45,7 @@ app.use(
   }),
 );
 
-// Body parsing with limits to prevent DoS
+// Body parsing
 app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 
@@ -70,12 +61,28 @@ import authRouter from "./routes/AuthRoutes.js";
 
 app.use("/api/tenders", tenderRouter);
 app.use("/api/auth", authRouter);
+
+// Sentry: Manual Capture Middleware before global handler
+app.use(
+  (
+    err: unknown,
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction,
+  ) => {
+    Sentry.captureException(err);
+    next(err);
+  },
+);
+
 app.use(globalErrorHandler);
 
 export { app };
 
+import { DEFAULT_PORT } from "../config/constants.js";
+
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const PORT = process.env.PORT || 3000;
+  const PORT = process.env.PORT || DEFAULT_PORT;
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });

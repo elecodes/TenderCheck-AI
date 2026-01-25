@@ -1,40 +1,75 @@
-import { describe, it, expect, vi, afterEach } from 'vitest';
-import request from 'supertest';
-import { app } from '../src/presentation/server.js';
-import { PdfParserAdapter } from '../src/infrastructure/adapters/PdfParserAdapter.js';
+import { describe, it, expect, vi, afterEach } from "vitest";
+import request from "supertest";
+import { app } from "../src/presentation/server.js";
+import { PdfParserAdapter } from "../src/infrastructure/adapters/PdfParserAdapter.js";
+import { OllamaModelService } from "../src/infrastructure/services/OllamaModelService.js";
 
-describe('Integration: POST /api/tenders/analyze', () => {
-    
+describe("Integration: POST /api/tenders/analyze", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  it('should upload a PDF, extract requirements, and return 201', async () => {
+  it("should upload a PDF, extract requirements, and return 201", async () => {
     // Spy on the real PdfParserAdapter to return fake text without needing a real PDF
-    const parseSpy = vi.spyOn(PdfParserAdapter.prototype, 'parse')
-        .mockResolvedValue('El sistema deberá procesar pagos. Must be secure.');
+    const parseSpy = vi
+      .spyOn(PdfParserAdapter.prototype, "parse")
+      .mockResolvedValue(
+        "El sistema deberá procesar pagos. Must be secure. This text must be longer than 50 chars to pass validation.",
+      );
+
+    // Spy on the real OllamaModelService to avoid calling local LLM
+    const analyzeSpy = vi
+      .spyOn(OllamaModelService.prototype, "analyze")
+      .mockResolvedValue({
+        id: "123",
+        tenderTitle: "Integration Test Tender",
+        requirements: [
+          {
+            id: "1",
+            text: "El sistema deberá procesar pagos.",
+            type: "MANDATORY",
+            keywords: [],
+            source: { pageNumber: 1, snippet: "snippet" },
+            confidence: 0.9,
+          },
+          {
+            id: "2",
+            text: "Must be secure.",
+            type: "MANDATORY",
+            keywords: [],
+            source: { pageNumber: 1, snippet: "snippet" },
+            confidence: 0.9,
+          },
+        ],
+        results: [],
+        status: "COMPLETED",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        documentUrl: "test.pdf",
+      });
 
     const response = await request(app)
-      .post('/api/tenders/analyze')
-      .attach('file', Buffer.from('fake pdf content'), 'test.pdf')
-      .field('title', 'Integration Test Tender');
+      .post("/api/tenders/analyze")
+      .attach("file", Buffer.from("fake pdf content"), "test.pdf")
+      .field("title", "Integration Test Tender");
 
     expect(response.status).toBe(201);
-    expect(response.body).toHaveProperty('id');
-    expect(response.body.tenderTitle).toBe('Integration Test Tender');
-    expect(response.body.status).toBe('COMPLETED');
+    expect(response.body).toHaveProperty("id");
+    expect(response.body.tenderTitle).toBe("Integration Test Tender");
+    expect(response.body.status).toBe("COMPLETED");
     expect(response.body.requirements).toHaveLength(2);
-    expect(response.body.requirements[0].text).toContain('deberá');
+    expect(response.body.requirements[0].text).toContain("deberá");
     expect(parseSpy).toHaveBeenCalled();
+    expect(analyzeSpy).toHaveBeenCalled();
   });
 
-  it('should return 400 if no file is uploaded', async () => {
+  it("should return 400 if no file is uploaded", async () => {
     const response = await request(app)
-      .post('/api/tenders/analyze')
-      .send({ title: 'No File' });
+      .post("/api/tenders/analyze")
+      .send({ title: "No File" });
 
     expect(response.status).toBe(400);
-    expect(response.body).toHaveProperty('message');
-    expect(response.body.status).toBe('error');
+    expect(response.body).toHaveProperty("message");
+    expect(response.body.status).toBe("error");
   });
 });

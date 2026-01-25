@@ -103,7 +103,13 @@ La arquitectura soporta una estrategia de testing piramidal:
 - **Integration Testing**: Verificación de los adaptadores (Ollama service, Repositorios) con datos mockeados.
 - **Static Analysis**: ESLint y TypeScript en modo estricto para prevenir errores en tiempo de compilación.
 
-## 3.8. Principios de Diseño de Software (SOLID)
+## 3.8. Capa de Seguridad (Defense in Depth)
+Se han implementado salvaguardas en múltiples niveles:
+1.  **Rate Limiting**: Protección contra fuerza bruta en login (3 intentos/15 min).
+2.  **Validación Robusta**: Doble verificación en subida de PDFs (Multer + Zod) y complejidad estricta de contraseñas.
+3.  **Observabilidad**: Integración de **Sentry** para trazas de error y **Snyk** para escaneo de vulnerabilidades.
+
+## 3.9. Principios de Diseño de Software (SOLID)
 El desarrollo del backend se ha adherido estrictamente a los principios SOLID para asegurar mantenibilidad:
 
 1.  **S - Single Responsibility Principle (SRP)**:

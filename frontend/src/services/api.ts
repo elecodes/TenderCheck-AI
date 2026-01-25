@@ -17,7 +17,7 @@ export const uploadTender = async (file: File): Promise<TenderAnalysis> => {
   return response.json();
 };
 
-export const validateProposal = async (tenderId: string, file: File): Promise<{ results: any[] }> => {
+export const validateProposal = async (tenderId: string, file: File): Promise<{ results: unknown[] }> => {
   const formData = new FormData();
   formData.append('file', file);
 

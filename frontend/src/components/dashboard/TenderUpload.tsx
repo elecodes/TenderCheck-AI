@@ -1,5 +1,5 @@
 import { useState, type ChangeEvent, type DragEvent } from 'react';
-import { UploadCloud, CheckCircle2, Trash2, File as FileIcon } from 'lucide-react';
+import { UploadCloud, CheckCircle2, Trash2 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -59,16 +59,23 @@ export const TenderUpload = ({ onFileSelect, selectedFile, disabled, className, 
     onFileSelect(file);
   };
 
-  const clearFile = (e: React.MouseEvent) => {
-      e.stopPropagation();
-      // Parent state clearing handled by re-selection for now or parent button.
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (!disabled) {
+          document.getElementById(variant === 'oferta' ? 'file-upload-oferta' : 'file-upload')?.click();
+      }
+    }
   };
 
   return (
     <div className={twMerge("w-full h-64", className)}>
       <div 
+        role="button"
+        tabIndex={0}
+        aria-label={label ? `Upload ${label}` : "Upload file"}
         className={clsx(
-            "relative w-full h-full rounded-xl border-2 border-dashed transition-all duration-300 flex flex-col items-center justify-center cursor-pointer overflow-hidden group",
+            "relative w-full h-full rounded-xl border-2 border-dashed transition-all duration-300 flex flex-col items-center justify-center cursor-pointer overflow-hidden group focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500",
             getBorderColor()
         )}
         onDragEnter={handleDrag}
@@ -76,6 +83,7 @@ export const TenderUpload = ({ onFileSelect, selectedFile, disabled, className, 
         onDragOver={handleDrag}
         onDrop={handleDrop}
         onClick={() => !disabled && document.getElementById(variant === 'oferta' ? 'file-upload-oferta' : 'file-upload')?.click()}
+        onKeyDown={handleKeyDown}
       >
         <input 
           type="file" 

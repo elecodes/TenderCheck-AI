@@ -4,7 +4,7 @@
 >
 > *Master's Thesis Project (TFM) - Week 1 Status*
 
-![Status](https://img.shields.io/badge/Status-Phase_1.2_UI_Polish-blue)
+![Status](https://img.shields.io/badge/Status-Phase_1.3_Security_Hardened-blue)
 ![Tech](https://img.shields.io/badge/Stack-TypeScript_React_Ollama-orange)
 ![Coverage](https://img.shields.io/badge/Coverage-100%25_Backend-brightgreen)
 ![AI](https://img.shields.io/badge/AI-Ollama_(Llama3)-purple)

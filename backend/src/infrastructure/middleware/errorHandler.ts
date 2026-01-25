@@ -14,10 +14,12 @@ export const globalErrorHandler = (
 
   if (!(error instanceof AppError)) {
     // Check for MulterError (File Upload Errors)
-    if (err.name === 'MulterError') {
+    if (err.name === "MulterError") {
       const multerErr = err as any;
-      if (multerErr.code === 'LIMIT_FILE_SIZE') {
-        error = AppError.badRequest('File is too large. Maximum allowed size is 50MB.');
+      if (multerErr.code === "LIMIT_FILE_SIZE") {
+        error = AppError.badRequest(
+          "File is too large. Maximum allowed size is 50MB.",
+        );
       } else {
         error = AppError.badRequest(`File upload error: ${multerErr.message}`);
       }
