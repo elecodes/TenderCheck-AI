@@ -51,7 +51,15 @@ Es el corazón del software. Define *qué* hace el sistema, no *cómo*.
 - **`TenderAnalysis`**: Entidad principal que agrega los requisitos extraídos.
 - **`ITenderAnalyzer`**: Interfaz que abstrae el motor de IA. Esto nos permite cambiar de OpenAI a Ollama sin tocar el dominio.
 
-### 3.3.2. Capa de Infraestructura (Infrastructure)
+### 3.3.2. Capa de Aplicación (Application)
+Actúa como **orquestador** del sistema. No contiene lógica de negocio compleja (que reside en el dominio) ni detalles técnicos (infraestructura), sino que coordina el flujo de datos.
+- **Casos de Uso (Use Cases)**:
+    - **`CreateTender`**: Coordina la recepción del PDF, su parseo a texto y la llamada al servicio de IA para extraer requisitos.
+    - **`ValidateProposal`**: Ejecuta la lógica de comparación entre una oferta y los requisitos del pliego.
+- **Servicios de Aplicación**:
+    - **`AuthService`**: Gestiona el flujo de registro y login, hasheando contraseñas y generando tokens, delegando la persistencia en el repositorio.
+
+### 3.3.3. Capa de Infraestructura (Infrastructure)
 Contiene los detalles técnicos y librerías externas.
 - **`OllamaModelService`**: Implementación concreta que conecta con el servidor local de IA (puerto 11434). Incluye lógica de *retry* y limpieza de JSON.
 - **`InMemoryRepository`**: Persistencia volátil para permitir un desarrollo ágil sin configurar bases de datos pesadas.
