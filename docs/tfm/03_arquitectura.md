@@ -87,7 +87,8 @@ El diseño del frontend se rige por principios de usabilidad centrados en el usu
 
 ### 3.6.1. Heurísticas de Nielsen
 - **Visibilidad del Estado**: Uso de indicadores de carga (Spinners) y mensajes de éxito/error claros (Toasts).
-- **Consistencia**: Uso de un Design System implementado con TailwindCSS para mantener uniformidad en colores, tipografías y espaciados.
+- **Consistencia**: Unificación de identidad visual "Emerald & Gold". `Landing Page` (Light Sage) vs `Dashboard` (Soft Charcoal).
+- **Design System**: TailwindCSS con tokens semánticos (`brand-dark`, `brand-gold`).
 - **Prevención de Errores**: Validación de formularios en tiempo real con `Zod` y `React Hook Form` antes del envío.
 
 ### 3.6.2. Accesibilidad (A11y)

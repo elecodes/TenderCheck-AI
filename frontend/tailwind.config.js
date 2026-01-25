@@ -8,9 +8,16 @@ export default {
   theme: {
     extend: {
       fontFamily: {
+        serif: ['"Playfair Display"', 'serif'],
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
+        brand: {
+          gold: '#D4AF37', // Metallic Gold
+          dark: '#242B33', // Lighter Slate / Gunmetal
+          green: '#2E8B57', // Sea Green (muted)
+          cream: '#F5F5DC', // Beige/Cream text
+        },
         primary: {
             50: '#f0f9ff',
             100: '#e0f2fe',

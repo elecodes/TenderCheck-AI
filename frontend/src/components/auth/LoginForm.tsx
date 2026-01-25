@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { login } from '../../services/auth.service';
 import { Eye, EyeOff, Lock, Mail, ArrowRight } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid work email'),
@@ -12,12 +13,8 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
-interface LoginFormProps {
-  onSuccess: () => void;
-  onGoToRegister: () => void;
-}
-
-export function LoginForm({ onSuccess, onGoToRegister }: LoginFormProps) {
+export function LoginForm() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -28,7 +25,7 @@ export function LoginForm({ onSuccess, onGoToRegister }: LoginFormProps) {
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
-    mode: 'onBlur', // Validate on blur as requested
+    mode: 'onBlur',
   });
 
   const onSubmit = async (data: LoginFormData) => {
@@ -38,7 +35,7 @@ export function LoginForm({ onSuccess, onGoToRegister }: LoginFormProps) {
       const response = await login(data.email, data.password);
       localStorage.setItem('token', response.token);
       localStorage.setItem('user', JSON.stringify(response.user));
-      onSuccess();
+      navigate('/dashboard');
     } catch (err: any) {
       setError(err.message || 'Invalid credentials');
     } finally {
@@ -139,9 +136,9 @@ export function LoginForm({ onSuccess, onGoToRegister }: LoginFormProps) {
       
       <div className="text-center text-sm">
         <span className="text-emerald-100/40">Don't have an account? </span>
-        <button onClick={onGoToRegister} className="font-medium text-emerald-400 hover:text-emerald-300 transition-colors">
+        <Link to="/register" className="font-medium text-emerald-400 hover:text-emerald-300 transition-colors">
           Create Account
-        </button>
+        </Link>
       </div>
     </div>
   );

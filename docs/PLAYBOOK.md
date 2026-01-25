@@ -39,8 +39,9 @@ Please read the full [Coding Best Practices](../docs/standards/coding_best_pract
 - **No inline styles**: Use TailwindCSS utility classes.
 
 ### 🎨 Frontend Guidelines
-- **Premium Aesthetic**: Use `Inter` font, subtle shadows, and `rounded-xl` borders.
-- **Dark Mode**: Support `dark:` variants for all components.
+- **Premium Aesthetic**: Use `Inter` and `Playfair Display` fonts. Soft shadows.
+- **Dark Mode**: Use "Soft Charcoal" (`#242B33` or `#1a1c1a`), avoid pure black.
+- **Brand Colors**: Emerald (`emerald-600`) for Actions, Gold (`#C5A028`) for Accents.
 - **Smart/Dumb**: `App.tsx` handles state/API, components (e.g., `TenderUpload`) just render.
 
 ### 4. Adding Validation Rules

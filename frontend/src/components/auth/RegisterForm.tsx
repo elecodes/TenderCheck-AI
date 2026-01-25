@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { register as registerApi } from '../../services/auth.service';
 import { Eye, EyeOff, Lock, Mail, User, Building, ArrowRight } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const registerSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -14,12 +15,8 @@ const registerSchema = z.object({
 
 type RegisterFormData = z.infer<typeof registerSchema>;
 
-interface RegisterFormProps {
-  onSuccess: () => void;
-  onGoToLogin: () => void;
-}
-
-export function RegisterForm({ onSuccess, onGoToLogin }: RegisterFormProps) {
+export function RegisterForm() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -40,7 +37,7 @@ export function RegisterForm({ onSuccess, onGoToLogin }: RegisterFormProps) {
       const response = await registerApi(data.name, data.email, data.password, data.company);
       localStorage.setItem('token', response.token);
       localStorage.setItem('user', JSON.stringify(response.user));
-      onSuccess();
+      navigate('/dashboard');
     } catch (err: any) {
       setError(err.message || 'Registration failed');
     } finally {
@@ -130,7 +127,7 @@ export function RegisterForm({ onSuccess, onGoToLogin }: RegisterFormProps) {
             </div>
             <input
               id="password"
-              type={showPassword ? 'text' : 'password'}
+              type="text"
               className={`block w-full pl-10 pr-10 py-3 bg-white/5 border ${errors.password ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-emerald-500'} rounded-lg text-emerald-50 placeholder-emerald-100/20 focus:outline-none focus:ring-1 focus:ring-emerald-500/50 transition-all`}
               placeholder="••••••••"
               aria-invalid={errors.password ? 'true' : 'false'}
@@ -168,9 +165,9 @@ export function RegisterForm({ onSuccess, onGoToLogin }: RegisterFormProps) {
       
       <div className="text-center text-sm">
         <span className="text-emerald-100/40">Already have an account? </span>
-        <button onClick={onGoToLogin} className="font-medium text-amber-500 hover:text-amber-400 transition-colors">
+        <Link to="/login" className="font-medium text-amber-500 hover:text-amber-400 transition-colors">
           Log in
-        </button>
+        </Link>
       </div>
     </div>
   );
