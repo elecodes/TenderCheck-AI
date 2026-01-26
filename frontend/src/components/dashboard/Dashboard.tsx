@@ -225,8 +225,8 @@ export const Dashboard = () => {
                       </div>
                    )}
                    
-                   {/* Step 4: If no results found yet (or we want to allow re-check), show Upload Oferta */}
-                   {(!comparisonResults && (!analysis.results || analysis.results.length === 0)) && (
+                   {/* Step 4: If no requirement-based results found yet, show Upload Oferta */}
+                   {(!comparisonResults && (!analysis.results || analysis.results.filter(r => r.requirementId !== 'SCOPE_CHECK').length === 0)) && (
                        <div className="w-full max-w-4xl mx-auto bg-white dark:bg-gray-900/50 rounded-2xl border border-gray-200 dark:border-gray-800 p-8 shadow-xl text-center space-y-6">
                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">¿Listo para validar la oferta?</h2>
                            <p className="text-gray-500 dark:text-gray-400 text-lg">
