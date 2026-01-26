@@ -57,9 +57,25 @@ export const Dashboard = () => {
     setIsAnalyzing(true)
     setError(null)
     try {
-      const result = await uploadTender(selectedFile)
-      setAnalysis(result)
-      // Update history in background
+      // 1. Analyze the Pliego
+      const analysisResult = await uploadTender(selectedFile)
+      setAnalysis(analysisResult)
+      
+      // 2. If a proposal was already selected, run comparison automatically
+      if (selectedProposal) {
+        setIsComparing(true)
+        try {
+          const { results } = await validateProposal(analysisResult.id, selectedProposal)
+          setComparisonResults(results)
+        } catch (compErr) {
+          console.error("Auto-comparison failed:", compErr)
+          // Don't block the main analysis, but maybe notify user?
+          // For now, it just leaves the 'Ready to Validate' box open
+        } finally {
+          setIsComparing(false)
+        }
+      }
+
       const updatedHistory = await fetchHistory();
       setHistory(updatedHistory);
     } catch (err) {
@@ -151,10 +167,10 @@ export const Dashboard = () => {
                     {/* Hero Section */}
                     <div className="text-center max-w-2xl space-y-6">
                        <h1 className="text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white leading-tight">
-                         Intelligent Tender Analysis
+                         Análisis Inteligente de Licitaciones
                        </h1>
                        <p className="text-xl text-gray-500 dark:text-gray-400 leading-relaxed">
-                         Upload your tender documents to automatically extract requirements and analyze compliance in seconds.
+                         Sube el documento del pliego para extraer requisitos y valida tu oferta automáticamente en segundos.
                        </p>
                     </div>
 
@@ -163,7 +179,7 @@ export const Dashboard = () => {
                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                           <div className="space-y-4">
                              <div className="text-center">
-                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Pliego Document</h3>
+                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Documento del Pliego</h3>
                              </div>
                              <TenderUpload 
                                 onFileSelect={handleFileSelect} 
@@ -176,7 +192,7 @@ export const Dashboard = () => {
 
                           <div className="space-y-4">
                              <div className="text-center">
-                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Oferta Document</h3>
+                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Documento de la Oferta</h3>
                              </div>
                              <TenderUpload 
                                 onFileSelect={handleProposalSelect} 
@@ -191,17 +207,21 @@ export const Dashboard = () => {
                        <div className="mt-10 flex justify-center">
                           <button
                             onClick={handleStartAnalysis}
-                            disabled={!selectedFile || isAnalyzing}
+                            disabled={!selectedFile || isAnalyzing || isComparing}
                             className={`
                               group relative px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 flex items-center space-x-2
-                              ${!selectedFile || isAnalyzing 
-                                 ? 'bg-gray-200 dark:bg-gray-800 text-gray-400 cursor-not-allowed' 
+                              ${!selectedFile || isAnalyzing || isComparing
+                                 ? 'bg-gray-800 text-gray-600 cursor-not-allowed' 
                                  : 'bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white shadow-lg hover:shadow-emerald-500/25 active:scale-95'
                               }
                             `}
                           >
-                            <span>{isAnalyzing ? 'Analyzing...' : 'Start Analysis'}</span>
-                            {!isAnalyzing && <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />}
+                            <span>
+                               {isAnalyzing ? 'Analizando Pliego...' : 
+                                isComparing ? 'Validando Oferta...' : 
+                                selectedProposal ? 'Ejecutar Análisis Completo' : 'Analizar Pliego'}
+                            </span>
+                            {(!isAnalyzing && !isComparing) && <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />}
                           </button>
                        </div>
                     </div>
@@ -225,12 +245,24 @@ export const Dashboard = () => {
                       </div>
                    )}
                    
-                   {/* Step 4: If no requirement-based results found yet, show Upload Oferta */}
-                   {(!comparisonResults && (!analysis.results || analysis.results.filter(r => r.requirementId !== 'SCOPE_CHECK').length === 0)) && (
-                       <div className="w-full max-w-4xl mx-auto bg-white dark:bg-gray-900/50 rounded-2xl border border-gray-200 dark:border-gray-800 p-8 shadow-xl text-center space-y-6">
-                           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">¿Listo para validar la oferta?</h2>
+                   {/* Step 4: Loading state or Validation Prompt */}
+                   {isComparing && (
+                      <div className="w-full max-w-4xl mx-auto p-12 text-center bg-brand-dark/30 rounded-3xl border border-emerald-500/20 animate-pulse">
+                         <Play className="w-12 h-12 text-emerald-500 mx-auto mb-4 animate-bounce" />
+                         <h3 className="text-xl font-bold text-white">Validando Cumplimiento...</h3>
+                         <p className="text-gray-500">La IA está comparando tu oferta con los requisitos extraídos.</p>
+                      </div>
+                   )}
+
+                   {(!isComparing && !comparisonResults && (!analysis.results || analysis.results.filter(r => r.requirementId !== 'SCOPE_CHECK').length === 0)) && (
+                       <div className="w-full max-w-4xl mx-auto bg-white dark:bg-gray-900/50 rounded-2xl border border-gray-200 dark:border-gray-800 p-8 shadow-xl text-center space-y-6 animate-in fade-in slide-in-from-bottom-4">
+                           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                              {selectedProposal ? 'Casi listo: Valida tu oferta' : '¿Listo para validar la oferta?'}
+                           </h2>
                            <p className="text-gray-500 dark:text-gray-400 text-lg">
-                               Ya has extraído los requisitos. Ahora, sube el documento de la "Oferta" para comprobar el cumplimiento.
+                               {selectedProposal 
+                                 ? 'Ya tenemos el pliego analizado. Pulsa el botón para ejecutar la validación sobre el documento seleccionado.'
+                                 : 'Ya has extraído los requisitos. Ahora, sube el documento de la "Oferta" para comprobar el cumplimiento.'}
                            </p>
                            
                            <div className="max-w-md mx-auto">
@@ -254,7 +286,7 @@ export const Dashboard = () => {
                                   }
                                 `}
                            >
-                                {isComparing ? 'Comparando...' : 'Ejecutar Comprobación'}
+                                {isComparing ? 'Validando...' : 'Ejecutar Comprobación'}
                                 {!isComparing && <Play className="w-4 h-4 ml-2 fill-current" />}
                            </button>
                        </div>

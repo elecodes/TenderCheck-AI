@@ -84,7 +84,9 @@ export const ComparisonResults = ({ results, analysis }: ComparisonResultsProps)
                     result.status === 'NOT_MET' ? 'bg-red-500/20 text-red-400 border-red-500/20' : 
                     'bg-amber-500/20 text-amber-400 border-amber-500/20'
                   }`}>
-                    {result.status}
+                    {result.status === 'MET' ? 'CUMPLE' : 
+                     result.status === 'NOT_MET' ? 'NO CUMPLE' : 
+                     result.status === 'PARTIALLY_MET' ? 'PARCIAL' : result.status}
                   </span>
                   <div className="text-[10px] font-bold text-gray-500 uppercase tracking-tighter">
                     Confianza: <span className="text-gray-300">{(result.confidence * 100).toFixed(0)}%</span>

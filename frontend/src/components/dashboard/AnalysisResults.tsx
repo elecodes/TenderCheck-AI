@@ -31,11 +31,11 @@ export const AnalysisResults = ({ analysis, onReset }: AnalysisResultsProps) => 
             <span className={`px-3 py-1 rounded-full border font-bold ${
                 analysis.status === 'COMPLETED' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500' : 'bg-amber-500/10 border-amber-500/20 text-amber-500'
             }`}>
-                {analysis.status}
+                {analysis.status === 'COMPLETED' ? 'COMPLETADO' : analysis.status}
             </span>
             {analysis.results?.some(r => r.requirementId === 'SCOPE_CHECK' && r.status === 'MET') && (
                 <span className="px-3 py-1 rounded-full border font-bold bg-blue-500/10 border-blue-500/20 text-blue-400">
-                    SCOPE VERIFIED
+                    ALCANCE VERIFICADO
                 </span>
             )}
           </div>
@@ -57,7 +57,7 @@ export const AnalysisResults = ({ analysis, onReset }: AnalysisResultsProps) => 
             title="Exportar como PDF"
           >
             <Download className="w-4 h-4" />
-            <span>PDF Report</span>
+            <span>Informe PDF</span>
           </button>
 
           <button 
@@ -65,7 +65,7 @@ export const AnalysisResults = ({ analysis, onReset }: AnalysisResultsProps) => 
             className="flex items-center space-x-2 px-4 py-2.5 text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-white bg-gray-800/50 hover:bg-gray-700 border border-gray-700/50 rounded-xl transition-all active:scale-95"
           >
             <RotateCcw className="w-4 h-4" />
-            <span>Reset</span>
+            <span>Nuevo Análisis</span>
           </button>
         </div>
       </div>
@@ -97,7 +97,7 @@ export const AnalysisResults = ({ analysis, onReset }: AnalysisResultsProps) => 
                                         ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/20' 
                                         : 'bg-purple-500/20 text-purple-400 border border-purple-500/20'
                                 }`}>
-                                    {req.type}
+                                    {req.type === 'MANDATORY' ? 'OBLIGATORIO' : req.type === 'OPTIONAL' ? 'OPCIONAL' : req.type}
                                 </span>
                                 <span className="text-[10px] uppercase tracking-widest font-bold text-gray-600">
                                     Pag. {req.source.pageNumber}
