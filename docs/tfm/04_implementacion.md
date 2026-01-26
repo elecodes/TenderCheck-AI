@@ -11,37 +11,34 @@ La implementación integra controles de calidad automatizados:
 - **Frontend**: React + Vite + TailwindCSS (Interfaz de Usuario Reactiva).
 - **Backend**: Node.js + Express + TypeScript (API REST).
 - **IA**: Ollama (Llama 3) para inferencia local.
-- **Base de Datos**: Repositorios en Memoria (MVP) simulando arquitectura Repository Pattern para fácil migración a SQL/NoSQL.
+- **Base de Datos**: Persistencia relacional mediante **SQLite** (`better-sqlite3`), garantizando que los análisis no se pierdan al cerrar la sesión.
 
-## 4.3. Sistema de Autenticación
-Se ha implementado un sistema de autenticación seguro basado en **JWT (JSON Web Tokens)**.
-- **Registro**: Los usuarios pueden crear cuentas; las contraseñas se almacenan hasheadas utilizando `bcrypt`.
-- **Login**: Al autenticarse, el servidor emite un token JWT firmado que el cliente almacena en `localStorage`.
-- **Seguridad**: Todas las rutas sensibles de la API requerirán este token en la cabecera `Authorization`.
+## 4.3. Sistema de Autenticación y Persistencia
+Se ha implementado un sistema robusto para la gestión de datos.
+- **Autenticación**: Basada en **JWT (JSON Web Tokens)** con almacenamiento seguro en el servidor y `localStorage` en el cliente.
+- **Persistencia de Licitaciones**: Implementación del patrón *Repository* con SQLite para almacenar la relación entre Usuarios, Análisis, Requisitos y Resultados de Validación.
 
-## 4.3. Integración de IA Local (Ollama)
-En lugar de depender de APIs de terceros (OpenAI), hemos integrado **Ollama** para ejecutar modelos LLM directamente en el servidor.
+## 4.4. Procesamiento de Ofertas y Resumen de Cumplimiento
+Tras extraer los requisitos del pliego, el sistema permite subir una oferta para su validación.
 
-### 4.3.1. Desafíos y Soluciones
-1.  **Límite de Contexto/Recursos**:
-    - *Problema*: Procesar pliegos enteros (50k+ caracteres) bloqueaba la máquina de desarrollo.
-    - *Solución*: Implementación de truncado inteligente (4k caracteres) y limitación de ventana de contexto en el driver de Ollama.
+### 4.4.1. Motor de Comparación IA
+- **Entrada**: Texto del requisito + Texto de la oferta.
+- **Salida**: JSON con estado (CUMPLE/NO CUMPLE), razonamiento detallado y cita textual de la evidencia.
+- **Optimización**: Se utiliza truncado de contexto y control de tokens para asegurar que la comparativa sea precisa y rápida.
 
-2.  **Alucinaciones de Formato (JSON)**:
-    - *Problema*: Los modelos pequeños a veces incluyen texto conversacion ("Aquí está tu JSON...") rompiendo el parser.
-    - *Solución*: Desarrollo de un **Parser Resiliente** en `OllamaModelService` que extrae quirúrgicamente el bloque JSON y normaliza las claves mediante búsqueda recursiva.
+### 4.4.2. Visualización de Estadísticas (ValidationSummary)
+Se ha desarrollado un componente de visualización que calcula dinámicamente:
+- Porcentaje de éxito global.
+- Ratio de cumplimiento de requisitos **OBLIGATORIOS**.
+- Ratio de cumplimiento de requisitos **OPCIONALES**.
 
-3.  **Clasificación de Requisitos (Opcional vs Obligatorio)**:
-    - *Problema*: El modelo tendía a marcar todo como "MANDATORY".
-    - *Solución*: Implementación de heurísticos de post-procesado que detectan palabras clave (*should, could, desirable*) para corregir la etiqueta a "OPTIONAL" automáticamente.
+## 4.5. Exportación y Gestión de Historial
+- **Informe PDF (jsPDF)**: Generación dinámica de reportes profesionales que incluyen el logo, el resumen de estadísticas y la tabla detallada de evidencias.
+- **Gestión de Historial**: Implementación de una barra lateral dinámica que permite la búsqueda reactiva y la eliminación segura de registros de la base de datos.
 
-4.  **Integridad de Archivos en Subida (Browser Context)**:
-    - *Problema*: Error `net::ERR_UPLOAD_FILE_CHANGED` cuando el navegador detecta accesos al PDF mientras se intenta subir.
-    - *Solución*: Implementación de una capa de lectura en memoria (**Blob conversion**) en `api.ts` que congela el estado del archivo antes de iniciar la petición POST, garantizando una subida atómica.
-
-## 4.4. Resultados Obtenidos
-El sistema es capaz de:
-1.  Ingestar documentos PDF complejos.
-2.  Extraer requisitos técnicos en segundos sin coste.
-3.  Visualizar estos requisitos diferenciando su prioridad (Mandatorio/Opcional).
-4.  Validar ofertas frente a estos requisitos (Motor de Validación).
+## 4.6. Resultados Obtenidos
+La versión final de TenderCheck AI permite:
+1.  **Ingesta Inteligente**: Procesamiento de pliegos y ofertas atomizado.
+2.  **Validación Basada en Evidencias**: No solo dice si cumple, sino que muestra *por qué* y *dónde* está la prueba en el documento del licitador.
+3.  **Auditoría Histórica**: Capacidad de revisar y gestionar el cumplimiento de múltiples licitaciones de forma persistente.
+4.  **Entrega Profesional**: Generación de documentos PDF listos para ser adjuntados a un expediente de contratación.

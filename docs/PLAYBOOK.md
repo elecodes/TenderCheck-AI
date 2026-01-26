@@ -6,10 +6,11 @@ Welcome to the team! This playbook defines **how we work** to ensure high qualit
 
 ### 1. Development Loop
 1.  **Start Services**: `npm run dev` (Runs Backend :3000 & Frontend :5173).
-2.  **Upload Pliego**: Go to Dashboard -> Upload Tender PDF -> Wait for Analysis.
-3.  **Validate Proposal**: Scroll down -> Upload Proposal PDF -> Click "Run Compliance Check".
-4.  **Check History**: Use the left sidebar to access previous analyses saved in the SQLite database.
-5.  **Review Results**: Check the compliance badges (MET/NOT MET) and evidence.
+2.  **Upload & Validate**: Go to Dashboard. Upload **Pliego** and **Oferta** together for a seamless "One-Click" analysis.
+3.  **Check History**: Use the left sidebar to access previous analyses. You can delete incorrect ones using the **TrashIcon**.
+4.  **Review Summary**: Check the **Validation Summary** card at the top for quick compliance stats (Mandatory vs Optional).
+5.  **Export**: Download the branded **PDF Report** for the final documentation or TFM annexes.
+6.  **Finish**: Click "Finalizar y Salir" to reset the state for a new analysis.
 
 ### 2. Testing & Quality 🧪
 **Quality is non-negotiable.** We use **Vitest** for testing and **Zod** for validation.
@@ -78,5 +79,18 @@ To run the analysis without costs/limits:
 <!-- SCRIPTS_START -->
 | Scope | Command | Description |
 |---|---|---|
-| Backend | `npm run ...` | (Auto-generated) |
+| **Backend** | `npm run dev` | `tsx watch src/presentation/server.ts` |
+| **Backend** | `npm run test` | `vitest run` |
+| **Backend** | `npm run test:coverage` | `vitest run --coverage` |
+| **Backend** | `npm run lint` | `eslint .` |
+| **Backend** | `npm run lint:fix` | `eslint . --fix` |
+| **Backend** | `npm run audit:arch` | `depcruise src --config .dependency-cruiser.cjs` |
+| **Backend** | `npm run security:scan` | `snyk test` |
+| **Backend** | `npm run prepare` | `husky` |
+| **Frontend** | `npm run dev` | `vite` |
+| **Frontend** | `npm run build` | `tsc -b && vite build` |
+| **Frontend** | `npm run lint` | `eslint .` |
+| **Frontend** | `npm run preview` | `vite preview` |
+| **Frontend** | `npm run security:scan` | `snyk test` |
+
 <!-- SCRIPTS_END -->

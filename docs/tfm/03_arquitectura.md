@@ -64,11 +64,14 @@ Actúa como **orquestador** del sistema. No contiene lógica de negocio compleja
 ### 3.3.3. Capa de Infraestructura (Infrastructure)
 Contiene los detalles técnicos y librerías externas.
 - **`OllamaModelService`**: Implementación concreta que conecta con el servidor local de IA (puerto 11434). Incluye lógica de *retry* y limpieza de JSON.
-- **`InMemoryRepository`**: Persistencia volátil para permitir un desarrollo ágil sin configurar bases de datos pesadas.
+- **`SqliteTenderRepository`**: Implementación persistente utilizando SQLite. Gestiona el ciclo de vida de los análisis, requisitos y resultados de validación mediante una base de datos relacional embebida.
 
 ### 3.3.3. Capa de Presentación (Frontend)
 Desarrollada como una **SPA** (Single Page Application).
 - **Gestión de Estado**: React Hooks (`useState`, `useEffect`) para manejar la sesión del usuario y la carga de archivos.
+- **Componentes de Negocio**:
+    - **`HistorySidebar`**: Gestiona la visualización, búsqueda y eliminación de análisis previos persistidos.
+    - **`ValidationSummary`**: Motor gráfico que traduce los resultados crudos en estadísticas de cumplimiento (Mandatorios vs Opcionales).
 - **Diseño**: TailwindCSS para un diseño responsivo y modo oscuro nativo.
 
 ## 3.4. Decisiones Arquitectónicas (ADRs)

@@ -4,7 +4,7 @@
 >
 > *Master's Thesis Project (TFM) - Week 1 Status*
 
-![Status](https://img.shields.io/badge/Status-Phase_14_Complete-brightgreen)
+![Status](https://img.shields.io/badge/Status-Phase_17_Complete-brightgreen)
 ![Tech](https://img.shields.io/badge/Stack-TypeScript_React_SQLite_Ollama-orange)
 ![Coverage](https://img.shields.io/badge/Coverage-100%25_Backend-brightgreen)
 ![Data](https://img.shields.io/badge/Storage-SQLite_Local-blue)
@@ -13,11 +13,13 @@
 ## 🚀 Key Features
 - **Smart Ingestion**: Parses complex PDF structure from Tender Documents (*Pliegos*).
 - **Local AI Analysis**: Extracts requirements using **Ollama (Llama 3)** running locally (Privacy first, Zero cost).
-- **Auto-Auth Flow**: Seamless Registration -> Token Issue -> Dashboard redirection.
-- **Requirement Extraction**: Identifies technical clauses, distinguishing **Mandatory** vs **Optional**.
-- **Proposal Validation**: Compares vendor proposals (*Ofertas*) against extracted requirements.
-- **Persistent History**: Stores all analyses in a local **SQLite** database for future review.
-- **Premium Dashboard**: High-end dark theme with glassmorphic sidebar for history management.
+- **Requirement Extraction**: Identifies technical clauses, distinguishing **OBLIGATORIO** vs **OPCIONAL**.
+- **Real Proposal Validation**: Real-time comparison of vendor proposals (*Ofertas*) against requirements with AI reasoning and evidence.
+- **Validation Summary**: Comparative dashboard showing mandatory vs optional compliance stats.
+- **Persistent History**: Stores all analyses in a local **SQLite** database with user-specific isolation.
+- **History Management**: Browse, search, and delete previous analyses from the sidebar.
+- **Professional Export**: Generate branded **PDF Reports** and structured **JSON** data.
+- **Full Spanish Localization**: Professional interface tailored for the Spanish public procurement market.
 - **Secure by Design**: Zod validation, Helmet protection, and strict CORS.
 
 ## 📌 Overview
@@ -40,22 +42,33 @@ This project follows **Clean Architecture** principles to ensure separation of c
 ├── PROJECT_PLAN.md
 ├── README.md
 ├── SRS.md
+├── TFM_PLAN.md
 ├── backend
 │   ├── Dockerfile
+│   ├── database.sqlite
+│   ├── database.sqlite-shm
+│   ├── database.sqlite-wal
 │   ├── eslint.config.js
 │   ├── package-lock.json
 │   ├── package.json
+│   ├── scripts
 │   ├── src
 │   │   ├── application
+│   │   │   ├── interfaces
+│   │   │   ├── services
+│   │   │   │   └── AuthService.ts
 │   │   │   └── use-cases
 │   │   │       ├── CreateTender.spec.ts
 │   │   │       ├── CreateTender.ts
 │   │   │       └── ValidateProposal.ts
+│   │   ├── config
+│   │   │   └── constants.ts
 │   │   ├── domain
 │   │   │   ├── entities
 │   │   │   │   ├── ComparisonResult.ts
 │   │   │   │   ├── Requirement.ts
 │   │   │   │   ├── TenderAnalysis.ts
+│   │   │   │   ├── User.ts
 │   │   │   │   └── ValidationResult.ts
 │   │   │   ├── errors
 │   │   │   │   └── AppError.ts
@@ -64,41 +77,48 @@ This project follows **Clean Architecture** principles to ensure separation of c
 │   │   │   │   ├── IRule.ts
 │   │   │   │   └── ITenderAnalyzer.ts
 │   │   │   ├── repositories
-│   │   │   │   └── ITenderRepository.ts
+│   │   │   │   ├── ITenderRepository.ts
+│   │   │   │   └── UserRepository.ts
 │   │   │   ├── schemas
 │   │   │   │   └── TenderAnalysisSchema.ts
 │   │   │   ├── services
-│   │   │   │   ├── AIModelService.ts
 │   │   │   │   └── RequirementsExtractor.ts
-│   │   │   └── validation
-│   │   │       ├── ValidationEngine.ts
-│   │   │       └── rules
-│   │   │           └── ScopeValidationRule.ts
+│   │   │   ├── validation
+│   │   │   │   ├── ValidationEngine.ts
+│   │   │   │   └── rules
+│   │   │   │       └── ScopeValidationRule.ts
+│   │   │   └── value-objects
 │   │   ├── infrastructure
 │   │   │   ├── adapters
 │   │   │   │   └── PdfParserAdapter.ts
+│   │   │   ├── config
 │   │   │   ├── database
 │   │   │   │   ├── SqliteDatabase.ts
 │   │   │   │   └── schema.sql
 │   │   │   ├── middleware
+│   │   │   │   ├── authMiddleware.ts
 │   │   │   │   └── errorHandler.ts
 │   │   │   ├── repositories
+│   │   │   │   ├── InMemoryTenderRepository.ts
+│   │   │   │   ├── InMemoryUserRepository.ts
 │   │   │   │   ├── SqliteTenderRepository.ts
 │   │   │   │   └── SqliteUserRepository.ts
 │   │   │   ├── schemas
 │   │   │   │   └── LLMSchemas.ts
 │   │   │   ├── services
+│   │   │   │   ├── OllamaModelService.ts
 │   │   │   │   └── OpenAIModelService.ts
 │   │   │   └── utils
 │   │   │       └── safeExecute.ts
 │   │   └── presentation
 │   │       ├── controllers
+│   │       │   ├── AuthController.ts
 │   │       │   └── TenderController.ts
 │   │       ├── routes
+│   │       │   ├── AuthRoutes.ts
 │   │       │   └── TenderRoutes.ts
 │   │       └── server.ts
 │   ├── test
-│   │   ├── AIModelService.test.ts
 │   │   ├── AppError.test.ts
 │   │   ├── PdfParserAdapter.test.ts
 │   │   ├── RequirementsExtractor.test.ts
@@ -119,26 +139,43 @@ This project follows **Clean Architecture** principles to ensure separation of c
 │   │   ├── 003-ai-integration.md
 │   │   ├── 003-observability.md
 │   │   ├── 004-proposal-validation.md
-│   │   └── 004-rules-engine.md
+│   │   ├── 004-rules-engine.md
+│   │   ├── 005-local-auth-and-ollama.md
+│   │   ├── 006-ui-theme-routing.md
+│   │   ├── 007-security-hardening.md
+│   │   ├── 008-local-sql-persistence.md
+│   │   └── README.md
 │   ├── architecture
 │   │   └── mcp_feasibility_study.md
-│   └── standards
-│       ├── code_quality_policy.md
-│       ├── coding_best_practices.md
-│       ├── devops_policy.md
-│       ├── devsecops_free_tools.md
-│       ├── health_and_errors_policy.md
-│       ├── metrics_policy.md
-│       ├── microcopy_policy.md
-│       ├── secure_coding_practices.md
-│       ├── security_policy.md
-│       ├── sentry_policy.md
-│       ├── solid_principles.md
-│       ├── testing_policy.md
-│       └── ux_accessibility_policy.md
+│   ├── standards
+│   │   ├── code_quality_policy.md
+│   │   ├── coding_best_practices.md
+│   │   ├── devops_policy.md
+│   │   ├── devsecops_free_tools.md
+│   │   ├── health_and_errors_policy.md
+│   │   ├── lifecycle_paradigms.md
+│   │   ├── metrics_policy.md
+│   │   ├── microcopy_policy.md
+│   │   ├── requirements_UML.md
+│   │   ├── secure_coding_practices.md
+│   │   ├── security_policy.md
+│   │   ├── sentry_policy.md
+│   │   ├── solid_principles.md
+│   │   ├── testing_policy.md
+│   │   ├── usable_forms_best_practices.md
+│   │   └── ux_accessibility_policy.md
+│   └── tfm
+│       ├── 00_analisis_detallado.md
+│       ├── 01_introduccion_objetivos.md
+│       ├── 02_marco_teorico.md
+│       ├── 03_arquitectura.md
+│       └── 04_implementacion.md
 ├── frontend
 │   ├── README.md
 │   ├── eslint.config.js
+│   ├── frontend
+│   │   ├── package-lock.json
+│   │   └── package.json
 │   ├── index.html
 │   ├── package-lock.json
 │   ├── package.json
@@ -151,25 +188,52 @@ This project follows **Clean Architecture** principles to ensure separation of c
 │   │   ├── assets
 │   │   │   └── react.svg
 │   │   ├── components
+│   │   │   ├── auth
+│   │   │   │   ├── LoginForm.tsx
+│   │   │   │   └── RegisterForm.tsx
 │   │   │   ├── dashboard
 │   │   │   │   ├── AnalysisResults.tsx
 │   │   │   │   ├── ComparisonResults.tsx
-│   │   │   │   └── TenderUpload.tsx
+│   │   │   │   ├── Dashboard.tsx
+│   │   │   │   ├── HistorySidebar.tsx
+│   │   │   │   ├── TenderUpload.tsx
+│   │   │   │   └── ValidationSummary.tsx
+│   │   │   ├── layout
+│   │   │   │   ├── Navbar.tsx
+│   │   │   │   └── ProtectedRoute.tsx
 │   │   │   └── ui
 │   │   │       ├── SentryErrorBoundary.tsx
 │   │   │       └── Skeleton.tsx
+│   │   ├── context
+│   │   │   └── AuthContext.tsx
 │   │   ├── index.css
 │   │   ├── main.tsx
+│   │   ├── pages
+│   │   │   └── LandingPage.tsx
 │   │   ├── services
-│   │   │   └── api.ts
+│   │   │   ├── api.ts
+│   │   │   ├── auth.service.ts
+│   │   │   └── export.service.ts
 │   │   └── types.ts
 │   ├── tailwind.config.js
 │   ├── tsconfig.app.json
 │   ├── tsconfig.json
 │   ├── tsconfig.node.json
 │   └── vite.config.ts
+├── knowledge_base
+│   ├── processed
+│   │   ├── chunked_laws
+│   │   └── definitions
+│   └── raw_documents
+├── lint_output.txt
 ├── package-lock.json
 ├── package.json
+├── packages
+│   └── knowledge-mcp
+│       └── build
+│           ├── embeddings.js
+│           ├── index.js
+│           └── ingest.js
 └── scripts
     └── docs-automator.js
 ```
