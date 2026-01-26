@@ -215,13 +215,13 @@ export const Dashboard = () => {
                                      {/* Step 3: Show Compliance Results (if present) */}
                    {analysis.results && analysis.results.length > 0 && !comparisonResults && (
                       <div className="w-full max-w-4xl mx-auto">
-                        <ComparisonResults results={analysis.results} />
+                        <ComparisonResults results={analysis.results} analysis={analysis} />
                       </div>
                    )}
 
                    {comparisonResults && (
                       <div className="w-full max-w-4xl mx-auto">
-                        <ComparisonResults results={comparisonResults} />
+                        <ComparisonResults results={comparisonResults} analysis={analysis} />
                       </div>
                    )}
                    

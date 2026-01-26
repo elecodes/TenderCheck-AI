@@ -35,31 +35,34 @@ export class ValidateProposal {
     const results: ValidationResult[] = [];
     const requirements = tender.requirements || [];
 
-    // Limit to first 5 requirements for MVP performance/quota safety
-    for (const req of requirements.slice(0, MIN_ITEMS_LENGTH)) {
-      if (req.type === "MANDATORY") {
-        const comparison = await this.tenderAnalyzer.compareProposal(
-          req.text,
-          proposalText,
-        );
+    // Limit items for performance in MVP
+    const itemsToAnalyze = requirements.slice(0, 10);
 
-        results.push({
-          requirementId: req.id,
-          status: comparison.status === "COMPLIANT" ? "MET" : "NOT_MET",
-          reasoning: comparison.reasoning,
-          confidence: comparison.score / 100,
-          evidence: {
-            text: comparison.sourceQuote || "No evidence found",
-            pageNumber: 0, // Mock page
-          },
-        });
-      }
+    for (const req of itemsToAnalyze) {
+      const comparison = await this.tenderAnalyzer.compareProposal(
+        req.text,
+        proposalText,
+      );
+
+      results.push({
+        requirementId: req.id,
+        status: comparison.status === "COMPLIANT" ? "MET" : "NOT_MET",
+        reasoning: comparison.reasoning,
+        confidence: comparison.score / 100,
+        evidence: {
+          text: comparison.sourceQuote || "No evidence found",
+          pageNumber: 0, // Mock page
+        },
+      });
     }
 
-    // 4. Update Tender Entity with new results (Or separate Proposal entity?)
-    // For MVP, we overwrite 'results' or append?
-    // Ideally, TenderAnalysis results field IS the validation result.
-    tender.results = [...(tender.results || []), ...results];
+    // 4. Update Tender Entity
+    // We keep the SCOPE_CHECK if it was there, but replace any previous requirement validation
+    const scopeCheck = (tender.results || []).find(
+      (r) => r.requirementId === "SCOPE_CHECK",
+    );
+    tender.results = scopeCheck ? [scopeCheck, ...results] : results;
+
     await this.tenderRepository.save(tender);
 
     return results;

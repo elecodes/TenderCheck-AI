@@ -11,23 +11,32 @@ export class SqliteTenderRepository implements ITenderRepository {
   }
 
   async save(tender: TenderAnalysis): Promise<void> {
-    const insertTender = this.db.prepare(`
+    const db = this.db;
+
+    // Statements must be prepared outside or inside, but let's be explicit
+    const insertTender = db.prepare(`
       INSERT OR REPLACE INTO tenders (id, user_id, title, status, document_url, created_at)
       VALUES (?, ?, ?, ?, ?, ?)
     `);
 
-    const insertRequirement = this.db.prepare(`
+    const insertRequirement = db.prepare(`
       INSERT OR REPLACE INTO requirements (id, tender_id, text, type, confidence, keywords, page_number, snippet)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
-    const insertResult = this.db.prepare(`
+    const insertResult = db.prepare(`
       INSERT OR REPLACE INTO validation_results (id, tender_id, status, message, created_at)
       VALUES (?, ?, ?, ?, ?)
     `);
 
-    // Use a transaction for atomic save of tender + requirements
-    const transaction = this.db.transaction((t: TenderAnalysis) => {
+    const deleteRequirements = db.prepare(
+      "DELETE FROM requirements WHERE tender_id = ?",
+    );
+    const deleteResults = db.prepare(
+      "DELETE FROM validation_results WHERE tender_id = ?",
+    );
+
+    const runTransaction = db.transaction((t: TenderAnalysis) => {
       insertTender.run(
         t.id,
         t.userId,
@@ -39,9 +48,7 @@ export class SqliteTenderRepository implements ITenderRepository {
           : new Date().toISOString(),
       );
 
-      // Clean existing requirements for this tender to avoid duplicates on update
-      this.db.prepare("DELETE FROM requirements WHERE tender_id = ?").run(t.id);
-
+      deleteRequirements.run(t.id);
       if (t.requirements) {
         for (const req of t.requirements) {
           insertRequirement.run(
@@ -57,14 +64,11 @@ export class SqliteTenderRepository implements ITenderRepository {
         }
       }
 
-      // Clean and save results
-      this.db
-        .prepare("DELETE FROM validation_results WHERE tender_id = ?")
-        .run(t.id);
+      deleteResults.run(t.id);
       if (t.results) {
         for (const res of t.results) {
           insertResult.run(
-            res.requirementId, // Using reqId as part of primary key or similar
+            res.requirementId,
             t.id,
             res.status,
             res.reasoning,
@@ -74,7 +78,7 @@ export class SqliteTenderRepository implements ITenderRepository {
       }
     });
 
-    transaction(tender);
+    runTransaction(tender);
   }
 
   async findById(id: string): Promise<TenderAnalysis | null> {

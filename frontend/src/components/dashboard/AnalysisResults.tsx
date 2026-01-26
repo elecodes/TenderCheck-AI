@@ -33,6 +33,11 @@ export const AnalysisResults = ({ analysis, onReset }: AnalysisResultsProps) => 
             }`}>
                 {analysis.status}
             </span>
+            {analysis.results?.some(r => r.requirementId === 'SCOPE_CHECK' && r.status === 'MET') && (
+                <span className="px-3 py-1 rounded-full border font-bold bg-blue-500/10 border-blue-500/20 text-blue-400">
+                    SCOPE VERIFIED
+                </span>
+            )}
           </div>
         </div>
 
