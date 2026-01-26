@@ -1,14 +1,5 @@
 import { CheckCircle2, XCircle, AlertCircle } from 'lucide-react';
-
-interface ValidationResult {
-  requirementId: string;
-  status: 'MET' | 'NOT_MET' | 'AMBIGUOUS';
-  reasoning: string;
-  evidence: {
-    text: string;
-    pageNumber: number;
-  };
-}
+import type { ValidationResult } from '../../types';
 
 interface ComparisonResultsProps {
   results: ValidationResult[];
@@ -51,7 +42,7 @@ export const ComparisonResults = ({ results }: ComparisonResultsProps) => {
             
             <div className="bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg border border-gray-200 dark:border-gray-700">
               <p className="text-xs font-mono text-gray-500 dark:text-gray-500 mb-1">Evidence from Proposal:</p>
-              <p className="text-sm italic text-gray-700 dark:text-gray-300">"{result.evidence.text}"</p>
+              <p className="text-sm italic text-gray-700 dark:text-gray-300">"{result.evidence?.text || 'No explicit evidence provided.'}"</p>
             </div>
           </div>
         ))}

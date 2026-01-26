@@ -4,11 +4,11 @@
 >
 > *Master's Thesis Project (TFM) - Week 1 Status*
 
-![Status](https://img.shields.io/badge/Status-Phase_14_History_&_Persistence-blue)
-![Tech](https://img.shields.io/badge/Stack-TypeScript_React_Ollama-orange)
+![Status](https://img.shields.io/badge/Status-Phase_14_Complete-brightgreen)
+![Tech](https://img.shields.io/badge/Stack-TypeScript_React_SQLite_Ollama-orange)
 ![Coverage](https://img.shields.io/badge/Coverage-100%25_Backend-brightgreen)
+![Data](https://img.shields.io/badge/Storage-SQLite_Local-blue)
 ![AI](https://img.shields.io/badge/AI-Ollama_(Llama3)-purple)
-![CI/CD](https://img.shields.io/badge/CI%2FCD-Ollama_Local-blue)
 
 ## 🚀 Key Features
 - **Smart Ingestion**: Parses complex PDF structure from Tender Documents (*Pliegos*).
@@ -16,7 +16,8 @@
 - **Auto-Auth Flow**: Seamless Registration -> Token Issue -> Dashboard redirection.
 - **Requirement Extraction**: Identifies technical clauses, distinguishing **Mandatory** vs **Optional**.
 - **Proposal Validation**: Compares vendor proposals (*Ofertas*) against extracted requirements.
-- **Resilient Fallbacks**: Graceful handling of AI overloads or "Scope Mismatches".
+- **Persistent History**: Stores all analyses in a local **SQLite** database for future review.
+- **Premium Dashboard**: High-end dark theme with glassmorphic sidebar for history management.
 - **Secure by Design**: Zod validation, Helmet protection, and strict CORS.
 
 ## 📌 Overview
@@ -76,10 +77,14 @@ This project follows **Clean Architecture** principles to ensure separation of c
 │   │   ├── infrastructure
 │   │   │   ├── adapters
 │   │   │   │   └── PdfParserAdapter.ts
+│   │   │   ├── database
+│   │   │   │   ├── SqliteDatabase.ts
+│   │   │   │   └── schema.sql
 │   │   │   ├── middleware
 │   │   │   │   └── errorHandler.ts
 │   │   │   ├── repositories
-│   │   │   │   └── InMemoryTenderRepository.ts
+│   │   │   │   ├── SqliteTenderRepository.ts
+│   │   │   │   └── SqliteUserRepository.ts
 │   │   │   ├── schemas
 │   │   │   │   └── LLMSchemas.ts
 │   │   │   ├── services

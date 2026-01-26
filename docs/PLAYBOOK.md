@@ -8,7 +8,8 @@ Welcome to the team! This playbook defines **how we work** to ensure high qualit
 1.  **Start Services**: `npm run dev` (Runs Backend :3000 & Frontend :5173).
 2.  **Upload Pliego**: Go to Dashboard -> Upload Tender PDF -> Wait for Analysis.
 3.  **Validate Proposal**: Scroll down -> Upload Proposal PDF -> Click "Run Compliance Check".
-4.  **Review Results**: Check the compliance badges (MET/NOT MET) and evidence.
+4.  **Check History**: Use the left sidebar to access previous analyses saved in the SQLite database.
+5.  **Review Results**: Check the compliance badges (MET/NOT MET) and evidence.
 
 ### 2. Testing & Quality 🧪
 **Quality is non-negotiable.** We use **Vitest** for testing and **Zod** for validation.
@@ -24,7 +25,8 @@ Welcome to the team! This playbook defines **how we work** to ensure high qualit
 
 ### 3. Architecture Guidelines
 - **Domain Layer**: PURE TypeScript. No external libraries (except absolute essentials like `uuid` or `zod` types).
-- **Infrastructure Layer**: The ONLY place where you import `fs`, `openai`, `pdf-parse`, etc.
+- **Infrastructure Layer**: The ONLY place where you import `fs`, `sqlite`, `pdf-parse`, etc.
+- **Database**: We use **SQLite** (a single file `database.sqlite` in the backend folder). Do not commit the `.sqlite` file.
 - **Dependency Rule**: Source code dependencies must point **inwards** (Infrastructure -> Application -> Domain).
 
 ## 🛡️ Standards & Best Practices

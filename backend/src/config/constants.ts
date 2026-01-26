@@ -12,7 +12,7 @@ export const SALT_ROUNDS = 10;
 export const DEFAULT_PORT = 3000;
 export const JWT_SECRET_FALLBACK = "tendercheck_ai_super_secret_key_2026_tfm";
 
-export const MIN_JUSTIFICATION_LENGTH = 50;
+export const MIN_JUSTIFICATION_LENGTH = 10;
 export const MIN_ITEMS_LENGTH = 5;
 
 // AI / LLM Constants

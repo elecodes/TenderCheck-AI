@@ -2,7 +2,7 @@ import { Router } from "express";
 import multer from "multer";
 import { TenderController } from "../controllers/TenderController.js";
 import { CreateTender } from "../../application/use-cases/CreateTender.js";
-import { InMemoryTenderRepository } from "../../infrastructure/repositories/InMemoryTenderRepository.js";
+import { SqliteTenderRepository } from "../../infrastructure/repositories/SqliteTenderRepository.js";
 import { PdfParserAdapter } from "../../infrastructure/adapters/PdfParserAdapter.js";
 import { OllamaModelService } from "../../infrastructure/services/OllamaModelService.js";
 
@@ -12,7 +12,7 @@ import { authMiddleware } from "../../infrastructure/middleware/authMiddleware.j
 
 // Composition Root (Simple Manual Dependency Injection)
 // In a larger app, this would be in a dedicated DI container or factory
-const repository = new InMemoryTenderRepository();
+const repository = new SqliteTenderRepository();
 const pdfParser = new PdfParserAdapter();
 const tenderAnalyzer = new OllamaModelService();
 const validationEngine = new ValidationEngine([new ScopeValidationRule()]);
@@ -80,5 +80,18 @@ router.post(
     }
   },
 );
+
+// GET /api/tenders (History for current user)
+router.get("/", authMiddleware, async (req, res, next) => {
+  try {
+    const userId = (req as any).user?.userId;
+    if (!userId) throw new Error("User not authenticated");
+
+    const history = await repository.findByUserId(userId);
+    res.json(history);
+  } catch (error) {
+    next(error);
+  }
+});
 
 export { router as tenderRouter };

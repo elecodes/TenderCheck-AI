@@ -2,14 +2,14 @@ import { Router } from "express";
 import rateLimit from "express-rate-limit";
 import { AuthController } from "../controllers/AuthController.js";
 import { AuthService } from "../../application/services/AuthService.js";
-import { InMemoryUserRepository } from "../../infrastructure/repositories/InMemoryUserRepository.js";
+import { SqliteUserRepository } from "../../infrastructure/repositories/SqliteUserRepository.js";
 
 const router = Router();
 
 // Singleton instances (for now, simplistic Dependency Injection)
 // Note: In a real app with multiple instances, these should be managed by a DI container or exported/instantiated in server.ts
 // For the InMemoryRepository to persist across requests in this Node process, we must instantiate it once.
-export const userRepository = new InMemoryUserRepository();
+export const userRepository = new SqliteUserRepository();
 const authService = new AuthService(userRepository);
 const authController = new AuthController(authService);
 
