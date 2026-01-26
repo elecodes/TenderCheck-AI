@@ -65,3 +65,16 @@ export const fetchHistory = async (): Promise<TenderAnalysis[]> => {
 
   return response.json();
 };
+
+export const deleteTender = async (id: string): Promise<void> => {
+  const response = await fetch(`/api/tenders/${id}`, {
+    method: 'DELETE',
+    headers: {
+        ...getAuthHeaders(),
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to delete tender');
+  }
+};

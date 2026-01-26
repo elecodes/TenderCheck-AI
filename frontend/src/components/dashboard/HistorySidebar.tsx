@@ -1,14 +1,15 @@
 import type { TenderAnalysis } from "../../types";
-import { Clock, FileText, ChevronRight, Search, Activity } from "lucide-react";
+import { Clock, FileText, ChevronRight, Search, Activity, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 interface HistorySidebarProps {
   history: TenderAnalysis[];
   onSelect: (tender: TenderAnalysis) => void;
+  onDelete: (id: string) => void;
   selectedId?: string;
 }
 
-export const HistorySidebar = ({ history, onSelect, selectedId }: HistorySidebarProps) => {
+export const HistorySidebar = ({ history, onSelect, onDelete, selectedId }: HistorySidebarProps) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredHistory = history.filter((item) =>
@@ -90,11 +91,25 @@ export const HistorySidebar = ({ history, onSelect, selectedId }: HistorySidebar
                   </p>
                 </div>
                 
-                <ChevronRight className={`w-4 h-4 mt-2.5 transition-all duration-300 ${
-                    selectedId === item.id 
-                        ? 'text-emerald-500 opacity-100 translate-x-0' 
-                        : 'text-gray-700 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'
-                }`} />
+                <div className="flex flex-col items-center gap-1 mt-1 transition-all">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (confirm("¿Estás seguro de que deseas eliminar este análisis?")) {
+                        onDelete(item.id);
+                      }
+                    }}
+                    className="p-1.5 text-gray-700 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                    title="Eliminar del historial"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                  <ChevronRight className={`w-4 h-4 transition-all duration-300 ${
+                      selectedId === item.id 
+                          ? 'text-emerald-500 opacity-100 translate-x-0' 
+                          : 'text-gray-700 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'
+                  }`} />
+                </div>
               </button>
             ))}
           </div>

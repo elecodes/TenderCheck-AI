@@ -94,4 +94,33 @@ router.get("/", authMiddleware, async (req, res, next) => {
   }
 });
 
+// DELETE /api/tenders/:id
+router.delete("/:id", authMiddleware, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (!id || typeof id !== "string") {
+      res.status(400).json({ error: "Invalid ID" });
+      return;
+    }
+
+    const userId = (req as any).user?.userId;
+
+    const tender = await repository.findById(id);
+    if (!tender) {
+      res.status(404).json({ error: "Tender not found" });
+      return;
+    }
+
+    if (tender.userId !== userId) {
+      res.status(403).json({ error: "Unauthorized" });
+      return;
+    }
+
+    await repository.delete(id);
+    res.json({ status: "success", message: "Tender deleted" });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export { router as tenderRouter };

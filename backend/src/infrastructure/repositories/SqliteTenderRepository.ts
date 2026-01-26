@@ -174,4 +174,8 @@ export class SqliteTenderRepository implements ITenderRepository {
 
     return result;
   }
+
+  async delete(id: string): Promise<void> {
+    this.db.prepare("DELETE FROM tenders WHERE id = ?").run(id);
+  }
 }

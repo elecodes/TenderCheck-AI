@@ -4,4 +4,5 @@ export interface ITenderRepository {
   save(tender: TenderAnalysis): Promise<void>;
   findById(id: string): Promise<TenderAnalysis | null>;
   findByUserId(userId: string): Promise<TenderAnalysis[]>;
+  delete(id: string): Promise<void>;
 }

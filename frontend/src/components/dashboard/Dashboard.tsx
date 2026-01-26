@@ -3,8 +3,9 @@ import { SentryErrorBoundary } from '../ui/SentryErrorBoundary'
 import { TenderUpload } from './TenderUpload'
 import { AnalysisResults } from './AnalysisResults'
 import { ComparisonResults } from './ComparisonResults'
+import { ValidationSummary } from './ValidationSummary'
 import { HistorySidebar } from './HistorySidebar'
-import { uploadTender, validateProposal, fetchHistory } from '../../services/api'
+import { uploadTender, validateProposal, fetchHistory, deleteTender } from '../../services/api'
 import { getCurrentUser, logout as logoutService } from '../../services/auth.service'
 import type { TenderAnalysis, ValidationResult } from '../../types'
 import { FileText, ArrowRight, Play, LogOut, User as UserIcon } from 'lucide-react'
@@ -99,6 +100,27 @@ export const Dashboard = () => {
     }
   }
 
+  const handleDeleteHistory = async (id: string) => {
+    try {
+        await deleteTender(id);
+        const updatedHistory = await fetchHistory();
+        setHistory(updatedHistory);
+        if (analysis?.id === id) {
+            handleReset();
+        }
+    } catch (err) {
+        setError("Error al eliminar el historial");
+    }
+  }
+
+  const handleReset = () => {
+    setAnalysis(null);
+    setSelectedFile(null);
+    setSelectedProposal(null);
+    setComparisonResults(null);
+    setError(null);
+  }
+
   return (
     <SentryErrorBoundary>
       <div className="flex flex-col h-screen bg-brand-dark bg-gradient-to-br from-[#242B33] to-[#1a1f24] text-gray-100 font-sans overflow-hidden">
@@ -148,6 +170,7 @@ export const Dashboard = () => {
                     setSelectedProposal(null);
                     setError(null);
                 }}
+                onDelete={handleDeleteHistory}
                 selectedId={analysis?.id}
             />
           </aside>
@@ -230,8 +253,16 @@ export const Dashboard = () => {
                 <div className="space-y-12 pb-24">
                    <AnalysisResults 
                       analysis={analysis} 
-                      onReset={() => { setAnalysis(null); setSelectedFile(null); setSelectedProposal(null); setComparisonResults(null); }} 
+                      onReset={handleReset} 
                    />
+
+                   {/* Step 2.5: Summary Stats (if results exist) */}
+                   {((analysis.results && analysis.results.length > 0) || comparisonResults) && (
+                      <ValidationSummary 
+                        analysis={analysis} 
+                        results={comparisonResults || analysis.results || []} 
+                      />
+                   )}
                                      {/* Step 3: Show Compliance Results (if present) */}
                    {analysis.results && analysis.results.length > 0 && !comparisonResults && (
                       <div className="w-full max-w-4xl mx-auto">
@@ -290,6 +321,19 @@ export const Dashboard = () => {
                                 {!isComparing && <Play className="w-4 h-4 ml-2 fill-current" />}
                            </button>
                        </div>
+                   )}
+
+                   {/* Finalizar Button */}
+                   {comparisonResults && (
+                      <div className="flex justify-center pt-8 border-t border-gray-800/50">
+                        <button
+                          onClick={handleReset}
+                          className="px-8 py-4 bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white rounded-full font-black uppercase tracking-widest transition-all active:scale-95 border border-gray-700/50 flex items-center space-x-3"
+                        >
+                          <LogOut className="w-5 h-5 rotate-180" />
+                          <span>Finalizar y Salir</span>
+                        </button>
+                      </div>
                    )}
                 </div>
               )}
