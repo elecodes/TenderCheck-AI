@@ -132,10 +132,13 @@ export const Dashboard = () => {
             <div className="flex items-center space-x-3">
                <button 
                   onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                  className="p-2 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg transition-colors mr-2 hidden lg:flex"
+                  className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-all mr-4 hidden lg:flex items-center space-x-2 border border-transparent hover:border-gray-700"
                   title={isSidebarOpen ? "Ocultar panel" : "Mostrar panel"}
                 >
                   {isSidebarOpen ? <PanelLeftClose className="w-5 h-5" /> : <PanelLeftOpen className="w-5 h-5" />}
+                  <span className="text-xs font-bold uppercase tracking-widest px-1">
+                    {isSidebarOpen ? "Ocultar Historial" : "Ver Historial"}
+                  </span>
                 </button>
                <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center shadow-md shadow-emerald-500/20">
                  <FileText className="text-white w-5 h-5" /> 
