@@ -11,4 +11,18 @@ export interface ITenderAnalyzer {
     score: number;
     sourceQuote: string;
   }>;
+  compareBatch(
+    requirements: { id: string; text: string }[],
+    proposalText: string,
+  ): Promise<
+    Map<
+      string,
+      {
+        status: "COMPLIANT" | "NON_COMPLIANT" | "PARTIAL";
+        reasoning: string;
+        score: number;
+        sourceQuote: string;
+      }
+    >
+  >;
 }

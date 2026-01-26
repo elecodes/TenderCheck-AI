@@ -5,7 +5,8 @@ import { AppError } from "../../domain/errors/AppError.js";
 import type { ValidationResult } from "../../domain/entities/ValidationResult.js";
 import {
   MIN_JUSTIFICATION_LENGTH,
-  MIN_ITEMS_LENGTH,
+  BATCH_CHUNK_SIZE,
+  DEFAULT_CONFIDENCE_SCORE,
 } from "../../config/constants.js";
 
 export class ValidateProposal {
@@ -35,26 +36,42 @@ export class ValidateProposal {
     const results: ValidationResult[] = [];
     const requirements = tender.requirements || [];
 
-    // Limit items for performance in MVP
-    const itemsToAnalyze = requirements.slice(0, 10);
+    // Chunk size for batch processing
+    const chunks = [];
+    for (let i = 0; i < requirements.length; i += BATCH_CHUNK_SIZE) {
+      chunks.push(requirements.slice(i, i + BATCH_CHUNK_SIZE));
+    }
 
-    for (const req of itemsToAnalyze) {
-      const comparison = await this.tenderAnalyzer.compareProposal(
-        req.text,
+    console.log(
+      `Processing ${requirements.length} requirements in ${chunks.length} batches...`,
+    );
+
+    const batchPromises = chunks.map(async (chunk) => {
+      const batchResults = await this.tenderAnalyzer.compareBatch(
+        chunk.map((r) => ({ id: r.id, text: r.text })),
         proposalText,
       );
 
-      results.push({
-        requirementId: req.id,
-        status: comparison.status === "COMPLIANT" ? "MET" : "NOT_MET",
-        reasoning: comparison.reasoning,
-        confidence: comparison.score / 100,
-        evidence: {
-          text: comparison.sourceQuote || "No evidence found",
-          pageNumber: 0, // Mock page
-        },
+      return chunk.map((req) => {
+        const comparison = batchResults.get(req.id);
+        return {
+          requirementId: req.id,
+          status: (comparison?.status === "COMPLIANT" ? "MET" : "NOT_MET") as
+            | "MET"
+            | "NOT_MET",
+          reasoning: comparison?.reasoning || "Validación automática.",
+          confidence: (comparison?.score || DEFAULT_CONFIDENCE_SCORE) / 100,
+          evidence: {
+            text:
+              comparison?.sourceQuote || "No se encontró evidencia específica.",
+            pageNumber: 0,
+          },
+        };
       });
-    }
+    });
+
+    const resultsMatrix = await Promise.all(batchPromises);
+    results.push(...resultsMatrix.flat());
 
     // 4. Update Tender Entity
     // We keep the SCOPE_CHECK if it was there, but replace any previous requirement validation

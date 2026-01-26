@@ -6,7 +6,9 @@ import ollama from "ollama";
 import {
   MIN_JUSTIFICATION_LENGTH,
   OLLAMA_MAX_TOKENS,
-  OLLAMA_TIMEOUT,
+  DEFAULT_CONFIDENCE_SCORE,
+  PROPOSAL_TRUNCATE_SINGLE,
+  PROPOSAL_TRUNCATE_BATCH,
 } from "../../config/constants.js";
 
 export class OllamaModelService implements ITenderAnalyzer {
@@ -27,111 +29,38 @@ export class OllamaModelService implements ITenderAnalyzer {
         `Analyzing text with Ollama (Model: ${this.model}). Length: ${safeText.length} chars...`,
       );
 
-      const prompt = `
-        You are a smart data extractor.
-        TASK: Extract technical requirements from the text below.
-        OUTPUT: JSON ONLY.
-        SCHEMA:
-        {
-          "requirements": [
-               "text": "The extracted requirement statement", 
-               "type": "MANDATORY" (if 'must'/'shall') or "OPTIONAL" (if 'should'/'could'),
-               "keywords": ["key1", "key2"]
-             }
-          ]
-        }
-        
-        TEXT:
-        ${safeText}
-      `;
+      const prompt = `You are a smart data extractor. TASK: Extract technical requirements. OUTPUT: JSON ONLY. SCHEMA:{"requirements": [{"text": "statm", "type": "MANDATORY"/"OPTIONAL", "keywords": []}]} TEXT: ${safeText}`;
 
       const response = await ollama.chat({
         model: this.model,
         messages: [{ role: "user", content: prompt }],
         format: "json",
-        options: {
-          num_ctx: 4096,
-          temperature: 0.1,
-        },
+        options: { num_ctx: 4096, temperature: 0.1 },
       });
 
       const rawContent = response.message.content;
       console.log("Ollama Raw Response:", rawContent.substring(0, 100) + "...");
 
-      // 1. Sanitize Markdown wrappers
-      let jsonString = rawContent;
       const jsonStartIndex = rawContent.indexOf("{");
       const jsonEndIndex = rawContent.lastIndexOf("}");
-      if (jsonStartIndex !== -1 && jsonEndIndex !== -1) {
-        jsonString = rawContent.substring(jsonStartIndex, jsonEndIndex + 1);
-      }
+      const jsonString =
+        jsonStartIndex !== -1 && jsonEndIndex !== -1
+          ? rawContent.substring(jsonStartIndex, jsonEndIndex + 1)
+          : rawContent;
 
       let parsedRaw;
       try {
         parsedRaw = JSON.parse(jsonString);
-      } catch (parseError) {
-        console.error("JSON Parse Error. Falling back to empty.");
-        // Attempt to fix common JSON errors if needed, or just fail safely
+      } catch {
         parsedRaw = { requirements: [] };
       }
 
-      // 2. Normalize/Hunt for requirements array
-      // Llama 3 often nests things like {"Technical Requirements": ...} or {"Requirements": ...}
-      let foundRequirements: any[] = [];
-
-      const findArray = (obj: any): any[] | null => {
-        if (!obj) return null;
-        if (Array.isArray(obj)) return obj;
-
-        // Check common keys
-        if (Array.isArray(obj.requirements)) return obj.requirements;
-        if (Array.isArray(obj.Requirements)) return obj.Requirements;
-        if (Array.isArray(obj.technical_requirements))
-          return obj.technical_requirements;
-
-        // Recursive search in values
-        for (const key of Object.keys(obj)) {
-          if (typeof obj[key] === "object") {
-            const found = findArray(obj[key]);
-            if (found && found.length > 0) return found;
-          }
-        }
-        return null;
-      };
-
-      foundRequirements = findArray(parsedRaw) || [];
-
-      // If still empty but we have an object structure with keys, maybe convert keys to requirements?
-      // (Handling the "Yoga for Children" case seen in logs)
-      if (foundRequirements.length === 0 && typeof parsedRaw === "object") {
-        // Fallback: Treat top-level keys as requirement titles/text
-        console.log("Fallback: converting object keys to requirements");
-        Object.keys(parsedRaw).forEach((key) => {
-          const val = parsedRaw[key];
-          if (typeof val === "string") {
-            foundRequirements.push({
-              text: `${key}: ${val}`,
-              type: "MANDATORY",
-              keywords: [],
-            });
-          } else if (Array.isArray(val)) {
-            val.forEach((v) => {
-              const text = typeof v === "string" ? v : JSON.stringify(v);
-              foundRequirements.push({
-                text: `${key}: ${text}`,
-                type: "MANDATORY",
-                keywords: [],
-              });
-            });
-          }
-        });
-      }
-
+      const foundRequirements = this.extractRequirementsFromJSON(parsedRaw);
       console.log(`Extracted ${foundRequirements.length} requirements.`);
 
-      const analysis: TenderAnalysis = {
+      return {
         id: randomUUID(),
-        userId: "", // Will be overwritten by Use Case
+        userId: "",
         tenderTitle: parsedRaw?.tenderTitle || "Tender Analysis",
         status: "COMPLETED",
         createdAt: new Date(),
@@ -139,13 +68,12 @@ export class OllamaModelService implements ITenderAnalyzer {
         documentUrl: "",
         requirements: foundRequirements.map((req: any) => {
           const text = req.text || JSON.stringify(req);
-
-          // Heuristic: Auto-detect OPTIONAL if AI missed it
           let type =
             req.type === "OPTIONAL" || req.type === "Optional"
               ? "OPTIONAL"
               : "MANDATORY";
-          const optionalKeywords = [
+          const lowerText = text.toLowerCase();
+          const optionalWords = [
             "should",
             "could",
             "desirable",
@@ -155,45 +83,82 @@ export class OllamaModelService implements ITenderAnalyzer {
             "recommended",
             "nice to have",
           ];
-
-          if (type === "MANDATORY") {
-            const lowerText = text.toLowerCase();
-            if (optionalKeywords.some((k) => lowerText.includes(k))) {
-              type = "OPTIONAL";
-            }
+          if (
+            type === "MANDATORY" &&
+            optionalWords.some((k) => lowerText.includes(k))
+          ) {
+            type = "OPTIONAL";
           }
-
           return {
             id: req.id || randomUUID(),
-            text: text,
+            text,
             type: type as "MANDATORY" | "OPTIONAL",
             keywords: req.keywords || [],
-            source: {
-              pageNumber: 1,
-              snippet: text.slice(0, 100),
-            },
-            confidence: 0.85,
+            source: { pageNumber: 1, snippet: text.slice(0, 100) },
+            confidence: DEFAULT_CONFIDENCE_SCORE / 100,
           };
         }),
         results: [],
       };
-
-      return analysis;
     } catch (error: any) {
       console.error("Ollama Critical Error:", error);
-      // Safe Fallback prevents 500
-      return {
-        id: randomUUID(),
-        userId: "",
-        tenderTitle: "Error: AI Service Unavailable",
-        status: "COMPLETED",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        documentUrl: "",
-        requirements: [],
-        results: [],
-      };
+      return this.emptyAnalysis("Error: AI Service Unavailable");
     }
+  }
+
+  private extractRequirementsFromJSON(obj: any): any[] {
+    const findArray = (o: any): any[] | null => {
+      if (!o) return null;
+      if (Array.isArray(o)) return o;
+      if (Array.isArray(o.requirements)) return o.requirements;
+      if (Array.isArray(o.Requirements)) return o.Requirements;
+      if (Array.isArray(o.technical_requirements))
+        return o.technical_requirements;
+      for (const key of Object.keys(o)) {
+        if (typeof o[key] === "object") {
+          const found = findArray(o[key]);
+          if (found && found.length > 0) return found;
+        }
+      }
+      return null;
+    };
+
+    const found = findArray(obj) || [];
+    if (found.length === 0 && typeof obj === "object") {
+      Object.keys(obj).forEach((key) => {
+        const val = obj[key];
+        if (typeof val === "string")
+          found.push({
+            text: `${key}: ${val}`,
+            type: "MANDATORY",
+            keywords: [],
+          });
+        else if (Array.isArray(val)) {
+          val.forEach((v) =>
+            found.push({
+              text: `${key}: ${typeof v === "string" ? v : JSON.stringify(v)}`,
+              type: "MANDATORY",
+              keywords: [],
+            }),
+          );
+        }
+      });
+    }
+    return found;
+  }
+
+  private emptyAnalysis(title: string): TenderAnalysis {
+    return {
+      id: randomUUID(),
+      userId: "",
+      tenderTitle: title,
+      status: "COMPLETED",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      documentUrl: "",
+      requirements: [],
+      results: [],
+    };
   }
 
   async compareProposal(
@@ -207,35 +172,14 @@ export class OllamaModelService implements ITenderAnalyzer {
   }> {
     try {
       // Truncate proposal text to avoid context window issues
-      const safeProposalText = proposalText.slice(0, 3000); 
+      const safeProposalText = proposalText.slice(0, PROPOSAL_TRUNCATE_SINGLE);
 
-      const prompt = `
-        TASK: Compare a Tender Requirement against a Vendor Proposal.
-        DETERMINE: If the proposal meets the requirement.
-        
-        REQUIREMENT:
-        "${requirementText}"
-        
-        PROPOSAL EXCERPT:
-        "${safeProposalText}"
-        
-        OUTPUT FORMAT: JSON ONLY
-        {
-          "status": "COMPLIANT" | "NON_COMPLIANT" | "PARTIAL",
-          "reasoning": "Short explanation in Spanish of why it meets or fails",
-          "score": 0-100 (confidence),
-          "sourceQuote": "Snippet from the PROPOSAL that proves compliance"
-        }
-      `;
-
+      const prompt = `Compare Tender Requirement: "${requirementText}" against Proposal Excerpt: "${safeProposalText}". OUTPUT JSON: {"status": "COMPLIANT"|"NON_COMPLIANT"|"PARTIAL", "reasoning": "esp", "score": 0-100, "sourceQuote": "..."}`;
       const response = await ollama.chat({
         model: this.model,
         messages: [{ role: "user", content: prompt }],
         format: "json",
-        options: {
-          num_ctx: 4096,
-          temperature: 0.1,
-        },
+        options: { num_ctx: 4096, temperature: 0.1 },
       });
 
       const parsed = JSON.parse(response.message.content);
@@ -243,17 +187,89 @@ export class OllamaModelService implements ITenderAnalyzer {
       return {
         status: parsed.status || "COMPLIANT",
         reasoning: parsed.reasoning || "Cumplimiento validado por IA.",
-        score: parsed.score || 85,
+        score: parsed.score || DEFAULT_CONFIDENCE_SCORE,
         sourceQuote: parsed.sourceQuote || "",
       };
     } catch (error) {
       console.error("Comparison Error:", error);
       return {
         status: "COMPLIANT",
-        score: 50,
-        reasoning: "Validación automática realizada. Por favor revise manualmente.",
+        score: DEFAULT_CONFIDENCE_SCORE / 2,
+        reasoning:
+          "Validación automática realizada. Por favor revise manualmente.",
         sourceQuote: "",
       };
+    }
+  }
+
+  async compareBatch(
+    requirements: { id: string; text: string }[],
+    proposalText: string,
+  ): Promise<
+    Map<
+      string,
+      {
+        status: "COMPLIANT" | "NON_COMPLIANT" | "PARTIAL";
+        reasoning: string;
+        score: number;
+        sourceQuote: string;
+      }
+    >
+  > {
+    const results = new Map();
+    try {
+      // Use larger context for batch processing
+      const safeProposalText = proposalText.slice(0, PROPOSAL_TRUNCATE_BATCH);
+
+      const reqList = requirements
+        .map((r) => `[ID: ${r.id}] ${r.text}`)
+        .join("\n");
+
+      const prompt = `Compare Requirements: ${reqList} against Proposal: "${safeProposalText}". OUTPUT JSON: {"validations": [{"id": "id", "status": "COMPLIANT"|"NON_COMPLIANT"|"PARTIAL", "reasoning": "esp", "score": 0-100, "sourceQuote": "..."}]}`;
+      const response = await ollama.chat({
+        model: this.model,
+        messages: [{ role: "user", content: prompt }],
+        format: "json",
+        options: { num_ctx: 8192, temperature: 0.1 },
+      });
+
+      const parsed = JSON.parse(response.message.content);
+      const validations = parsed.validations || [];
+
+      validations.forEach((v: any) => {
+        results.set(v.id, {
+          status: v.status || "COMPLIANT",
+          reasoning: v.reasoning || "Validado mediante lote por IA.",
+          score: v.score || DEFAULT_CONFIDENCE_SCORE,
+          sourceQuote: v.sourceQuote || "",
+        });
+      });
+
+      // Fill missing with defaults if AI skipped any
+      requirements.forEach((r) => {
+        if (!results.has(r.id)) {
+          results.set(r.id, {
+            status: "COMPLIANT",
+            score: DEFAULT_CONFIDENCE_SCORE / 2,
+            reasoning:
+              "No se pudo procesar en lote. Por favor revise manualmente.",
+            sourceQuote: "",
+          });
+        }
+      });
+
+      return results;
+    } catch (error) {
+      console.error("Batch Comparison Error:", error);
+      requirements.forEach((r) =>
+        results.set(r.id, {
+          status: "COMPLIANT",
+          score: DEFAULT_CONFIDENCE_SCORE / 2,
+          reasoning: "Error en procesamiento por lotes.",
+          sourceQuote: "",
+        }),
+      );
+      return results;
     }
   }
 }

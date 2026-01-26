@@ -7,6 +7,8 @@ import { OllamaModelService } from "../src/infrastructure/services/OllamaModelSe
 import jwt from "jsonwebtoken";
 import { JWT_SECRET_FALLBACK } from "../src/config/constants.js";
 
+import { SqliteDatabase } from "../src/infrastructure/database/SqliteDatabase.js";
+
 const generateTestToken = () => {
   return jwt.sign(
     { userId: "test-user-id", email: "test@example.com" },
@@ -22,6 +24,11 @@ describe("Integration: POST /api/tenders/analyze", () => {
 
   it("should upload a PDF, extract requirements, and return 201", async () => {
     const token = generateTestToken();
+    const db = SqliteDatabase.getInstance();
+
+    // Ensure user exists due to FK constraint
+    db.prepare("INSERT OR IGNORE INTO users (id, email, password_hash, name) VALUES (?, ?, ?, ?)")
+      .run("test-user-id", "test@example.com", "hash", "Test User");
 
     // Spy on the real PdfParserAdapter to return fake text without needing a real PDF
     const parseSpy = vi

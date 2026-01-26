@@ -22,6 +22,10 @@ export const OPENAI_TIMEOUT = 50000;
 export const OPENAI_MAX_RETRIES = 4;
 export const OPENAI_MATCH_THRESHOLD = 50; //%
 export const MIN_WORD_LENGTH = 4;
+export const DEFAULT_CONFIDENCE_SCORE = 85;
+export const PROPOSAL_TRUNCATE_SINGLE = 3000;
+export const PROPOSAL_TRUNCATE_BATCH = 5000;
+export const BATCH_CHUNK_SIZE = 5;
 
 export const HTTP_STATUS = {
   OK: 200,
