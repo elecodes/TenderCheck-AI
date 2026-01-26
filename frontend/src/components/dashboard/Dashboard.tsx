@@ -126,9 +126,11 @@ export const Dashboard = () => {
                 history={history} 
                 onSelect={(item) => {
                     setAnalysis(item);
-                    setComparisonResults(null);
+                    // Sync comparison results if they exist in the item
+                    setComparisonResults(item.results && item.results.length > 0 ? item.results : null);
                     setSelectedFile(null);
                     setSelectedProposal(null);
+                    setError(null);
                 }}
                 selectedId={analysis?.id}
             />
@@ -210,12 +212,25 @@ export const Dashboard = () => {
                       analysis={analysis} 
                       onReset={() => { setAnalysis(null); setSelectedFile(null); setSelectedProposal(null); setComparisonResults(null); }} 
                    />
+                                     {/* Step 3: Show Compliance Results (if present) */}
+                   {analysis.results && analysis.results.length > 0 && !comparisonResults && (
+                      <div className="w-full max-w-4xl mx-auto">
+                        <ComparisonResults results={analysis.results} />
+                      </div>
+                   )}
+
+                   {comparisonResults && (
+                      <div className="w-full max-w-4xl mx-auto">
+                        <ComparisonResults results={comparisonResults} />
+                      </div>
+                   )}
                    
-                   {!comparisonResults ? (
+                   {/* Step 4: If no results found yet (or we want to allow re-check), show Upload Oferta */}
+                   {(!comparisonResults && (!analysis.results || analysis.results.length === 0)) && (
                        <div className="w-full max-w-4xl mx-auto bg-white dark:bg-gray-900/50 rounded-2xl border border-gray-200 dark:border-gray-800 p-8 shadow-xl text-center space-y-6">
-                           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Ready to Validate Proposal?</h2>
+                           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">¿Listo para validar la oferta?</h2>
                            <p className="text-gray-500 dark:text-gray-400 text-lg">
-                              You have extracted the requirements. Now, upload the "Oferta" document to check for compliance.
+                               Ya has extraído los requisitos. Ahora, sube el documento de la "Oferta" para comprobar el cumplimiento.
                            </p>
                            
                            <div className="max-w-md mx-auto">
@@ -223,7 +238,7 @@ export const Dashboard = () => {
                                     onFileSelect={handleProposalSelect} 
                                     selectedFile={selectedProposal}
                                     disabled={isComparing} 
-                                    label="Upload Oferta"
+                                    label="Subir Oferta"
                                     variant="oferta"
                                />
                            </div>
@@ -234,18 +249,14 @@ export const Dashboard = () => {
                                 className={`
                                   mt-4 px-8 py-3 rounded-full font-semibold text-lg transition-colors flex items-center space-x-2 mx-auto
                                   ${!selectedProposal || isComparing
-                                     ? 'bg-gray-200 dark:bg-gray-800 text-gray-400 cursor-not-allowed' 
+                                     ? 'bg-gray-800 text-gray-600 cursor-not-allowed' 
                                      : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg'
                                   }
                                 `}
                            >
-                                {isComparing ? 'Comparing...' : 'Run Compliance Check'}
+                                {isComparing ? 'Comparando...' : 'Ejecutar Comprobación'}
                                 {!isComparing && <Play className="w-4 h-4 ml-2 fill-current" />}
                            </button>
-                       </div>
-                   ) : (
-                       <div className="w-full max-w-4xl mx-auto">
-                           <ComparisonResults results={comparisonResults} />
                        </div>
                    )}
                 </div>
