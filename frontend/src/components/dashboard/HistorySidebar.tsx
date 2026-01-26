@@ -52,10 +52,18 @@ export const HistorySidebar = ({ history, onSelect, onDelete, selectedId }: Hist
         ) : (
           <div className="px-3 space-y-1">
             {filteredHistory.map((item) => (
-              <button
+              <div
                 key={item.id}
                 onClick={() => onSelect(item)}
-                className={`w-full p-3.5 text-left rounded-xl transition-all duration-300 flex items-start group relative overflow-hidden ${
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onSelect(item);
+                  }
+                }}
+                role="button"
+                tabIndex={0}
+                className={`w-full p-3.5 text-left rounded-xl transition-all duration-300 flex items-start group relative overflow-hidden cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50 ${
                   selectedId === item.id 
                     ? "bg-emerald-500/10 ring-1 ring-emerald-500/30 shadow-lg shadow-emerald-500/5" 
                     : "hover:bg-gray-800/40 border-transparent hover:border-gray-700/50"
@@ -110,7 +118,7 @@ export const HistorySidebar = ({ history, onSelect, onDelete, selectedId }: Hist
                           : 'text-gray-700 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'
                   }`} />
                 </div>
-              </button>
+              </div>
             ))}
           </div>
         )}
