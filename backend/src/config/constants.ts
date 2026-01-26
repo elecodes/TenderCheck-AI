@@ -16,7 +16,7 @@ export const MIN_JUSTIFICATION_LENGTH = 10;
 export const MIN_ITEMS_LENGTH = 5;
 
 // AI / LLM Constants
-export const OLLAMA_TIMEOUT = 50; // seconds? or ms? Context implies.
+export const OLLAMA_TIMEOUT = 600000; // 10 minutes (ms)
 export const OLLAMA_MAX_TOKENS = 4000;
 export const OPENAI_TIMEOUT = 50000;
 export const OPENAI_MAX_RETRIES = 4;
@@ -26,6 +26,7 @@ export const DEFAULT_CONFIDENCE_SCORE = 85;
 export const PROPOSAL_TRUNCATE_SINGLE = 3000;
 export const PROPOSAL_TRUNCATE_BATCH = 5000;
 export const BATCH_CHUNK_SIZE = 5;
+export const MAX_AI_CONCURRENCY = 2;
 
 export const HTTP_STATUS = {
   OK: 200,

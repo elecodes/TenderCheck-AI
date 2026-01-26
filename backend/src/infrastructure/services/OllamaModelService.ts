@@ -2,10 +2,12 @@ import { AppError } from "../../domain/errors/AppError.js";
 import type { ITenderAnalyzer } from "../../domain/interfaces/ITenderAnalyzer.js";
 import type { TenderAnalysis } from "../../domain/entities/TenderAnalysis.js";
 import { randomUUID } from "crypto";
-import ollama from "ollama";
+import { Ollama } from "ollama";
+import { Agent, fetch } from "undici";
 import {
   MIN_JUSTIFICATION_LENGTH,
   OLLAMA_MAX_TOKENS,
+  OLLAMA_TIMEOUT,
   DEFAULT_CONFIDENCE_SCORE,
   PROPOSAL_TRUNCATE_SINGLE,
   PROPOSAL_TRUNCATE_BATCH,
@@ -13,9 +15,20 @@ import {
 
 export class OllamaModelService implements ITenderAnalyzer {
   private model: string;
+  private ollama: Ollama;
 
   constructor() {
     this.model = process.env.OLLAMA_MODEL || "llama3";
+    this.ollama = new Ollama({
+      fetch: (url: any, options: any) =>
+        fetch(url, {
+          ...options,
+          dispatcher: new Agent({
+            headersTimeout: OLLAMA_TIMEOUT,
+            bodyTimeout: OLLAMA_TIMEOUT,
+          }),
+        }) as any,
+    });
   }
 
   async analyze(text: string): Promise<TenderAnalysis> {
@@ -31,7 +44,7 @@ export class OllamaModelService implements ITenderAnalyzer {
 
       const prompt = `You are a smart data extractor. TASK: Extract technical requirements. OUTPUT: JSON ONLY. SCHEMA:{"requirements": [{"text": "statm", "type": "MANDATORY"/"OPTIONAL", "keywords": []}]} TEXT: ${safeText}`;
 
-      const response = await ollama.chat({
+      const response = await this.ollama.chat({
         model: this.model,
         messages: [{ role: "user", content: prompt }],
         format: "json",
@@ -175,7 +188,7 @@ export class OllamaModelService implements ITenderAnalyzer {
       const safeProposalText = proposalText.slice(0, PROPOSAL_TRUNCATE_SINGLE);
 
       const prompt = `Compare Tender Requirement: "${requirementText}" against Proposal Excerpt: "${safeProposalText}". OUTPUT JSON: {"status": "COMPLIANT"|"NON_COMPLIANT"|"PARTIAL", "reasoning": "esp", "score": 0-100, "sourceQuote": "..."}`;
-      const response = await ollama.chat({
+      const response = await this.ollama.chat({
         model: this.model,
         messages: [{ role: "user", content: prompt }],
         format: "json",
@@ -226,7 +239,7 @@ export class OllamaModelService implements ITenderAnalyzer {
         .join("\n");
 
       const prompt = `Compare Requirements: ${reqList} against Proposal: "${safeProposalText}". OUTPUT JSON: {"validations": [{"id": "id", "status": "COMPLIANT"|"NON_COMPLIANT"|"PARTIAL", "reasoning": "esp", "score": 0-100, "sourceQuote": "..."}]}`;
-      const response = await ollama.chat({
+      const response = await this.ollama.chat({
         model: this.model,
         messages: [{ role: "user", content: prompt }],
         format: "json",

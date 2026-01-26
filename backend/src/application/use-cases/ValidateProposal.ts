@@ -7,6 +7,7 @@ import {
   MIN_JUSTIFICATION_LENGTH,
   BATCH_CHUNK_SIZE,
   DEFAULT_CONFIDENCE_SCORE,
+  MAX_AI_CONCURRENCY,
 } from "../../config/constants.js";
 
 export class ValidateProposal {
@@ -43,35 +44,54 @@ export class ValidateProposal {
     }
 
     console.log(
-      `Processing ${requirements.length} requirements in ${chunks.length} batches...`,
+      `Processing ${requirements.length} requirements in ${chunks.length} batches (Concurrency: ${MAX_AI_CONCURRENCY})...`,
     );
 
-    const batchPromises = chunks.map(async (chunk) => {
-      const batchResults = await this.tenderAnalyzer.compareBatch(
-        chunk.map((r) => ({ id: r.id, text: r.text })),
-        proposalText,
+    const allValidationResults: ValidationResult[] = [];
+
+    // Controlled concurrency processing
+    for (let i = 0; i < chunks.length; i += MAX_AI_CONCURRENCY) {
+      const currentBatchWindow = chunks.slice(i, i + MAX_AI_CONCURRENCY);
+      console.log(
+        `Starting batch group ${Math.floor(i / MAX_AI_CONCURRENCY) + 1}/${Math.ceil(chunks.length / MAX_AI_CONCURRENCY)}...`,
       );
 
-      return chunk.map((req) => {
-        const comparison = batchResults.get(req.id);
-        return {
-          requirementId: req.id,
-          status: (comparison?.status === "COMPLIANT" ? "MET" : "NOT_MET") as
-            | "MET"
-            | "NOT_MET",
-          reasoning: comparison?.reasoning || "Validación automática.",
-          confidence: (comparison?.score || DEFAULT_CONFIDENCE_SCORE) / 100,
-          evidence: {
-            text:
-              comparison?.sourceQuote || "No se encontró evidencia específica.",
-            pageNumber: 0,
-          },
-        };
-      });
-    });
+      const batchPromises = currentBatchWindow.map(
+        async (chunk, windowIndex) => {
+          const batchResults = await this.tenderAnalyzer.compareBatch(
+            chunk.map((r) => ({ id: r.id, text: r.text })),
+            proposalText,
+          );
 
-    const resultsMatrix = await Promise.all(batchPromises);
-    results.push(...resultsMatrix.flat());
+          console.log(
+            `  - Completed batch ${i + windowIndex + 1}/${chunks.length}`,
+          );
+
+          return chunk.map((req) => {
+            const comparison = batchResults.get(req.id);
+            return {
+              requirementId: req.id,
+              status: (comparison?.status === "COMPLIANT"
+                ? "MET"
+                : "NOT_MET") as "MET" | "NOT_MET",
+              reasoning: comparison?.reasoning || "Validación automática.",
+              confidence: (comparison?.score || DEFAULT_CONFIDENCE_SCORE) / 100,
+              evidence: {
+                text:
+                  comparison?.sourceQuote ||
+                  "No se encontró evidencia específica.",
+                pageNumber: 0,
+              },
+            };
+          });
+        },
+      );
+
+      const resultsMatrix = await Promise.all(batchPromises);
+      allValidationResults.push(...resultsMatrix.flat());
+    }
+
+    results.push(...allValidationResults);
 
     // 4. Update Tender Entity
     // We keep the SCOPE_CHECK if it was there, but replace any previous requirement validation

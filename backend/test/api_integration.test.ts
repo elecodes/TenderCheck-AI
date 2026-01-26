@@ -27,8 +27,9 @@ describe("Integration: POST /api/tenders/analyze", () => {
     const db = SqliteDatabase.getInstance();
 
     // Ensure user exists due to FK constraint
-    db.prepare("INSERT OR IGNORE INTO users (id, email, password_hash, name) VALUES (?, ?, ?, ?)")
-      .run("test-user-id", "test@example.com", "hash", "Test User");
+    db.prepare(
+      "INSERT OR IGNORE INTO users (id, email, password_hash, name) VALUES (?, ?, ?, ?)",
+    ).run("test-user-id", "test@example.com", "hash", "Test User");
 
     // Spy on the real PdfParserAdapter to return fake text without needing a real PDF
     const parseSpy = vi
