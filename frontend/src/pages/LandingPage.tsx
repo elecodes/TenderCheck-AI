@@ -13,7 +13,7 @@ export const LandingPage: React.FC = () => {
       <div className="absolute bottom-[-10%] right-[-10%] w-[800px] h-[800px] bg-[#D4AF37]/15 rounded-full blur-[120px] pointer-events-none mix-blend-overlay" />
 
       {/* Hero Section */}
-      <main className="pt-32 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center text-center relative z-10">
+      <main className="pt-32 pb-48 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center text-center relative z-10">
         
         {/* Logo/Badge */}
         <div className="mb-12 opacity-80">
