@@ -1,0 +1,8 @@
+title: TenderCheck AI
+emoji: 📄
+colorFrom: blue
+colorTo: green
+sdk: docker
+pinned: false
+hardware: gpu-t4-small
+app_port: 3000
