@@ -8,7 +8,9 @@ La implementación integra controles de calidad automatizados:
 - **Pre-Commit (Husky)**: Ejecuta `lint` y `test` para asegurar la calidad del código.
 - **Pre-Push (Husky)**: Ejecuta `snyk test` para prevenir la subida de dependencias vulnerables.
 - **Observabilidad**: Instrumentación con Sentry en capas Frontend y Backend.
-- **Frontend**: React + Vite + TailwindCSS (Interfaz de Usuario Reactiva).
+- **Frontend**: React + Vite + TailwindCSS (Interfaz completamente localizada al **Español**).
+    - **Accesibilidad**: Cumplimiento WCAG 2.1 AA (Navegación por teclado, anillos de foco visibles, tamaño de texto legible en móvil).
+    - **Seguridad**: Prevención de enumeración de usuarios mediante mensajes de error genéricos en formularios de autenticación.
 - **Backend**: Node.js + Express + TypeScript (API REST).
 - **IA**: Ollama (Mistral) para inferencia local con **búsqueda vectorial** (nomic-embed-text, 768 dimensiones).
 - **Base de Datos**: Persistencia relacional mediante **SQLite** (`better-sqlite3`) con almacenamiento de **embeddings vectoriales** (BLOB), garantizando que los análisis no se pierdan al cerrar la sesión.
