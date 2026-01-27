@@ -1,17 +1,16 @@
 #!/bin/bash
-set -e
 
-# Start Ollama in background
-echo "Starting Ollama..."
-ollama serve &
+# Start Ollama in background, redirecting output to prevent blocking
+echo "Starting Ollama (Silenced)..."
+ollama serve > /dev/null 2>&1 &
 
-# Wait for Ollama to be ready (optional check, or just sleep)
-echo "Waiting 5s for Ollama to initialize..."
+# Wait for Ollama to initialize
+echo "Waiting 5s for Ollama..."
 sleep 5
 
 # Start Backend
 echo "Starting Backend Application..."
 cd backend
-# Explicitly set PORT to ensure it matches EXPOSE
 export PORT=7860
-npm start
+# Use exec to replace shell with node process
+exec npm start
