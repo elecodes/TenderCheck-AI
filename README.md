@@ -73,7 +73,8 @@ This project follows **Clean Architecture** principles to ensure separation of c
 │   │   │       ├── CreateTender.ts
 │   │   │       └── ValidateProposal.ts
 │   │   ├── config
-│   │   │   └── constants.ts
+│   │   │   ├── constants.ts
+│   │   │   └── genkit.config.ts
 │   │   ├── domain
 │   │   │   ├── entities
 │   │   │   │   ├── ComparisonResult.ts
@@ -103,6 +104,7 @@ This project follows **Clean Architecture** principles to ensure separation of c
 │   │   │   ├── adapters
 │   │   │   │   └── PdfParserAdapter.ts
 │   │   │   ├── config
+│   │   │   │   └── genkit-telemetry.ts
 │   │   │   ├── database
 │   │   │   │   ├── SqliteDatabase.ts
 │   │   │   │   └── schema.sql
@@ -117,7 +119,9 @@ This project follows **Clean Architecture** principles to ensure separation of c
 │   │   │   ├── schemas
 │   │   │   │   └── LLMSchemas.ts
 │   │   │   ├── services
-│   │   │   │   └── OllamaModelService.ts
+│   │   │   │   ├── MistralGenkitService.ts
+│   │   │   │   ├── OllamaModelService.ts
+│   │   │   │   └── VectorSearchService.ts
 │   │   │   └── utils
 │   │   │       └── safeExecute.ts
 │   │   └── presentation
@@ -154,6 +158,7 @@ This project follows **Clean Architecture** principles to ensure separation of c
 │   │   ├── 006-ui-theme-routing.md
 │   │   ├── 007-security-hardening.md
 │   │   ├── 008-local-sql-persistence.md
+│   │   ├── 009-vector-search-performance.md
 │   │   └── README.md
 │   ├── architecture
 │   │   └── mcp_feasibility_study.md
