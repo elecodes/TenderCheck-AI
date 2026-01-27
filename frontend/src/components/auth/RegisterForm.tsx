@@ -41,8 +41,8 @@ export function RegisterForm() {
     try {
       await authRegister(data.name, data.email, data.password, data.company);
       navigate('/dashboard');
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Error en el registro');
+      // Security: Always show generic error to prevent user enumeration
+      setError('No se pudo crear la cuenta. Verifique sus datos.');
     } finally {
       setIsLoading(false);
     }

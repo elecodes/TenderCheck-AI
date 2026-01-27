@@ -40,7 +40,8 @@ export function LoginForm() {
       await login(data.email, data.password);
       navigate('/dashboard');
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Credenciales inválidas');
+      // Security: Always return generic error
+      setError('Credenciales inválidas');
     } finally {
       setIsLoading(false);
     }
