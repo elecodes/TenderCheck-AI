@@ -7,14 +7,14 @@ import { Eye, EyeOff, Lock, Mail, User, Building, ArrowRight } from 'lucide-reac
 import { Link, useNavigate } from 'react-router-dom';
 
 const registerSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid work email'),
+  name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
+  email: z.string().email('Por favor introduce un email válido'),
   company: z.string().optional(),
   password: z.string()
-    .min(8, 'Password must be at least 8 characters')
-    .regex(/[A-Z]/, 'One uppercase letter required')
-    .regex(/[0-9]/, 'One number required')
-    .regex(/[^a-zA-Z0-9]/, 'One special character required'),
+    .min(8, 'La contraseña debe tener al menos 8 caracteres')
+    .regex(/[A-Z]/, 'Se requiere una mayúscula')
+    .regex(/[0-9]/, 'Se requiere un número')
+    .regex(/[^a-zA-Z0-9]/, 'Se requiere un carácter especial'),
 });
 
 type RegisterFormData = z.infer<typeof registerSchema>;
@@ -42,7 +42,7 @@ export function RegisterForm() {
       await authRegister(data.name, data.email, data.password, data.company);
       navigate('/dashboard');
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Registration failed');
+      setError(err instanceof Error ? err.message : 'Error en el registro');
     } finally {
       setIsLoading(false);
     }
@@ -51,8 +51,8 @@ export function RegisterForm() {
   return (
     <div className="w-full max-w-md p-8 space-y-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl animate-in fade-in slide-in-from-right-10 duration-500">
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-serif text-white tracking-tight">Create Account</h1>
-        <p className="text-emerald-100/60 font-light">Join the elite standard in public tender analysis</p>
+        <h1 className="text-3xl font-serif text-white tracking-tight">Crear Cuenta</h1>
+        <p className="text-emerald-100/60 font-light">Únete al estándar de élite en análisis de licitaciones públicas</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -64,7 +64,7 @@ export function RegisterForm() {
 
         <div className="space-y-2">
           <label htmlFor="name" className="block text-xs font-medium uppercase tracking-widest text-emerald-100/50">
-            Full Name
+            Nombre Completo
           </label>
           <div className="relative group">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-100/30 group-focus-within:text-emerald-400 transition-colors">
@@ -84,7 +84,7 @@ export function RegisterForm() {
 
         <div className="space-y-2">
           <label htmlFor="email" className="block text-xs font-medium uppercase tracking-widest text-emerald-100/50">
-            Work Email
+            Correo Electrónico
           </label>
           <div className="relative group">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-100/30 group-focus-within:text-emerald-400 transition-colors">
@@ -104,7 +104,7 @@ export function RegisterForm() {
 
         <div className="space-y-2">
           <label htmlFor="company" className="block text-xs font-medium uppercase tracking-widest text-emerald-100/50">
-            Company (Optional)
+            Empresa (Opcional)
           </label>
           <div className="relative group">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-100/30 group-focus-within:text-emerald-400 transition-colors">
@@ -113,7 +113,7 @@ export function RegisterForm() {
             <input
               id="company"
               type="text"
-              placeholder="Organization Name"
+              placeholder="Nombre de la Organización"
               className="block w-full pl-10 pr-3 py-3 bg-white/5 border border-white/10 rounded-lg text-emerald-50 placeholder-emerald-100/20 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500/50 transition-all"
               {...register('company')}
             />
@@ -122,7 +122,7 @@ export function RegisterForm() {
 
         <div className="space-y-2">
           <label htmlFor="password" className="block text-xs font-medium uppercase tracking-widest text-emerald-100/50">
-            Password
+            Contraseña
           </label>
           <div className="relative group">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-100/30 group-focus-within:text-emerald-400 transition-colors">
@@ -150,13 +150,13 @@ export function RegisterForm() {
           {/* Password Requirements Hint */}
           <div className="mt-2 p-3 rounded-lg bg-emerald-900/20 border border-emerald-500/10">
              <p className="text-[10px] uppercase tracking-wider font-semibold text-emerald-100/50 mb-1">
-               Password Requirements:
+               Requisitos de la Contraseña:
              </p>
              <ul className="text-xs text-emerald-100/40 space-y-0.5 list-disc pl-3">
-               <li>At least 8 characters</li>
-               <li>One uppercase letter (A-Z)</li>
-               <li>One number (0-9)</li>
-               <li>One special character (!@#$...)</li>
+               <li>Al menos 8 caracteres</li>
+               <li>Una letra mayúscula (A-Z)</li>
+               <li>Un número (0-9)</li>
+               <li>Un carácter especial (!@#$...)</li>
              </ul>
           </div>
         </div>
@@ -169,20 +169,20 @@ export function RegisterForm() {
           {isLoading ? (
              <div className="flex items-center gap-2">
                <div className="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
-               Creating Account...
+               Creando Cuenta...
              </div>
           ) : (
             <div className="flex items-center gap-2">
-              Create Account <ArrowRight className="h-4 w-4" />
+              Crear Cuenta <ArrowRight className="h-4 w-4" />
             </div>
           )}
         </button>
       </form>
       
       <div className="text-center text-sm">
-        <span className="text-emerald-100/40">Already have an account? </span>
+        <span className="text-emerald-100/40">¿Ya tienes una cuenta? </span>
         <Link to="/login" className="font-medium text-amber-500 hover:text-amber-400 transition-colors">
-          Log in
+          Iniciar sesión
         </Link>
       </div>
     </div>

@@ -7,12 +7,12 @@ import { Eye, EyeOff, Lock, Mail, ArrowRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const loginSchema = z.object({
-  email: z.string().email('Please enter a valid work email'),
+  email: z.string().email('Por favor introduce un email válido'),
   password: z.string()
-    .min(8, 'Password must be at least 8 characters')
-    .regex(/[A-Z]/, 'One uppercase letter required')
-    .regex(/[0-9]/, 'One number required')
-    .regex(/[^a-zA-Z0-9]/, 'One special character required'),
+    .min(8, 'La contraseña debe tener al menos 8 caracteres')
+    .regex(/[A-Z]/, 'Se requiere una mayúscula')
+    .regex(/[0-9]/, 'Se requiere un número')
+    .regex(/[^a-zA-Z0-9]/, 'Se requiere un carácter especial'),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -40,7 +40,7 @@ export function LoginForm() {
       await login(data.email, data.password);
       navigate('/dashboard');
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Invalid credentials');
+      setError(err instanceof Error ? err.message : 'Credenciales inválidas');
     } finally {
       setIsLoading(false);
     }
@@ -49,7 +49,7 @@ export function LoginForm() {
   return (
     <div className="w-full max-w-md p-8 space-y-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-300">
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-serif text-white tracking-tight">Welcome back</h1>
+        <h1 className="text-3xl font-serif text-white tracking-tight">Bienvenido de nuevo</h1>
         <p className="text-emerald-100/60 font-light">TenderCheck AI Enterprise</p>
       </div>
 
@@ -62,7 +62,7 @@ export function LoginForm() {
 
         <div className="space-y-2">
           <label htmlFor="email" className="block text-xs font-medium uppercase tracking-widest text-emerald-100/50">
-            Work Email
+            Correo Electrónico
           </label>
           <div className="relative group">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-100/30 group-focus-within:text-emerald-400 transition-colors">
@@ -87,9 +87,9 @@ export function LoginForm() {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <label htmlFor="password" className="block text-xs font-medium uppercase tracking-widest text-emerald-100/50">
-              Password
+              Contraseña
             </label>
-            <button type="button" className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">Forgot password?</button>
+            <button type="button" className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">¿Olvidaste tu contraseña?</button>
           </div>
           <div className="relative group">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-100/30 group-focus-within:text-emerald-400 transition-colors">
@@ -127,20 +127,20 @@ export function LoginForm() {
           {isLoading ? (
             <div className="flex items-center gap-2">
                <div className="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
-               Signing in...
+               Iniciando sesión...
             </div>
           ) : (
             <div className="flex items-center gap-2">
-               Sign In <ArrowRight className="h-4 w-4" />
+               Iniciar Sesión <ArrowRight className="h-4 w-4" />
             </div>
           )}
         </button>
       </form>
       
       <div className="text-center text-sm">
-        <span className="text-emerald-100/40">Don't have an account? </span>
+        <span className="text-emerald-100/40">¿No tienes una cuenta? </span>
         <Link to="/register" className="font-medium text-emerald-400 hover:text-emerald-300 transition-colors">
-          Create Account
+          Crear Cuenta
         </Link>
       </div>
     </div>
