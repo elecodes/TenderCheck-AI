@@ -15,3 +15,8 @@ build
 .env
 .pre-commit-config.yaml
 backend/.env
+
+# Hugging Face specific
+.huggingface/.cache/
+*.sqlite*
+*.db*
