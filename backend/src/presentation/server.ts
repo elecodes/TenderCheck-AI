@@ -58,9 +58,28 @@ app.get("/health", (req, res) => {
 import { globalErrorHandler } from "../infrastructure/middleware/errorHandler.js";
 import { tenderRouter } from "./routes/TenderRoutes.js";
 import authRouter from "./routes/AuthRoutes.js";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Core API Routes
 app.use("/api/tenders", tenderRouter);
 app.use("/api/auth", authRouter);
+
+// Serve Frontend Static Files (Production/Docker)
+// In Docker: /app/backend/dist/presentation/server.js -> ../../../frontend/dist
+const frontendPath = join(__dirname, "../../../frontend/dist");
+app.use(express.static(frontendPath));
+
+// SPA Fallback: Send index.html for any unknown non-API route
+app.get("*", (req, res, next) => {
+  if (req.path.startsWith("/api")) {
+    return next();
+  }
+  res.sendFile(join(frontendPath, "index.html"));
+});
 
 // Sentry: Manual Capture Middleware before global handler
 app.use(
