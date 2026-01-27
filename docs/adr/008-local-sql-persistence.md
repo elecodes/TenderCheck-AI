@@ -2,6 +2,7 @@
 
 ## Status
 Accepted
+Date: 2026-01-27
 
 ## Context
 Initially, the application used in-memory repositories for prototyping. This approach was volatile, meaning all data (users, tenders, requirements) was lost whenever the server restarted. To support a "History" feature and a persistent user experience as required for Phase 14, we needed a permanent storage solution.

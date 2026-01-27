@@ -2,6 +2,7 @@
 
 ## Status
 Accepted
+Date: 2026-01-27
 
 ## Context
 The application targets the Spanish public procurement market ("Licitaciones Públicas"), requiring a fully localized interface. Additionally, security best practices (OWASP) dictate preventing User Enumeration attacks, and accessibility standards (WCAG 2.1 AA) require usable forms for all users.

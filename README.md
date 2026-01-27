@@ -14,12 +14,18 @@ app_port: 3000
 >
 > *Master's Thesis Project (TFM) - Week 1 Status*
 
-![Status](https://img.shields.io/badge/Status-Phase_3_Vector_Search-brightgreen)
+![Status](https://img.shields.io/badge/Status-Phase_4_Cloud_Auth-blue)
 ![Tech](https://img.shields.io/badge/Stack-TypeScript_React_SQLite_Ollama-orange)
 ![Coverage](https://img.shields.io/badge/Coverage-100%25_Backend-brightgreen)
 ![Data](https://img.shields.io/badge/Storage-SQLite_Local-blue)
-![AI](https://img.shields.io/badge/AI-Mistral_+_Vector_Search-purple)
-![Performance](https://img.shields.io/badge/Validation-2--3_min-green)
+![Auth](https://img.shields.io/badge/Auth-Google_OAuth_2.0-red)
+
+## 📋 Project Status (Weekly Progress)
+- [x] **Week 1**: Architecture & Setup (Clean Architecture, TypeScript)
+- [x] **Phase 3**: Vector Search (Local Embeddings)
+- [x] **Phase 14**: Persistence & History (SQLite)
+- [x] **Phase 4**: Cloud Auth & Security (Google Sign-In, OWASP Hardening)
+- [ ] **Phase 5**: Cloud Deployment (Hugging Face / Cloud Run)-green)
 
 ## 🚀 Key Features
 - **Smart Ingestion**: Parses complex PDF structure from Tender Documents (*Pliegos*).

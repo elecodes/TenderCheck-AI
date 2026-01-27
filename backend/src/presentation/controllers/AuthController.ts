@@ -81,4 +81,40 @@ export class AuthController {
       res.status(HTTP_STATUS.UNAUTHORIZED).json({ error: error.message });
     }
   };
+
+  requestPasswordReset = async (req: Request, res: Response) => {
+    try {
+        const schema = z.object({ email: z.string().email() });
+        const { email } = schema.parse(req.body);
+
+        await this.authService.requestPasswordReset(email);
+        
+        // Always return success to prevent user enumeration
+        res.status(HTTP_STATUS.OK).json({ message: "If email exists, instructions have been sent." });
+    } catch (error: any) {
+        // Even validation errors can be generic depending on strictness, but usually format errors are ok to return
+        res.status(HTTP_STATUS.BAD_REQUEST).json({ error: "Invalid request" });
+    }
+  };
+
+  googleLogin = async (req: Request, res: Response) => {
+    try {
+        const schema = z.object({ token: z.string() });
+        const { token: accessToken } = schema.parse(req.body);
+
+        const { token, user } = await this.authService.loginWithGoogle(accessToken);
+        
+        res.json({
+            token,
+            user: {
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                company: user.company,
+            },
+        });
+    } catch (error: any) {
+        res.status(HTTP_STATUS.UNAUTHORIZED).json({ error: "Google authentication failed" });
+    }
+  };
 }

@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { useAuth } from '../../context/AuthContext';
 import { Eye, EyeOff, Lock, Mail, ArrowRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { GoogleLoginButton } from './GoogleLoginButton';
 
 const loginSchema = z.object({
   email: z.string().email('Por favor introduce un email válido'),
@@ -91,7 +92,7 @@ export function LoginForm() {
             <label htmlFor="password" className="block text-xs font-medium uppercase tracking-widest text-emerald-100/50">
               Contraseña
             </label>
-            <button type="button" className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">¿Olvidaste tu contraseña?</button>
+            <Link to="/forgot-password" className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">¿Olvidaste tu contraseña?</Link>
           </div>
           <div className="relative group">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-100/30 group-focus-within:text-emerald-400 transition-colors">
@@ -138,6 +139,15 @@ export function LoginForm() {
           )}
         </button>
       </form>
+      
+      <div className="space-y-4">
+        <div className="flex items-center gap-4">
+           <div className="h-px flex-1 bg-emerald-100/10"></div>
+           <span className="text-xs text-emerald-100/30 uppercase">O</span>
+           <div className="h-px flex-1 bg-emerald-100/10"></div>
+        </div>
+        <GoogleLoginButton />
+      </div>
       
       <div className="text-center text-sm">
         <span className="text-emerald-100/40">¿No tienes una cuenta? </span>
