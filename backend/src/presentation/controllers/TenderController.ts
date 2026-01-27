@@ -43,7 +43,7 @@ export class TenderController {
         throw error;
       }
 
-      const { buffer, originalname } = req.file;
+      const { buffer } = req.file;
       const { title } = req.body;
 
       if (!title) {
@@ -51,19 +51,13 @@ export class TenderController {
         // Or throw bad request. Let's assume title is required or default to filename.
       }
 
-      const tenderTitle = title || originalname;
       const userId = req.user?.userId;
 
       if (!userId) {
         throw new AppError("User not authenticated", 401);
       }
 
-      const result = await this.createTender.execute(
-        userId,
-        tenderTitle,
-        buffer,
-        originalname,
-      );
+      const result = await this.createTender.execute(userId, buffer);
 
       res.status(201).json(result);
     } catch (error) {

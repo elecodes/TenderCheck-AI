@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS requirements (
     keywords TEXT, -- Store as JSON string or comma-separated
     page_number INTEGER,
     snippet TEXT,
+    embedding BLOB, -- Vector embedding for semantic search (768 dimensions)
     FOREIGN KEY (tender_id) REFERENCES tenders(id) ON DELETE CASCADE
 );
 

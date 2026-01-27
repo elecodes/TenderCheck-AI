@@ -1,45 +1,51 @@
-import { randomUUID } from "crypto";
 import type { ITenderRepository } from "../../domain/repositories/ITenderRepository.js";
 import type { IPdfParser } from "../../domain/interfaces/IPdfParser.js";
 import type { ITenderAnalyzer } from "../../domain/interfaces/ITenderAnalyzer.js";
-import type { TenderAnalysis } from "../../domain/entities/TenderAnalysis.js";
-import type { ValidationEngine } from "../../domain/validation/ValidationEngine.js";
+import { AppError } from "../../domain/errors/AppError.js";
+import { VectorSearchService } from "../../infrastructure/services/VectorSearchService.js";
+import { SqliteDatabase } from "../../infrastructure/database/SqliteDatabase.js";
 
 export class CreateTender {
+  private vectorSearch: VectorSearchService;
+
   constructor(
     private readonly tenderRepository: ITenderRepository,
     private readonly pdfParser: IPdfParser,
     private readonly tenderAnalyzer: ITenderAnalyzer,
-    private readonly validationEngine: ValidationEngine,
-  ) {}
+  ) {
+    this.vectorSearch = new VectorSearchService();
+  }
 
-  async execute(
-    userId: string,
-    tenderTitle: string,
-    fileBuffer: Buffer,
-    originalFileName: string,
-  ): Promise<TenderAnalysis> {
+  async execute(userId: string, pdfBuffer: Buffer): Promise<TenderAnalysis> {
     // 1. Parse PDF
-    const text = await this.pdfParser.parse(fileBuffer);
+    const text = await this.pdfParser.parse(pdfBuffer);
+    if (!text) {
+      throw AppError.badRequest("Could not extract text from PDF");
+    }
 
-    // 2. Analyze with AI (Extract Requirements & Metadata)
-    const newTender = await this.tenderAnalyzer.analyze(text);
+    // 2. Analyze with AI
+    const analysis = await this.tenderAnalyzer.analyze(text);
+    analysis.userId = userId;
 
-    // 3. Enrich Entity
-    newTender.userId = userId;
-    newTender.documentUrl = originalFileName;
-    // Title from AI might be better, but respect user input or fallback
-    newTender.tenderTitle = tenderTitle || newTender.tenderTitle;
-    newTender.status = "PROCESSING";
+    // 3. Generate embeddings for requirements (for vector search)
+    if (analysis.requirements && analysis.requirements.length > 0) {
+      console.log(
+        `Generating embeddings for ${analysis.requirements.length} requirements...`,
+      );
 
-    // 4. Validate (e.g. Scope Check)
-    const validationResults = await this.validationEngine.validate(newTender);
-    newTender.results = validationResults;
-    newTender.status = "COMPLETED"; // Or FAILED/PARTIAL based on results if needed
+      for (const req of analysis.requirements) {
+        const embedding = await this.vectorSearch.generateEmbedding(req.text);
+        const embeddingBuffer = this.vectorSearch.serializeEmbedding(embedding);
+        // Store embedding in requirement object for repository to save
+        (req as any).embedding = embeddingBuffer;
+      }
 
-    // 5. Save
-    await this.tenderRepository.save(newTender);
+      console.log("✅ Embeddings generated successfully");
+    }
 
-    return newTender;
+    // 4. Save to repository (including embeddings)
+    await this.tenderRepository.save(analysis);
+
+    return analysis;
   }
 }

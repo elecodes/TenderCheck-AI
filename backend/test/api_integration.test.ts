@@ -2,7 +2,7 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import request from "supertest";
 import { app } from "../src/presentation/server.js";
 import { PdfParserAdapter } from "../src/infrastructure/adapters/PdfParserAdapter.js";
-import { OllamaModelService } from "../src/infrastructure/services/OllamaModelService.js";
+import { MistralGenkitService } from "../src/infrastructure/services/MistralGenkitService.js";
 
 import jwt from "jsonwebtoken";
 import { JWT_SECRET_FALLBACK } from "../src/config/constants.js";
@@ -38,9 +38,9 @@ describe("Integration: POST /api/tenders/analyze", () => {
         "El sistema deberá procesar pagos. Must be secure. This text must be longer than 50 chars to pass validation.",
       );
 
-    // Spy on the real OllamaModelService to avoid calling local LLM
+    // Spy on MistralGenkitService to avoid calling local LLM
     const analyzeSpy = vi
-      .spyOn(OllamaModelService.prototype, "analyze")
+      .spyOn(MistralGenkitService.prototype, "analyze")
       .mockResolvedValue({
         id: "123",
         userId: "test-user-id",
@@ -84,7 +84,7 @@ describe("Integration: POST /api/tenders/analyze", () => {
     expect(response.body.requirements[0].text).toContain("deberá");
     expect(parseSpy).toHaveBeenCalled();
     expect(analyzeSpy).toHaveBeenCalled();
-  });
+  }, 10000); // Increased timeout to 10 seconds for first-time model loading
 
   it("should return 400 if no file is uploaded", async () => {
     const token = generateTestToken();

@@ -20,8 +20,8 @@ export class SqliteTenderRepository implements ITenderRepository {
     `);
 
     const insertRequirement = db.prepare(`
-      INSERT OR REPLACE INTO requirements (id, tender_id, text, type, confidence, keywords, page_number, snippet)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT OR REPLACE INTO requirements (id, tender_id, text, type, confidence, keywords, page_number, snippet, embedding)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     const insertResult = db.prepare(`
@@ -60,6 +60,7 @@ export class SqliteTenderRepository implements ITenderRepository {
             JSON.stringify(req.keywords),
             req.source?.pageNumber || null,
             req.source?.snippet || null,
+            (req as any).embedding || null, // Embedding will be added by VectorSearchService
           );
         }
       }

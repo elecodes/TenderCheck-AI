@@ -4,7 +4,7 @@ import { TenderController } from "../controllers/TenderController.js";
 import { CreateTender } from "../../application/use-cases/CreateTender.js";
 import { SqliteTenderRepository } from "../../infrastructure/repositories/SqliteTenderRepository.js";
 import { PdfParserAdapter } from "../../infrastructure/adapters/PdfParserAdapter.js";
-import { OllamaModelService } from "../../infrastructure/services/OllamaModelService.js";
+import { MistralGenkitService } from "../../infrastructure/services/MistralGenkitService.js";
 
 import { ValidationEngine } from "../../domain/validation/ValidationEngine.js";
 import { ScopeValidationRule } from "../../domain/validation/rules/ScopeValidationRule.js";
@@ -14,7 +14,7 @@ import { authMiddleware } from "../../infrastructure/middleware/authMiddleware.j
 // In a larger app, this would be in a dedicated DI container or factory
 const repository = new SqliteTenderRepository();
 const pdfParser = new PdfParserAdapter();
-const tenderAnalyzer = new OllamaModelService();
+const tenderAnalyzer = new MistralGenkitService(); // ✨ Now using Mistral via Genkit
 const validationEngine = new ValidationEngine([new ScopeValidationRule()]);
 
 const createTenderUseCase = new CreateTender(

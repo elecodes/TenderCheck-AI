@@ -3,7 +3,7 @@ import type { ITenderAnalyzer } from "../../domain/interfaces/ITenderAnalyzer.js
 import type { TenderAnalysis } from "../../domain/entities/TenderAnalysis.js";
 import { randomUUID } from "crypto";
 import { Ollama } from "ollama";
-import { Agent, fetch } from "undici";
+import { Agent, fetch, setGlobalDispatcher } from "undici";
 import {
   MIN_JUSTIFICATION_LENGTH,
   OLLAMA_MAX_TOKENS,
@@ -12,6 +12,16 @@ import {
   PROPOSAL_TRUNCATE_SINGLE,
   PROPOSAL_TRUNCATE_BATCH,
 } from "../../config/constants.js";
+
+// Persistent agent to avoid overhead and ensure timeouts are respected
+const persistentAgent = new Agent({
+  headersTimeout: OLLAMA_TIMEOUT,
+  bodyTimeout: OLLAMA_TIMEOUT,
+  connectTimeout: 60000,
+});
+
+// Set as global dispatcher for all undici-based fetches
+setGlobalDispatcher(persistentAgent);
 
 export class OllamaModelService implements ITenderAnalyzer {
   private model: string;
@@ -23,10 +33,7 @@ export class OllamaModelService implements ITenderAnalyzer {
       fetch: (url: any, options: any) =>
         fetch(url, {
           ...options,
-          dispatcher: new Agent({
-            headersTimeout: OLLAMA_TIMEOUT,
-            bodyTimeout: OLLAMA_TIMEOUT,
-          }),
+          dispatcher: persistentAgent,
         }) as any,
     });
   }

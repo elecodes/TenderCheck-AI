@@ -14,11 +14,12 @@ app_port: 3000
 >
 > *Master's Thesis Project (TFM) - Week 1 Status*
 
-![Status](https://img.shields.io/badge/Status-Phase_17_Complete-brightgreen)
+![Status](https://img.shields.io/badge/Status-Phase_3_Vector_Search-brightgreen)
 ![Tech](https://img.shields.io/badge/Stack-TypeScript_React_SQLite_Ollama-orange)
 ![Coverage](https://img.shields.io/badge/Coverage-100%25_Backend-brightgreen)
 ![Data](https://img.shields.io/badge/Storage-SQLite_Local-blue)
-![AI](https://img.shields.io/badge/AI-Ollama_(Llama3)-purple)
+![AI](https://img.shields.io/badge/AI-Mistral_+_Vector_Search-purple)
+![Performance](https://img.shields.io/badge/Validation-2--3_min-green)
 
 ## 🚀 Key Features
 - **Smart Ingestion**: Parses complex PDF structure from Tender Documents (*Pliegos*).

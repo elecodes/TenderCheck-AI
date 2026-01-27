@@ -16,17 +16,34 @@ export const MIN_JUSTIFICATION_LENGTH = 10;
 export const MIN_ITEMS_LENGTH = 5;
 
 // AI / LLM Constants
-export const OLLAMA_TIMEOUT = 600000; // 10 minutes (ms)
+export const OLLAMA_TIMEOUT = 60000; // 60 seconds (ms) - Updated from 30 minutes
 export const OLLAMA_MAX_TOKENS = 4000;
 export const OPENAI_TIMEOUT = 50000;
 export const OPENAI_MAX_RETRIES = 4;
 export const OPENAI_MATCH_THRESHOLD = 50; //%
 export const MIN_WORD_LENGTH = 4;
-export const DEFAULT_CONFIDENCE_SCORE = 85;
-export const PROPOSAL_TRUNCATE_SINGLE = 3000;
-export const PROPOSAL_TRUNCATE_BATCH = 5000;
-export const BATCH_CHUNK_SIZE = 5;
-export const MAX_AI_CONCURRENCY = 2;
+export const DEFAULT_CONFIDENCE_SCORE = 75; // Updated from 85
+export const PROPOSAL_TRUNCATE_SINGLE = 2000; // Updated from 3000
+export const PROPOSAL_TRUNCATE_BATCH = 6000; // Updated from 5000
+export const BATCH_CHUNK_SIZE = 3; // Process 3 requirements per batch (was 1)
+export const MAX_AI_CONCURRENCY = 3; // Process 3 batches in parallel (was 1)
+
+// Genkit Configuration Constants
+export const GENKIT_TIMEOUT = 60000; // 60 seconds
+export const GENKIT_MAX_RETRIES = 3;
+export const GENKIT_RETRY_DELAY = 1000; // 1 second
+
+// Vector Search Constants
+export const VECTOR_DIMENSIONS = 768; // nomic-embed-text dimension (updated from 1536)
+export const SIMILARITY_THRESHOLD = 0.3; // Very low threshold - process almost all (was 0.6)
+export const TOP_K_SIMILAR = 5; // Number of similar results to return
+export const EMBEDDING_BATCH_SIZE = 10; // Batch size for embedding generation
+export const MAX_RELEVANT_REQUIREMENTS = 999; // Process all requirements (accuracy over speed)
+
+// Mistral Model Constants
+export const MISTRAL_MODEL = "mistral"; // Model name in Ollama
+export const MISTRAL_TEMPERATURE = 0.0; // Zero for fully deterministic outputs
+export const MISTRAL_MAX_TOKENS = 4096; // Context window
 
 export const HTTP_STATUS = {
   OK: 200,
