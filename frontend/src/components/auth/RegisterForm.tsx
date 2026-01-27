@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { useAuth } from '../../context/AuthContext';
 import { Eye, EyeOff, Lock, Mail, User, Building, ArrowRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { GoogleLoginButton } from './GoogleLoginButton';
 
 const registerSchema = z.object({
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
@@ -179,6 +180,15 @@ export function RegisterForm() {
           )}
         </button>
       </form>
+
+      <div className="space-y-4">
+        <div className="flex items-center gap-4">
+           <div className="h-px flex-1 bg-emerald-100/10"></div>
+           <span className="text-xs text-emerald-100/30 uppercase">O</span>
+           <div className="h-px flex-1 bg-emerald-100/10"></div>
+        </div>
+        <GoogleLoginButton />
+      </div>
       
       <div className="text-center text-sm">
         <span className="text-emerald-100/40">¿Ya tienes una cuenta? </span>

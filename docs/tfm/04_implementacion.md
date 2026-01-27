@@ -11,11 +11,15 @@ La implementación integra controles de calidad automatizados:
 - **Frontend**: React + Vite + TailwindCSS (Interfaz completamente localizada al **Español**).
     - **Accesibilidad**: Cumplimiento WCAG 2.1 AA (Navegación por teclado, anillos de foco visibles, tamaño de texto legible en móvil).
     - **Seguridad**: Prevención de enumeración de usuarios mediante mensajes de error genéricos en formularios de autenticación.
+    - **Autenticación en Nube**: Integración con **Google Sign-In** (OIDC) y flujos de recuperación de contraseña ("Forgot Password").
 - **Backend**: Node.js + Express + TypeScript (API REST).
 - **IA**: Ollama (Mistral) para inferencia local con **búsqueda vectorial** (nomic-embed-text, 768 dimensiones).
 - **Base de Datos**: Persistencia relacional mediante **SQLite** (`better-sqlite3`) con almacenamiento de **embeddings vectoriales** (BLOB), garantizando que los análisis no se pierdan al cerrar la sesión.
 
-## 4.3. Sistema de Autenticación y Persistencia
+## 4.3. Implementación de Algoritmos (Code Snippets)
+A continuación se detallan los algoritmos clave implementados en `backend/src/domain`:
+
+## 4.4. Sistema de Autenticación y Persistencia
 Se ha implementado un sistema robusto para la gestión de datos.
 - **Autenticación**: Basada en **JWT (JSON Web Tokens)** con almacenamiento seguro en el servidor y `localStorage` en el cliente.
 - **Persistencia de Licitaciones**: Implementación del patrón *Repository* con SQLite para almacenar la relación entre Usuarios, Análisis, Requisitos y Resultados de Validación.

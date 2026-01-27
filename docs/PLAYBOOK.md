@@ -100,3 +100,15 @@ To run the analysis without costs/limits:
   - Login: "Credenciales inválidas"
   - Register: "No se pudo crear la cuenta"
 - **Localization**: The UI is Spanish-first. Ensure all new features are fully marked up with Spanish copy.
+
+### 12. Deployment Guide
+- **Provider**: Hugging Face Spaces (Docker).
+- **Prerequisites**:
+  - `VITE_GOOGLE_CLIENT_ID` in `frontend/.env`.
+  - Hugging Face Account.
+- **Commands**:
+  ```bash
+  git remote add space https://huggingface.co/spaces/USERNAME/SPACE_NAME
+  git push space main
+  ```
+- **Troubleshooting**: If Cloud Run is used, ensure the `LLM_PROVIDER` is set to `gemini` to avoid OOM errors with local Mistral.

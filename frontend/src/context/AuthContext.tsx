@@ -7,6 +7,8 @@ interface AuthContextType {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string, company?: string) => Promise<void>;
+  requestPasswordReset: (email: string) => Promise<void>;
+  loginWithGoogle: (token: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
 }
@@ -57,7 +59,23 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     localStorage.setItem('user', JSON.stringify(response.user));
     
     setToken(response.token);
+    setToken(response.token);
     setUser(response.user);
+  };
+
+  const requestPasswordReset = async (email: string) => {
+    // We delegate to the API service
+    await import('../services/auth.service').then(service => service.requestPasswordReset(email));
+  };
+
+  const loginWithGoogle = async (googleToken: string) => {
+     // Dynamic import to avoid circular dependencies if any, though auth.service is safe
+     const api = await import('../services/auth.service');
+     const response = await api.loginWithGoogle(googleToken);
+     localStorage.setItem('token', response.token);
+     localStorage.setItem('user', JSON.stringify(response.user));
+     setToken(response.token);
+     setUser(response.user);
   };
 
   const logout = () => {
@@ -73,6 +91,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       isLoading,
       login,
       register,
+      requestPasswordReset,
+      loginWithGoogle,
       logout,
       isAuthenticated: !!user && !!token && token !== 'undefined'
     }}>
