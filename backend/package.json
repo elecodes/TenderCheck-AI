@@ -5,6 +5,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+    "start": "node dist/presentation/server.js",
+    "build": "tsc",
     "dev": "tsx watch src/presentation/server.ts",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
