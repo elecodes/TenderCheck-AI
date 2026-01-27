@@ -113,6 +113,7 @@ This project follows **Clean Architecture** principles to ensure separation of c
 │   │   │   │   └── errorHandler.ts
 │   │   │   ├── repositories
 │   │   │   │   ├── InMemoryTenderRepository.ts
+<<<<<<< HEAD
 │   │   │   │   ├── InMemoryUserRepository.ts
 │   │   │   │   ├── SqliteTenderRepository.ts
 │   │   │   │   └── SqliteUserRepository.ts
@@ -122,6 +123,14 @@ This project follows **Clean Architecture** principles to ensure separation of c
 │   │   │   │   ├── MistralGenkitService.ts
 │   │   │   │   ├── OllamaModelService.ts
 │   │   │   │   └── VectorSearchService.ts
+=======
+│   │   │   │   └── InMemoryUserRepository.ts
+│   │   │   ├── schemas
+│   │   │   │   └── LLMSchemas.ts
+│   │   │   ├── services
+│   │   │   │   ├── OllamaModelService.ts
+│   │   │   │   └── OpenAIModelService.ts
+>>>>>>> 9d7e8651085d7758d64558fbba212853d205f647
 │   │   │   └── utils
 │   │   │       └── safeExecute.ts
 │   │   └── presentation
