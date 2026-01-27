@@ -1,16 +1,28 @@
 #!/bin/bash
+set -e
 
-# Start Ollama in background, redirecting output to prevent blocking
-echo "Starting Ollama (Silenced)..."
-ollama serve > /dev/null 2>&1 &
+# Debug: Verifying Frontend Build Existence
+echo "--- Checking Frontend Build ---"
+if [ -d "frontend/dist" ]; then
+  echo "Frontend build found at frontend/dist"
+  ls -F frontend/dist
+else
+  echo "ERROR: frontend/dist NOT FOUND!"
+  # We don't exit here to allow backend to start and show logs, but this is critical info
+fi
 
-# Wait for Ollama to initialize
-echo "Waiting 5s for Ollama..."
+# Start Ollama in background, fully detached
+echo "--- Starting Ollama ---"
+nohup ollama serve > /dev/null 2>&1 &
+echo "Ollama started in background."
+
+# Wait for Ollama
+echo "Waiting 5s for initialization..."
 sleep 5
 
 # Start Backend
-echo "Starting Backend Application..."
+echo "--- Starting Backend ---"
 cd backend
 export PORT=7860
-# Use exec to replace shell with node process
+# Use exec to ensure signals are passed to Node.js
 exec npm start
