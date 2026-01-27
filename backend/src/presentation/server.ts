@@ -74,7 +74,7 @@ const frontendPath = join(__dirname, "../../../frontend/dist");
 app.use(express.static(frontendPath));
 
 // SPA Fallback: Send index.html for any unknown non-API route
-app.get("*", (req, res, next) => {
+app.get(/.*/, (req, res, next) => {
   if (req.path.startsWith("/api")) {
     return next();
   }
