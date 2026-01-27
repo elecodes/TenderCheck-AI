@@ -28,15 +28,19 @@ COPY backend/package*.json ./backend/
 COPY frontend/package*.json ./frontend/
 
 # Install dependencies
-RUN cd backend && npm ci --only=production
+# Install dependencies calling npm ci (which installs devDeps for tsc)
+RUN cd backend && npm ci
 RUN cd frontend && npm ci
 
 # Copy application code
 COPY backend ./backend
 COPY frontend ./frontend
 
-# Build frontend
+# Build frontend and backend
 RUN cd frontend && npm run build
+RUN cd backend && npm run build
+# Prune dev dependencies to save space (optional, but good practice)
+RUN cd backend && npm prune --production
 
 # Pre-pull AI models (this happens during Docker build, not runtime)
 # This makes the first request much faster
@@ -46,15 +50,16 @@ RUN ollama serve & \
     ollama pull nomic-embed-text && \
     pkill ollama
 
-# Expose port
-EXPOSE 3000
+# Expose port (HF Spaces defaults to 7860, but we map it or use environment)
+EXPOSE 7860
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:3000/health || exit 1
+    CMD curl -f http://localhost:7860/health || exit 1
 
 # Start Ollama in background and then start the app
+# Use PORT=7860 for Hugging Face
 CMD ollama serve & \
     sleep 5 && \
     cd backend && \
-    npm start
+    PORT=7860 npm start
