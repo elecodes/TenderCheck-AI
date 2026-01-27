@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/presentation/server.js",
-    "build": "tsc",
+    "build": "tsc && cp src/infrastructure/database/schema.sql dist/infrastructure/database/",
     "dev": "tsx watch src/presentation/server.ts",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
