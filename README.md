@@ -1,3 +1,13 @@
+---
+title: TenderCheck AI
+emoji: 📄
+colorFrom: blue
+colorTo: green
+sdk: docker
+pinned: false
+app_port: 3000
+---
+
 # TenderCheck AI 🤖
 
 > **Automated Formal Validation for Public Tenders**
@@ -106,8 +116,7 @@ This project follows **Clean Architecture** principles to ensure separation of c
 │   │   │   ├── schemas
 │   │   │   │   └── LLMSchemas.ts
 │   │   │   ├── services
-│   │   │   │   ├── OllamaModelService.ts
-│   │   │   │   └── OpenAIModelService.ts
+│   │   │   │   └── OllamaModelService.ts
 │   │   │   └── utils
 │   │   │       └── safeExecute.ts
 │   │   └── presentation
