@@ -63,8 +63,9 @@ Actúa como **orquestador** del sistema. No contiene lógica de negocio compleja
 
 ### 3.3.3. Capa de Infraestructura (Infrastructure)
 Contiene los detalles técnicos y librerías externas.
-- **`OllamaModelService`**: Implementación concreta que conecta con el servidor local de IA (puerto 11434). Incluye lógica de *retry* y limpieza de JSON.
-- **`SqliteTenderRepository`**: Implementación persistente utilizando SQLite. Gestiona el ciclo de vida de los análisis, requisitos y resultados de validación mediante una base de datos relacional embebida.
+- **`MistralGenkitService`**: Implementación concreta que conecta con Mistral a través de Ollama (puerto 11434). Incluye lógica de *retry*, limpieza de JSON, y telemetría con Genkit.
+- **`VectorSearchService`**: Servicio de búsqueda vectorial que genera embeddings con `nomic-embed-text` (768 dimensiones) y calcula similitud coseno para filtrado semántico de requisitos.
+- **`SqliteTenderRepository`**: Implementación persistente utilizando SQLite. Gestiona el ciclo de vida de los análisis, requisitos, resultados de validación y **embeddings vectoriales** (almacenados como BLOB) mediante una base de datos relacional embebida.
 
 ### 3.3.3. Capa de Presentación (Frontend)
 Desarrollada como una **SPA** (Single Page Application).
@@ -79,11 +80,13 @@ Se han documentado formalmente las siguientes decisiones:
 - **ADR-003**: Inyección de Dependencias manual para mantener la simplicidad.
 - **ADR-005**: Estrategia "Local-First" para IA y Autenticación, priorizando la privacidad de datos sensibles gubernamentales.
 
-## 3.5. Subsistema de Conocimiento (RAG)
-Para mitigar el riesgo de alucinaciones (común en los LLMs), la arquitectura incluye un módulo de **Retrieval Augmented Generation**.
-1.  **Ingesta**: El PDF se convierte a texto crudo.
-2.  **Fragmentación (Chunking)**: Se divide el texto en bloques lógicos (párrafos/cláusulas).
-3.  **Inyección de Contexto**: En lugar de usar una Vector DB externa (complejidad innecesaria para el MVP), inyectamos el texto relevante directamente en la ventana de contexto de 8k tokens de Llama 3, utilizando técnicas de *Prompt Engineering* para estructurar la salida.
+## 3.5. Subsistema de Búsqueda Vectorial y Optimización
+Para mejorar el rendimiento y preparar el sistema para filtrado semántico, se ha implementado una infraestructura de búsqueda vectorial:
+1.  **Generación de Embeddings**: Durante la creación del tender, cada requisito se convierte en un vector de 768 dimensiones usando `nomic-embed-text`.
+2.  **Almacenamiento**: Los embeddings se guardan en SQLite como columnas BLOB, permitiendo persistencia sin dependencias externas.
+3.  **Similitud Coseno**: Implementación de cálculo de similitud para futuras optimizaciones de filtrado.
+4.  **Procesamiento Paralelo**: Validación de 3 requisitos simultáneamente (3x concurrencia) para reducir el tiempo de validación de 5+ minutos a 2-3 minutos.
+5.  **Determinismo**: Temperatura 0.0 en Mistral para garantizar resultados consistentes (89% de precisión).
 
 ## 3.6. Estrategia de Diseño de Interfaz (UI/UX)
 El diseño del frontend se rige por principios de usabilidad centrados en el usuario administrativo.

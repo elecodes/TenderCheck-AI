@@ -23,7 +23,7 @@ app_port: 3000
 
 ## 🚀 Key Features
 - **Smart Ingestion**: Parses complex PDF structure from Tender Documents (*Pliegos*).
-- **Local AI Analysis**: Extracts requirements using **Ollama (Llama 3)** running locally (Privacy first, Zero cost).
+- **Local AI Analysis**: Extracts requirements using **Ollama (Mistral)** with vector embeddings (Privacy first, Zero cost).
 - **Requirement Extraction**: Identifies technical clauses, distinguishing **OBLIGATORIO** vs **OPCIONAL**.
 - **Real Proposal Validation**: Real-time comparison of vendor proposals (*Ofertas*) against requirements with AI reasoning and evidence.
 - **Validation Summary**: Comparative dashboard showing mandatory vs optional compliance stats.
@@ -34,7 +34,7 @@ app_port: 3000
 - **Secure by Design**: Zod validation, Helmet protection, and strict CORS.
 
 ## 📌 Overview
-**TenderCheck AI** is an intelligent assistant designed to valid public tender documents ("Pliegos") against technical proposals. It leverages **Local LLMs (Ollama)** for privacy-preserving semantic reasoning and deterministic rules for mandatory compliance checks.
+**TenderCheck AI** is an intelligent assistant designed to valid public tender documents ("Pliegos") against technical proposals. It leverages **Local LLMs (Mistral via Ollama)** with **vector search (nomic-embed-text)** for privacy-preserving semantic reasoning and deterministic rules for mandatory compliance checks.
 
 **Objective:** Reduce the time and error rate in the formal review of digital service tenders.
 
@@ -266,8 +266,9 @@ cd backend
 npm install
 
 # 3. Setup Ollama (Local AI)
-# Install from ollama.com, then pull the model:
-ollama pull llama3
+# Install from ollama.com, then pull the models:
+ollama pull mistral
+ollama pull nomic-embed-text  # For vector embeddings
 ```
 
 ### Running the Project

@@ -64,7 +64,7 @@ To add a new check for tenders (e.g., "Must be in Madrid"):
 ### 6. Local AI Setup (Ollama) 🦙
 To run the analysis without costs/limits:
 1.  **Install Ollama**: Download from [ollama.com](https://ollama.com).
-2.  **Pull Model**: Run `ollama pull llama3`.
+2.  **Pull Models**: Run `ollama pull mistral` and `ollama pull nomic-embed-text` (for vector embeddings).
 3.  **Start Server**: Run `ollama serve` (or just open the app).
 4.  **Verify**: The backend logs will show `Analyzing text with Ollama...`.
 
