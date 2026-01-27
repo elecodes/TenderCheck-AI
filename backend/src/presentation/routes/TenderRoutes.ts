@@ -21,7 +21,6 @@ const createTenderUseCase = new CreateTender(
   repository,
   pdfParser,
   tenderAnalyzer,
-  validationEngine,
 );
 
 import { ValidateProposal } from "../../application/use-cases/ValidateProposal.js";

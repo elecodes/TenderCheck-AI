@@ -257,6 +257,8 @@ export class ValidateProposal {
 
     for (let i = 0; i < chunks.length; i++) {
       const chunk = chunks[i];
+      if (!chunk) continue;
+
       const batchResults = await this.tenderAnalyzer.compareBatch(
         chunk.map((r) => ({ id: r.id, text: r.text })),
         proposalText,
