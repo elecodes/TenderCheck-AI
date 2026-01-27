@@ -13,3 +13,5 @@
 | 006 | [ADR 006: UI Theme, Routing & Brand Identity](./006-ui-theme-routing.md) | Unknown |
 | 007 | [ADR 007: Security Hardening Strategy (Defense in Depth)](./007-security-hardening.md) | Unknown |
 | 008 | [ADR 008: Local SQL Persistence (SQLite)](./008-local-sql-persistence.md) | Unknown |
+| 009 | [ADR 009: Vector Search and Performance Optimization](./009-vector-search-performance.md) | ** Accepted   |
+| 010 | [ADR 010: Frontend Localization and Security Hardening](./010-frontend-localization-security.md) | Unknown |

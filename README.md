@@ -50,22 +50,22 @@ This project follows **Clean Architecture** principles to ensure separation of c
 
 <!-- TREE_START -->
 ```text
+├── AGENTS.md
+├── Dockerfile
+├── HUGGINGFACE_DEPLOYMENT.md
 ├── PROJECT_PLAN.md
 ├── README.md
 ├── SRS.md
 ├── TFM_PLAN.md
 ├── backend
 │   ├── Dockerfile
-│   ├── database.sqlite
 │   ├── database.sqlite-shm
 │   ├── database.sqlite-wal
 │   ├── eslint.config.js
 │   ├── package-lock.json
 │   ├── package.json
-│   ├── scripts
 │   ├── src
 │   │   ├── application
-│   │   │   ├── interfaces
 │   │   │   ├── services
 │   │   │   │   └── AuthService.ts
 │   │   │   └── use-cases
@@ -95,11 +95,10 @@ This project follows **Clean Architecture** principles to ensure separation of c
 │   │   │   │   └── TenderAnalysisSchema.ts
 │   │   │   ├── services
 │   │   │   │   └── RequirementsExtractor.ts
-│   │   │   ├── validation
-│   │   │   │   ├── ValidationEngine.ts
-│   │   │   │   └── rules
-│   │   │   │       └── ScopeValidationRule.ts
-│   │   │   └── value-objects
+│   │   │   └── validation
+│   │   │       ├── ValidationEngine.ts
+│   │   │       └── rules
+│   │   │           └── ScopeValidationRule.ts
 │   │   ├── infrastructure
 │   │   │   ├── adapters
 │   │   │   │   └── PdfParserAdapter.ts
@@ -113,7 +112,6 @@ This project follows **Clean Architecture** principles to ensure separation of c
 │   │   │   │   └── errorHandler.ts
 │   │   │   ├── repositories
 │   │   │   │   ├── InMemoryTenderRepository.ts
-<<<<<<< HEAD
 │   │   │   │   ├── InMemoryUserRepository.ts
 │   │   │   │   ├── SqliteTenderRepository.ts
 │   │   │   │   └── SqliteUserRepository.ts
@@ -123,14 +121,6 @@ This project follows **Clean Architecture** principles to ensure separation of c
 │   │   │   │   ├── MistralGenkitService.ts
 │   │   │   │   ├── OllamaModelService.ts
 │   │   │   │   └── VectorSearchService.ts
-=======
-│   │   │   │   └── InMemoryUserRepository.ts
-│   │   │   ├── schemas
-│   │   │   │   └── LLMSchemas.ts
-│   │   │   ├── services
-│   │   │   │   ├── OllamaModelService.ts
-│   │   │   │   └── OpenAIModelService.ts
->>>>>>> 9d7e8651085d7758d64558fbba212853d205f647
 │   │   │   └── utils
 │   │   │       └── safeExecute.ts
 │   │   └── presentation
@@ -168,6 +158,7 @@ This project follows **Clean Architecture** principles to ensure separation of c
 │   │   ├── 007-security-hardening.md
 │   │   ├── 008-local-sql-persistence.md
 │   │   ├── 009-vector-search-performance.md
+│   │   ├── 010-frontend-localization-security.md
 │   │   └── README.md
 │   ├── architecture
 │   │   └── mcp_feasibility_study.md
@@ -244,20 +235,9 @@ This project follows **Clean Architecture** principles to ensure separation of c
 │   ├── tsconfig.json
 │   ├── tsconfig.node.json
 │   └── vite.config.ts
-├── knowledge_base
-│   ├── processed
-│   │   ├── chunked_laws
-│   │   └── definitions
-│   └── raw_documents
 ├── lint_output.txt
 ├── package-lock.json
 ├── package.json
-├── packages
-│   └── knowledge-mcp
-│       └── build
-│           ├── embeddings.js
-│           ├── index.js
-│           └── ingest.js
 └── scripts
     └── docs-automator.js
 ```
