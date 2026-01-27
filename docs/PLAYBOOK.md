@@ -94,3 +94,9 @@ To run the analysis without costs/limits:
 | **Frontend** | `npm run security:scan` | `snyk test` |
 
 <!-- SCRIPTS_END -->
+
+### 11. Security & UX Standards
+- **User Enumeration Prevention**: NEVER return specific error messages like "User already exists" or "User not found" to the client. Always use generic messages:
+  - Login: "Credenciales inválidas"
+  - Register: "No se pudo crear la cuenta"
+- **Localization**: The UI is Spanish-first. Ensure all new features are fully marked up with Spanish copy.
