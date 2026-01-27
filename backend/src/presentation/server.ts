@@ -82,8 +82,8 @@ export { app };
 import { DEFAULT_PORT } from "../config/constants.js";
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const PORT = process.env.PORT || DEFAULT_PORT;
-  app.listen(PORT, () => {
+  const PORT = parseInt(process.env.PORT || DEFAULT_PORT.toString());
+  app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on port ${PORT}`);
   });
 }

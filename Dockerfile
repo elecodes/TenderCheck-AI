@@ -60,7 +60,8 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
 
 # Start Ollama in background and then start the app
 # Use PORT=7860 for Hugging Face
-CMD ollama serve & \
-    sleep 5 && \
-    cd backend && \
-    PORT=7860 npm start
+# Copy startup script
+COPY start.sh .
+
+# Start container using script
+CMD ["./start.sh"]
