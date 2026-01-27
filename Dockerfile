@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     ca-certificates \
     gnupg \
+    zstd \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Node.js 20

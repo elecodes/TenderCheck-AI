@@ -88,9 +88,9 @@ export class VectorSearchService {
     let normB = 0;
 
     for (let i = 0; i < a.length; i++) {
-      dotProduct += a[i] * b[i];
-      normA += a[i] * a[i];
-      normB += b[i] * b[i];
+      dotProduct += a[i]! * b[i]!;
+      normA += a[i]! * a[i]!;
+      normB += b[i]! * b[i]!;
     }
 
     const denominator = Math.sqrt(normA) * Math.sqrt(normB);
@@ -152,9 +152,9 @@ export class VectorSearchService {
     );
 
     genkitTelemetry.logVectorSearch(
-      requirementEmbeddings.length,
+      `Dataset size: ${requirementEmbeddings.length}`,
       similarities.length,
-      durationMs.toString(),
+      durationMs,
     );
 
     return similarities;

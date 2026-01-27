@@ -30,7 +30,6 @@ describe("CreateTender Use Case", () => {
       mockRepository,
       mockPdfParser,
       mockAnalyzer,
-      mockValidationEngine,
     );
   });
 
@@ -61,9 +60,7 @@ describe("CreateTender Use Case", () => {
 
     const result = await createTender.execute(
       "test-user-id",
-      "Test Tender Title",
       Buffer.from("fake"),
-      "test.pdf",
     );
 
     expect(mockPdfParser.parse).toHaveBeenCalled();
