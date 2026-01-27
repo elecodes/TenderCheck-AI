@@ -21,12 +21,12 @@ export const LandingPage: React.FC = () => {
         </div>
 
         <h1 className="text-6xl md:text-8xl font-serif font-medium mb-8 leading-[0.9] max-w-5xl text-[#1a1c1a] tracking-tight">
-          Precision in every <br/> proposal.
+          Precisión en cada <br/> propuesta.
         </h1>
         
         <p className="text-xl md:text-2xl text-[#4a4f4a] max-w-2xl mb-16 font-light leading-relaxed">
-          High-fidelity analysis for complex public procurement documents. 
-          Upload your <span className="text-[#C5A028] font-serif italic">Pliegos</span> for instant compliance.
+          Análisis de alta fidelidad para documentos complejos de contratación pública. 
+          Sube tus <span className="text-[#C5A028] font-serif italic">Pliegos</span> para cumplimiento instantáneo.
         </p>
 
         {/* Central Glass Card */}
@@ -42,14 +42,14 @@ export const LandingPage: React.FC = () => {
                 </div>
                 
                 <div className="text-center space-y-3">
-                    <h3 className="font-serif text-3xl text-[#1a1c1a]">New Analysis</h3>
+                    <h3 className="font-serif text-3xl text-[#1a1c1a]">Nuevo Análisis</h3>
                     <p className="text-[#5a605a] text-lg leading-snug max-w-[260px]">
-                        Upload your PDF tender documents for instant AI-driven compliance checking.
+                        Sube tus documentos PDF de licitación para verificación de cumplimiento impulsada por IA.
                     </p>
                 </div>
 
                 <Link to="/register" className="w-full py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold tracking-widest uppercase shadow-lg shadow-emerald-600/20 transition-all active:scale-[0.98] flex items-center justify-center mt-4">
-                   Upload Tender
+                   Subir Licitación
                 </Link>
             </div>
         </div>
@@ -63,8 +63,8 @@ export const LandingPage: React.FC = () => {
                         <UploadCloud className="w-6 h-6 text-[#1a1c1a]" />
                     </div>
                     <div className="text-left">
-                        <h4 className="font-serif font-medium text-[#1a1c1a]">Smart Extraction</h4>
-                        <p className="text-xs text-[#5a605a] uppercase tracking-wider">Automated Requirement Parsing</p>
+                        <h4 className="font-serif font-medium text-[#1a1c1a]">Extracción Inteligente</h4>
+                        <p className="text-xs text-[#5a605a] uppercase tracking-wider">Análisis Automático de Requisitos</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-4 group">
@@ -72,8 +72,8 @@ export const LandingPage: React.FC = () => {
                         <ShieldCheck className="w-6 h-6 text-[#1a1c1a]" />
                     </div>
                     <div className="text-left">
-                        <h4 className="font-serif font-medium text-[#1a1c1a]">Compliance Check</h4>
-                        <p className="text-xs text-[#5a605a] uppercase tracking-wider">Validate against criteria</p>
+                        <h4 className="font-serif font-medium text-[#1a1c1a]">Verificación de Cumplimiento</h4>
+                        <p className="text-xs text-[#5a605a] uppercase tracking-wider">Validación contra criterios</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-4 group">
@@ -81,8 +81,8 @@ export const LandingPage: React.FC = () => {
                         <Zap className="w-6 h-6 text-[#1a1c1a]" />
                     </div>
                     <div className="text-left">
-                        <h4 className="font-serif font-medium text-[#1a1c1a]">Instant Analysis</h4>
-                        <p className="text-xs text-[#5a605a] uppercase tracking-wider">Real-time AI feedback</p>
+                        <h4 className="font-serif font-medium text-[#1a1c1a]">Análisis Instantáneo</h4>
+                        <p className="text-xs text-[#5a605a] uppercase tracking-wider">Retroalimentación IA en tiempo real</p>
                     </div>
                 </div>
              </div>
