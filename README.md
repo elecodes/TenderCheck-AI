@@ -58,7 +58,6 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 ```text
 ├── AGENTS.md
 ├── Dockerfile
-├── HUGGINGFACE_DEPLOYMENT.md
 ├── PROJECT_PLAN.md
 ├── README.md
 ├── SRS.md
