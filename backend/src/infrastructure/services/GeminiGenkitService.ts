@@ -177,17 +177,17 @@ export class GeminiGenkitService implements ITenderAnalyzer {
         Instrucciones de Evaluación:
         1. **Idioma**: La salida debe estar ESTRICTAMENTE en ESPAÑOL.
         2. **Lógica Numérica**: 
-           - Si un requisitos pide un MÍNIMO de X (ej. "mínimo 15 años"), y la oferta tiene Y donde Y >= X, es CUMPLE (COMPLIANT).
            - Ejemplo: Requisito "mínimo 15 audios", Oferta "18 audios" -> CUMPLE.
         3. **Estado**:
-           - COMPLIANT: Cumple totalmente o supera el requisito.
-           - NON_COMPLIANT: No cumple, es inferior al mínimo, o no se menciona.
-           - PARTIAL: Cumple parcialmente pero faltan detalles clave.
+           - COMPLIANT: Cumple totalmente TODOS los puntos del requisito.
+           - PARTIAL: Cumple ALGUNO de los puntos, pero falla en otros.
+             * Ejemplo: Pide "Audios Y Yoga Y Panel". Oferta tiene "Audios" pero falta "Panel" -> PARTIAL.
+           - NON_COMPLIANT: No cumple nada, o es inferior al mínimo.
         
         Para CADA requisito, genera un objeto JSON con:
         - id (coincidiendo con el ID de entrada)
         - status (COMPLIANT, NON_COMPLIANT, PARTIAL)
-        - reasoning (Explicación breve en Español de por qué cumple o no, citando valores específicos)
+        - reasoning (Explicación breve en Español. Para PARTIAL, menciona explícitamente QUÉ cumple y QUÉ falta.)
         - score (0-100 confianza en la evaluación)
         - sourceQuote (Cita textual exacta de la propuesta que evidencia el cumplimiento, o cadena vacía si no hay)
         `,
