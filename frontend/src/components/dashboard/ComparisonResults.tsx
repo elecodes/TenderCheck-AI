@@ -104,7 +104,7 @@ export const ComparisonResults = ({ results, analysis }: ComparisonResultsProps)
                      result.status === 'PARTIALLY_MET' ? 'PARCIAL' : result.status}
                   </span>
                   <div className="text-[10px] font-bold text-gray-500 uppercase tracking-tighter">
-                    Confianza: <span className="text-gray-300">
+                    Fiabilidad AI: <span className="text-gray-300">
                       {(result.confidence > 1 ? result.confidence : result.confidence * 100).toFixed(0)}%
                     </span>
                   </div>

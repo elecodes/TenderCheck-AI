@@ -97,11 +97,23 @@ export const AnalysisResults = ({ analysis, onReset }: AnalysisResultsProps) => 
                                         ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/20' 
                                         : 'bg-purple-500/20 text-purple-400 border border-purple-500/20'
                                 }`}>
-                                    {req.type === 'MANDATORY' ? 'OBLIGATORIO' : req.type === 'OPTIONAL' ? 'OPCIONAL' : req.type}
+                                    {(() => {
+                                        switch(req.type) {
+                                            case 'MANDATORY': return 'OBLIGATORIO';
+                                            case 'OPTIONAL': return 'OPCIONAL';
+                                            case 'TECHNICAL': return 'TÉCNICO';
+                                            case 'ADMINISTRATIVE': return 'ADMINISTRATIVO';
+                                            case 'LEGAL': return 'LEGAL';
+                                            case 'FINANCIAL': return 'FINANCIERO';
+                                            default: return req.type;
+                                        }
+                                    })()}
                                 </span>
-                                <span className="text-[10px] uppercase tracking-widest font-bold text-gray-600">
-                                    Pag. {req.source.pageNumber}
-                                </span>
+                                {req.source.pageNumber > 0 && (
+                                    <span className="text-[10px] uppercase tracking-widest font-bold text-gray-600">
+                                        Pag. {req.source.pageNumber}
+                                    </span>
+                                )}
                             </div>
                             <div className="h-1 w-12 bg-gray-800/50 rounded-full" />
                         </div>
