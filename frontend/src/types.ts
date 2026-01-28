@@ -1,7 +1,7 @@
 export interface Requirement {
   id: string;
   text: string;
-  type: "MANDATORY" | "OPTIONAL" | "UNKNOWN";
+  type: "MANDATORY" | "OPTIONAL" | "UNKNOWN" | "TECHNICAL" | "ADMINISTRATIVE" | "LEGAL" | "FINANCIAL";
   source: {
     pageNumber: number;
     snippet: string;
