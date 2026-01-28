@@ -11,6 +11,7 @@ export interface AuthResponse {
 }
 
 const API_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
+console.log('🔌 Auth Service Initialized. Backend URL:', API_URL || 'UNDEFINED (Using relative path?)');
 
 export const login = async (email: string, password: string): Promise<AuthResponse> => {
   const response = await fetch(`${API_URL}/api/auth/login`, {
