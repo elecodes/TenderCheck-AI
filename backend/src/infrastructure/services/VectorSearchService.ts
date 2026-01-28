@@ -1,5 +1,11 @@
-import { Ollama } from "ollama";
+import { genkit } from "genkit";
+import { googleAI, textEmbedding004 } from "@genkit-ai/googleai";
 import { genkitTelemetry } from "../config/genkit-telemetry.js";
+
+// Initialize Genkit
+const ai = genkit({
+  plugins: [googleAI()],
+});
 
 /**
  * VectorSearchService - Semantic search using embeddings
@@ -7,25 +13,20 @@ import { genkitTelemetry } from "../config/genkit-telemetry.js";
  * This service generates vector embeddings for text and performs
  * similarity searches to find semantically related requirements.
  *
- * Uses nomic-embed-text model (local, 768 dimensions) via Ollama.
+ * Uses Google text-embedding-004 model (Cloud-Native).
  *
  * Key benefits:
  * - 60-80% reduction in LLM calls via pre-filtering
  * - Finds semantically similar text even with different wording
- * - Fast: <100ms for similarity search
- * - Local-first: no API calls, zero cost
+ * - Fast & Managed by Google Vertex AI
  */
 export class VectorSearchService {
-  private ollama: Ollama;
-  private embeddingModel: string;
+  private embeddingModel: any;
   private dimensions: number;
 
   constructor() {
-    this.ollama = new Ollama({
-      host: process.env.OLLAMA_SERVER_ADDRESS || "http://127.0.0.1:11434",
-    });
-    this.embeddingModel = "nomic-embed-text";
-    this.dimensions = 768; // nomic-embed-text produces 768-dimensional vectors
+    this.embeddingModel = textEmbedding004;
+    this.dimensions = 768; // text-embedding-004 dimensions
   }
 
   /**
@@ -41,15 +42,15 @@ export class VectorSearchService {
     });
 
     try {
-      // Truncate text to avoid token limits (8192 tokens ~= 32k chars)
+      // Truncate text to avoid token limits (Gemini embedding limit is wide, but good practice)
       const safeText = text.slice(0, 32000);
 
-      const response = await this.ollama.embeddings({
-        model: this.embeddingModel,
-        prompt: safeText,
+      const embeddingResult = await ai.embed({
+        embedder: this.embeddingModel,
+        content: safeText,
       });
 
-      const embedding = new Float32Array(response.embedding);
+      const embedding = new Float32Array(embeddingResult);
 
       const durationMs = Date.now() - startTime;
       genkitTelemetry.logFlowComplete(
@@ -59,12 +60,12 @@ export class VectorSearchService {
       );
 
       console.log(
-        `Generated embedding: ${embedding.length} dimensions in ${durationMs}ms`,
+        `Generated cloud embedding: ${embedding.length} dimensions in ${durationMs}ms`,
       );
 
       return embedding;
     } catch (error) {
-      console.error("Embedding generation error:", error);
+      console.error("Cloud Embedding generation error:", error);
       genkitTelemetry.logFlowError("generateEmbedding", error as Error);
       // Return zero vector as fallback
       return new Float32Array(this.dimensions);
@@ -80,7 +81,9 @@ export class VectorSearchService {
    */
   cosineSimilarity(a: Float32Array, b: Float32Array): number {
     if (a.length !== b.length) {
-      throw new Error("Vectors must have same dimensions");
+      // Handle dimension mismatch gracefully if models changed
+      console.warn(`Vector dimension mismatch: ${a.length} vs ${b.length}`);
+      return 0;
     }
 
     let dotProduct = 0;
@@ -88,9 +91,12 @@ export class VectorSearchService {
     let normB = 0;
 
     for (let i = 0; i < a.length; i++) {
-      dotProduct += a[i]! * b[i]!;
-      normA += a[i]! * a[i]!;
-      normB += b[i]! * b[i]!;
+        const valA = a[i] ?? 0; // Safe access with nullish coalescing
+        const valB = b[i] ?? 0;
+        
+        dotProduct += valA * valB;
+        normA += valA * valA;
+        normB += valB * valB;
     }
 
     const denominator = Math.sqrt(normA) * Math.sqrt(normB);
