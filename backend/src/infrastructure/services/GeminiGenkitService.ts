@@ -79,7 +79,7 @@ export class GeminiGenkitService implements ITenderAnalyzer {
   }
 
   async compareProposal(
-    _requirement: { id: string; text: string },
+    _requirementText: string,
     _proposalText: string,
   ): Promise<{
     status: "COMPLIANT" | "NON_COMPLIANT" | "PARTIAL";

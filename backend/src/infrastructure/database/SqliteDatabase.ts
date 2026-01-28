@@ -26,7 +26,7 @@ export class SqliteDatabase {
 
       SqliteDatabase.instance = createClient({
         url,
-        authToken: authToken || undefined,
+        authToken: authToken ? authToken : undefined,
       });
     }
     return SqliteDatabase.instance;
