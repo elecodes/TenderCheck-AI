@@ -96,17 +96,13 @@ const __dirname = dirname(__filename);
 app.use("/api/tenders", tenderRouter);
 app.use("/api/auth", authRouter);
 
-// Serve Frontend Static Files (Production/Docker)
-// In Docker: /app/backend/dist/presentation/server.js -> ../../../frontend/dist
-const frontendPath = join(__dirname, "../../../frontend/dist");
-app.use(express.static(frontendPath));
+// Serve Frontend Static Files (Production/Docker) - DISABLED FOR RENDER BLUEPRINT
+// The frontend is deployed as a separate Static Site service in Render.
+// We only serve API routes here.
 
-// SPA Fallback: Send index.html for any unknown non-API route
-app.get(/.*/, (req, res, next) => {
-  if (req.path.startsWith("/api")) {
-    return next();
-  }
-  res.sendFile(join(frontendPath, "index.html"));
+// 404 Handler for unknown API routes
+app.use((req, res, next) => {
+  res.status(404).json({ error: "Not Found" });
 });
 
 // Sentry: Manual Capture Middleware before global handler
