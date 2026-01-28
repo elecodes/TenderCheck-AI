@@ -35,7 +35,7 @@ app.use(
       },
     },
     crossOriginEmbedderPolicy: false,
-    crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
+    crossOriginOpenerPolicy: false,
     frameguard: false, // Disable X-Frame-Options to allow iframe embedding
   }),
 );
