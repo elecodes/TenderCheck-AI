@@ -50,7 +50,17 @@ export class VectorSearchService {
         content: safeText,
       });
 
-      const embedding = new Float32Array(embeddingResult);
+      // Genkit returns an array of results or a single result with an .embedding property
+      // Based on the error, it's returning an array of objects
+      const vector = Array.isArray(embeddingResult) 
+        ? embeddingResult[0]?.embedding 
+        : (embeddingResult as any).embedding;
+
+      if (!vector) {
+        throw new Error("No embedding returned from Genkit");
+      }
+
+      const embedding = new Float32Array(vector);
 
       const durationMs = Date.now() - startTime;
       genkitTelemetry.logFlowComplete(
