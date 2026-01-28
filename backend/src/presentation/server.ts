@@ -8,8 +8,24 @@ import cors from "cors";
 
 const app = express();
 
-// 2. Secure Defaults: Always include Helmet.js
-app.use(helmet());
+// 2. Security Middleware (Relaxed for Hugging Face Spaces Iframe)
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"], // Needed for Vite/React
+        connectSrc: ["'self'", "https://huggingface.co", "https://*.hf.space"],
+        imgSrc: ["'self'", "data:", "blob:"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        fontSrc: ["'self'", "data:", "https://fonts.gstatic.com"],
+        frameAncestors: ["'self'", "https://huggingface.co"], // Allow embedding in HF
+      },
+    },
+    crossOriginEmbedderPolicy: false,
+    frameguard: false, // Disable X-Frame-Options to allow iframe embedding
+  }),
+);
 
 // 3. Observability: Sentry
 import * as Sentry from "@sentry/node";
