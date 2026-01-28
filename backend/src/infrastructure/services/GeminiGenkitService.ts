@@ -30,17 +30,24 @@ export class GeminiGenkitService implements ITenderAnalyzer {
       console.log("🤖 Generating analysis with Gemini 1.5 Flash...");
 
       const { output } = await ai.generate({
-        prompt: `Analiza el siguiente texto de un pliego de licitación y extrae los requisitos clave.
-        Identifica si cada requisito es TÉCNICO, ADMINISTRATIVO, LEGAL o FINANCIERO.
-        Asigna un puntaje de confianza (0-1) para cada uno.
+        prompt: `Actúa como un Auditor Legal y Técnico (Legal & Technical Auditor). Analiza el siguiente Pliego de Licitación.
+        Identifica todos los requisitos técnicos OBLIGATORIOS (RTOs) y obligaciones administrativas.
 
-        INSTRUCCIONES CLAVE:
-        1. **Traduce** todos los requisitos extraídos al ESPAÑOL si están en otro idioma.
-        2. Los campos 'type' deben ser: TECHNICAL, ADMINISTRATIVE, LEGAL, FINANCIAL.
-        3. El resumen (summary) debe estar en Español.
-        
         Texto del Pliego:
-        ${text.substring(0, 500000)}`, // Unlocked context for Gemini 1.5 Flash
+        ${text.substring(0, 500000)}
+
+        INSTRUCCIONES DE EXTRACCIÓN:
+        1. **Rol**: Eres un auditor estricto. Solo te importan las reglas que son motivo de exclusión o puntuación.
+        2. **Foco**: Busca frases con IMPERATIVOS: "deberá", "será obligatorio", "se requiere", "es indispensable", "must", "shall".
+        3. **Ignora**: Texto introductorio, paja, o descripciones generales que no son reglas.
+        
+        Para CADA requisito extraído:
+        - **text**: La demanda técnica completa y exacta.
+        - **type**: Clasifícalo en TECHNICAL, ADMINISTRATIVE, LEGAL, FINANCIAL.
+        - **confidence**: 1.0 si es un mandato claro ("deberá"), 0.5 si es deseable.
+        - **keywords**: 3-4 palabras clave para búsqueda vectorial.
+
+        **Idioma**: La salida debe estar ESTRICTAMENTE en ESPAÑOL.`,
         output: { schema: AnalysisSchema },
       });
 
