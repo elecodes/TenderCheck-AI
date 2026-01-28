@@ -30,11 +30,16 @@ export class GeminiGenkitService implements ITenderAnalyzer {
       console.log("🤖 Generating analysis with Gemini 1.5 Flash...");
 
       const { output } = await ai.generate({
-        prompt: `Analyze the following tender document text and extract key requirements. 
-        Identify if each requirement is Technical, Administrative, Legal, or Financial.
-        Provide a confidence score (0-1) for each.
+        prompt: `Analiza el siguiente texto de un pliego de licitación y extrae los requisitos clave.
+        Identifica si cada requisito es TÉCNICO, ADMINISTRATIVO, LEGAL o FINANCIERO.
+        Asigna un puntaje de confianza (0-1) para cada uno.
+
+        INSTRUCCIONES CLAVE:
+        1. **Traduce** todos los requisitos extraídos al ESPAÑOL si están en otro idioma.
+        2. Los campos 'type' deben ser: TECHNICAL, ADMINISTRATIVE, LEGAL, FINANCIAL.
+        3. El resumen (summary) debe estar en Español.
         
-        Tender Text:
+        Texto del Pliego:
         ${text.substring(0, 30000)}`, // Truncate to safe limit if needed, though Gemini 1.5 has huge context
         output: { schema: AnalysisSchema },
       });

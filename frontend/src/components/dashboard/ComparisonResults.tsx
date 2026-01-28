@@ -12,21 +12,30 @@ export const ComparisonResults = ({ results, analysis }: ComparisonResultsProps)
   
   if (filteredResults.length === 0) return null;
 
-  const getStatusIcon = (status: ValidationResult['status']) => {
+  const getStatusColor = (status: ValidationResult['status']) => {
     switch (status) {
-      case 'MET': return <CheckCircle className="text-emerald-500 w-5 h-5" />;
-      case 'NOT_MET': return <XCircle className="text-red-500 w-5 h-5" />;
-      case 'PARTIALLY_MET': return <AlertTriangle className="text-amber-500 w-5 h-5" />;
-      default: return <AlertTriangle className="text-gray-500 w-5 h-5" />;
+      case 'MET': return 'border-emerald-500/30 bg-emerald-900/10 hover:border-emerald-500/50';
+      case 'NOT_MET': return 'border-red-500/30 bg-red-900/10 hover:border-red-500/50';
+      case 'PARTIALLY_MET': return 'border-amber-500/30 bg-amber-900/10 hover:border-amber-500/50';
+      default: return 'border-gray-700 bg-gray-800/30';
     }
   };
 
-  const getStatusColor = (status: ValidationResult['status']) => {
+  const getStatusTextColor = (status: ValidationResult['status']) => {
     switch (status) {
-      case 'MET': return 'border-emerald-500/20 bg-emerald-500/5';
-      case 'NOT_MET': return 'border-red-500/20 bg-red-500/5';
-      case 'PARTIALLY_MET': return 'border-amber-500/20 bg-amber-500/5';
-      default: return 'border-gray-800 bg-gray-800/20';
+      case 'MET': return 'text-emerald-400';
+      case 'NOT_MET': return 'text-red-400';
+      case 'PARTIALLY_MET': return 'text-amber-400';
+      default: return 'text-gray-400';
+    }
+  };
+
+  const getStatusIcon = (status: ValidationResult['status']) => {
+    switch (status) {
+      case 'MET': return <CheckCircle className="text-emerald-500 w-5 h-5 flex-shrink-0" />;
+      case 'NOT_MET': return <XCircle className="text-red-500 w-5 h-5 flex-shrink-0" />;
+      case 'PARTIALLY_MET': return <AlertTriangle className="text-amber-500 w-5 h-5 flex-shrink-0" />;
+      default: return <AlertTriangle className="text-gray-500 w-5 h-5 flex-shrink-0" />;
     }
   };
 
@@ -55,10 +64,10 @@ export const ComparisonResults = ({ results, analysis }: ComparisonResultsProps)
               <div className="flex items-start justify-between gap-6">
                 <div className="flex-1 space-y-4">
                   <div className="flex items-center space-x-3">
-                    <div className="p-1.5 bg-brand-dark/50 rounded-lg shadow-inner">
+                    <div className={`p-1.5 rounded-lg shadow-inner ${getStatusColor(result.status)} bg-opacity-20`}>
                       {getStatusIcon(result.status)}
                     </div>
-                    <span className="font-bold text-lg text-white tracking-tight">
+                    <span className={`font-bold text-lg tracking-tight ${getStatusTextColor(result.status)}`}>
                       {displayTitle}
                     </span>
                   </div>
