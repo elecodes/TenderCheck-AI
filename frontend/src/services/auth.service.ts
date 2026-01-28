@@ -10,8 +10,10 @@ export interface AuthResponse {
   user: User;
 }
 
+const API_URL = import.meta.env.VITE_API_BASE_URL || '';
+
 export const login = async (email: string, password: string): Promise<AuthResponse> => {
-  const response = await fetch('/api/auth/login', {
+  const response = await fetch(`${API_URL}/api/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
@@ -26,7 +28,7 @@ export const login = async (email: string, password: string): Promise<AuthRespon
 };
 
 export const register = async (name: string, email: string, password: string, company?: string): Promise<AuthResponse> => {
-  const response = await fetch('/api/auth/register', {
+  const response = await fetch(`${API_URL}/api/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name, email, password, company }),
@@ -41,7 +43,7 @@ export const register = async (name: string, email: string, password: string, co
 };
 
 export const requestPasswordReset = async (email: string): Promise<void> => {
-  const response = await fetch('/api/auth/reset-password-request', {
+  const response = await fetch(`${API_URL}/api/auth/reset-password-request`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email }),
@@ -54,7 +56,7 @@ export const requestPasswordReset = async (email: string): Promise<void> => {
 };
 
 export const loginWithGoogle = async (token: string): Promise<AuthResponse> => {
-    const response = await fetch('/api/auth/google', {
+    const response = await fetch(`${API_URL}/api/auth/google`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token }),

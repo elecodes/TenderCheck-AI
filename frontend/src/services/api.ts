@@ -13,7 +13,9 @@ export const uploadTender = async (file: File): Promise<TenderAnalysis> => {
   const formData = new FormData();
   formData.append('file', blob, file.name);
 
-  const response = await fetch('/api/tenders/analyze', {
+const API_URL = import.meta.env.VITE_API_BASE_URL || '';
+
+  const response = await fetch(`${API_URL}/api/tenders/analyze`, {
     method: 'POST',
     headers: {
         ...getAuthHeaders(),
@@ -37,7 +39,7 @@ export const validateProposal = async (tenderId: string, file: File): Promise<{ 
   const formData = new FormData();
   formData.append('file', blob, file.name);
 
-  const response = await fetch(`/api/tenders/${tenderId}/validate-proposal`, {
+  const response = await fetch(`${API_URL}/api/tenders/${tenderId}/validate-proposal`, {
     method: 'POST',
     headers: {
         ...getAuthHeaders(),
@@ -53,7 +55,7 @@ export const validateProposal = async (tenderId: string, file: File): Promise<{ 
   return response.json();
 };
 export const fetchHistory = async (): Promise<TenderAnalysis[]> => {
-  const response = await fetch('/api/tenders', {
+  const response = await fetch(`${API_URL}/api/tenders`, {
     headers: {
         ...getAuthHeaders(),
     },
@@ -67,7 +69,7 @@ export const fetchHistory = async (): Promise<TenderAnalysis[]> => {
 };
 
 export const deleteTender = async (id: string): Promise<void> => {
-  const response = await fetch(`/api/tenders/${id}`, {
+  const response = await fetch(`${API_URL}/api/tenders/${id}`, {
     method: 'DELETE',
     headers: {
         ...getAuthHeaders(),
