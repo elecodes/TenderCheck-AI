@@ -118,7 +118,13 @@ export class ValidateProposal {
               reasoning:
                 comparison?.reasoning ||
                 `Validación automática (similitud: ${(item.similarity * 100).toFixed(1)}%).`,
-              confidence: (comparison?.score || DEFAULT_CONFIDENCE_SCORE) / 100,
+              // Fix Confidence Score Logic:
+              // AI might return 0-1 or 0-100. We need to normalize to 0-1 for the frontend.
+              // If score > 1, assume it's percentage and divide by 100.
+              // If score <= 1 (e.g. 0.95), keep it as is.
+              confidence: (comparison?.score || DEFAULT_CONFIDENCE_SCORE) > 1 
+                ? (comparison?.score || DEFAULT_CONFIDENCE_SCORE) / 100 
+                : (comparison?.score || 0.75),
               evidence: {
                 text:
                   comparison?.sourceQuote ||
@@ -276,7 +282,10 @@ export class ValidateProposal {
             | "MET"
             | "NOT_MET",
           reasoning: comparison?.reasoning || "Validación automática.",
-          confidence: (comparison?.score || DEFAULT_CONFIDENCE_SCORE) / 100,
+          // Fix Confidence Score Logic for fallback too
+          confidence: (comparison?.score || DEFAULT_CONFIDENCE_SCORE) > 1 
+            ? (comparison?.score || DEFAULT_CONFIDENCE_SCORE) / 100 
+            : (comparison?.score || 0.75),
           evidence: {
             text:
               comparison?.sourceQuote || "No se encontró evidencia específica.",
