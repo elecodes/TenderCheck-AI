@@ -58,55 +58,140 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 ```text
 ├── AGENTS.md
 ├── Dockerfile
+├── HUGGINGFACE_DEPLOYMENT.md
 ├── PROJECT_PLAN.md
 ├── README.md
+├── SRS.md
 ├── TFM_PLAN.md
 ├── backend
 │   ├── Dockerfile
 │   ├── eslint.config.js
 │   ├── package-lock.json
 │   ├── package.json
+│   ├── scripts
+│   │   ├── debug_gemini.ts
+│   │   └── verify_cloud.ts
 │   ├── src
 │   │   ├── application
+│   │   │   ├── interfaces
 │   │   │   ├── services
 │   │   │   │   └── AuthService.ts
 │   │   │   └── use-cases
+│   │   │       ├── CreateTender.spec.ts
 │   │   │       ├── CreateTender.ts
 │   │   │       └── ValidateProposal.ts
 │   │   ├── config
-│   │   │   └── constants.ts
+│   │   │   ├── constants.ts
+│   │   │   └── genkit.config.ts
 │   │   ├── domain
 │   │   │   ├── entities
+│   │   │   │   ├── ComparisonResult.ts
+│   │   │   │   ├── Requirement.ts
 │   │   │   │   ├── TenderAnalysis.ts
 │   │   │   │   ├── User.ts
 │   │   │   │   └── ValidationResult.ts
+│   │   │   ├── errors
+│   │   │   │   └── AppError.ts
+│   │   │   ├── interfaces
+│   │   │   │   ├── IPdfParser.ts
+│   │   │   │   ├── IRule.ts
+│   │   │   │   └── ITenderAnalyzer.ts
 │   │   │   ├── repositories
 │   │   │   │   ├── ITenderRepository.ts
 │   │   │   │   └── UserRepository.ts
+│   │   │   ├── schemas
+│   │   │   │   └── TenderAnalysisSchema.ts
+│   │   │   ├── services
+│   │   │   │   └── RequirementsExtractor.ts
+│   │   │   └── validation
+│   │   │       ├── ValidationEngine.ts
+│   │   │       └── rules
+│   │   │           └── ScopeValidationRule.ts
 │   │   ├── infrastructure
 │   │   │   ├── adapters
 │   │   │   │   └── PdfParserAdapter.ts
+│   │   │   ├── config
+│   │   │   │   └── genkit-telemetry.ts
 │   │   │   ├── database
 │   │   │   │   ├── TursoDatabase.ts
 │   │   │   │   └── schema.sql
-│   │   │   ├── repositories
+│   │   │   ├── middleware
+│   │   │   │   ├── authMiddleware.ts
+│   │   │   │   └── errorHandler.ts
 │   │   │   ├── repositories
 │   │   │   │   ├── TursoTenderRepository.ts
 │   │   │   │   └── TursoUserRepository.ts
+│   │   │   ├── schemas
+│   │   │   │   └── LLMSchemas.ts
 │   │   │   ├── services
 │   │   │   │   ├── GeminiGenkitService.ts
 │   │   │   │   └── VectorSearchService.ts
+│   │   │   └── utils
+│   │   │       └── safeExecute.ts
 │   │   └── presentation
+│   │       ├── controllers
+│   │       │   ├── AuthController.ts
+│   │       │   └── TenderController.ts
 │   │       ├── routes
 │   │       │   ├── AuthRoutes.ts
 │   │       │   └── TenderRoutes.ts
 │   │       └── server.ts
+│   ├── test
+│   │   ├── AppError.test.ts
+│   │   ├── PdfParserAdapter.test.ts
+│   │   ├── RequirementsExtractor.test.ts
+│   │   ├── ScopeValidationRule.test.ts
+│   │   ├── ValidationEngine.test.ts
+│   │   ├── api_integration.test.ts
+│   │   └── security.test.ts
+│   ├── tsconfig.json
+│   └── vitest.config.ts
+├── ci_cd_plan.md
+├── docker-compose.yml
+├── docs
+│   ├── PLAYBOOK.md
+│   ├── adr
+│   ├── architecture
+│   ├── standards
+│   └── tfm
 ├── frontend
+│   ├── README.md
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── public
 │   ├── src
-│   │   ├── components       # React Components
-│   │   └── services         # API Client
+│   │   ├── App.css
+│   │   ├── App.tsx
+│   │   ├── assets
+│   │   ├── components
+│   │   │   ├── auth
+│   │   │   ├── dashboard
+│   │   │   ├── layout
+│   │   │   └── ui
+│   │   ├── context
+│   │   ├── index.css
+│   │   ├── main.tsx
+│   │   ├── pages
+│   │   ├── services
+│   │   │   ├── api.ts
+│   │   │   ├── auth.service.ts
+│   │   │   └── export.service.ts
+│   │   └── types.ts
+│   ├── tailwind.config.js
+│   ├── tsconfig.app.json
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
 │   └── vite.config.ts
-└── docs                     # TFM Documentation & ADRs
+├── lint_output.txt
+├── package-lock.json
+├── package.json
+├── render.yaml
+├── scripts
+│   └── docs-automator.js
+└── start.sh
 ```
 <!-- TREE_END -->
 
