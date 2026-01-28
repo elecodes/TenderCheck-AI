@@ -174,27 +174,28 @@ export class GeminiGenkitService implements ITenderAnalyzer {
         Requisitos a evaluar:
         ${reqList}
 
-        Instrucciones de Evaluación:
-        1. **Idioma**: Output ESTRICTAMENTE en ESPAÑOL.
-        2. **RAG Semántico**:
-           - Busca **conceptos** y **sinónimos**, no solo palabras exactas.
-           - Ejemplo: "Panel de Paz" EQUIVALE a "Rincón Alma & Zen" o "Zona de Mediación". ¡Esto es CUMPLE!
-           - Ejemplo: "Anexo II" EQUIVALE a "Declaración Responsable".
-        3. **Lógica Numérica**: 
-           - Si Requisito pide MIN(X) y Oferta tiene Y >= X -> CUMPLE.
-        4. **Reglas de Estado (CRÍTICO)**:
-           - **COMPLIANT (Verde)**: Score > 85. Cumple totalmente.
-           - **PARTIAL (Ámbar)**: Score 40-84. Cumple algo significativo pero falta otra parte. 
-             (Ejemplo: Tienes Audios pero falta Panel -> PARTIAL).
-           - **NON_COMPLIANT (Rojo)**: Score < 40. No hay nada relevante.
-           - **IMPORTANTE**: Si el Score es > 40, EL ESTADO DEBE SER PARTIAL o COMPLIANT. NUNCA pongas NON_COMPLIANT si Score > 40.
+        Instrucciones de Evaluación (Senior Proposal Evaluator):
+        1. **Rol**: Actúa como un *Evaluador Senior de Licitaciones*.
+        2. **Idioma**: La salida debe estar ESTRICTAMENTE en ESPAÑOL.
         
-        Para CADA requisito, genera un objeto JSON con:
-        - id (coincidiendo con el ID de entrada)
-        - status (COMPLIANT, NON_COMPLIANT, PARTIAL)
-        - reasoning (Explicación breve en Español. Menciona explícitamente la evidencia encontrada.)
-        - score (0-100 confianza)
-        - sourceQuote (Cita textual exacta de la propuesta)
+        3. **Reglas de Cumplimiento (EVALUATION RULES)**:
+           - **COMPLIANT (CUMPLE)**: La evidencia satisface plenamente el requisito.
+             * *Regla de Cumplimiento Positivo*: Si pide un mínimo (ej. 15 ítems) y la oferta da más (ej. 18), es CUMPLE.
+             * *Equivalencia Semántica*: Reconoce sinónimos técnicos (ej. "Diario de Campo" = "Registro de Observación", "Panel de Paz" = "Rincón de Resolución de Conflictos").
+             
+           - **PARTIAL (PARCIAL / AMBIGUO)**: Úsalo si la oferta menciona el tema pero falta detalle técnico específico o estándar.
+             * Ejemplo: Menciona "cifrado" pero no especifica "AES-256" cuando se pedía.
+             * Ejemplo: Cumple una parte de un requisito compuesto pero falta otra.
+             
+           - **NON_COMPLIANT (NO CUMPLE)**: La información falta por completo o contradice el requisito.
+        
+        4. **Salida**:
+           Para CADA requisito, genera un objeto JSON:
+           - id: (ID de entrada)
+           - status: "COMPLIANT" | "NON_COMPLIANT" | "PARTIAL"
+           - reasoning: Explicación de 2 frases. Menciona valores específicos si aplican.
+           - score: 0.0 a 1.0 (Confianza)
+           - sourceQuote: El fragmento exacto de la evidencia (o cadena vacía).
         `,
         output: { schema: BatchSchema },
       });
