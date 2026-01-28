@@ -178,19 +178,21 @@ export class ValidateProposal {
 
     for (const req of requirements) {
       // Check if embedding exists
-      const row = db
-        .prepare("SELECT embedding FROM requirements WHERE id = ?")
-        .get(req.id) as any;
+      const result = await db.execute({
+        sql: "SELECT embedding FROM requirements WHERE id = ?",
+        args: [req.id],
+      });
+      const row = result.rows[0] as any;
 
       if (!row || !row.embedding) {
         console.log(`Generating embedding for requirement ${req.id}...`);
         const embedding = await this.vectorSearch.generateEmbedding(req.text);
         const embeddingBuffer = this.vectorSearch.serializeEmbedding(embedding);
 
-        db.prepare("UPDATE requirements SET embedding = ? WHERE id = ?").run(
-          embeddingBuffer,
-          req.id,
-        );
+        await db.execute({
+          sql: "UPDATE requirements SET embedding = ? WHERE id = ?",
+          args: [embeddingBuffer, req.id],
+        });
       }
     }
   }
@@ -208,23 +210,25 @@ export class ValidateProposal {
 
     // Load requirement embeddings from database
     const db = SqliteDatabase.getInstance();
-    const requirementEmbeddings = requirements
-      .map((req) => {
-        const row = db
-          .prepare("SELECT embedding FROM requirements WHERE id = ?")
-          .get(req.id) as any;
+    
+    // We can fetch all embeddings in one query for better performance
+    // or keep loop. Loop is easier to refactor now.
+    const requirementEmbeddings: Array<{ id: string; embedding: Float32Array }> = [];
 
-        if (!row || !row.embedding) return null;
+    for (const req of requirements) {
+        const result = await db.execute({
+            sql: "SELECT embedding FROM requirements WHERE id = ?",
+            args: [req.id]
+        });
+        const row = result.rows[0] as any;
 
-        return {
-          id: req.id,
-          embedding: this.vectorSearch.deserializeEmbedding(row.embedding),
-        };
-      })
-      .filter((item) => item !== null) as Array<{
-      id: string;
-      embedding: Float32Array;
-    }>;
+        if (row && row.embedding) {
+            requirementEmbeddings.push({
+                id: req.id,
+                embedding: this.vectorSearch.deserializeEmbedding(row.embedding)
+            });
+        }
+    }
 
     // Find similar requirements
     const similarResults = this.vectorSearch.findSimilar(

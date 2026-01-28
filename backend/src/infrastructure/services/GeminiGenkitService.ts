@@ -1,7 +1,7 @@
 import { genkit } from "genkit";
 import { googleAI, gemini15Flash } from "@genkit-ai/googleai";
 import { z } from "zod";
-import type { ITenderAnalyzer } from "../../domain/services/ITenderAnalyzer.js";
+import type { ITenderAnalyzer } from "../../domain/interfaces/ITenderAnalyzer.js";
 import type { TenderAnalysis } from "../../domain/entities/TenderAnalysis.js";
 
 // Initialize Genkit with Google AI
@@ -11,11 +11,7 @@ const ai = genkit({
 });
 
 export class GeminiGenkitService implements ITenderAnalyzer {
-  async analyze(
-    text: string,
-    tenderId: string,
-    userId: string,
-  ): Promise<TenderAnalysis> {
+  async analyze(text: string): Promise<TenderAnalysis> {
     // Define the output schema structure for structured generation
     const AnalysisSchema = z.object({
       summary: z.string(),
@@ -66,8 +62,8 @@ export class GeminiGenkitService implements ITenderAnalyzer {
       );
 
       return {
-        id: tenderId,
-        userId: userId,
+        id: crypto.randomUUID(),
+        userId: "", // Set by caller (CreateTender)
         tenderTitle: output.summary.substring(0, 100) || "Untitled Tender",
         documentUrl: "",
         status: "COMPLETED", // Corrected from ANALYZED to match AnalysisStatus
@@ -80,5 +76,53 @@ export class GeminiGenkitService implements ITenderAnalyzer {
       console.error("Gemini Analysis Failed:", error);
       throw new Error("Failed to analyze tender with Gemini AI");
     }
+  }
+
+  async compareProposal(
+    _requirement: { id: string; text: string },
+    _proposalText: string,
+  ): Promise<{
+    status: "COMPLIANT" | "NON_COMPLIANT" | "PARTIAL";
+    reasoning: string;
+    score: number;
+    sourceQuote: string;
+  }> {
+    // Stub implementation for now - Gemini Pro/Flash logic
+    // In a real implementation, we would call the model here.
+    // For now, returning a safe default to satisfy interface and build.
+    return {
+      status: "NON_COMPLIANT",
+      score: 0,
+      reasoning: "Not implemented yet in GeminiGenkitService",
+      sourceQuote: "",
+    };
+  }
+
+  async compareBatch(
+    requirements: { id: string; text: string }[],
+    _proposalText: string,
+  ): Promise<
+    Map<
+      string,
+      {
+        status: "COMPLIANT" | "NON_COMPLIANT" | "PARTIAL";
+        reasoning: string;
+        score: number;
+        sourceQuote: string;
+      }
+    >
+  > {
+    const results = new Map();
+    // Logic to call Gemini and analyze batch
+    // Stub for build pass
+    for (const req of requirements) {
+      results.set(req.id, {
+        status: "NON_COMPLIANT",
+        score: 0,
+        reasoning: "Not implemented yet in GeminiGenkitService",
+        sourceQuote: "",
+      });
+    }
+    return results;
   }
 }
