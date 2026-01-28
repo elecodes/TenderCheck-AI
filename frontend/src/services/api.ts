@@ -5,6 +5,8 @@ const getAuthHeaders = (): HeadersInit => {
   return token ? { 'Authorization': `Bearer ${token}` } : {};
 };
 
+const API_URL = import.meta.env.VITE_API_BASE_URL || '';
+
 export const uploadTender = async (file: File): Promise<TenderAnalysis> => {
   // Read file into memory to avoid ERR_UPLOAD_FILE_CHANGED if the file on disk is touched
   const fileData = await file.arrayBuffer();
@@ -13,7 +15,7 @@ export const uploadTender = async (file: File): Promise<TenderAnalysis> => {
   const formData = new FormData();
   formData.append('file', blob, file.name);
 
-const API_URL = import.meta.env.VITE_API_BASE_URL || '';
+
 
   const response = await fetch(`${API_URL}/api/tenders/analyze`, {
     method: 'POST',
