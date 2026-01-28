@@ -14,7 +14,8 @@ export class AuthService {
     password: string,
     company?: string,
   ): Promise<User> {
-    const existingUser = await this.userRepository.findByEmail(email);
+    const normalizedEmail = email.toLowerCase();
+    const existingUser = await this.userRepository.findByEmail(normalizedEmail);
     if (existingUser) {
       throw new Error("User already exists");
     }
@@ -24,7 +25,7 @@ export class AuthService {
     const newUser = {
       id: uuidv4(),
       name,
-      email,
+      email: normalizedEmail,
       passwordHash: hashedPassword,
       company: company || undefined,
       createdAt: new Date(),
@@ -38,7 +39,8 @@ export class AuthService {
     email: string,
     password: string,
   ): Promise<{ token: string; user: User }> {
-    const user = await this.userRepository.findByEmail(email);
+    const normalizedEmail = email.toLowerCase();
+    const user = await this.userRepository.findByEmail(normalizedEmail);
     if (!user) {
       throw new Error("Invalid credentials");
     }
@@ -100,12 +102,13 @@ export class AuthService {
     }
 
     // 2. Find or Create User
-    let user = await this.userRepository.findByEmail(googleUser.email);
+    const normalizedEmail = googleUser.email.toLowerCase();
+    let user = await this.userRepository.findByEmail(normalizedEmail);
 
     if (!user) {
       user = {
         id: uuidv4(),
-        email: googleUser.email,
+        email: normalizedEmail,
         name: googleUser.name || "Google User",
         // Set unguessable password for Google-only accounts
         passwordHash: await bcrypt.hash(uuidv4(), SALT_ROUNDS),
