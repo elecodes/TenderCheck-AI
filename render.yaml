@@ -21,7 +21,7 @@ services:
         value: 10000
 
   # 2. Frontend Service (Static Site)
-  - type: static
+  - type: web
     name: tendercheck-frontend
     env: static
     buildCommand: cd frontend && npm install && npm run build
