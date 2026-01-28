@@ -16,10 +16,14 @@ Establish a robust automated pipeline using GitHub Actions to ensure code qualit
     *   Install dependencies.
     *   Run Build (`npm run build`). (Ensures no type errors or broken imports).
 
-### 2. Dependency Scan (`.github/workflows/security.yml`)
-**Triggers**: Weekly Schedule, Push to `main`.
-**Jobs**:
-*   **Audit**: Run `npm audit`.
+### 3. Deployment Pipeline (Render)
+**Type**: Continuous Deployment (CD).
+**Trigger**: Push to `main` (Automatic via Render Dashboard).
+1.  **Backend**: Render pulls `main`, builds (`npm build`), and deploys if tests pass.
+2.  **Frontend**: Render pulls `main`, builds (`npm build`), and publishes static assets.
+
+## 3. Deployment Documentation
+See **[Deployment Guide](docs/deployment_guide.md)** for detailed Render setup.
 
 ## Tasks
 - [ ] Create `.github/workflows/quality.yml`.
