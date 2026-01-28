@@ -23,13 +23,18 @@ export class TursoDatabase {
         );
       }
 
+      // Allow empty token for local dev (file:) but enforce for remote
+      if (url.startsWith("libsql://") && !authToken) {
+        throw new Error("🚨 TURSO_AUTH_TOKEN is required for remote Turso DB.");
+      }
+
       console.log(
         `🔌 Connecting to Turso at: ${url.replace(authToken || "", "***")}`,
       );
 
       TursoDatabase.instance = createClient({
         url,
-        authToken,
+        authToken: authToken || undefined,
       });
     }
     return TursoDatabase.instance;

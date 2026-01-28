@@ -1,40 +1,22 @@
 import { genkit } from "genkit";
-import { ollama } from "genkitx-ollama";
+import { googleAI, gemini15Flash } from "@genkit-ai/googleai";
 
 /**
  * Genkit Configuration for TenderCheck AI
  *
- * This configuration sets up Genkit with Ollama provider for local-first AI inference.
- * Uses Mistral 7B model for faster performance while maintaining privacy.
- *
- * @see https://firebase.google.com/docs/genkit
- * @see https://github.com/TheFireCo/genkit-plugins/tree/main/plugins/ollama
+ * This configuration sets up Genkit with Google AI provider for Cloud-Native inference.
+ * Uses Gemini 1.5 Flash for fast, cost-effective performance.
  */
-
 export const ai = genkit({
-  plugins: [
-    ollama({
-      models: [
-        {
-          name: "mistral",
-          type: "generate",
-        },
-      ],
-      serverAddress:
-        process.env.OLLAMA_SERVER_ADDRESS || "http://127.0.0.1:11434",
-    }),
-  ],
+  plugins: [googleAI()],
+  model: gemini15Flash,
 });
 
 /**
  * Genkit Model Constants
- * These are used throughout the application for consistency
  */
 export const GENKIT_MODELS = {
-  MISTRAL: "ollama/mistral",
-  // Future: Add more models as needed
-  // MISTRAL_LARGE: 'ollama/mistral-large',
-  // GPT4: 'openai/gpt-4',
+  GEMINI_FLASH: "googleai/gemini-1.5-flash",
 } as const;
 
 /**
