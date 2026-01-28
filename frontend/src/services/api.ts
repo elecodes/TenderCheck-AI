@@ -5,7 +5,7 @@ const getAuthHeaders = (): HeadersInit => {
   return token ? { 'Authorization': `Bearer ${token}` } : {};
 };
 
-const API_URL = import.meta.env.VITE_API_BASE_URL || '';
+const API_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
 
 export const uploadTender = async (file: File): Promise<TenderAnalysis> => {
   // Read file into memory to avoid ERR_UPLOAD_FILE_CHANGED if the file on disk is touched

@@ -10,7 +10,7 @@ export interface AuthResponse {
   user: User;
 }
 
-const API_URL = import.meta.env.VITE_API_BASE_URL || '';
+const API_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
 
 export const login = async (email: string, password: string): Promise<AuthResponse> => {
   const response = await fetch(`${API_URL}/api/auth/login`, {
