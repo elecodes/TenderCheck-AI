@@ -22,8 +22,8 @@ export const OPENAI_MAX_RETRIES = 4;
 export const OPENAI_MATCH_THRESHOLD = 50; //%
 export const MIN_WORD_LENGTH = 4;
 export const DEFAULT_CONFIDENCE_SCORE = 75; // Updated from 85
-export const PROPOSAL_TRUNCATE_SINGLE = 2000; // Updated from 3000
-export const PROPOSAL_TRUNCATE_BATCH = 6000; // Updated from 5000
+export const PROPOSAL_TRUNCATE_SINGLE = 500000; // Increased to 500k for Gemini 1.5 Flash (1M token window)
+export const PROPOSAL_TRUNCATE_BATCH = 500000; // Increased to 500k
 export const BATCH_CHUNK_SIZE = 3; // Process 3 requirements per batch (was 1)
 export const MAX_AI_CONCURRENCY = 3; // Process 3 batches in parallel (was 1)
 

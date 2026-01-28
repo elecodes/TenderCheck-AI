@@ -40,7 +40,7 @@ export class GeminiGenkitService implements ITenderAnalyzer {
         3. El resumen (summary) debe estar en Español.
         
         Texto del Pliego:
-        ${text.substring(0, 30000)}`, // Truncate to safe limit if needed, though Gemini 1.5 has huge context
+        ${text.substring(0, 500000)}`, // Unlocked context for Gemini 1.5 Flash
         output: { schema: AnalysisSchema },
       });
 
@@ -107,7 +107,7 @@ export class GeminiGenkitService implements ITenderAnalyzer {
         "${requirementText}"
 
         Extracto de la Propuesta:
-        "${proposalText.substring(0, 15000)}"
+        "${proposalText.substring(0, 500000)}"
 
         Tarea:
         1. Determinar si se cumple el requisito (COMPLIANT, NON_COMPLIANT, PARTIAL).
@@ -169,7 +169,7 @@ export class GeminiGenkitService implements ITenderAnalyzer {
         prompt: `Actúa como un experto evaluador de licitaciones públicas. Compara los siguientes requisitos técnicos contra el texto de la propuesta proporcionada.
         
         Texto de la Propuesta:
-        "${proposalText.substring(0, 25000)}"
+        "${proposalText.substring(0, 500000)}"
 
         Requisitos a evaluar:
         ${reqList}
