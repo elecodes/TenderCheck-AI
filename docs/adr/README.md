@@ -15,3 +15,6 @@
 | 008 | [ADR 008: Local SQL Persistence (SQLite)](./008-local-sql-persistence.md) | Unknown |
 | 009 | [ADR 009: Vector Search and Performance Optimization](./009-vector-search-performance.md) | ** Accepted   |
 | 010 | [ADR 010: Frontend Localization and Security Hardening](./010-frontend-localization-security.md) | Unknown |
+| 011 | [ADR 011: Cloud Authentication Strategy (Google OAuth)](./011-cloud-authentication.md) | Unknown |
+| 011 | [ADR 011: Estrategia de Despliegue en Nube (Hugging Face Spaces)](./011-cloud-deployment.md) | Unknown |
+| 012 | [12. Cloud Architecture Pivot: Render, Turso, and Gemini](./012-cloud-pivot-render-turso.md) | Unknown |
