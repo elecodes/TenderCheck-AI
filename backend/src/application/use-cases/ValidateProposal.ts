@@ -114,7 +114,9 @@ export class ValidateProposal {
               requirementId: item.requirement.id,
               status: (comparison?.status === "COMPLIANT"
                 ? "MET"
-                : "NOT_MET") as "MET" | "NOT_MET",
+                : comparison?.status === "PARTIAL"
+                ? "PARTIALLY_MET"
+                : "NOT_MET") as "MET" | "NOT_MET" | "PARTIALLY_MET",
               reasoning:
                 comparison?.reasoning ||
                 `Validación automática (similitud: ${(item.similarity * 100).toFixed(1)}%).`,
@@ -278,9 +280,11 @@ export class ValidateProposal {
         const comparison = batchResults.get(req.id);
         results.push({
           requirementId: req.id,
-          status: (comparison?.status === "COMPLIANT" ? "MET" : "NOT_MET") as
-            | "MET"
-            | "NOT_MET",
+          status: (comparison?.status === "COMPLIANT" 
+            ? "MET" 
+            : comparison?.status === "PARTIAL"
+            ? "PARTIALLY_MET"
+            : "NOT_MET") as "MET" | "NOT_MET" | "PARTIALLY_MET",
           reasoning: comparison?.reasoning || "Validación automática.",
           // Fix Confidence Score Logic for fallback too
           confidence: (comparison?.score || DEFAULT_CONFIDENCE_SCORE) > 1 

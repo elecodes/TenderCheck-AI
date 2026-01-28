@@ -16,7 +16,9 @@ export const ComparisonResults = ({ results, analysis }: ComparisonResultsProps)
     switch (status) {
       case 'MET': return 'border-emerald-500/30 bg-emerald-900/10 hover:border-emerald-500/50';
       case 'NOT_MET': return 'border-red-500/30 bg-red-900/10 hover:border-red-500/50';
-      case 'PARTIALLY_MET': return 'border-amber-500/30 bg-amber-900/10 hover:border-amber-500/50';
+      case 'PARTIALLY_MET': 
+      case 'AMBIGUOUS': 
+        return 'border-amber-500/30 bg-amber-900/10 hover:border-amber-500/50';
       default: return 'border-gray-700 bg-gray-800/30';
     }
   };
@@ -25,7 +27,9 @@ export const ComparisonResults = ({ results, analysis }: ComparisonResultsProps)
     switch (status) {
       case 'MET': return 'text-emerald-400';
       case 'NOT_MET': return 'text-red-400';
-      case 'PARTIALLY_MET': return 'text-amber-400';
+      case 'PARTIALLY_MET': 
+      case 'AMBIGUOUS':
+        return 'text-amber-400';
       default: return 'text-gray-400';
     }
   };
@@ -34,7 +38,9 @@ export const ComparisonResults = ({ results, analysis }: ComparisonResultsProps)
     switch (status) {
       case 'MET': return <CheckCircle className="text-emerald-500 w-5 h-5 flex-shrink-0" />;
       case 'NOT_MET': return <XCircle className="text-red-500 w-5 h-5 flex-shrink-0" />;
-      case 'PARTIALLY_MET': return <AlertTriangle className="text-amber-500 w-5 h-5 flex-shrink-0" />;
+      case 'PARTIALLY_MET': 
+      case 'AMBIGUOUS':
+        return <AlertTriangle className="text-amber-500 w-5 h-5 flex-shrink-0" />;
       default: return <AlertTriangle className="text-gray-500 w-5 h-5 flex-shrink-0" />;
     }
   };
