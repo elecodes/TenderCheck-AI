@@ -22,7 +22,21 @@ A continuación se detallan los algoritmos clave implementados en `backend/src/d
 ## 4.4. Sistema de Autenticación y Persistencia
 Se ha implementado un sistema robusto para la gestión de datos.
 - **Autenticación**: Basada en **JWT (JSON Web Tokens)** con almacenamiento seguro en el servidor y `localStorage` en el cliente.
-- **Persistencia de Licitaciones**: Implementación del patrón *Repository* con SQLite para almacenar la relación entre Usuarios, Análisis, Requisitos y Resultados de Validación.
+- **Persistencia de Licitaciones**: Implementación del patrón *Repository* con **Turso (LibSQL)** para almacenar la relación entre Usuarios, Análisis, Requisitos y Resultados de Validación. Esta migración a la nube permite que los datos sobrevivan al reinicio de los contenedores de aplicación.
+- **Migración a la Nube**: Pivotaje arquitectónico desde SQLite local a Turso para resolver problemas de persistencia en entornos serverless (Render).
+
+## 4.5. Infraestructura Cloud (Render + Turso + Gemini)
+El sistema ha evolucionado hacia un modelo *Cloud-Native* para garantizar escalabilidad y estabilidad:
+- **Hosting (Render)**:
+  - **Backend**: Desplegado como "Web Service" en Node.js 22.
+  - **Frontend**: Desplegado como "Static Site" (SPA).
+  - **Comunicación**: Variables de entorno seguras (`DATA_API_KEY`, `ALLOWED_ORIGINS`).
+- **Base de Datos (Turso)**:
+  - Base de datos distribuida basada en libSQL.
+  - Gestión de esquemas automática al inicio (`SqliteDatabase.initializeSchema()`).
+- **IA (Gemini 2.5 Flash)**:
+  - Sustitución de Ollama (ejecución local pesada) por API de Google Vertex AI.
+  - Reducción drástica de latencia (<5s vs 2min) y eliminación de timeouts en despliegue.
 
 ## 4.4. Procesamiento de Ofertas y Resumen de Cumplimiento
 Tras extraer los requisitos del pliego, el sistema permite subir una oferta para su validación.
