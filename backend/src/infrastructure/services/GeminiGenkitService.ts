@@ -79,28 +79,57 @@ export class GeminiGenkitService implements ITenderAnalyzer {
   }
 
   async compareProposal(
-    _requirementText: string,
-    _proposalText: string,
+    requirementText: string,
+    proposalText: string,
   ): Promise<{
     status: "COMPLIANT" | "NON_COMPLIANT" | "PARTIAL";
     reasoning: string;
     score: number;
     sourceQuote: string;
   }> {
-    // Stub implementation for now - Gemini Pro/Flash logic
-    // In a real implementation, we would call the model here.
-    // For now, returning a safe default to satisfy interface and build.
-    return {
-      status: "NON_COMPLIANT",
-      score: 0,
-      reasoning: "Not implemented yet in GeminiGenkitService",
-      sourceQuote: "",
-    };
+    const ComparisonSchema = z.object({
+      status: z.enum(["COMPLIANT", "NON_COMPLIANT", "PARTIAL"]),
+      reasoning: z.string(),
+      score: z.number(),
+      sourceQuote: z.string(),
+    });
+
+    try {
+      const { output } = await ai.generate({
+        prompt: `Evaluate if the proposal meets the requirement.
+        
+        Requirement:
+        "${requirementText}"
+
+        Proposal Excerpt:
+        "${proposalText.substring(0, 15000)}"
+
+        Task:
+        1. Determine if the requirement is met (COMPLIANT, NON_COMPLIANT, PARTIAL).
+        2. Provide reasoning.
+        3. Assign a confidence score (0-100).
+        4. Extract a relevant quote from the proposal as evidence.
+        `,
+        output: { schema: ComparisonSchema },
+      });
+
+      if (!output) throw new Error("Empty AI response");
+
+      return output;
+    } catch (error) {
+      console.error("Gemini Comparison Failed:", error);
+      return {
+        status: "NON_COMPLIANT",
+        score: 0,
+        reasoning: "AI Analysis Failed",
+        sourceQuote: "",
+      };
+    }
   }
 
   async compareBatch(
     requirements: { id: string; text: string }[],
-    _proposalText: string,
+    proposalText: string,
   ): Promise<
     Map<
       string,
@@ -112,17 +141,53 @@ export class GeminiGenkitService implements ITenderAnalyzer {
       }
     >
   > {
-    const results = new Map();
-    // Logic to call Gemini and analyze batch
-    // Stub for build pass
-    for (const req of requirements) {
-      results.set(req.id, {
-        status: "NON_COMPLIANT",
-        score: 0,
-        reasoning: "Not implemented yet in GeminiGenkitService",
-        sourceQuote: "",
+    const BatchSchema = z.object({
+      results: z.array(
+        z.object({
+          id: z.string(),
+          status: z.enum(["COMPLIANT", "NON_COMPLIANT", "PARTIAL"]),
+          reasoning: z.string(),
+          score: z.number(),
+          sourceQuote: z.string(),
+        }),
+      ),
+    });
+
+    try {
+      // Simplified prompt for batch processing
+      const reqList = requirements
+        .map((r) => `ID: ${r.id}\nRequirement: ${r.text}`)
+        .join("\n---\n");
+
+      const { output } = await ai.generate({
+        prompt: `You are an expert tender evaluator. Compare the following requirements against the provided proposal text.
+        
+        Proposal Text:
+        "${proposalText.substring(0, 25000)}"
+
+        Requirements:
+        ${reqList}
+
+        For EACH requirement, output a JSON object with:
+        - id (matching the input ID)
+        - status (COMPLIANT, NON_COMPLIANT, PARTIAL)
+        - reasoning (brief explanation)
+        - score (0-100 confidence)
+        - sourceQuote (exact quote from proposal, or empty string if none)
+        `,
+        output: { schema: BatchSchema },
       });
+
+      const results = new Map();
+      if (output && output.results) {
+        for (const res of output.results) {
+          results.set(res.id, res);
+        }
+      }
+      return results;
+    } catch (error) {
+      console.error("Gemini Batch Comparison Failed:", error);
+      return new Map();
     }
-    return results;
   }
 }
