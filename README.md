@@ -32,6 +32,12 @@ app_port: 3000
 - **Cloud AI Analysis**: Extracts requirements using **Gemini 2.5 Flash** (Fast, Free Tier compatible).
 - **Requirement Extraction**: Identifies technical clauses, distinguishing **OBLIGATORIO** vs **OPCIONAL**.
 - **Real Proposal Validation**: Real-time comparison of vendor proposals with AI reasoning.
+- **Análisis Inteligente (Dual Persona)**: 
+  - **Auditor Legal (Extracción)**: Identifica requisitos estrictos ("deberá", "obligatorio").
+  - **Evaluador Senior (Validación)**: Entiende sinónimos técnicos y matices de cumplimiento parcial.
+- **Búsqueda Semántica Cloud**: Vector Search nativo con Google Genkit (`text-embedding-004`).
+- **Arquitectura Cloud-Native**: Backend en Render + Base de Datos Turso (Edge SQLite).
+- **Interfaz React Moderna**: Dashboard con estadísticas en tiempo real y feedback visual (colores semánticos).
 - **Persistent History**: Stores all analyses in **Turso (Distributed SQLite)** for reliability.
 - **History Management**: Browse, search, and delete previous analyses.
 - **Professional Export**: Generate branded **PDF Reports**.

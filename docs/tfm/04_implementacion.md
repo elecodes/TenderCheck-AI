@@ -19,13 +19,19 @@ La implementación integra controles de calidad automatizados:
 ## 4.3. Implementación de Algoritmos (Code Snippets)
 A continuación se detallan los algoritmos clave implementados en `backend/src/domain`:
 
-## 4.4. Sistema de Autenticación y Persistencia
+### 4.2.2. Sistema de Autenticación y Persistencia
 Se ha implementado un sistema robusto para la gestión de datos.
 - **Autenticación**: Basada en **JWT (JSON Web Tokens)** con almacenamiento seguro en el servidor y `localStorage` en el cliente.
 - **Persistencia de Licitaciones**: Implementación del patrón *Repository* con **Turso (LibSQL)** para almacenar la relación entre Usuarios, Análisis, Requisitos y Resultados de Validación. Esta migración a la nube permite que los datos sobrevivan al reinicio de los contenedores de aplicación.
 - **Migración a la Nube**: Pivotaje arquitectónico desde SQLite local a Turso para resolver problemas de persistencia en entornos serverless (Render).
 
-## 4.5. Infraestructura Cloud (Render + Turso + Gemini)
+### 4.2.3 Refinamiento de la Lógica de IA (Fases 6 y 7)
+Se implementó una estrategia de "Doble Prompt" para maximizar la precisión:
+1.  **Extracción (Input)**: Se utiliza un prompt de "Auditor Legal" que filtra estrictamente los requisitos obligatorios (RTOs) basándose en imperativos legales.
+2.  **Validación (RAG)**: Se emplea un prompt de "Evaluador Senior" con una ventana de contexto ampliada a **500,000 caracteres** (Gemini 1.5 Flash), permitiendo la detección de evidencia en documentos extensos sin alucinaciones.
+3.  **Embeddings Cloud**: Se migró el servicio de búsqueda vectorial a **Google `text-embedding-004`**, eliminando la dependencia de servidores locales (Ollama) para el despliegue en producción.
+
+## 4.3. Despliegue y Arquitectura Cloud (Render + Turso + Gemini)
 El sistema ha evolucionado hacia un modelo *Cloud-Native* para garantizar escalabilidad y estabilidad:
 - **Hosting (Render)**:
   - **Backend**: Desplegado como "Web Service" en Node.js 22.
