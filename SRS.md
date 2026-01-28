@@ -41,7 +41,7 @@
 ## 5. Technical Stack
 - **Runtime:** Node.js (LTS 22+)
 - **Language:** TypeScript (Strict Mode)
-- **AI Framework:** **Google Genkit** (Gemini 2.5 Flash + text-embedding-004)
+- **AI Framework:** **Google Genkit** (Gemini 1.5 Flash + text-embedding-004)
 - **Database:** **Turso** (Distributed SQLite)
 - **Frontend:** React + Vite + TailwindCSS
 - **Deployment:** **Render** (Cloud Native)
