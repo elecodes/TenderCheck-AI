@@ -41,5 +41,5 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
   },
-  "exclude": ["test", "**/*.test.ts", "vitest.config.ts", ".dependency-cruiser.cjs", "eslint.config.js", "dist"]
+  "exclude": ["test", "**/*.test.ts", "vitest.config.ts", ".dependency-cruiser.cjs", "eslint.config.js", "dist", "scripts"]
 }
