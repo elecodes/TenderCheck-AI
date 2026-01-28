@@ -28,7 +28,4 @@ services:
     staticPublishPath: frontend/dist
     envVars:
       - key: VITE_API_BASE_URL
-        fromService:
-          type: web
-          name: tendercheck-backend
-          property: url
+        sync: false # Set in Dashboard after Backend is live
