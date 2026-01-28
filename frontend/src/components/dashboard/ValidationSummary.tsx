@@ -10,19 +10,30 @@ export const ValidationSummary = ({ analysis, results }: ValidationSummaryProps)
   const requirements = analysis.requirements || [];
   const complianceResults = results.filter(r => r.requirementId !== 'SCOPE_CHECK');
 
+  // Helper to normalize backend types to frontend binary categories
+  const isMandatory = (type: string) => 
+    ['MANDATORY', 'TECHNICAL', 'ADMINISTRATIVE', 'LEGAL', 'SECURITY'].includes(type);
+    
+  const isOptional = (type: string) => 
+    ['OPTIONAL', 'FINANCIAL', 'VALUE_ADDED'].includes(type);
+
   const stats = {
     mandatory: {
-      total: requirements.filter(r => r.type === 'MANDATORY').length,
+      total: requirements.filter(r => isMandatory(r.type)).length,
       met: complianceResults.filter(res => {
         const req = requirements.find(r => r.id === res.requirementId);
-        return req?.type === 'MANDATORY' && res.status === 'MET';
+        // Also count PARTIALLY_MET as effectively counting towards progress/stats if needed, 
+        // but traditionally stats are strict. Let's keep strict "MET" for now or use score.
+        // Actually, let's map PARTIALLY_MET to at least visible progress later. 
+        // For now, strict 'MET'.
+        return req && isMandatory(req.type) && res.status === 'MET';
       }).length,
     },
     optional: {
-      total: requirements.filter(r => r.type === 'OPTIONAL').length,
+      total: requirements.filter(r => isOptional(r.type)).length,
       met: complianceResults.filter(res => {
         const req = requirements.find(r => r.id === res.requirementId);
-        return req?.type === 'OPTIONAL' && res.status === 'MET';
+        return req && isOptional(req.type) && res.status === 'MET';
       }).length,
     }
   };
