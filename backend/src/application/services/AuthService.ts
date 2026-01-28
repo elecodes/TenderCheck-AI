@@ -68,49 +68,57 @@ export class AuthService {
 
     // MOCK EMAIL SERVICE
     const resetToken = uuidv4();
-    console.log(`[MOCK EMAIL] Password reset requested for ${email}. Token: ${resetToken}`);
-    console.log(`[MOCK EMAIL] Link: http://localhost:5173/reset-password?token=${resetToken}`);
-    
-    
+    console.log(
+      `[MOCK EMAIL] Password reset requested for ${email}. Token: ${resetToken}`,
+    );
+    console.log(
+      `[MOCK EMAIL] Link: http://localhost:5173/reset-password?token=${resetToken}`,
+    );
+
     // In a real app, save token to DB and send email
   }
 
-  async loginWithGoogle(accessToken: string): Promise<{ token: string; user: User }> {
+  async loginWithGoogle(
+    accessToken: string,
+  ): Promise<{ token: string; user: User }> {
     // 1. Get User Info from Google
-    const googleResponse = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-        headers: { Authorization: `Bearer ${accessToken}` }
-    });
+    const googleResponse = await fetch(
+      "https://www.googleapis.com/oauth2/v3/userinfo",
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      },
+    );
 
     if (!googleResponse.ok) {
-        throw new Error('Invalid Google Token');
+      throw new Error("Invalid Google Token");
     }
 
-    const googleUser = await googleResponse.json() as any;
-    
+    const googleUser = (await googleResponse.json()) as any;
+
     if (!googleUser.email) {
-        throw new Error('Google account must have an email');
+      throw new Error("Google account must have an email");
     }
 
     // 2. Find or Create User
     let user = await this.userRepository.findByEmail(googleUser.email);
 
     if (!user) {
-        user = {
-            id: uuidv4(),
-            email: googleUser.email,
-            name: googleUser.name || 'Google User',
-            // Set unguessable password for Google-only accounts
-            passwordHash: await bcrypt.hash(uuidv4(), SALT_ROUNDS),
-            createdAt: new Date(),
-        };
-        await this.userRepository.save(user);
+      user = {
+        id: uuidv4(),
+        email: googleUser.email,
+        name: googleUser.name || "Google User",
+        // Set unguessable password for Google-only accounts
+        passwordHash: await bcrypt.hash(uuidv4(), SALT_ROUNDS),
+        createdAt: new Date(),
+      };
+      await this.userRepository.save(user);
     }
 
     // 3. Issue Token
     const token = jwt.sign(
-        { userId: user.id },
-        process.env.JWT_SECRET || JWT_SECRET_FALLBACK,
-        { expiresIn: "1d" },
+      { userId: user.id },
+      process.env.JWT_SECRET || JWT_SECRET_FALLBACK,
+      { expiresIn: "1d" },
     );
 
     return { token, user };

@@ -25,7 +25,7 @@ app_port: 3000
 - [x] **Phase 3**: Vector Search (Local Embeddings)
 - [x] **Phase 14**: Persistence & History (SQLite)
 - [x] **Phase 4**: Cloud Auth & Security (Google Sign-In, OWASP Hardening)
-- [ ] **Phase 5**: Cloud Deployment (Hugging Face / Cloud Run)-green)
+- [x] **Phase 5**: Cloud Deployment (Hugging Face / Docker)
 
 ## 🚀 Key Features
 - **Smart Ingestion**: Parses complex PDF structure from Tender Documents (*Pliegos*).

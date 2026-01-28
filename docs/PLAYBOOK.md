@@ -101,14 +101,32 @@ To run the analysis without costs/limits:
   - Register: "No se pudo crear la cuenta"
 - **Localization**: The UI is Spanish-first. Ensure all new features are fully marked up with Spanish copy.
 
-### 12. Deployment Guide
+### 12. Deployment Guide 🚀
 - **Provider**: Hugging Face Spaces (Docker).
 - **Prerequisites**:
-  - `VITE_GOOGLE_CLIENT_ID` in `frontend/.env`.
-  - Hugging Face Account.
-- **Commands**:
-  ```bash
-  git remote add space https://huggingface.co/spaces/USERNAME/SPACE_NAME
-  git push space main
-  ```
-- **Troubleshooting**: If Cloud Run is used, ensure the `LLM_PROVIDER` is set to `gemini` to avoid OOM errors with local Mistral.
+  - `VITE_GOOGLE_CLIENT_ID` (and Secret) in Space Settings.
+  - `JWT_SECRET` in Space Settings.
+- **Critical Strategy**: Use **Orphan Branches** to deploy a clean, minimal history (avoids hitting 10GB LFS limits with local DB files).
+
+#### deployment Command Sequence:
+```bash
+# 1. Create a fresh orphan branch
+git checkout --orphan deploy-vX
+
+# 2. Add all files (ignores .gitignore properly)
+git add .
+
+# 3. Commit
+git commit -m "Deploy vX"
+
+# 4. Push to Space (force update)
+git push space deploy-vX:main --force
+
+# 5. Return to Dev
+git checkout phase-4-cloud-auth
+```
+
+- **Troubleshooting**:
+  - If "Runtime Error" -> Check logs for `start.sh` permissions or OOM.
+  - If "Timeout" -> The Model (Mistral) loading might be taking too long.
+

@@ -13,7 +13,7 @@ export class InMemoryTenderRepository implements ITenderRepository {
   }
 
   async findByUserId(userId: string): Promise<TenderAnalysis[]> {
-    return Array.from(this.tenders.values()).filter(t => t.userId === userId);
+    return Array.from(this.tenders.values()).filter((t) => t.userId === userId);
   }
 
   async delete(id: string): Promise<void> {
