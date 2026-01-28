@@ -44,11 +44,15 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Install system dependencies
 # zstd is required for Ollama
+# python3, make, g++ are required for rebuilding native modules (better-sqlite3)
 RUN apt-get update && apt-get install -y \
     curl \
     ca-certificates \
     gnupg \
     zstd \
+    python3 \
+    make \
+    g++ \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Node.js 20 (Runtime)

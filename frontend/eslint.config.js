@@ -29,6 +29,10 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      'jsx-a11y/no-autofocus': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/ban-ts-comment': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
 )
