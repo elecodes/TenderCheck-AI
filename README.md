@@ -72,7 +72,6 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   └── verify_cloud.ts
 │   ├── src
 │   │   ├── application
-│   │   │   ├── interfaces
 │   │   │   ├── services
 │   │   │   │   └── AuthService.ts
 │   │   │   └── use-cases
@@ -118,6 +117,8 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   │   │   ├── authMiddleware.ts
 │   │   │   │   └── errorHandler.ts
 │   │   │   ├── repositories
+│   │   │   │   ├── InMemoryTenderRepository.ts
+│   │   │   │   ├── InMemoryUserRepository.ts
 │   │   │   │   ├── TursoTenderRepository.ts
 │   │   │   │   └── TursoUserRepository.ts
 │   │   │   ├── schemas
@@ -150,30 +151,93 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 ├── docs
 │   ├── PLAYBOOK.md
 │   ├── adr
+│   │   ├── 000-template.md
+│   │   ├── 001-validation-strategy.md
+│   │   ├── 002-frontend-stack.md
+│   │   ├── 003-ai-integration.md
+│   │   ├── 003-observability.md
+│   │   ├── 004-proposal-validation.md
+│   │   ├── 004-rules-engine.md
+│   │   ├── 005-local-auth-and-ollama.md
+│   │   ├── 006-ui-theme-routing.md
+│   │   ├── 007-security-hardening.md
+│   │   ├── 008-local-sql-persistence.md
+│   │   ├── 009-vector-search-performance.md
+│   │   ├── 010-frontend-localization-security.md
+│   │   ├── 011-cloud-authentication.md
+│   │   ├── 011-cloud-deployment.md
+│   │   ├── 012-cloud-pivot-render-turso.md
+│   │   ├── 013-ai-logic-refinements.md
+│   │   └── README.md
 │   ├── architecture
+│   │   ├── mcp_feasibility_study.md
+│   │   └── system_architecture.md
+│   ├── deployment_guide.md
 │   ├── standards
+│   │   ├── code_quality_policy.md
+│   │   ├── coding_best_practices.md
+│   │   ├── devops_policy.md
+│   │   ├── devsecops_free_tools.md
+│   │   ├── health_and_errors_policy.md
+│   │   ├── lifecycle_paradigms.md
+│   │   ├── metrics_policy.md
+│   │   ├── microcopy_policy.md
+│   │   ├── requirements_UML.md
+│   │   ├── secure_coding_practices.md
+│   │   ├── security_policy.md
+│   │   ├── sentry_policy.md
+│   │   ├── solid_principles.md
+│   │   ├── testing_policy.md
+│   │   ├── usable_forms_best_practices.md
+│   │   └── ux_accessibility_policy.md
 │   └── tfm
+│       ├── 00_analisis_detallado.md
+│       ├── 01_introduccion_objetivos.md
+│       ├── 02_marco_teorico.md
+│       ├── 03_arquitectura.md
+│       └── 04_implementacion.md
 ├── frontend
 │   ├── README.md
 │   ├── eslint.config.js
+│   ├── frontend
+│   │   ├── package-lock.json
+│   │   └── package.json
 │   ├── index.html
 │   ├── package-lock.json
 │   ├── package.json
 │   ├── postcss.config.js
 │   ├── public
+│   │   └── vite.svg
 │   ├── src
 │   │   ├── App.css
 │   │   ├── App.tsx
 │   │   ├── assets
+│   │   │   └── react.svg
 │   │   ├── components
 │   │   │   ├── auth
+│   │   │   │   ├── ForgotPasswordForm.tsx
+│   │   │   │   ├── GoogleLoginButton.tsx
+│   │   │   │   ├── LoginForm.tsx
+│   │   │   │   └── RegisterForm.tsx
 │   │   │   ├── dashboard
+│   │   │   │   ├── AnalysisResults.tsx
+│   │   │   │   ├── ComparisonResults.tsx
+│   │   │   │   ├── Dashboard.tsx
+│   │   │   │   ├── HistorySidebar.tsx
+│   │   │   │   ├── TenderUpload.tsx
+│   │   │   │   └── ValidationSummary.tsx
 │   │   │   ├── layout
+│   │   │   │   ├── Navbar.tsx
+│   │   │   │   └── ProtectedRoute.tsx
 │   │   │   └── ui
+│   │   │       ├── SentryErrorBoundary.tsx
+│   │   │       └── Skeleton.tsx
 │   │   ├── context
+│   │   │   └── AuthContext.tsx
 │   │   ├── index.css
 │   │   ├── main.tsx
 │   │   ├── pages
+│   │   │   └── LandingPage.tsx
 │   │   ├── services
 │   │   │   ├── api.ts
 │   │   │   ├── auth.service.ts
