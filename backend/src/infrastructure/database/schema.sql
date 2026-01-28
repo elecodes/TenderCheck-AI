@@ -43,4 +43,16 @@ CREATE TABLE IF NOT EXISTS validation_results (
     message TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (tender_id) REFERENCES tenders(id) ON DELETE CASCADE
+);
+
+-- 5. Decision Log (Audit Trail)
+CREATE TABLE IF NOT EXISTS decision_logs (
+    id TEXT PRIMARY KEY,
+    tender_id TEXT NOT NULL,
+    requirement_id TEXT NOT NULL,
+    prompt_used TEXT,
+    ai_response TEXT,
+    model_version TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (tender_id) REFERENCES tenders(id) ON DELETE CASCADE
 ); 
