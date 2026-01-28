@@ -11,6 +11,11 @@ Given the strict **30-day timeline** and the project scope (TFM), **developing a
 *   **Why?** faster to build (2 days vs 5-7 days), easier to debug, and zero deployment overhead.
 *   **Future Proof:** We will design it using **Dependency Inversion (SOLID)** so it can be swapped for an MCP Client later without changing a single line of Domain logic.
 
+> **⚠️ FINAL IMPLEMENTATION UPDATE (2026-01-28)**: 
+> The project pivoted to a **Cloud-Native Architecture**. 
+> Instead of a local vector store (Pinecone/Chroma), we implemented **Turso (LibSQL)** which supports native vector search.
+> The "Local RAG" approach was preserved logically, but the backing technology is now **Turso + Google Genkit**, ensuring full cloud compatibility with Render.
+
 ---
 
 ## 2. Technical Evaluation
