@@ -1,14 +1,30 @@
 # ==========================================
-# Stage 1: Builder (Node.js 20 Slim)
-# Used to compile TypeScript and build React Frontend
+# Stage 1: Builder (NVIDIA CUDA - Ubuntu 22.04)
+# Used to compile TypeScript, build React Frontend, and build Native Modules
+# Using the same base image ensures ABI compatibility for shared libraries (GLIBC)
 # ==========================================
-FROM node:20-slim AS builder
+FROM nvidia/cuda:12.1.0-base-ubuntu22.04 AS builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install system dependencies (Build Tools)
+# python-is-python3 and git are CRITICAL for npm ci
+RUN apt-get update && apt-get install -y \
+    curl \
+    ca-certificates \
+    gnupg \
+    build-essential \
+    python3 \
+    python-is-python3 \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js 20
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-
-# Install build dependencies for native modules (if needed)
-# python3 make g++ might be needed for some dev deps
-RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
 
 # Copy configuration files
 COPY backend/package*.json ./backend/
@@ -20,7 +36,7 @@ COPY frontend/index.html ./frontend/
 COPY frontend/postcss.config.js ./frontend/
 COPY frontend/tailwind.config.js ./frontend/
 
-# Install dependencies
+# Install dependencies (including devDeps)
 RUN cd backend && npm ci
 RUN cd frontend && npm ci
 
@@ -33,29 +49,32 @@ COPY frontend/public ./frontend/public
 RUN cd frontend && npm run build
 RUN cd backend && npm run build
 
+# Prune backend dependencies to production only
+# This removes devDeps but keeps built native modules
+RUN cd backend && npm prune --production
+
 # ==========================================
-# Stage 2: Runtime (NVIDIA CUDA + Node.js)
+# Stage 2: Runtime (NVIDIA CUDA - Ubuntu 22.04)
 # Used to run the app with GPU acceleration
 # ==========================================
 FROM nvidia/cuda:12.1.0-base-ubuntu22.04 AS runtime
 
-# Prevent interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install system dependencies
-# zstd is required for Ollama
-# python3, make, g++ are required for rebuilding native modules (better-sqlite3)
+# Install system dependencies (Runtime)
+# zstd for Ollama
 RUN apt-get update && apt-get install -y \
     curl \
     ca-certificates \
     gnupg \
     zstd \
+    build-essential \
     python3 \
-    make \
-    g++ \
+    python-is-python3 \
+    git \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js 20 (Runtime)
+# Install Node.js 20
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs && \
     rm -rf /var/lib/apt/lists/*
@@ -65,20 +84,18 @@ RUN curl -fsSL https://ollama.com/install.sh | sh
 
 WORKDIR /app
 
-# Copy built artifacts from builder stage
+# Copy built artifacts and dependencies from builder
 COPY --from=builder /app/backend/dist ./backend/dist
 COPY --from=builder /app/frontend/dist ./frontend/dist
-COPY --from=builder /app/backend/package*.json ./backend/
-# Copy schema for runtime usage
+COPY --from=builder /app/backend/package.json ./backend/
+# CRITICAL: Copy node_modules from builder to avoid running npm ci in runtime (Exit 127 fix)
+COPY --from=builder /app/backend/node_modules ./backend/node_modules
+
+# Copy schema and ensure it's in dist for runtime access
 COPY backend/src/infrastructure/database/schema.sql ./backend/src/infrastructure/database/schema.sql
-# Ensure schema is also in dist for runtime access (safety net)
 COPY backend/src/infrastructure/database/schema.sql ./backend/dist/infrastructure/database/schema.sql
 
-# Install production dependencies only (rebuilds native modules like sqlite)
-RUN cd backend && npm ci --production
-
 # Pre-pull AI models
-# We do this in the runtime image so they persist
 RUN ollama serve & \
     sleep 10 && \
     ollama pull mistral && \
@@ -88,13 +105,14 @@ RUN ollama serve & \
 # Expose port
 EXPOSE 7860
 
-# Runtime Environment Variables
+# Runtime Environment Variables (Production)
 ENV PORT=7860
 ENV NODE_ENV=production
 ENV ALLOWED_ORIGINS=*
 ENV DATABASE_PATH=/app/data/tender.db
 
 # Create data directory with permissions for SQLite
+# chmod 777 needed because container might run as non-root user (Hugging Face default)
 RUN mkdir -p /app/data && chmod 777 /app/data
 
 # Health check
