@@ -115,8 +115,8 @@ export class ValidateProposal {
               status: (comparison?.status === "COMPLIANT"
                 ? "MET"
                 : comparison?.status === "PARTIAL"
-                ? "PARTIALLY_MET"
-                : "NOT_MET") as "MET" | "NOT_MET" | "PARTIALLY_MET",
+                  ? "PARTIALLY_MET"
+                  : "NOT_MET") as "MET" | "NOT_MET" | "PARTIALLY_MET",
               reasoning:
                 comparison?.reasoning ||
                 `Validación automática (similitud: ${(item.similarity * 100).toFixed(1)}%).`,
@@ -124,9 +124,10 @@ export class ValidateProposal {
               // AI might return 0-1 or 0-100. We need to normalize to 0-1 for the frontend.
               // If score > 1, assume it's percentage and divide by 100.
               // If score <= 1 (e.g. 0.95), keep it as is.
-              confidence: (comparison?.score || DEFAULT_CONFIDENCE_SCORE) > 1 
-                ? (comparison?.score || DEFAULT_CONFIDENCE_SCORE) / 100 
-                : (comparison?.score || 0.75),
+              confidence:
+                (comparison?.score || DEFAULT_CONFIDENCE_SCORE) > 1
+                  ? (comparison?.score || DEFAULT_CONFIDENCE_SCORE) / 100
+                  : comparison?.score || 0.75,
               evidence: {
                 text:
                   comparison?.sourceQuote ||
@@ -217,24 +218,27 @@ export class ValidateProposal {
       await this.vectorSearch.generateEmbedding(proposalText);
 
     const db = TursoDatabase.getInstance();
-    
+
     // We can fetch all embeddings in one query for better performance
     // or keep loop. Loop is easier to refactor now.
-    const requirementEmbeddings: Array<{ id: string; embedding: Float32Array }> = [];
+    const requirementEmbeddings: Array<{
+      id: string;
+      embedding: Float32Array;
+    }> = [];
 
     for (const req of requirements) {
-        const result = await db.execute({
-            sql: "SELECT embedding FROM requirements WHERE id = ?",
-            args: [req.id]
-        });
-        const row = result.rows[0] as any;
+      const result = await db.execute({
+        sql: "SELECT embedding FROM requirements WHERE id = ?",
+        args: [req.id],
+      });
+      const row = result.rows[0] as any;
 
-        if (row && row.embedding) {
-            requirementEmbeddings.push({
-                id: req.id,
-                embedding: this.vectorSearch.deserializeEmbedding(row.embedding)
-            });
-        }
+      if (row && row.embedding) {
+        requirementEmbeddings.push({
+          id: req.id,
+          embedding: this.vectorSearch.deserializeEmbedding(row.embedding),
+        });
+      }
     }
 
     // Find similar requirements
@@ -279,16 +283,17 @@ export class ValidateProposal {
         const comparison = batchResults.get(req.id);
         results.push({
           requirementId: req.id,
-          status: (comparison?.status === "COMPLIANT" 
-            ? "MET" 
+          status: (comparison?.status === "COMPLIANT"
+            ? "MET"
             : comparison?.status === "PARTIAL"
-            ? "PARTIALLY_MET"
-            : "NOT_MET") as "MET" | "NOT_MET" | "PARTIALLY_MET",
+              ? "PARTIALLY_MET"
+              : "NOT_MET") as "MET" | "NOT_MET" | "PARTIALLY_MET",
           reasoning: comparison?.reasoning || "Validación automática.",
           // Fix Confidence Score Logic for fallback too
-          confidence: (comparison?.score || DEFAULT_CONFIDENCE_SCORE) > 1 
-            ? (comparison?.score || DEFAULT_CONFIDENCE_SCORE) / 100 
-            : (comparison?.score || 0.75),
+          confidence:
+            (comparison?.score || DEFAULT_CONFIDENCE_SCORE) > 1
+              ? (comparison?.score || DEFAULT_CONFIDENCE_SCORE) / 100
+              : comparison?.score || 0.75,
           evidence: {
             text:
               comparison?.sourceQuote || "No se encontró evidencia específica.",

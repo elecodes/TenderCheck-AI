@@ -52,8 +52,8 @@ export class VectorSearchService {
 
       // Genkit returns an array of results or a single result with an .embedding property
       // Based on the error, it's returning an array of objects
-      const vector = Array.isArray(embeddingResult) 
-        ? embeddingResult[0]?.embedding 
+      const vector = Array.isArray(embeddingResult)
+        ? embeddingResult[0]?.embedding
         : (embeddingResult as any).embedding;
 
       if (!vector) {
@@ -101,12 +101,12 @@ export class VectorSearchService {
     let normB = 0;
 
     for (let i = 0; i < a.length; i++) {
-        const valA = a[i] ?? 0; // Safe access with nullish coalescing
-        const valB = b[i] ?? 0;
-        
-        dotProduct += valA * valB;
-        normA += valA * valA;
-        normB += valB * valB;
+      const valA = a[i] ?? 0; // Safe access with nullish coalescing
+      const valB = b[i] ?? 0;
+
+      dotProduct += valA * valB;
+      normA += valA * valA;
+      normB += valB * valB;
     }
 
     const denominator = Math.sqrt(normA) * Math.sqrt(normB);

@@ -18,7 +18,9 @@ export class TursoDatabase {
       const authToken = process.env.TURSO_AUTH_TOKEN;
 
       if (!url) {
-        throw new Error("🚨 TURSO_DB_URL is missing. Please check your .env file.");
+        throw new Error(
+          "🚨 TURSO_DB_URL is missing. Please check your .env file.",
+        );
       }
 
       console.log(

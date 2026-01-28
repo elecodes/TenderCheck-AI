@@ -2,7 +2,7 @@ import { Router } from "express";
 import multer from "multer";
 import { TenderController } from "../controllers/TenderController.js";
 import { CreateTender } from "../../application/use-cases/CreateTender.js";
-import { SqliteTenderRepository } from "../../infrastructure/repositories/SqliteTenderRepository.js";
+import { TursoTenderRepository } from "../../infrastructure/repositories/TursoTenderRepository.js";
 import { PdfParserAdapter } from "../../infrastructure/adapters/PdfParserAdapter.js";
 // import { MistralGenkitService } from "../../infrastructure/services/MistralGenkitService.js";
 import { GeminiGenkitService } from "../../infrastructure/services/GeminiGenkitService.js";
@@ -14,7 +14,7 @@ import { AppError } from "../../domain/errors/AppError.js"; // Added from instru
 
 // Composition Root (Simple Manual Dependency Injection)
 // In a larger app, this would be in a dedicated DI container or factory
-const repository = new SqliteTenderRepository();
+const repository = new TursoTenderRepository();
 const pdfParser = new PdfParserAdapter();
 const aiService = new GeminiGenkitService(); // Replaced Mistral with Gemini and renamed variable
 const validationEngine = new ValidationEngine([new ScopeValidationRule()]);
