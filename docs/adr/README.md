@@ -18,3 +18,4 @@
 | 011 | [ADR 011: Cloud Authentication Strategy (Google OAuth)](./011-cloud-authentication.md) | Unknown |
 | 011 | [ADR 011: Estrategia de Despliegue en Nube (Hugging Face Spaces)](./011-cloud-deployment.md) | Unknown |
 | 012 | [12. Cloud Architecture Pivot: Render, Turso, and Gemini](./012-cloud-pivot-render-turso.md) | Unknown |
+| 013 | [ADR 013: Refinamiento de Lógica AI y Migración Vectorial Cloud](./013-ai-logic-refinements.md) | Unknown |

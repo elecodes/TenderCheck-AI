@@ -170,6 +170,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── 011-cloud-authentication.md
 │   │   ├── 011-cloud-deployment.md
 │   │   ├── 012-cloud-pivot-render-turso.md
+│   │   ├── 013-ai-logic-refinements.md
 │   │   └── README.md
 │   ├── architecture
 │   │   └── mcp_feasibility_study.md
