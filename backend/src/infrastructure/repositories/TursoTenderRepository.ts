@@ -1,13 +1,13 @@
 import type { ITenderRepository } from "../../domain/repositories/ITenderRepository.js";
 import type { TenderAnalysis } from "../../domain/entities/TenderAnalysis.js";
-import { SqliteDatabase } from "../database/SqliteDatabase.js";
+import { TursoDatabase } from "../database/TursoDatabase.js";
 import type { Client, InStatement } from "@libsql/client";
 
-export class SqliteTenderRepository implements ITenderRepository {
+export class TursoTenderRepository implements ITenderRepository {
   private db: Client;
 
   constructor() {
-    this.db = SqliteDatabase.getInstance();
+    this.db = TursoDatabase.getInstance();
   }
 
   async save(tender: TenderAnalysis): Promise<void> {

@@ -2,13 +2,13 @@ import "dotenv/config";
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
-import { SqliteDatabase } from "../infrastructure/database/SqliteDatabase.js";
+import { TursoDatabase } from "../infrastructure/database/TursoDatabase.js";
 
 // Initialize Database Schema (Async)
 // This will connect to Turso and ensure tables exist
 (async () => {
   try {
-    await SqliteDatabase.initializeSchema();
+    await TursoDatabase.initializeSchema();
   } catch (e) {
     console.error("Failed to initialize database schema:", e);
     // We might want to exit here if DB is critical

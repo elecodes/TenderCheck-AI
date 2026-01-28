@@ -4,7 +4,7 @@ import type { ITenderAnalyzer } from "../../domain/interfaces/ITenderAnalyzer.js
 import { AppError } from "../../domain/errors/AppError.js";
 import type { TenderAnalysis } from "../../domain/entities/TenderAnalysis.js";
 import { VectorSearchService } from "../../infrastructure/services/VectorSearchService.js";
-import { SqliteDatabase } from "../../infrastructure/database/SqliteDatabase.js";
+import { TursoDatabase } from "../../infrastructure/database/TursoDatabase.js";
 
 export class CreateTender {
   private vectorSearch: VectorSearchService;

@@ -1,13 +1,13 @@
 import type { UserRepository } from "../../domain/repositories/UserRepository.js";
 import type { User } from "../../domain/entities/User.js";
-import { SqliteDatabase } from "../database/SqliteDatabase.js";
+import { TursoDatabase } from "../database/TursoDatabase.js";
 import type { Client } from "@libsql/client";
 
-export class SqliteUserRepository implements UserRepository {
+export class TursoUserRepository implements UserRepository {
   private db: Client;
 
   constructor() {
-    this.db = SqliteDatabase.getInstance();
+    this.db = TursoDatabase.getInstance();
   }
 
   async findByEmail(email: string): Promise<User | null> {

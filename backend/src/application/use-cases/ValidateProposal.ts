@@ -4,7 +4,7 @@ import type { ITenderAnalyzer } from "../../domain/interfaces/ITenderAnalyzer.js
 import { AppError } from "../../domain/errors/AppError.js";
 import type { ValidationResult } from "../../domain/entities/ValidationResult.js";
 import { VectorSearchService } from "../../infrastructure/services/VectorSearchService.js";
-import { SqliteDatabase } from "../../infrastructure/database/SqliteDatabase.js";
+import { TursoDatabase } from "../../infrastructure/database/TursoDatabase.js";
 import {
   MIN_JUSTIFICATION_LENGTH,
   BATCH_CHUNK_SIZE,
@@ -182,7 +182,7 @@ export class ValidateProposal {
     tenderId: string,
     requirements: any[],
   ): Promise<void> {
-    const db = SqliteDatabase.getInstance();
+    const db = TursoDatabase.getInstance();
 
     for (const req of requirements) {
       // Check if embedding exists
@@ -216,8 +216,7 @@ export class ValidateProposal {
     const proposalEmbedding =
       await this.vectorSearch.generateEmbedding(proposalText);
 
-    // Load requirement embeddings from database
-    const db = SqliteDatabase.getInstance();
+    const db = TursoDatabase.getInstance();
     
     // We can fetch all embeddings in one query for better performance
     // or keep loop. Loop is easier to refactor now.
