@@ -101,32 +101,30 @@ To run the analysis without costs/limits:
   - Register: "No se pudo crear la cuenta"
 - **Localization**: The UI is Spanish-first. Ensure all new features are fully marked up with Spanish copy.
 
-### 12. Deployment Guide 🚀
-- **Provider**: Hugging Face Spaces (Docker).
-- **Prerequisites**:
-  - `VITE_GOOGLE_CLIENT_ID` (and Secret) in Space Settings.
-  - `JWT_SECRET` in Space Settings.
-- **Critical Strategy**: Use **Orphan Branches** to deploy a clean, minimal history (avoids hitting 10GB LFS limits with local DB files).
+### 12. Deployment Guide 🚀 (Render + Turso)
+- **Hosting**: Render (Web Service + Static Site).
+- **Database**: Turso (LibSQL).
+- **AI**: Gemini 2.5 Flash (Google AI Studio).
 
-#### deployment Command Sequence:
-```bash
-# 1. Create a fresh orphan branch
-git checkout --orphan deploy-vX
+#### Prerequisites
+1.  **Turso**: A database created with `CREATE TABLE...` (handled by `SqliteDatabase.ts` auto-init).
+2.  **Environment Variables**:
+    - `TURSO_DB_URL`: `libsql://...`
+    - `TURSO_AUTH_TOKEN`: `...`
+    - `GOOGLE_GENAI_API_KEY`: `...`
 
-# 2. Add all files (ignores .gitignore properly)
-git add .
+#### Workflow
+1.  **Verify Locally**:
+    ```bash
+    # Ensure connections are valid before pushing
+    cd backend
+    npx tsx scripts/verify_cloud.ts
+    ```
+2.  **Push to GitHub**:
+    Render triggers automatically on push to `main` (if configured).
 
-# 3. Commit
-git commit -m "Deploy vX"
+3.  **Troubleshooting**:
+    - **"Table not found"**: Check if `SqliteDatabase.initializeSchema()` ran in the logs.
+    - **"404 Model"**: Check `GeminiGenkitService` model string and API Key scope.
 
-# 4. Push to Space (force update)
-git push space deploy-vX:main --force
-
-# 5. Return to Dev
-git checkout phase-4-cloud-auth
-```
-
-- **Troubleshooting**:
-  - If "Runtime Error" -> Check logs for `start.sh` permissions or OOM.
-  - If "Timeout" -> The Model (Mistral) loading might be taking too long.
 

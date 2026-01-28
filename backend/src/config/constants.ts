@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
 export const FILE_UPLOAD_LIMIT_MB = 50;
 export const BYTES_PER_KB = 1024;
 export const BYTES_PER_MB = 1024 * 1024;

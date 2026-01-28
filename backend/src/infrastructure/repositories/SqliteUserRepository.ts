@@ -1,19 +1,22 @@
 import type { UserRepository } from "../../domain/repositories/UserRepository.js";
 import type { User } from "../../domain/entities/User.js";
 import { SqliteDatabase } from "../database/SqliteDatabase.js";
-import Database from "better-sqlite3";
+import type { Client } from "@libsql/client";
 
 export class SqliteUserRepository implements UserRepository {
-  private db: Database.Database;
+  private db: Client;
 
   constructor() {
     this.db = SqliteDatabase.getInstance();
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    const row = this.db
-      .prepare("SELECT * FROM users WHERE email = ?")
-      .get(email) as any;
+    const result = await this.db.execute({
+      sql: "SELECT * FROM users WHERE email = ?",
+      args: [email],
+    });
+
+    const row = result.rows[0] as any;
 
     if (!row) return null;
 
@@ -28,9 +31,12 @@ export class SqliteUserRepository implements UserRepository {
   }
 
   async findById(id: string): Promise<User | null> {
-    const row = this.db
-      .prepare("SELECT * FROM users WHERE id = ?")
-      .get(id) as any;
+    const result = await this.db.execute({
+      sql: "SELECT * FROM users WHERE id = ?",
+      args: [id],
+    });
+
+    const row = result.rows[0] as any;
 
     if (!row) return null;
 
@@ -45,11 +51,9 @@ export class SqliteUserRepository implements UserRepository {
   }
 
   async save(user: User): Promise<void> {
-    this.db
-      .prepare(
-        "INSERT INTO users (id, email, password_hash, name, company, created_at) VALUES (?, ?, ?, ?, ?, ?)",
-      )
-      .run(
+    await this.db.execute({
+      sql: "INSERT INTO users (id, email, password_hash, name, company, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+      args: [
         user.id,
         user.email,
         user.passwordHash,
@@ -58,6 +62,7 @@ export class SqliteUserRepository implements UserRepository {
         user.createdAt
           ? user.createdAt.toISOString()
           : new Date().toISOString(),
-      );
+      ],
+    });
   }
 }

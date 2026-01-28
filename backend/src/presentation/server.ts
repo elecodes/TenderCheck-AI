@@ -2,6 +2,18 @@ import "dotenv/config";
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
+import { SqliteDatabase } from "../infrastructure/database/SqliteDatabase.js";
+
+// Initialize Database Schema (Async)
+// This will connect to Turso and ensure tables exist
+(async () => {
+  try {
+    await SqliteDatabase.initializeSchema();
+  } catch (e) {
+    console.error("Failed to initialize database schema:", e);
+    // We might want to exit here if DB is critical
+  }
+})();
 
 // Environment variable validation can be improved later with a dedicated config,
 // strictly using process.env here as per the "Secure Defaults" directive.

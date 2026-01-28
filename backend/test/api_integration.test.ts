@@ -1,13 +1,15 @@
-import { describe, it, expect, vi, afterEach } from "vitest";
+import { describe, it, expect, vi, afterEach, beforeAll } from "vitest";
 import request from "supertest";
-import { app } from "../src/presentation/server.js";
+// import { app } from "../src/presentation/server.js"; // Removed static import
 import { PdfParserAdapter } from "../src/infrastructure/adapters/PdfParserAdapter.js";
-import { MistralGenkitService } from "../src/infrastructure/services/MistralGenkitService.js";
+import { GeminiGenkitService } from "../src/infrastructure/services/GeminiGenkitService.js";
 
 import jwt from "jsonwebtoken";
 import { JWT_SECRET_FALLBACK } from "../src/config/constants.js";
 
 import { SqliteDatabase } from "../src/infrastructure/database/SqliteDatabase.js";
+
+let app: any;
 
 const generateTestToken = () => {
   return jwt.sign(
@@ -18,6 +20,21 @@ const generateTestToken = () => {
 };
 
 describe("Integration: POST /api/tenders/analyze", () => {
+  beforeAll(async () => {
+    // Setup in-memory DB for testing
+    process.env.TURSO_DB_URL = "file::memory:";
+    process.env.TURSO_AUTH_TOKEN = "test-token";
+    process.env.DATABASE_PATH = ""; // Ensure this doesn't override
+    process.env.GOOGLE_GENAI_API_KEY = "test-api-key"; // Prevent init crash
+
+    // Initialize schema
+    await SqliteDatabase.initializeSchema();
+
+    // Import app after DB setup
+    const mod = await import("../src/presentation/server.js");
+    app = mod.app;
+  });
+
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -26,10 +43,11 @@ describe("Integration: POST /api/tenders/analyze", () => {
     const token = generateTestToken();
     const db = SqliteDatabase.getInstance();
 
-    // Ensure user exists due to FK constraint
-    db.prepare(
+    // Ensure user exists due to FK constraint (Async Turso call)
+    await db.execute(
       "INSERT OR IGNORE INTO users (id, email, password_hash, name) VALUES (?, ?, ?, ?)",
-    ).run("test-user-id", "test@example.com", "hash", "Test User");
+      ["test-user-id", "test@example.com", "hash", "Test User"],
+    );
 
     // Spy on the real PdfParserAdapter to return fake text without needing a real PDF
     const parseSpy = vi
@@ -38,9 +56,9 @@ describe("Integration: POST /api/tenders/analyze", () => {
         "El sistema deberá procesar pagos. Must be secure. This text must be longer than 50 chars to pass validation.",
       );
 
-    // Spy on MistralGenkitService to avoid calling local LLM
+    // Spy on GeminiGenkitService to avoid calling cloud LLM
     const analyzeSpy = vi
-      .spyOn(MistralGenkitService.prototype, "analyze")
+      .spyOn(GeminiGenkitService.prototype, "analyze")
       .mockResolvedValue({
         id: "123",
         userId: "test-user-id",
@@ -75,6 +93,13 @@ describe("Integration: POST /api/tenders/analyze", () => {
       .set("Authorization", `Bearer ${token}`)
       .attach("file", Buffer.from("fake pdf content"), "test.pdf")
       .field("title", "Integration Test Tender");
+
+    if (response.status !== 201) {
+      console.error(
+        "Test Failed. Response Body:",
+        JSON.stringify(response.body, null, 2),
+      );
+    }
 
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty("id");

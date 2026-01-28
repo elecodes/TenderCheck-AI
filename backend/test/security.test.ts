@@ -10,7 +10,8 @@ describe("Security Headers (Helmet)", () => {
     expect(res.status).toBe(200);
     // Helmet defaults
     expect(res.headers["x-dns-prefetch-control"]).toBe("off");
-    expect(res.headers["x-frame-options"]).toBe("SAMEORIGIN");
+    // Frameguard is disabled for embedding
+    expect(res.headers["x-frame-options"]).toBeUndefined();
     expect(res.headers["strict-transport-security"]).toBeDefined();
     expect(res.headers["x-content-type-options"]).toBe("nosniff");
     expect(res.headers["content-security-policy"]).toBeDefined();

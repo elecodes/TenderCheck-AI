@@ -4,30 +4,32 @@ import { TenderController } from "../controllers/TenderController.js";
 import { CreateTender } from "../../application/use-cases/CreateTender.js";
 import { SqliteTenderRepository } from "../../infrastructure/repositories/SqliteTenderRepository.js";
 import { PdfParserAdapter } from "../../infrastructure/adapters/PdfParserAdapter.js";
-import { MistralGenkitService } from "../../infrastructure/services/MistralGenkitService.js";
+// import { MistralGenkitService } from "../../infrastructure/services/MistralGenkitService.js";
+import { GeminiGenkitService } from "../../infrastructure/services/GeminiGenkitService.js";
 
 import { ValidationEngine } from "../../domain/validation/ValidationEngine.js";
 import { ScopeValidationRule } from "../../domain/validation/rules/ScopeValidationRule.js";
 import { authMiddleware } from "../../infrastructure/middleware/authMiddleware.js";
+import { AppError } from "../../domain/errors/AppError.js"; // Added from instruction
 
 // Composition Root (Simple Manual Dependency Injection)
 // In a larger app, this would be in a dedicated DI container or factory
 const repository = new SqliteTenderRepository();
 const pdfParser = new PdfParserAdapter();
-const tenderAnalyzer = new MistralGenkitService(); // ✨ Now using Mistral via Genkit
+const aiService = new GeminiGenkitService(); // Replaced Mistral with Gemini and renamed variable
 const validationEngine = new ValidationEngine([new ScopeValidationRule()]);
 
 const createTenderUseCase = new CreateTender(
   repository,
   pdfParser,
-  tenderAnalyzer,
+  aiService, // Using aiService
 );
 
 import { ValidateProposal } from "../../application/use-cases/ValidateProposal.js";
 const validateProposalUseCase = new ValidateProposal(
   repository,
   pdfParser,
-  tenderAnalyzer,
+  aiService,
 );
 
 const tenderController = new TenderController(createTenderUseCase);

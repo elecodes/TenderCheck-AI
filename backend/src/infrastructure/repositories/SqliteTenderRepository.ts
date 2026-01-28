@@ -1,101 +1,110 @@
 import type { ITenderRepository } from "../../domain/repositories/ITenderRepository.js";
 import type { TenderAnalysis } from "../../domain/entities/TenderAnalysis.js";
 import { SqliteDatabase } from "../database/SqliteDatabase.js";
-import Database from "better-sqlite3";
+import type { Client, InStatement } from "@libsql/client";
 
 export class SqliteTenderRepository implements ITenderRepository {
-  private db: Database.Database;
+  private db: Client;
 
   constructor() {
     this.db = SqliteDatabase.getInstance();
   }
 
   async save(tender: TenderAnalysis): Promise<void> {
-    const db = this.db;
+    const stmts: InStatement[] = [];
 
-    // Statements must be prepared outside or inside, but let's be explicit
-    const insertTender = db.prepare(`
-      INSERT OR REPLACE INTO tenders (id, user_id, title, status, document_url, created_at)
-      VALUES (?, ?, ?, ?, ?, ?)
-    `);
-
-    const insertRequirement = db.prepare(`
-      INSERT OR REPLACE INTO requirements (id, tender_id, text, type, confidence, keywords, page_number, snippet, embedding)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `);
-
-    const insertResult = db.prepare(`
-      INSERT OR REPLACE INTO validation_results (id, tender_id, status, message, created_at)
-      VALUES (?, ?, ?, ?, ?)
-    `);
-
-    const deleteRequirements = db.prepare(
-      "DELETE FROM requirements WHERE tender_id = ?",
-    );
-    const deleteResults = db.prepare(
-      "DELETE FROM validation_results WHERE tender_id = ?",
-    );
-
-    const runTransaction = db.transaction((t: TenderAnalysis) => {
-      insertTender.run(
-        t.id,
-        t.userId,
-        t.tenderTitle,
-        t.status,
-        t.documentUrl || null,
-        t.createdAt instanceof Date
-          ? t.createdAt.toISOString()
+    // 1. Insert Tender
+    stmts.push({
+      sql: `INSERT OR REPLACE INTO tenders (id, user_id, title, status, document_url, created_at)
+            VALUES (?, ?, ?, ?, ?, ?)`,
+      args: [
+        tender.id,
+        tender.userId,
+        tender.tenderTitle,
+        tender.status,
+        tender.documentUrl || null,
+        tender.createdAt instanceof Date
+          ? tender.createdAt.toISOString()
           : new Date().toISOString(),
-      );
+      ],
+    });
 
-      deleteRequirements.run(t.id);
-      if (t.requirements) {
-        for (const req of t.requirements) {
-          insertRequirement.run(
+    // 2. Clear old requirements (for replacement update)
+    stmts.push({
+      sql: "DELETE FROM requirements WHERE tender_id = ?",
+      args: [tender.id],
+    });
+
+    // 3. Insert Requirements
+    if (tender.requirements) {
+      for (const req of tender.requirements) {
+        stmts.push({
+          sql: `INSERT INTO requirements (id, tender_id, text, type, confidence, keywords, page_number, snippet, embedding)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          args: [
             req.id,
-            t.id,
+            tender.id,
             req.text,
             req.type,
             req.confidence,
             JSON.stringify(req.keywords),
             req.source?.pageNumber || null,
             req.source?.snippet || null,
-            (req as any).embedding || null, // Embedding will be added by VectorSearchService
-          );
-        }
+            (req as any).embedding || null,
+          ],
+        });
       }
+    }
 
-      deleteResults.run(t.id);
-      if (t.results) {
-        for (const res of t.results) {
-          insertResult.run(
+    // 4. Clear old results
+    stmts.push({
+      sql: "DELETE FROM validation_results WHERE tender_id = ?",
+      args: [tender.id],
+    });
+
+    // 5. Insert Results
+    if (tender.results) {
+      for (const res of tender.results) {
+        stmts.push({
+          sql: `INSERT INTO validation_results (id, tender_id, status, message, created_at)
+                VALUES (?, ?, ?, ?, ?)`,
+          args: [
             res.requirementId,
-            t.id,
+            tender.id,
             res.status,
             res.reasoning,
             new Date().toISOString(),
-          );
-        }
+          ],
+        });
       }
-    });
+    }
 
-    runTransaction(tender);
+    // Execute Batch Transaction
+    await this.db.batch(stmts, "write");
   }
 
   async findById(id: string): Promise<TenderAnalysis | null> {
-    const tenderRow = this.db
-      .prepare("SELECT * FROM tenders WHERE id = ?")
-      .get(id) as any;
+    const tenderResult = await this.db.execute({
+      sql: "SELECT * FROM tenders WHERE id = ?",
+      args: [id],
+    });
 
+    const tenderRow = tenderResult.rows[0] as any;
     if (!tenderRow) return null;
 
-    const requirementRows = this.db
-      .prepare("SELECT * FROM requirements WHERE tender_id = ?")
-      .all(id) as any[];
+    const requirementRows = (
+      await this.db.execute({
+        sql: "SELECT * FROM requirements WHERE tender_id = ?",
+        args: [id],
+      })
+    ).rows as any[];
 
-    const resultRows = this.db
-      .prepare("SELECT * FROM validation_results WHERE tender_id = ?")
-      .all(id) as any[];
+    const resultRows = (
+      await this.db.execute({
+        sql: "SELECT * FROM validation_results WHERE tender_id = ?",
+        args: [id],
+      })
+    ).rows as any[];
 
     return {
       id: tenderRow.id,
@@ -105,7 +114,7 @@ export class SqliteTenderRepository implements ITenderRepository {
       documentUrl: tenderRow.document_url,
       createdAt: new Date(tenderRow.created_at),
       updatedAt: new Date(tenderRow.created_at),
-      requirements: requirementRows.map((r) => ({
+      requirements: requirementRows.map((r: any) => ({
         id: r.id,
         text: r.text,
         type: r.type,
@@ -116,7 +125,7 @@ export class SqliteTenderRepository implements ITenderRepository {
           snippet: r.snippet,
         },
       })),
-      results: resultRows.map((r) => ({
+      results: resultRows.map((r: any) => ({
         requirementId: r.id,
         status: r.status as "MET" | "NOT_MET",
         reasoning: r.message,
@@ -127,22 +136,31 @@ export class SqliteTenderRepository implements ITenderRepository {
   }
 
   async findByUserId(userId: string): Promise<TenderAnalysis[]> {
-    const tenderRows = this.db
-      .prepare(
-        "SELECT * FROM tenders WHERE user_id = ? ORDER BY created_at DESC",
-      )
-      .all(userId) as any[];
+    const tenderRows = (
+      await this.db.execute({
+        sql: "SELECT * FROM tenders WHERE user_id = ? ORDER BY created_at DESC",
+        args: [userId],
+      })
+    ).rows as any[];
 
     const result: TenderAnalysis[] = [];
 
+    // Note: This is N+1 problem, but cleaner code for now.
+    // Optimization: Fetch all reqs/results in one query using IN clause if performance degrades.
     for (const row of tenderRows) {
-      const requirements = this.db
-        .prepare("SELECT * FROM requirements WHERE tender_id = ?")
-        .all(row.id) as any[];
+      const requirements = (
+        await this.db.execute({
+          sql: "SELECT * FROM requirements WHERE tender_id = ?",
+          args: [row.id],
+        })
+      ).rows as any[];
 
-      const validationResults = this.db
-        .prepare("SELECT * FROM validation_results WHERE tender_id = ?")
-        .all(row.id) as any[];
+      const validationResults = (
+        await this.db.execute({
+          sql: "SELECT * FROM validation_results WHERE tender_id = ?",
+          args: [row.id],
+        })
+      ).rows as any[];
 
       result.push({
         id: row.id,
@@ -152,7 +170,7 @@ export class SqliteTenderRepository implements ITenderRepository {
         documentUrl: row.document_url,
         createdAt: new Date(row.created_at),
         updatedAt: new Date(row.created_at),
-        requirements: requirements.map((r) => ({
+        requirements: requirements.map((r: any) => ({
           id: r.id,
           text: r.text,
           type: r.type,
@@ -163,7 +181,7 @@ export class SqliteTenderRepository implements ITenderRepository {
             snippet: r.snippet,
           },
         })),
-        results: validationResults.map((rv) => ({
+        results: validationResults.map((rv: any) => ({
           requirementId: rv.id,
           status: rv.status as "MET" | "NOT_MET",
           reasoning: rv.message,
@@ -177,6 +195,9 @@ export class SqliteTenderRepository implements ITenderRepository {
   }
 
   async delete(id: string): Promise<void> {
-    this.db.prepare("DELETE FROM tenders WHERE id = ?").run(id);
+    await this.db.execute({
+      sql: "DELETE FROM tenders WHERE id = ?",
+      args: [id],
+    });
   }
 }
