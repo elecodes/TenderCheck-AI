@@ -175,21 +175,26 @@ export class GeminiGenkitService implements ITenderAnalyzer {
         ${reqList}
 
         Instrucciones de Evaluación:
-        1. **Idioma**: La salida debe estar ESTRICTAMENTE en ESPAÑOL.
-        2. **Lógica Numérica**: 
-           - Ejemplo: Requisito "mínimo 15 audios", Oferta "18 audios" -> CUMPLE.
-        3. **Estado**:
-           - COMPLIANT: Cumple totalmente TODOS los puntos del requisito.
-           - PARTIAL: Cumple ALGUNO de los puntos, pero falla en otros.
-             * Ejemplo: Pide "Audios Y Yoga Y Panel". Oferta tiene "Audios" pero falta "Panel" -> PARTIAL.
-           - NON_COMPLIANT: No cumple nada, o es inferior al mínimo.
+        1. **Idioma**: Output ESTRICTAMENTE en ESPAÑOL.
+        2. **RAG Semántico**:
+           - Busca **conceptos** y **sinónimos**, no solo palabras exactas.
+           - Ejemplo: "Panel de Paz" EQUIVALE a "Rincón Alma & Zen" o "Zona de Mediación". ¡Esto es CUMPLE!
+           - Ejemplo: "Anexo II" EQUIVALE a "Declaración Responsable".
+        3. **Lógica Numérica**: 
+           - Si Requisito pide MIN(X) y Oferta tiene Y >= X -> CUMPLE.
+        4. **Reglas de Estado (CRÍTICO)**:
+           - **COMPLIANT (Verde)**: Score > 85. Cumple totalmente.
+           - **PARTIAL (Ámbar)**: Score 40-84. Cumple algo significativo pero falta otra parte. 
+             (Ejemplo: Tienes Audios pero falta Panel -> PARTIAL).
+           - **NON_COMPLIANT (Rojo)**: Score < 40. No hay nada relevante.
+           - **IMPORTANTE**: Si el Score es > 40, EL ESTADO DEBE SER PARTIAL o COMPLIANT. NUNCA pongas NON_COMPLIANT si Score > 40.
         
         Para CADA requisito, genera un objeto JSON con:
         - id (coincidiendo con el ID de entrada)
         - status (COMPLIANT, NON_COMPLIANT, PARTIAL)
-        - reasoning (Explicación breve en Español. Para PARTIAL, menciona explícitamente QUÉ cumple y QUÉ falta.)
-        - score (0-100 confianza en la evaluación)
-        - sourceQuote (Cita textual exacta de la propuesta que evidencia el cumplimiento, o cadena vacía si no hay)
+        - reasoning (Explicación breve en Español. Menciona explícitamente la evidencia encontrada.)
+        - score (0-100 confianza)
+        - sourceQuote (Cita textual exacta de la propuesta)
         `,
         output: { schema: BatchSchema },
       });
