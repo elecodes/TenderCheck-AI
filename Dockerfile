@@ -71,6 +71,8 @@ COPY --from=builder /app/frontend/dist ./frontend/dist
 COPY --from=builder /app/backend/package*.json ./backend/
 # Copy schema for runtime usage
 COPY backend/src/infrastructure/database/schema.sql ./backend/src/infrastructure/database/schema.sql
+# Ensure schema is also in dist for runtime access (safety net)
+COPY backend/src/infrastructure/database/schema.sql ./backend/dist/infrastructure/database/schema.sql
 
 # Install production dependencies only (rebuilds native modules like sqlite)
 RUN cd backend && npm ci --production
@@ -85,6 +87,15 @@ RUN ollama serve & \
 
 # Expose port
 EXPOSE 7860
+
+# Runtime Environment Variables
+ENV PORT=7860
+ENV NODE_ENV=production
+ENV ALLOWED_ORIGINS=*
+ENV DATABASE_PATH=/app/data/tender.db
+
+# Create data directory with permissions for SQLite
+RUN mkdir -p /app/data && chmod 777 /app/data
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \
