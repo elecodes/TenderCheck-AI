@@ -96,19 +96,20 @@ export class GeminiGenkitService implements ITenderAnalyzer {
 
     try {
       const { output } = await ai.generate({
-        prompt: `Evaluate if the proposal meets the requirement.
-        
-        Requirement:
+        prompt: `Evalúa si la propuesta cumple con el requisito.
+
+        Requisito:
         "${requirementText}"
 
-        Proposal Excerpt:
+        Extracto de la Propuesta:
         "${proposalText.substring(0, 15000)}"
 
-        Task:
-        1. Determine if the requirement is met (COMPLIANT, NON_COMPLIANT, PARTIAL).
-        2. Provide reasoning.
-        3. Assign a confidence score (0-100).
-        4. Extract a relevant quote from the proposal as evidence.
+        Tarea:
+        1. Determinar si se cumple el requisito (COMPLIANT, NON_COMPLIANT, PARTIAL).
+        2. Proporcionar razonamiento en ESPAÑOL.
+           - ATENCIÓN: Si el requisito pide un valor MÍNIMO (ej. 15) y la oferta es MAYOR (ej. 18), entoces CUMPLE.
+        3. Asignar puntaje de confianza (0-100).
+        4. Extraer cita relevante.
         `,
         output: { schema: ComparisonSchema },
       });
@@ -160,20 +161,30 @@ export class GeminiGenkitService implements ITenderAnalyzer {
         .join("\n---\n");
 
       const { output } = await ai.generate({
-        prompt: `You are an expert tender evaluator. Compare the following requirements against the provided proposal text.
+        prompt: `Actúa como un experto evaluador de licitaciones públicas. Compara los siguientes requisitos técnicos contra el texto de la propuesta proporcionada.
         
-        Proposal Text:
+        Texto de la Propuesta:
         "${proposalText.substring(0, 25000)}"
 
-        Requirements:
+        Requisitos a evaluar:
         ${reqList}
 
-        For EACH requirement, output a JSON object with:
-        - id (matching the input ID)
+        Instrucciones de Evaluación:
+        1. **Idioma**: La salida debe estar ESTRICTAMENTE en ESPAÑOL.
+        2. **Lógica Numérica**: 
+           - Si un requisitos pide un MÍNIMO de X (ej. "mínimo 15 años"), y la oferta tiene Y donde Y >= X, es CUMPLE (COMPLIANT).
+           - Ejemplo: Requisito "mínimo 15 audios", Oferta "18 audios" -> CUMPLE.
+        3. **Estado**:
+           - COMPLIANT: Cumple totalmente o supera el requisito.
+           - NON_COMPLIANT: No cumple, es inferior al mínimo, o no se menciona.
+           - PARTIAL: Cumple parcialmente pero faltan detalles clave.
+        
+        Para CADA requisito, genera un objeto JSON con:
+        - id (coincidiendo con el ID de entrada)
         - status (COMPLIANT, NON_COMPLIANT, PARTIAL)
-        - reasoning (brief explanation)
-        - score (0-100 confidence)
-        - sourceQuote (exact quote from proposal, or empty string if none)
+        - reasoning (Explicación breve en Español de por qué cumple o no, citando valores específicos)
+        - score (0-100 confianza en la evaluación)
+        - sourceQuote (Cita textual exacta de la propuesta que evidencia el cumplimiento, o cadena vacía si no hay)
         `,
         output: { schema: BatchSchema },
       });
