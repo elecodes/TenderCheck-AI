@@ -17,7 +17,7 @@ export const Navbar: React.FC = () => {
           </div>
           
           <div className="hidden md:block">
-            <div className="ml-10 flex items-center space-x-6">
+            <div className="ml-10 flex items-center space-x-6 mr-8 lg:mr-16">
                <Link to="/login" className="text-sm font-bold text-[#C5A028] hover:text-[#b08d22] transition-colors uppercase tracking-widest border border-[#C5A028]/20 px-4 py-2 rounded-full hover:bg-[#C5A028]/10 shadow-md shadow-[#C5A028]/10">
                   Iniciar Sesión
                </Link>
