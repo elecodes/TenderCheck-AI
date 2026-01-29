@@ -5,7 +5,7 @@ import { FileCheck } from 'lucide-react';
 export const Navbar: React.FC = () => {
   return (
     <nav className="fixed top-0 w-full z-50">
-      <div className="max-w-7xl mx-auto px-8 sm:px-16 lg:px-32">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         <div className="flex items-center justify-between h-32 pt-4">
           <div className="flex-shrink-0 flex items-center gap-4">
              <div className="bg-[#D4AF37]/10 p-2.5 rounded-full backdrop-blur-sm border border-[#D4AF37]/20">
@@ -17,7 +17,7 @@ export const Navbar: React.FC = () => {
           </div>
           
           <div className="hidden md:block">
-            <div className="ml-10 flex items-center space-x-6 mr-8 lg:mr-16">
+            <div className="ml-10 flex items-center space-x-6 mr-12 lg:mr-36">
                <Link to="/login" className="text-sm font-bold text-[#C5A028] hover:text-[#b08d22] transition-colors uppercase tracking-widest border border-[#C5A028]/20 px-4 py-2 rounded-full hover:bg-[#C5A028]/10 shadow-md shadow-[#C5A028]/10">
                   Iniciar Sesión
                </Link>
