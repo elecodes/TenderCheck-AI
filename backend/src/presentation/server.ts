@@ -19,9 +19,10 @@ import { TursoDatabase } from "../infrastructure/database/TursoDatabase.js";
 // strictly using process.env here as per the "Secure Defaults" directive.
 
 // 1. Trust Proxy (Required for Render/Cloudflare)
-app.set("trust proxy", 1); // Trust first proxy
+// Moved after app init below
 
 const app = express();
+app.set("trust proxy", 1); // Trust first proxy
 
 // 2. Security Middleware (Relaxed for Hugging Face Spaces Iframe)
 app.use(
