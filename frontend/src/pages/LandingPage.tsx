@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 export const LandingPage: React.FC = () => {
   return (
-    <div className="min-h-screen w-full bg-[#D3D0C2] bg-gradient-to-br from-[#E8E6DE] via-[#D3D0C2] to-[#B8C1B7] text-[#1a1c1a] overflow-hidden relative font-sans isolation-auto">
+    <div className="min-h-screen w-full bg-[#EAE8E0] bg-gradient-to-br from-[#F5F5F3] via-[#EAE8E0] to-[#CED6CD] text-[#1a1c1a] overflow-hidden relative font-sans isolation-auto">
       <Navbar />
 
       {/* Decorative Orbs (Mixed) */}
