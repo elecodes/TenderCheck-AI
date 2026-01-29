@@ -18,6 +18,9 @@ import { TursoDatabase } from "../infrastructure/database/TursoDatabase.js";
 // Environment variable validation can be improved later with a dedicated config,
 // strictly using process.env here as per the "Secure Defaults" directive.
 
+// 1. Trust Proxy (Required for Render/Cloudflare)
+app.set("trust proxy", 1); // Trust first proxy
+
 const app = express();
 
 // 2. Security Middleware (Relaxed for Hugging Face Spaces Iframe)
@@ -56,9 +59,8 @@ app.disable("x-powered-by");
 
 // CORS configuration
 const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || [];
-app.use(
-  cors({
-    origin: (origin, callback) => {
+const corsOptions = {
+    origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
       if (!origin) return callback(null, true);
       if (
         allowedOrigins.indexOf(origin) !== -1 ||
@@ -71,8 +73,11 @@ app.use(
     },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
-  }),
-);
+    credentials: true,
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // Enable Pre-Flight for all routes
 
 // Body parsing
 app.use(express.json({ limit: "10kb" }));
