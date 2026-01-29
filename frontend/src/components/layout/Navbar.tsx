@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Scale } from 'lucide-react';
+import { FileCheck } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   return (
@@ -9,7 +9,7 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center justify-between h-32 pt-4">
           <div className="flex-shrink-0 flex items-center gap-4">
              <div className="bg-[#D4AF37]/10 p-2.5 rounded-full backdrop-blur-sm border border-[#D4AF37]/20">
-                <Scale className="h-5 w-5 text-[#C5A028]" />
+                <FileCheck className="h-5 w-5 text-[#C5A028]" />
              </div>
              <span className="font-sans text-sm tracking-[0.2em] font-bold text-[#1a1c1a] uppercase mt-1">
                TenderCheck AI
