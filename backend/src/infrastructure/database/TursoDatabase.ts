@@ -35,7 +35,7 @@ export class TursoDatabase {
       TursoDatabase.instance = createClient({
         url,
         ...(authToken ? { authToken } : {}),
-      });
+      } as any);
     }
     return TursoDatabase.instance;
   }
