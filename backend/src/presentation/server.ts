@@ -78,7 +78,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); // Enable Pre-Flight for all routes
+app.options("/*splat", cors(corsOptions)); // Enable Pre-Flight for all routes using Express 5 syntax
 
 // Body parsing
 app.use(express.json({ limit: "10kb" }));
