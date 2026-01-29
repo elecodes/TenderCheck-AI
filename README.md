@@ -24,8 +24,8 @@ app_port: 3000
 - [x] **Week 1**: Architecture & Setup (Clean Architecture, TypeScript)
 - [x] **Phase 3**: Vector Search (Local Embeddings)
 - [x] **Phase 14**: Persistence (SQLite -> Turso Migration)
-- [x] **Phase 4**: Cloud Auth & Security (Google Sign-In)
-- [x] **Phase 6**: Cloud Deployment (Render + Turso + Gemini)
+- [x] **Phase 4**: Cloud Auth & Security (Google Sign-In v1.1 - Redirect Mode)
+- [x] **Phase 6**: Cloud Deployment (Render + Turso + Gemini + COOP Fixes)
 
 ## 🚀 Key Features
 - **Smart Ingestion**: Parses complex PDF structure from Tender Documents (*Pliegos*).

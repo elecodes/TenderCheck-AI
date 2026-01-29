@@ -70,7 +70,7 @@ To run the analysis without costs/limits:
 
 ### 7. Authentication Flow 🔐
 - **Register**: Create a new account at `/register`. Upon success, a JWT is issued automatically and the user is redirected to the dashboard.
-- **Login**: Use credentials to obtain a JWT.
+- **Login**: Use credentials or **Google Sign-In (Redirect Mode)** to obtain a JWT. The Google flow uses full-page redirection to bypass COOP/COEP browser restrictions.
 - **Session Persistence**: The `AuthContext` performs a defensive check on startup. If a token exists but is malformed (e.g., string `"undefined"`), it is cleared to prevent 401 loops.
 - **Protected Routes**: `/dashboard` is secured via `ProtectedRoute.tsx` on the frontend and `authMiddleware.ts` on the backend.
 

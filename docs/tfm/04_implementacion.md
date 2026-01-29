@@ -25,6 +25,10 @@ Se ha implementado un sistema robusto para la gestión de datos.
 - **Persistencia de Licitaciones**: Implementación del patrón *Repository* con **Turso (LibSQL)** para almacenar la relación entre Usuarios, Análisis, Requisitos y Resultados de Validación. Esta migración a la nube permite que los datos sobrevivan al reinicio de los contenedores de aplicación.
 - **Migración a la Nube**: Pivotaje arquitectónico desde SQLite local a Turso para resolver problemas de persistencia en entornos serverless (Render).
 
+**Desafío Técnico: Aislamiento Cross-Origin (COOP)**
+Durante la integración de Google Sign-In en producción, se identificó un conflicto crítico con las políticas de seguridad `Cross-Origin-Opener-Policy` (COOP). Los navegadores modernos bloqueaban la comunicación entre la aplicación (React) y la ventana emergente (Popup) de Google.
+*Solución*: Se implementó un cambio de estrategia hacia el flujo `redirect` (v1.1.0). En lugar de depender de ventanas secundarias, la aplicación realiza una navegación completa al proveedor de identidad y recupera el token del fragmento URL (`#access_token`) al retornar, garantizando la compatibilidad universal sin comprometer la seguridad.
+
 ### 4.2.3 Refinamiento de la Lógica de IA (Fases 6 y 7)
 Se implementó una estrategia de "Doble Prompt" para maximizar la precisión:
 1.  **Extracción (Input)**: Se utiliza un prompt de "Auditor Legal" que filtra estrictamente los requisitos obligatorios (RTOs) basándose en imperativos legales.
