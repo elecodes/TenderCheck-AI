@@ -33,6 +33,9 @@ services:
       - path: /*
         name: Cross-Origin-Embedder-Policy
         value: unsafe-none
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
     envVars:
       - key: VITE_API_BASE_URL
         sync: false # Set in Dashboard after Backend is live
