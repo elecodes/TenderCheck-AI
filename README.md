@@ -168,6 +168,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── 011-cloud-deployment.md
 │   │   ├── 012-cloud-pivot-render-turso.md
 │   │   ├── 013-ai-logic-refinements.md
+│   │   ├── 014-auth-strategy-pivot.md
 │   │   └── README.md
 │   ├── architecture
 │   │   ├── mcp_feasibility_study.md
@@ -207,6 +208,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   ├── package.json
 │   ├── postcss.config.js
 │   ├── public
+│   │   ├── _headers
 │   │   └── vite.svg
 │   ├── src
 │   │   ├── App.css

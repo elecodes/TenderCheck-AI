@@ -19,3 +19,4 @@
 | 011 | [ADR 011: Estrategia de Despliegue en Nube (Hugging Face Spaces)](./011-cloud-deployment.md) | Unknown |
 | 012 | [12. Cloud Architecture Pivot: Render, Turso, and Gemini](./012-cloud-pivot-render-turso.md) | Unknown |
 | 013 | [ADR 013: Refinamiento de Lógica AI y Migración Vectorial Cloud](./013-ai-logic-refinements.md) | Unknown |
+| 014 | [ADR 014: Authentication Strategy Pivot (Popup vs Redirect)](./014-auth-strategy-pivot.md) | accepted |
