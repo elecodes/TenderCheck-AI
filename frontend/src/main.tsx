@@ -19,7 +19,7 @@ Sentry.init({
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-console.log('🚀 TenderCheck Web App v1.0.6 - COOP: unsafe-none');
+console.log('🚀 TenderCheck Web App v1.0.7 - COOP: same-origin-allow-popups');
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
