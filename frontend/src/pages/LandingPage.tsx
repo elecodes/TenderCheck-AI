@@ -48,7 +48,7 @@ export const LandingPage: React.FC = () => {
                     </p>
                 </div>
 
-                <Link to="/register" className="w-full py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold tracking-widest uppercase shadow-lg shadow-emerald-600/20 transition-all active:scale-[0.98] flex items-center justify-center mt-4">
+                <Link to="/register" className="w-full py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold tracking-widest uppercase shadow-xl shadow-emerald-600/40 transition-all active:scale-[0.98] flex items-center justify-center mt-4">
                    Subir Licitación
                 </Link>
             </div>
