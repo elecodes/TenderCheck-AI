@@ -20,7 +20,7 @@ export const LandingPage: React.FC = () => {
              {/* Optional top badge */}
         </div>
 
-        <h1 className="text-6xl md:text-8xl font-serif font-medium mb-8 leading-[0.9] max-w-5xl text-[#1a1c1a] tracking-tight">
+        <h1 className="text-6xl md:text-8xl font-serif font-medium mb-8 leading-[0.9] max-w-5xl text-[#2D312D] tracking-tight">
           Precisión en cada <br/> propuesta.
         </h1>
         
@@ -42,7 +42,7 @@ export const LandingPage: React.FC = () => {
                 </div>
                 
                 <div className="text-center space-y-3">
-                    <h3 className="font-serif text-3xl text-[#1a1c1a]">Nuevo Análisis</h3>
+                    <h3 className="font-serif text-3xl text-[#2D312D]">Nuevo Análisis</h3>
                     <p className="text-[#5a605a] text-lg leading-snug max-w-[260px]">
                         Sube tus documentos PDF de licitación para verificación de cumplimiento impulsada por IA.
                     </p>
@@ -60,28 +60,28 @@ export const LandingPage: React.FC = () => {
              <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-center items-center gap-12 md:gap-24 opacity-80">
                 <div className="flex items-center gap-4 group">
                     <div className="p-3 rounded-full bg-white/40 group-hover:bg-white/60 transition-colors">
-                        <UploadCloud className="w-6 h-6 text-[#1a1c1a]" />
+                        <UploadCloud className="w-6 h-6 text-[#2D312D]" />
                     </div>
                     <div className="text-left">
-                        <h4 className="font-serif font-medium text-[#1a1c1a]">Extracción Inteligente</h4>
+                        <h4 className="font-serif font-medium text-[#2D312D]">Extracción Inteligente</h4>
                         <p className="text-xs text-[#5a605a] uppercase tracking-wider">Análisis Automático de Requisitos</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-4 group">
                     <div className="p-3 rounded-full bg-white/40 group-hover:bg-white/60 transition-colors">
-                        <ShieldCheck className="w-6 h-6 text-[#1a1c1a]" />
+                        <ShieldCheck className="w-6 h-6 text-[#2D312D]" />
                     </div>
                     <div className="text-left">
-                        <h4 className="font-serif font-medium text-[#1a1c1a]">Verificación de Cumplimiento</h4>
+                        <h4 className="font-serif font-medium text-[#2D312D]">Verificación de Cumplimiento</h4>
                         <p className="text-xs text-[#5a605a] uppercase tracking-wider">Validación contra criterios</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-4 group">
                     <div className="p-3 rounded-full bg-white/40 group-hover:bg-white/60 transition-colors">
-                        <Zap className="w-6 h-6 text-[#1a1c1a]" />
+                        <Zap className="w-6 h-6 text-[#2D312D]" />
                     </div>
                     <div className="text-left">
-                        <h4 className="font-serif font-medium text-[#1a1c1a]">Análisis Instantáneo</h4>
+                        <h4 className="font-serif font-medium text-[#2D312D]">Análisis Instantáneo</h4>
                         <p className="text-xs text-[#5a605a] uppercase tracking-wider">Retroalimentación IA en tiempo real</p>
                     </div>
                 </div>
