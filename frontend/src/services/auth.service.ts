@@ -57,7 +57,9 @@ export const requestPasswordReset = async (email: string): Promise<void> => {
 };
 
 export const loginWithGoogle = async (token: string): Promise<AuthResponse> => {
-    const response = await fetch(`${API_URL}/api/auth/google`, {
+    const targetUrl = `${API_URL}/api/auth/google`;
+    console.log('🚀 Attempting Google Login Fetch:', targetUrl);
+    const response = await fetch(targetUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token }),
