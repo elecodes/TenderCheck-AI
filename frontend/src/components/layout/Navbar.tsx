@@ -6,7 +6,7 @@ export const Navbar: React.FC = () => {
   return (
     <nav className="fixed top-0 w-full z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-24">
+        <div className="flex items-center justify-between h-32 pt-4">
           <div className="flex-shrink-0 flex items-center gap-4">
              <div className="bg-[#D4AF37]/10 p-2.5 rounded-full backdrop-blur-sm border border-[#D4AF37]/20">
                 <Scale className="h-5 w-5 text-[#C5A028]" />
