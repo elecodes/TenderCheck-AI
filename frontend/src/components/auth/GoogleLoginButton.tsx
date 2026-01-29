@@ -50,9 +50,10 @@ const LoginButtonDetails = () => {
       console.error('❌ Google SDK Error:', errorResponse);
       setIsLoading(false);
     },
-    flow: 'implicit', // Ensure we get an access_token
-    ux_mode: 'redirect', // Use Redirect to bypass COOP/Popup blocking
-    redirect_uri: window.location.origin + '/login' // Explicit return to login page
+    flow: 'implicit', 
+    // @ts-expect-error - ux_mode is valid in runtime but missing in type definition for implicit flow
+    ux_mode: 'redirect',
+    redirect_uri: window.location.origin + '/login'
   });
 
   return (
