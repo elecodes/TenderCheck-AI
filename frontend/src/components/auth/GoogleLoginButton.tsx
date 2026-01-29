@@ -1,7 +1,7 @@
 import { useGoogleLogin } from '@react-oauth/google';
 import { useAuth } from '../../context/AuthContext';
 import { Loader2 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // Separate component to safely use the hook
 import { useNavigate } from 'react-router-dom';
@@ -11,25 +11,48 @@ const LoginButtonDetails = () => {
   const { loginWithGoogle } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
+  // Handle Redirect Back from Google
+  useEffect(() => {
+    const handleGoogleRedirect = async () => {
+        // Check for access_token in the URL fragment (Implicit flow)
+        const hash = window.location.hash;
+        if (hash && hash.includes('access_token')) {
+            const params = new URLSearchParams(hash.substring(1)); // remove #
+            const token = params.get('access_token');
+            
+            if (token) {
+                console.log('✅ Google Redirect Success: Token found');
+                setIsLoading(true);
+                try {
+                    console.log('🚀 Initiating Backend Auth with token...');
+                    await loginWithGoogle(token);
+                    console.log('🎉 Backend Auth Success');
+                    // Clean URL
+                    window.history.replaceState(null, '', window.location.pathname);
+                    navigate('/dashboard');
+                } catch (error) {
+                    console.error('❌ Backend Auth Error:', error);
+                    setIsLoading(false);
+                }
+            }
+        }
+    };
+    
+    handleGoogleRedirect();
+  }, [loginWithGoogle, navigate]);
+
   const login = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      console.log('✅ Google SDK Success: Token received', tokenResponse);
-      setIsLoading(true);
-      try {
-        console.log('🚀 Initiating Backend Auth with token...');
-        await loginWithGoogle(tokenResponse.access_token);
-        console.log('🎉 Backend Auth Success: Navigating to Dashboard');
-        navigate('/dashboard');
-      } catch (error) {
-        console.error('❌ Backend Auth Error:', error);
-      } finally {
-        setIsLoading(false);
-      }
+    onSuccess: (tokenResponse) => {
+        // This won't fire in redirect mode, but keeps types happy
+        console.log('Google Success', tokenResponse);
     },
     onError: (errorResponse) => {
       console.error('❌ Google SDK Error:', errorResponse);
       setIsLoading(false);
-    }
+    },
+    flow: 'implicit', // Ensure we get an access_token
+    ux_mode: 'redirect', // Use Redirect to bypass COOP/Popup blocking
+    redirect_uri: window.location.origin + '/login' // Explicit return to login page
   });
 
   return (
@@ -40,7 +63,10 @@ const LoginButtonDetails = () => {
       className="w-full flex items-center justify-center px-4 py-3 border border-white/10 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-200"
     >
       {isLoading ? (
-        <Loader2 className="w-5 h-5 animate-spin text-gray-500" />
+        <div className="flex items-center gap-2">
+           <Loader2 className="w-5 h-5 animate-spin text-gray-500" />
+           <span>Autenticando...</span>
+        </div>
       ) : (
         <div className="flex items-center gap-3">
           <svg className="h-5 w-5" viewBox="0 0 24 24">
