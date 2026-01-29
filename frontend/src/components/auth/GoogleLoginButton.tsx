@@ -13,21 +13,21 @@ const LoginButtonDetails = () => {
 
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
+      console.log('✅ Google SDK Success: Token received', tokenResponse);
       setIsLoading(true);
       try {
-        console.log('Google Sign-In Success: Got token', tokenResponse.access_token.substring(0, 10) + '...');
+        console.log('🚀 Initiating Backend Auth with token...');
         await loginWithGoogle(tokenResponse.access_token);
-        console.log('Backend Verification Success: Redirecting...');
+        console.log('🎉 Backend Auth Success: Navigating to Dashboard');
         navigate('/dashboard');
       } catch (error) {
-        console.error('Google Login Error:', error);
-        // Toast or alert could go here
+        console.error('❌ Backend Auth Error:', error);
       } finally {
         setIsLoading(false);
       }
     },
-    onError: () => {
-      console.error('Google Login Failed');
+    onError: (errorResponse) => {
+      console.error('❌ Google SDK Error:', errorResponse);
       setIsLoading(false);
     }
   });
