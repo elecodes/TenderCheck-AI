@@ -28,6 +28,12 @@ services:
     staticPublishPath: frontend/dist
     headers:
       - path: /*
+        name: Cross-Origin-Opener-Policy
+        value: unsafe-none
+      - path: /*
+        name: Cross-Origin-Embedder-Policy
+        value: unsafe-none
+      - path: /*
         name: Referrer-Policy
         value: strict-origin-when-cross-origin
     routes:
