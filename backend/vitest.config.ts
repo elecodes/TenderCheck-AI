@@ -7,7 +7,6 @@ export default defineConfig({
       reporter: ["text", "json", "html"],
       exclude: [
         "src/infrastructure/**", // Tier 3: 0% Coverage
-        "src/presentation/**",
         "test/**",
         "**/*.d.ts",
         "**/*.config.*",
