@@ -60,6 +60,7 @@ const LoginButtonDetails = () => {
     flow: 'implicit', 
     // ux_mode: 'redirect', // Let's try popup again with the COOP fix
     // redirect_uri: window.location.origin + '/login'
+    // @ts-expect-error - ux_mode is supported in runtime but missing in implicit flow types
     ux_mode: 'redirect',
     redirect_uri: window.location.origin + '/login'
   });
