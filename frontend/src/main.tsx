@@ -19,7 +19,7 @@ Sentry.init({
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-console.log('🚀 TenderCheck Web App v1.1.1 - UI: Color Fix');
+console.log('🚀 TenderCheck Web App v1.1.2 - UI: Serif Fix');
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
