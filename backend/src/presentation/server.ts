@@ -39,7 +39,7 @@ app.use(
       },
     },
     crossOriginEmbedderPolicy: false,
-    crossOriginOpenerPolicy: false,
+    crossOriginOpenerPolicy: { policy: "unsafe-none" }, // Explicitly allow popups
     frameguard: false, // Disable X-Frame-Options to allow iframe embedding
   }),
 );
