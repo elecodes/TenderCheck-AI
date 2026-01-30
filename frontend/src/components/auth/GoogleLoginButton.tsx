@@ -42,9 +42,16 @@ const LoginButtonDetails = () => {
   }, [loginWithGoogle, navigate]);
 
   const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => {
-        // This won't fire in redirect mode, but keeps types happy
-        console.log('Google Success', tokenResponse);
+    onSuccess: async (tokenResponse) => {
+        console.log('✅ Google Popup Success', tokenResponse);
+        setIsLoading(true);
+        try {
+            await loginWithGoogle(tokenResponse.access_token);
+            navigate('/dashboard');
+        } catch (err) {
+            console.error('❌ Backend Auth Error:', err);
+            setIsLoading(false);
+        }
     },
     onError: (errorResponse) => {
       console.error('❌ Google SDK Error:', errorResponse);
