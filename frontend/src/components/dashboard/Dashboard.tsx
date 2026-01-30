@@ -201,14 +201,14 @@ export const Dashboard = () => {
               {!analysis ? (
                  <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-12 animate-in fade-in duration-700">
                     {/* Hero Section */}
-                    <div className="text-center max-w-2xl space-y-6">
-                       <h1 className="text-5xl font-serif font-medium tracking-tight text-gray-900 dark:text-white leading-tight">
-                         Análisis Inteligente de Licitaciones
-                       </h1>
-                       <p className="text-xl text-gray-500 dark:text-gray-400 leading-relaxed">
-                         Sube el documento del pliego para extraer requisitos y valida tu oferta automáticamente en segundos.
-                       </p>
-                    </div>
+                     <div className="text-center max-w-2xl space-y-3">
+                        <h1 className="text-3xl font-serif font-medium tracking-tight text-gray-900 dark:text-white leading-tight">
+                          Análisis Inteligente de Licitaciones
+                        </h1>
+                        <p className="text-lg text-gray-500 dark:text-gray-400 leading-relaxed">
+                          Sube el documento del pliego para extraer requisitos y valida tu oferta automáticamente en segundos.
+                        </p>
+                     </div>
 
                     {/* Upload Section */}
                     <div className="w-full max-w-4xl bg-white dark:bg-gray-900/50 rounded-2xl border border-gray-200 dark:border-gray-800 p-8 shadow-2xl shadow-gray-200/50 dark:shadow-black/50 backdrop-blur-xl">
