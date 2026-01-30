@@ -19,7 +19,7 @@ export const AnalysisResults = ({ analysis, onReset }: AnalysisResultsProps) => 
               <div className="p-2 bg-emerald-500/10 rounded-lg">
                 <FileText className="w-6 h-6 text-emerald-500" />
               </div>
-              <h2 className="text-3xl font-bold text-white tracking-tight">{analysis.tenderTitle}</h2>
+              <h2 className="text-2xl md:text-3xl font-serif font-medium text-white leading-snug">{analysis.tenderTitle}</h2>
           </div>
           <div className="flex flex-wrap items-center gap-4 text-xs font-medium uppercase tracking-widest text-gray-500">
             <span className="flex items-center bg-gray-800/50 px-3 py-1 rounded-full border border-gray-700/50">
