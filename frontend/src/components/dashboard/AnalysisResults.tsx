@@ -15,11 +15,11 @@ export const AnalysisResults = ({ analysis, onReset }: AnalysisResultsProps) => 
       {/* Header Card */}
       <div className="bg-[#1e242c]/60 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-800/50 p-8 flex flex-col md:flex-row justify-between items-start gap-6">
         <div className="flex-1">
-          <div className="flex items-center space-x-3 mb-3">
-              <div className="p-2 bg-emerald-500/10 rounded-lg">
+          <div className="flex items-start space-x-4 mb-4">
+              <div className="p-2 bg-emerald-500/10 rounded-lg mt-1 flex-shrink-0">
                 <FileText className="w-6 h-6 text-emerald-500" />
               </div>
-              <h2 className="text-2xl md:text-3xl font-serif font-medium text-white leading-snug">{analysis.tenderTitle}</h2>
+              <h2 className="text-xl md:text-2xl font-serif font-medium text-white leading-relaxed">{analysis.tenderTitle}</h2>
           </div>
           <div className="flex flex-wrap items-center gap-4 text-xs font-medium uppercase tracking-widest text-gray-500">
             <span className="flex items-center bg-gray-800/50 px-3 py-1 rounded-full border border-gray-700/50">
