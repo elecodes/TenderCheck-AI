@@ -202,7 +202,7 @@ export const Dashboard = () => {
                  <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-12 animate-in fade-in duration-700">
                     {/* Hero Section */}
                     <div className="text-center max-w-2xl space-y-6">
-                       <h1 className="text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white leading-tight">
+                       <h1 className="text-5xl font-serif font-medium tracking-tight text-gray-900 dark:text-white leading-tight">
                          Análisis Inteligente de Licitaciones
                        </h1>
                        <p className="text-xl text-gray-500 dark:text-gray-400 leading-relaxed">
