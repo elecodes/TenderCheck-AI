@@ -32,16 +32,20 @@ app_port: 3000
 - **Cloud AI Analysis**: Extracts requirements using **Gemini 2.5 Flash** (Fast, Free Tier compatible).
 - **Requirement Extraction**: Identifies technical clauses, distinguishing **OBLIGATORIO** vs **OPCIONAL**.
 - **Real Proposal Validation**: Real-time comparison of vendor proposals with AI reasoning.
+- **Improved AI Summary**: Detailed analysis summaries up to 500 characters (truncated from 100 in previous versions).
 - **Análisis Inteligente (Dual Persona)**: 
   - **Auditor Legal (Extracción)**: Identifica requisitos estrictos ("deberá", "obligatorio").
   - **Evaluador Senior (Validación)**: Entiende sinónimos técnicos y matices de cumplimiento parcial.
 - **Búsqueda Semántica Cloud**: Vector Search nativo con Google Genkit (`text-embedding-004`).
 - **Arquitectura Cloud-Native**: Backend en Render + Base de Datos Turso (Edge SQLite).
-- **Interfaz React Moderna**: Dashboard con estadísticas en tiempo real y feedback visual (colores semánticos).
+- **Interfaz React Moderna**: 
+  - **New Typography**: Professional serif fonts (*Playfair Display*) for high-value information.
+  - **Dynamic Layouts**: Smart sizing for long titles and summaries.
+  - **Responsive Design**: Mobile-friendly dashboard and reports.
 - **Persistent History**: Stores all analyses in **Turso (Distributed SQLite)** for reliability.
 - **History Management**: Browse, search, and delete previous analyses.
 - **Professional Export**: Generate branded **PDF Reports**.
-- **Secure by Design**: Zod validation, Helmet protection, and strict CORS.
+- **Secure by Design**: Zod validation, Helmet protection, strict CORS (`ALLOWED_ORIGINS`), and COOP/COEP compliant auth flows.
 
 ## 📌 Overview
 **TenderCheck AI** is an intelligent assistant designed to validate public tender documents. Originally built for local inference, it has pivoted to a **Cloud-Native Architecture** (Render + Turso + Gemini) to ensure stability, persistence, and performance within free-tier limits.

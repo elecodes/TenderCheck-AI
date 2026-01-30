@@ -14,11 +14,20 @@ const API_URL = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/$/, 
 console.log('🔌 Auth Service Initialized. Backend URL:', `"${API_URL}"`); // Quote to see whitespace
 
 export const login = async (email: string, password: string): Promise<AuthResponse> => {
-  const response = await fetch(`${API_URL}/api/auth/login`, {
+  const target = `${API_URL}/api/auth/login`;
+  console.log(`📡 [AuthService] Login Request -> ${target}`);
+
+  const response = await fetch(target, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
   });
+
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('text/html')) {
+    console.error('❌ [AuthService] received HTML instead of JSON. Check API_URL configuration.');
+    throw new Error('Server configuration error (Received HTML)');
+  }
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));

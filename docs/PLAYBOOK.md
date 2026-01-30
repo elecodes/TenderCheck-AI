@@ -126,5 +126,7 @@ To run the analysis without costs/limits:
 3.  **Troubleshooting**:
     - **"Table not found"**: Check if `SqliteDatabase.initializeSchema()` ran in the logs.
     - **"404 Model"**: Check `GeminiGenkitService` model string and API Key scope.
+    - **CORS Errors**: Verify `ALLOWED_ORIGINS` in Render environment matches your frontend URL (`https://your-app.onrender.com`).
+    - **Google Sign-In Hidden**: Ensure `VITE_ENABLE_GOOGLE_AUTH=true` is set in Vercel/Render frontend environment.
 
 
