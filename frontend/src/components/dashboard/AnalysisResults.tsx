@@ -13,60 +13,62 @@ export const AnalysisResults = ({ analysis, onReset }: AnalysisResultsProps) => 
     <div className="w-full max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
       
       {/* Header Card */}
-      <div className="bg-[#1e242c]/60 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-800/50 p-8 flex flex-col md:flex-row justify-between items-start gap-6">
-        <div className="flex-1">
-          <div className="flex items-start space-x-4 mb-4">
-              <div className="p-2 bg-emerald-500/10 rounded-lg mt-1 flex-shrink-0">
-                <FileText className="w-6 h-6 text-emerald-500" />
-              </div>
-              <h2 className="text-xl md:text-2xl font-serif font-medium text-white leading-relaxed">{analysis.tenderTitle}</h2>
-          </div>
-          <div className="flex flex-wrap items-center gap-4 text-xs font-medium uppercase tracking-widest text-gray-500">
-            <span className="flex items-center bg-gray-800/50 px-3 py-1 rounded-full border border-gray-700/50">
-                ID: {analysis.id.slice(0, 8)}
-            </span>
-            <span className="flex items-center bg-gray-800/50 px-3 py-1 rounded-full border border-gray-700/50">
-                {new Date(analysis.createdAt).toLocaleDateString()}
-            </span>
-            <span className={`px-3 py-1 rounded-full border font-bold ${
-                analysis.status === 'COMPLETED' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500' : 'bg-amber-500/10 border-amber-500/20 text-amber-500'
-            }`}>
-                {analysis.status === 'COMPLETED' ? 'COMPLETADO' : analysis.status}
-            </span>
-            {analysis.results?.some(r => r.requirementId === 'SCOPE_CHECK' && r.status === 'MET') && (
-                <span className="px-3 py-1 rounded-full border font-bold bg-blue-500/10 border-blue-500/20 text-blue-400">
-                    ALCANCE VERIFICADO
-                </span>
-            )}
-          </div>
+      <div className="bg-[#1e242c]/60 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-800/50 p-8">
+        
+        {/* Row 1: Title (Full Width) */}
+        <div className="flex items-start space-x-4 mb-6">
+            <div className="p-2 bg-emerald-500/10 rounded-lg mt-1 flex-shrink-0">
+              <FileText className="w-6 h-6 text-emerald-500" />
+            </div>
+            <h2 className="text-2xl md:text-3xl font-serif font-medium text-white leading-relaxed">{analysis.tenderTitle}</h2>
         </div>
 
-        <div className="flex flex-wrap gap-2 md:gap-3 flex-shrink-0 mt-1">
-          <button 
-            onClick={() => exportToJSON(analysis)}
-            className="flex items-center space-x-1.5 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-blue-400 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 rounded-lg transition-all active:scale-95"
-            title="Exportar como JSON"
-          >
-            <FileJson className="w-3.5 h-3.5" />
-            <span>JSON</span>
-          </button>
-          
-          <button 
-            onClick={() => exportToPDF(analysis)}
-            className="flex items-center space-x-1.5 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 rounded-lg transition-all active:scale-95"
-            title="Exportar como PDF"
-          >
-            <Download className="w-3.5 h-3.5" />
-            <span>PDF</span>
-          </button>
+        {/* Row 2: Metadata & Actions */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 border-t border-gray-800/50 pt-6">
+            
+            {/* Metadata (Left) */}
+            <div className="flex flex-wrap items-center gap-3 text-xs font-medium uppercase tracking-widest text-gray-500">
+                <span className="flex items-center bg-gray-800/50 px-3 py-1 rounded-full border border-gray-700/50">
+                    ID: {analysis.id.slice(0, 8)}
+                </span>
+                <span className="flex items-center bg-gray-800/50 px-3 py-1 rounded-full border border-gray-700/50">
+                    {new Date(analysis.createdAt).toLocaleDateString()}
+                </span>
+                <span className={`px-3 py-1 rounded-full border font-bold ${
+                    analysis.status === 'COMPLETED' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500' : 'bg-amber-500/10 border-amber-500/20 text-amber-500'
+                }`}>
+                    {analysis.status === 'COMPLETED' ? 'COMPLETADO' : analysis.status}
+                </span>
+            </div>
 
-          <button 
-            onClick={onReset}
-            className="flex items-center space-x-1.5 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-gray-400 hover:text-white bg-gray-800/50 hover:bg-gray-700 border border-gray-700/50 rounded-lg transition-all active:scale-95"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span>Nuevo</span>
-          </button>
+            {/* Actions (Right) */}
+            <div className="flex flex-wrap gap-2 md:gap-3 flex-shrink-0">
+              <button 
+                onClick={() => exportToJSON(analysis)}
+                className="flex items-center space-x-1.5 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-blue-400 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 rounded-lg transition-all active:scale-95"
+                title="Exportar como JSON"
+              >
+                <FileJson className="w-3.5 h-3.5" />
+                <span>JSON</span>
+              </button>
+              
+              <button 
+                onClick={() => exportToPDF(analysis)}
+                className="flex items-center space-x-1.5 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 rounded-lg transition-all active:scale-95"
+                title="Exportar como PDF"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span>PDF</span>
+              </button>
+
+              <button 
+                onClick={onReset}
+                className="flex items-center space-x-1.5 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-gray-400 hover:text-white bg-gray-800/50 hover:bg-gray-700 border border-gray-700/50 rounded-lg transition-all active:scale-95"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>Nuevo</span>
+              </button>
+            </div>
         </div>
       </div>
 
