@@ -41,31 +41,31 @@ export const AnalysisResults = ({ analysis, onReset }: AnalysisResultsProps) => 
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-2 md:gap-3 flex-shrink-0 mt-1">
           <button 
             onClick={() => exportToJSON(analysis)}
-            className="flex items-center space-x-2 px-4 py-2.5 text-xs font-bold uppercase tracking-widest text-blue-400 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 rounded-xl transition-all active:scale-95"
+            className="flex items-center space-x-1.5 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-blue-400 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 rounded-lg transition-all active:scale-95"
             title="Exportar como JSON"
           >
-            <FileJson className="w-4 h-4" />
+            <FileJson className="w-3.5 h-3.5" />
             <span>JSON</span>
           </button>
           
           <button 
             onClick={() => exportToPDF(analysis)}
-            className="flex items-center space-x-2 px-4 py-2.5 text-xs font-bold uppercase tracking-widest text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 rounded-xl transition-all active:scale-95"
+            className="flex items-center space-x-1.5 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 rounded-lg transition-all active:scale-95"
             title="Exportar como PDF"
           >
-            <Download className="w-4 h-4" />
-            <span>Informe PDF</span>
+            <Download className="w-3.5 h-3.5" />
+            <span>PDF</span>
           </button>
 
           <button 
             onClick={onReset}
-            className="flex items-center space-x-2 px-4 py-2.5 text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-white bg-gray-800/50 hover:bg-gray-700 border border-gray-700/50 rounded-xl transition-all active:scale-95"
+            className="flex items-center space-x-1.5 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-gray-400 hover:text-white bg-gray-800/50 hover:bg-gray-700 border border-gray-700/50 rounded-lg transition-all active:scale-95"
           >
-            <RotateCcw className="w-4 h-4" />
-            <span>Nuevo Análisis</span>
+            <RotateCcw className="w-3.5 h-3.5" />
+            <span>Nuevo</span>
           </button>
         </div>
       </div>
