@@ -1,1 +1,3 @@
 npm run security:scan
+# Enforce Quality Gates (100/80/0)
+npm run test:coverage --prefix backend
