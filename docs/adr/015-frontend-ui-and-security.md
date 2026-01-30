@@ -3,6 +3,9 @@
 ## Status
 Accepted
 
+## Date
+2026-01-30
+
 ## Context
 During the final polish phase (User Feedback Loop), several usability and visual issues were identified:
 1.  **Typography**: The application felt too "generic SaaS" and lacked the gravitas required for a legal/auditing tool.
