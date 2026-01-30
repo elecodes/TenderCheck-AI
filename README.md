@@ -52,7 +52,7 @@ app_port: 3000
 
 ## 📚 Key Documentation
 - **[📘 Developer Playbook](docs/PLAYBOOK.md)**: Setup, Workflows, Commands.
-- **[📋 Project Plan](PROJECT_PLAN.md)**: Roadmap & Phases.
+- **[📋 Project Plan](docs/PROJECT_PLAN.md)**: Roadmap & Phases.
 - **[🚀 Deployment Guide](docs/deployment_guide.md)**: Run on Render.
 
 ## 🏗 Architecture
@@ -62,10 +62,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 ```text
 ├── AGENTS.md
 ├── Dockerfile
-├── PROJECT_PLAN.md
 ├── README.md
-├── SRS.md
-├── TFM_PLAN.md
 ├── backend
 │   ├── Dockerfile
 │   ├── eslint.config.js
