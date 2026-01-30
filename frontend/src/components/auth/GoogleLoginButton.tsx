@@ -51,9 +51,8 @@ const LoginButtonDetails = () => {
       setIsLoading(false);
     },
     flow: 'implicit', 
-    // @ts-expect-error - ux_mode is valid in runtime but missing in type definition for implicit flow
-    ux_mode: 'redirect',
-    redirect_uri: window.location.origin + '/login'
+    // ux_mode: 'redirect', // Let's try popup again with the COOP fix
+    // redirect_uri: window.location.origin + '/login'
   });
 
   return (
