@@ -60,6 +60,8 @@ const LoginButtonDetails = () => {
     flow: 'implicit', 
     // ux_mode: 'redirect', // Let's try popup again with the COOP fix
     // redirect_uri: window.location.origin + '/login'
+    ux_mode: 'redirect',
+    redirect_uri: window.location.origin + '/login'
   });
 
   return (
