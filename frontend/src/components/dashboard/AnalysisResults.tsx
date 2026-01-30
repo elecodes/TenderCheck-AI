@@ -20,7 +20,9 @@ export const AnalysisResults = ({ analysis, onReset }: AnalysisResultsProps) => 
             <div className="p-2 bg-emerald-500/10 rounded-lg mt-1 flex-shrink-0">
               <FileText className="w-6 h-6 text-emerald-500" />
             </div>
-            <h2 className="text-2xl md:text-3xl font-serif font-medium text-white leading-relaxed">{analysis.tenderTitle}</h2>
+            <h2 className={`${analysis.tenderTitle.length > 80 ? 'text-lg md:text-xl' : 'text-2xl md:text-3xl'} font-serif font-medium text-white leading-relaxed`}>
+              {analysis.tenderTitle}
+            </h2>
         </div>
 
         {/* Row 2: Metadata & Actions */}
