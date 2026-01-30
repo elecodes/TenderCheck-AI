@@ -24,9 +24,9 @@ export const LandingPage: React.FC = () => {
           Precisión en cada <br/> propuesta.
         </h1>
         
-        <p className="text-xl md:text-2xl text-[#4a4f4a] max-w-2xl mb-16 font-light leading-relaxed">
+        <p className="text-xl md:text-2xl text-[#4a4f4a] max-w-2xl mb-16 font-serif font-light leading-relaxed">
           Análisis de alta fidelidad para documentos complejos de contratación pública. 
-          Sube tus <span className="text-[#C5A028] font-serif italic">Pliegos</span> para cumplimiento instantáneo.
+          Sube tus <span className="text-[#C5A028] italic">Pliegos</span> para cumplimiento instantáneo.
         </p>
 
         {/* Central Glass Card */}
