@@ -76,7 +76,7 @@ export class GeminiGenkitService implements ITenderAnalyzer {
       return {
         id: crypto.randomUUID(),
         userId: "", // Set by caller (CreateTender)
-        tenderTitle: output.summary.substring(0, 100) || "Untitled Tender",
+        tenderTitle: output.summary.substring(0, 500) || "Untitled Tender",
         documentUrl: "",
         status: "COMPLETED", // Corrected from ANALYZED to match AnalysisStatus
         createdAt: new Date(),
