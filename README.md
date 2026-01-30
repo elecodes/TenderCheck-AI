@@ -102,6 +102,24 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   ├── architecture
 │   ├── deployment_guide.md
 │   ├── standards
+│   │   ├── architecture_systems.md
+│   │   ├── code_quality_policy.md
+│   │   ├── coding_best_practices.md
+│   │   ├── devops_policy.md
+│   │   ├── devsecops_free_tools.md
+│   │   ├── health_and_errors_policy.md
+│   │   ├── lifecycle_paradigms.md
+│   │   ├── metrics_policy.md
+│   │   ├── microcopy_policy.md
+│   │   ├── quality_metrics.md
+│   │   ├── requirements_UML.md
+│   │   ├── secure_coding_practices.md
+│   │   ├── security_policy.md
+│   │   ├── sentry_policy.md
+│   │   ├── solid_principles.md
+│   │   ├── testing_policy.md
+│   │   ├── usable_forms_best_practices.md
+│   │   └── ux_accessibility_policy.md
 │   └── tfm
 ├── frontend
 │   ├── README.md

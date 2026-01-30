@@ -6,7 +6,9 @@ Se ha formalizado el análisis funcional mediante diagramas UML, detallando los 
 ## 4.2. Pipeline de Desarrollo y Seguridad (DevSecOps)
 La implementación integra controles de calidad automatizados:
 - **Pre-Commit (Husky)**: Ejecuta `lint` y `test` para asegurar la calidad del código.
-- **Pre-Push (Husky)**: Ejecuta `snyk test` para prevenir la subida de dependencias vulnerables.
+- **Pre-Push (Husky)**:
+    - Ejecuta `snyk test` para prevenir la subida de dependencias vulnerables.
+    - Ejecuta `npm run test:coverage` para imponer el estándar **100/80/0** (100% Dominio, 80% Global).
 - **Observabilidad**: Instrumentación con Sentry en capas Frontend y Backend.
 - **Frontend**: React + Vite + TailwindCSS (Interfaz completamente localizada al **Español**).
     - **Accesibilidad**: Cumplimiento WCAG 2.1 AA (Navegación por teclado, anillos de foco visibles, tamaño de texto legible en móvil).
