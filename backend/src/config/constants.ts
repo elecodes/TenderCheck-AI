@@ -10,9 +10,12 @@ export const PASSWORD_MIN_LENGTH = 8;
 export const SALT_ROUNDS = 10;
 export const DEFAULT_PORT = 3000;
 // ⚠️ SECURITY: In production, this fallback MUST NOT be used.
-export const JWT_SECRET_FALLBACK = process.env.NODE_ENV === 'production' 
-  ? (() => { throw new Error("FATAL: JWT_SECRET is missing in production!"); })() 
-  : "dev_secret_key_only_for_local_testing";
+export const JWT_SECRET_FALLBACK =
+  process.env.NODE_ENV === "production"
+    ? (() => {
+        throw new Error("FATAL: JWT_SECRET is missing in production!");
+      })()
+    : "dev_secret_key_only_for_local_testing";
 
 export const MIN_JUSTIFICATION_LENGTH = 10;
 export const MIN_ITEMS_LENGTH = 5;
@@ -25,7 +28,7 @@ export const OPENAI_MAX_RETRIES = 4;
 export const OPENAI_MATCH_THRESHOLD = 50; //%
 export const MIN_WORD_LENGTH = 4;
 export const DEFAULT_CONFIDENCE_SCORE = 75; // Updated from 85
-export const PROPOSAL_TRUNCATE_SINGLE = 500000; // Increased to 500k for Gemini 1.5 Flash (1M token window)
+export const PROPOSAL_TRUNCATE_SINGLE = 500000; // Increased to 500k for Gemini 2.5 Flash (1M token window)
 export const PROPOSAL_TRUNCATE_BATCH = 500000; // Increased to 500k
 export const BATCH_CHUNK_SIZE = 3; // Process 3 requirements per batch (was 1)
 export const MAX_AI_CONCURRENCY = 3; // Process 3 batches in parallel (was 1)

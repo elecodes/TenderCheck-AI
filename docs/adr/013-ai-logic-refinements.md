@@ -10,7 +10,7 @@ Aceptado
 El sistema inicial sufría de "ceguera" (no encontraba requisitos en documentos largos), imprecisión en la extracción (confundía texto relleno con requisitos), y dependía de Ollama para la búsqueda vectorial (incompatible con el despliegue en Render).
 
 ## Decisión
-1. **Desbloqueo de Ventana de Contexto**: Se incrementó el límite de caracteres de 25k a **500k** para aprovechar la ventana de 1M tokens de **Gemini 1.5 Flash**.
+1. **Desbloqueo de Ventana de Contexto**: Se incrementó el límite de caracteres de 25k a **500k** para aprovechar la ventana de 1M tokens de **Gemini 2.5 Flash**.
 2. **Estrategia de Doble Prompt**:
     *   **Extracción (Input)**: Prompt de "Auditor Legal & Técnico". Busca imperativos estrictos ("deberá", "obligatorio").
     *   **Comparación (Validation)**: Prompt de "Evaluador Senior". Aplica reglas de equivalencia semántica y cumplimiento positivo (> mínimo es válido).

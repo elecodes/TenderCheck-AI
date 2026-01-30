@@ -1,22 +1,22 @@
 import { genkit } from "genkit";
-import { googleAI, gemini15Flash } from "@genkit-ai/googleai";
+import { googleAI } from "@genkit-ai/googleai";
 
 /**
  * Genkit Configuration for TenderCheck AI
  *
  * This configuration sets up Genkit with Google AI provider for Cloud-Native inference.
- * Uses Gemini 1.5 Flash for fast, cost-effective performance.
+ * Uses Gemini 2.5 Flash for fast, cost-effective performance.
  */
 export const ai = genkit({
   plugins: [googleAI()],
-  model: gemini15Flash,
+  model: "googleai/gemini-2.5-flash",
 });
 
 /**
  * Genkit Model Constants
  */
 export const GENKIT_MODELS = {
-  GEMINI_FLASH: "googleai/gemini-1.5-flash",
+  GEMINI_FLASH: "googleai/gemini-2.5-flash",
 } as const;
 
 /**

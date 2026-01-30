@@ -1,14 +1,7 @@
-import { genkit } from "genkit";
-import { googleAI, gemini15Flash } from "@genkit-ai/googleai";
 import { z } from "zod";
 import type { ITenderAnalyzer } from "../../domain/interfaces/ITenderAnalyzer.js";
 import type { TenderAnalysis } from "../../domain/entities/TenderAnalysis.js";
-
-// Initialize Genkit with Google AI
-const ai = genkit({
-  plugins: [googleAI()],
-  model: "googleai/gemini-2.5-flash", // Updated for 2026 compatibility
-});
+import { ai } from "../../config/genkit.config.js"; // Import shared instance
 
 export class GeminiGenkitService implements ITenderAnalyzer {
   async analyze(text: string): Promise<TenderAnalysis> {
@@ -27,7 +20,7 @@ export class GeminiGenkitService implements ITenderAnalyzer {
     });
 
     try {
-      console.log("🤖 Generating analysis with Gemini 1.5 Flash...");
+      console.log("🤖 Generating analysis with Gemini 2.5 Flash...");
 
       const { output } = await ai.generate({
         prompt: `Actúa como un Auditor Legal y Técnico (Legal & Technical Auditor). Analiza el siguiente Pliego de Licitación.
