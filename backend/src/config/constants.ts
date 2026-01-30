@@ -9,7 +9,10 @@ export const RATE_LIMIT_MAX_ATTEMPTS = 3;
 export const PASSWORD_MIN_LENGTH = 8;
 export const SALT_ROUNDS = 10;
 export const DEFAULT_PORT = 3000;
-export const JWT_SECRET_FALLBACK = "tendercheck_ai_super_secret_key_2026_tfm";
+// ⚠️ SECURITY: In production, this fallback MUST NOT be used.
+export const JWT_SECRET_FALLBACK = process.env.NODE_ENV === 'production' 
+  ? (() => { throw new Error("FATAL: JWT_SECRET is missing in production!"); })() 
+  : "dev_secret_key_only_for_local_testing";
 
 export const MIN_JUSTIFICATION_LENGTH = 10;
 export const MIN_ITEMS_LENGTH = 5;
