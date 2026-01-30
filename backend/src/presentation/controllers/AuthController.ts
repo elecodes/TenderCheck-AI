@@ -118,9 +118,10 @@ export class AuthController {
       });
     } catch (error: any) {
       console.error("Google Login Error:", error);
-      res
-        .status(HTTP_STATUS.UNAUTHORIZED)
-        .json({ error: "Google authentication failed", details: error.message });
+      res.status(HTTP_STATUS.UNAUTHORIZED).json({
+        error: "Google authentication failed",
+        details: error.message,
+      });
     }
   };
 }

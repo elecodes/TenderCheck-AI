@@ -29,7 +29,7 @@ services:
     headers:
       - path: /*
         name: Cross-Origin-Opener-Policy
-        value: unsafe-none
+        value: same-origin-allow-popups
       - path: /*
         name: Cross-Origin-Embedder-Policy
         value: unsafe-none

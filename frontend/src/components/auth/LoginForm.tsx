@@ -8,11 +8,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { GoogleLoginButton } from './GoogleLoginButton';
 
 const loginSchema = z.object({
-  email: z.string().email('Por favor introduce un email válido'),
+  email: z.string().email({ message: 'Por favor introduce un email válido' }),
   password: z.string()
     .min(8, 'La contraseña debe tener al menos 8 caracteres')
     .regex(/[A-Z]/, 'Se requiere una mayúscula')
-    .regex(/[0-9]/, 'Se requiere un número')
+    .regex(/\d/, 'Se requiere un número')
     .regex(/[^a-zA-Z0-9]/, 'Se requiere un carácter especial'),
 });
 
@@ -24,6 +24,8 @@ export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const enableGoogle = import.meta.env.VITE_ENABLE_GOOGLE_AUTH === 'true';
 
   const {
     register,
@@ -40,7 +42,7 @@ export function LoginForm() {
     try {
       await login(data.email, data.password);
       navigate('/dashboard');
-    } catch (err: unknown) {
+    } catch {
       // Security: Always return generic error
       setError('Credenciales inválidas');
     } finally {
@@ -140,14 +142,16 @@ export function LoginForm() {
         </button>
       </form>
       
-      <div className="space-y-4">
-        <div className="flex items-center gap-4">
-           <div className="h-px flex-1 bg-emerald-100/10"></div>
-           <span className="text-xs text-emerald-100/30 uppercase">O</span>
-           <div className="h-px flex-1 bg-emerald-100/10"></div>
+      {enableGoogle && (
+        <div className="space-y-4">
+          <div className="flex items-center gap-4">
+             <div className="h-px flex-1 bg-emerald-100/10"></div>
+             <span className="text-xs text-emerald-100/30 uppercase">O</span>
+             <div className="h-px flex-1 bg-emerald-100/10"></div>
+          </div>
+          <GoogleLoginButton />
         </div>
-        <GoogleLoginButton />
-      </div>
+      )}
       
       <div className="text-center text-sm">
         <span className="text-emerald-100/40">¿No tienes una cuenta? </span>

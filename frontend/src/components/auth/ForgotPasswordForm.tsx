@@ -7,7 +7,7 @@ import { Mail, ArrowRight, ArrowLeft, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const forgotPasswordSchema = z.object({
-  email: z.string().email('Por favor introduce un email válido'),
+  email: z.string().email({ message: 'Por favor introduce un email válido' }),
 });
 
 type ForgotPasswordData = z.infer<typeof forgotPasswordSchema>;
@@ -33,9 +33,9 @@ export function ForgotPasswordForm() {
     try {
       await requestPasswordReset(data.email);
       setIsSuccess(true);
-    } catch (err: unknown) {
-      // Security: Generic message
-      setError('Si el email existe, se enviaron instrucciones.'); 
+    } catch {
+      // handle error (kept intentionally generic)
+      setError('No fue posible enviar el correo. Intenta de nuevo.');
     } finally {
       setIsLoading(false);
     }
