@@ -117,7 +117,7 @@ export const AnalysisResults = ({ analysis, onReset }: AnalysisResultsProps) => 
                             </div>
                             <div className="h-1 w-12 bg-gray-800/50 rounded-full" />
                         </div>
-                        <p className="text-gray-200 text-lg font-medium leading-snug mb-4">{req.text}</p>
+                        <p className="text-gray-100 text-xl font-serif leading-relaxed mb-4">{req.text}</p>
                         <div className="flex flex-wrap gap-2">
                             {req.keywords.map((kw, kIdx) => (
                                 <span key={kIdx} className="text-[10px] font-bold bg-brand-dark/50 px-3 py-1 rounded-lg border border-gray-800 text-gray-500 hover:text-emerald-500 hover:border-emerald-500/30 transition-colors uppercase tracking-tight">
