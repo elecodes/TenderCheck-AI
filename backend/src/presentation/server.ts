@@ -59,29 +59,10 @@ Sentry.init({
 app.disable("x-powered-by");
 
 // CORS configuration
-const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || [];
-const corsOptions = {
-  origin: (
-    origin: string | undefined,
-    callback: (err: Error | null, allow?: boolean) => void,
-  ) => {
-    if (!origin) return callback(null, true);
-    if (
-      allowedOrigins.indexOf(origin) !== -1 ||
-      process.env.NODE_ENV !== "production"
-    ) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
-};
-
-app.use(cors(corsOptions));
-app.options("/*splat", cors(corsOptions)); // Enable Pre-Flight for all routes using Express 5 syntax
+// CORS configuration
+import { corsMiddleware } from "../infrastructure/middleware/corsMiddleware.js";
+app.use(corsMiddleware);
+app.options("/*splat", corsMiddleware); // Enable Pre-Flight for all routes using Express 5 syntax
 
 // Body parsing
 app.use(express.json({ limit: "10kb" }));
