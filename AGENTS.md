@@ -15,7 +15,7 @@ Your skills are defined by the following standard documents. You MUST read the r
 ### 💻 Engineering Standards
 - **Quality & Style:** Reference `docs/standards/code_quality_policy.md`, `docs/standards/coding_best_practices.md`, and `docs/standards/lifecycle_paradigms.md`.
 - **Patterns:** Strictly apply `docs/standards/solid_principles.md`.
-- **Testing:** Follow `docs/standards/testing_policy.md` and ensure `docs/standards/coverage_policy.md` compliance.
+- **Testing:** Follow `docs/standards/testing_policy.md` and ensure `docs/standards/quality_metrics.md` compliance.
 
 ### 🛡 Security & DevOps
 - **Hardening:** Apply `docs/standards/security_policy.md` and `docs/standards/secure_coding_practices.md`.
