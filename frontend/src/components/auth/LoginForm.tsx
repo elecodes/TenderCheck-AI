@@ -75,7 +75,7 @@ export function LoginForm() {
             <input
               id="email"
               type="email"
-              autoFocus
+              // autoFocus
               placeholder="name@company.com"
               className={`block w-full pl-10 pr-3 py-3 bg-white/5 border ${errors.email ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-emerald-400'} rounded-lg text-base text-emerald-50 placeholder-emerald-100/20 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all`}
               aria-invalid={errors.email ? 'true' : 'false'}
