@@ -74,6 +74,11 @@ To run the analysis without costs/limits:
 - **Session Persistence**: The `AuthContext` performs a defensive check on startup. If a token exists but is malformed (e.g., string `"undefined"`), it is cleared to prevent 401 loops.
 - **Protected Routes**: `/dashboard` is secured via `ProtectedRoute.tsx` on the frontend and `authMiddleware.ts` on the backend.
 
+### 8. Performance & Caching Strategy 🚀
+*   **Current State**: Real-time fetching (Fetch-on-mount). We prioritize strictly fresh data over instant navigation.
+*   **Future Actions**: If dashboard loading exceeds **800ms**, we will migrate to **React Query** (TanStack Query) with a 5-minute `staleTime`.
+*   **Reference**: See [ADR 016](../docs/adr/016-caching-strategy.md).
+
 ## 📝 Common Commands Cheat Sheet
 
 <!-- SCRIPTS_START -->
