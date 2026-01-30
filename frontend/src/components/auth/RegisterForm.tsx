@@ -22,6 +22,7 @@ type RegisterFormData = z.infer<typeof registerSchema>;
 
 export function RegisterForm() {
   const navigate = useNavigate();
+  const enableGoogle = import.meta.env.VITE_ENABLE_GOOGLE_AUTH === 'true';
   const { register: authRegister } = useAuth(); // Rename to avoid conflict with react-hook-form
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -181,14 +182,16 @@ export function RegisterForm() {
         </button>
       </form>
 
-      <div className="space-y-4">
-        <div className="flex items-center gap-4">
-           <div className="h-px flex-1 bg-emerald-100/10"></div>
-           <span className="text-xs text-emerald-100/30 uppercase">O</span>
-           <div className="h-px flex-1 bg-emerald-100/10"></div>
+      {enableGoogle && (
+        <div className="space-y-4">
+          <div className="flex items-center gap-4">
+             <div className="h-px flex-1 bg-emerald-100/10"></div>
+             <span className="text-xs text-emerald-100/30 uppercase">O</span>
+             <div className="h-px flex-1 bg-emerald-100/10"></div>
+          </div>
+          <GoogleLoginButton />
         </div>
-        <GoogleLoginButton />
-      </div>
+      )}
       
       <div className="text-center text-sm">
         <span className="text-emerald-100/40">¿Ya tienes una cuenta? </span>
