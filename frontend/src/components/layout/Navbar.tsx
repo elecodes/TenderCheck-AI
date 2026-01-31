@@ -9,7 +9,7 @@ export const Navbar: React.FC = () => {
   return (
     <nav className="fixed top-0 w-full z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-32 pt-4">
+        <div className="flex items-center justify-between h-20 md:h-32 md:pt-4">
           <div className="flex-shrink-0 flex items-center gap-4">
              <div className="bg-[#D4AF37]/10 p-2.5 rounded-full backdrop-blur-sm border border-[#D4AF37]/20">
                 <FileCheck className="h-5 w-5 text-[#C5A028]" />
@@ -31,7 +31,7 @@ export const Navbar: React.FC = () => {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center mr-4">
+          <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="p-2.5 rounded-xl text-black bg-white shadow-lg border border-black/5 active:scale-95 transition-all"
