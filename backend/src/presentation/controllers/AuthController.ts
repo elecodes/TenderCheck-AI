@@ -48,9 +48,13 @@ export class AuthController {
       });
     } catch (error: any) {
       if (error instanceof z.ZodError) {
-         next(AppError.badRequest(`Validation Error: ${error.errors.map(e => e.message).join(", ")}`));
+        next(
+          AppError.badRequest(
+            `Validation Error: ${error.errors.map((e) => e.message).join(", ")}`,
+          ),
+        );
       } else {
-         next(error);
+        next(error);
       }
     }
   };
@@ -75,16 +79,20 @@ export class AuthController {
         },
       });
     } catch (error: any) {
-       // AuthService throws specific errors usually, but if Zod fails:
-       if (error instanceof z.ZodError) {
-          next(AppError.badRequest("Invalid email or password format"));
-       } else {
-          next(error);
-       }
+      // AuthService throws specific errors usually, but if Zod fails:
+      if (error instanceof z.ZodError) {
+        next(AppError.badRequest("Invalid email or password format"));
+      } else {
+        next(error);
+      }
     }
   };
 
-  requestPasswordReset = async (req: Request, res: Response, next: NextFunction) => {
+  requestPasswordReset = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
     try {
       const schema = z.object({ email: z.string().email() });
       const { email } = schema.parse(req.body);

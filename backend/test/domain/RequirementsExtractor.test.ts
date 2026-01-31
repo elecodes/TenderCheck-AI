@@ -11,14 +11,15 @@ describe("RequirementsExtractor", () => {
   });
 
   it("should extract requirements if keywords are present", () => {
-    const text = "El sistema deberá tener login. También es obligatorio usar HTTPS.";
+    const text =
+      "El sistema deberá tener login. También es obligatorio usar HTTPS.";
     const result = extractor.extract(text);
 
     expect(result).toHaveLength(2);
     expect(result[0].text).toContain("El sistema deberá tener login");
     expect(result[0].type).toBe("MANDATORY");
     expect(result[0].keywords).toContain("deberá");
-    
+
     expect(result[1].text).toContain("obligatorio usar HTTPS");
     expect(result[1].type).toBe("MANDATORY");
     expect(result[1].keywords).toContain("obligatorio");

@@ -13,7 +13,7 @@ describe("ScopeValidationRule", () => {
       documentUrl: "hash",
       status: "PENDING",
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
 
     const result = await rule.validate(analysis);
@@ -31,7 +31,7 @@ describe("ScopeValidationRule", () => {
       documentUrl: "hash",
       status: "PENDING",
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
 
     const result = await rule.validate(analysis);
@@ -48,7 +48,7 @@ describe("ScopeValidationRule", () => {
       documentUrl: "hash",
       status: "PENDING",
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
 
     const result = await rule.validate(analysis);
@@ -68,12 +68,12 @@ describe("ScopeValidationRule", () => {
       updatedAt: new Date(),
       requirements: [
         {
-            id: "req-1",
-            text: "Se requiere una plataforma digital.",
-            isMandatory: true,
-            pageNumber: 1
-        }
-      ]
+          id: "req-1",
+          text: "Se requiere una plataforma digital.",
+          isMandatory: true,
+          pageNumber: 1,
+        },
+      ],
     };
 
     const result = await rule.validate(analysis);

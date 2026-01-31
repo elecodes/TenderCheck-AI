@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -23,10 +23,16 @@ type RegisterFormData = z.infer<typeof registerSchema>;
 export function RegisterForm() {
   const navigate = useNavigate();
   const enableGoogle = import.meta.env.VITE_ENABLE_GOOGLE_AUTH === 'true';
-  const { register: authRegister } = useAuth(); // Rename to avoid conflict with react-hook-form
+  const { register: registerUser, isAuthenticated } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   const {
     register,
@@ -41,7 +47,7 @@ export function RegisterForm() {
     setIsLoading(true);
     setError(null);
     try {
-      await authRegister(data.name, data.email, data.password, data.company);
+      await registerUser(data.name, data.email, data.password, data.company);
       navigate('/dashboard');
       // Security: Always show generic error to prevent user enumeration
       setError('No se pudo crear la cuenta. Verifique sus datos.');

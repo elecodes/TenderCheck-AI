@@ -44,10 +44,12 @@ describe("AuthService", () => {
       const user = await authService.register(
         "John Doe",
         "john@example.com",
-        "password123"
+        "password123",
       );
 
-      expect(mockUserRepository.findByEmail).toHaveBeenCalledWith("john@example.com");
+      expect(mockUserRepository.findByEmail).toHaveBeenCalledWith(
+        "john@example.com",
+      );
       expect(bcrypt.hash).toHaveBeenCalled();
       expect(mockUserRepository.save).toHaveBeenCalled();
       expect(user.email).toBe("john@example.com");
@@ -58,7 +60,7 @@ describe("AuthService", () => {
       mockUserRepository.findByEmail.mockResolvedValue({ id: "1" });
 
       await expect(
-        authService.register("John", "john@example.com", "pass")
+        authService.register("John", "john@example.com", "pass"),
       ).rejects.toThrow("User already exists");
 
       expect(mockUserRepository.save).not.toHaveBeenCalled();
@@ -86,7 +88,7 @@ describe("AuthService", () => {
       mockUserRepository.findByEmail.mockResolvedValue(null);
 
       await expect(
-        authService.login("missing@example.com", "pass")
+        authService.login("missing@example.com", "pass"),
       ).rejects.toThrow("Invalid credentials");
     });
 
@@ -97,7 +99,7 @@ describe("AuthService", () => {
       (bcrypt.compare as any).mockResolvedValue(false);
 
       await expect(
-        authService.login("john@example.com", "wrongpass")
+        authService.login("john@example.com", "wrongpass"),
       ).rejects.toThrow("Invalid credentials");
     });
   });
@@ -127,8 +129,8 @@ describe("AuthService", () => {
       (global.fetch as any).mockResolvedValue({
         ok: true,
         json: async () => ({
-            email: "new@example.com",
-            name: "New Google User",
+          email: "new@example.com",
+          name: "New Google User",
         }),
       });
 

@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuth } from '../../context/AuthContext';
-import { Eye, EyeOff, Lock, Mail, ArrowRight } from 'lucide-react';
+import { Eye, EyeOff, Lock, Mail, ArrowRight, UserCircle, LogOut } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { GoogleLoginButton } from './GoogleLoginButton';
 
@@ -20,7 +20,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
   const navigate = useNavigate();
-  const { login } = useAuth(); // Use context hook
+  const { login, logout, user, isAuthenticated } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -36,11 +36,46 @@ export function LoginForm() {
     mode: 'onBlur',
   });
 
+  const [rememberMe, setRememberMe] = useState(false);
+
+  // If already authenticated, show Welcome Back Interstitial
+  if (isAuthenticated && user) {
+      return (
+        <div className="w-full max-w-md p-8 space-y-8 bg-zinc-900/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-300">
+            <div className="text-center space-y-4">
+                <div className="mx-auto w-20 h-20 bg-emerald-500/20 rounded-full flex items-center justify-center border-2 border-emerald-500/30">
+                    <UserCircle className="w-10 h-10 text-emerald-400" />
+                </div>
+                <div className="space-y-1">
+                    <h1 className="text-2xl font-serif text-white tracking-tight">Hola de nuevo, {user.name.split(' ')[0]}</h1>
+                    <p className="text-emerald-100/40 text-sm font-light">{user.email}</p>
+                </div>
+            </div>
+
+            <div className="space-y-4 pt-4">
+                <button
+                    onClick={() => navigate('/dashboard')}
+                    className="w-full flex items-center justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-base font-medium text-white bg-emerald-600 hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-200 transform hover:scale-[1.02]"
+                >
+                    Continuar al Dashboard <ArrowRight className="ml-2 h-5 w-5" />
+                </button>
+
+                <button
+                    onClick={() => logout()}
+                    className="w-full flex items-center justify-center py-3 px-4 border border-white/10 rounded-xl text-sm font-medium text-emerald-100/60 hover:text-white hover:bg-white/5 hover:border-white/20 transition-all duration-200"
+                >
+                    <LogOut className="mr-2 h-4 w-4" /> Cambiar de usuario
+                </button>
+            </div>
+        </div>
+      );
+  }
+
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
     setError(null);
     try {
-      await login(data.email, data.password);
+      await login(data.email, data.password, rememberMe);
       navigate('/dashboard');
     } catch {
       // Security: Always return generic error
@@ -76,6 +111,7 @@ export function LoginForm() {
               id="email"
               type="email"
               autoFocus
+              autoComplete="username"
               placeholder="name@company.com"
               className={`block w-full pl-10 pr-3 py-3 bg-white/5 border ${errors.email ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-emerald-400'} rounded-lg text-base text-emerald-50 placeholder-emerald-100/20 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all`}
               aria-invalid={errors.email ? 'true' : 'false'}
@@ -103,6 +139,7 @@ export function LoginForm() {
             <input
               id="password"
               type={showPassword ? 'text' : 'password'}
+              autoComplete="current-password"
               className={`block w-full pl-10 pr-10 py-3 bg-white/5 border ${errors.password ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-emerald-400'} rounded-lg text-base text-emerald-50 placeholder-emerald-100/20 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all`}
               placeholder="••••••••"
               aria-invalid={errors.password ? 'true' : 'false'}
@@ -122,6 +159,20 @@ export function LoginForm() {
               • {errors.password.message}
             </p>
           )}
+        </div>
+
+        <div className="flex items-center">
+          <input
+            id="remember-me"
+            name="remember-me"
+            type="checkbox"
+            checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)}
+            className="h-4 w-4 rounded border-white/10 bg-white/5 text-emerald-600 focus:ring-emerald-500/50 focus:ring-offset-0 transition-colors cursor-pointer"
+          />
+          <label htmlFor="remember-me" className="ml-2 block text-sm text-emerald-100/60 cursor-pointer select-none hover:text-emerald-100/80 transition-colors">
+            Recuérdame
+          </label>
         </div>
 
         <button

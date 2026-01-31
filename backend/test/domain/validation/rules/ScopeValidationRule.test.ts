@@ -4,9 +4,12 @@ import type { TenderAnalysis } from "../../../../src/domain/entities/TenderAnaly
 
 describe("ScopeValidationRule", () => {
   let rule: ScopeValidationRule;
-  
+
   // Minimal mock tender analysis
-  const mockAnalysis = (title: string, reqText: string = ""): TenderAnalysis => ({
+  const mockAnalysis = (
+    title: string,
+    reqText: string = "",
+  ): TenderAnalysis => ({
     id: "test",
     userId: "u1",
     tenderTitle: title,
@@ -15,7 +18,14 @@ describe("ScopeValidationRule", () => {
     updatedAt: new Date(),
     documentUrl: "",
     requirements: [
-       { id: "r1", text: reqText, type: "MANDATORY", keywords: [], confidence: 1, source: { pageNumber: 1, snippet: "" } }
+      {
+        id: "r1",
+        text: reqText,
+        type: "MANDATORY",
+        keywords: [],
+        confidence: 1,
+        source: { pageNumber: 1, snippet: "" },
+      },
     ],
     results: [],
   });
@@ -35,7 +45,10 @@ describe("ScopeValidationRule", () => {
   });
 
   it("should return MET for positive keywords in requirements", async () => {
-    const analysis = mockAnalysis("Licitación Generica", "El sistema debe estar en la cloud");
+    const analysis = mockAnalysis(
+      "Licitación Generica",
+      "El sistema debe estar en la cloud",
+    );
     const result = await rule.validate(analysis);
 
     expect(result!.status).toBe("MET");
@@ -51,7 +64,10 @@ describe("ScopeValidationRule", () => {
   });
 
   it("should return NOT_MET for negative keywords in requirements", async () => {
-    const analysis = mockAnalysis("Proyecto de Infraestructura", "Mantenimiento vial de carreteras");
+    const analysis = mockAnalysis(
+      "Proyecto de Infraestructura",
+      "Mantenimiento vial de carreteras",
+    );
     const result = await rule.validate(analysis);
 
     expect(result!.status).toBe("NOT_MET");
@@ -60,7 +76,9 @@ describe("ScopeValidationRule", () => {
 
   it("should prioritize negative keywords over positive ones", async () => {
     // Contains "software" (positive) but also "construcción" (negative)
-    const analysis = mockAnalysis("Construcción de centro de desarrollo de software");
+    const analysis = mockAnalysis(
+      "Construcción de centro de desarrollo de software",
+    );
     const result = await rule.validate(analysis);
 
     expect(result!.status).toBe("NOT_MET");
@@ -68,7 +86,7 @@ describe("ScopeValidationRule", () => {
   });
 
   it("should return AMBIGUOUS if no relevant keywords found", async () => {
-    const analysis = mockAnalysis("Suministro de papel higiénico"); 
+    const analysis = mockAnalysis("Suministro de papel higiénico");
     // "papel" and "higiénico" are not in negative list (yet), nor positive.
     const result = await rule.validate(analysis);
 

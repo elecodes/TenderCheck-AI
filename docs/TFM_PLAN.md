@@ -8,6 +8,7 @@
 - [x] **Chapter 4: Implementation**
     - [x] Describe the Dependency Injection approach (SOLID).
     - [x] **Pivot:** Document Migration to Render + Turso + Gemini (ADR 012).
+    - [x] **Auth UX:** Documented "Remember Me" & Interstitial patterns (ADR 020).
 
 ## 2. Authentication Feature (New Branch: `feat/auth-forms`)
 - [x] **Frontend (React)**
@@ -20,6 +21,7 @@
     - [x] `AuthService` (Password hashing with bcrypt, JWT signing).
     - [x] Middleware: `authenticateToken`.
     - [x] **Google Sign-In** Integrated.
+    - [x] **UX Enhancements**: Remember Me, Welcome Screen, Switch User.
 
 ## 3. Cloud Deployment (Phase 6)
 - [x] **Render**: Setup `render.yaml` blueprint.

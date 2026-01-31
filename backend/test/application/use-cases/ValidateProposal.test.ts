@@ -22,10 +22,18 @@ const mockTenderAnalyzer = {
 vi.mock("../../../src/infrastructure/services/VectorSearchService.js", () => {
   return {
     VectorSearchService: class {
-      generateEmbedding = vi.fn().mockResolvedValue(new Float32Array([0.1, 0.2, 0.3]));
-      serializeEmbedding = vi.fn().mockReturnValue(Buffer.from("mock-embedding"));
-      deserializeEmbedding = vi.fn().mockReturnValue(new Float32Array([0.1, 0.2, 0.3]));
-      findSimilar = vi.fn().mockReturnValue([{ id: "req-1", similarity: 0.95 }]);
+      generateEmbedding = vi
+        .fn()
+        .mockResolvedValue(new Float32Array([0.1, 0.2, 0.3]));
+      serializeEmbedding = vi
+        .fn()
+        .mockReturnValue(Buffer.from("mock-embedding"));
+      deserializeEmbedding = vi
+        .fn()
+        .mockReturnValue(new Float32Array([0.1, 0.2, 0.3]));
+      findSimilar = vi
+        .fn()
+        .mockReturnValue([{ id: "req-1", similarity: 0.95 }]);
     },
   };
 });
@@ -50,7 +58,7 @@ describe("ValidateProposal Use Case", () => {
     validateProposal = new ValidateProposal(
       mockTenderRepository as any,
       mockPdfParser as any,
-      mockTenderAnalyzer as any
+      mockTenderAnalyzer as any,
     );
   });
 
@@ -58,7 +66,7 @@ describe("ValidateProposal Use Case", () => {
     mockTenderRepository.findById.mockResolvedValue(null);
 
     await expect(
-      validateProposal.execute("tender-123", Buffer.from("pdf"))
+      validateProposal.execute("tender-123", Buffer.from("pdf")),
     ).rejects.toThrow(AppError);
 
     expect(mockTenderRepository.findById).toHaveBeenCalledWith("tender-123");
@@ -69,7 +77,7 @@ describe("ValidateProposal Use Case", () => {
     mockPdfParser.parse.mockResolvedValue(""); // Empty text
 
     await expect(
-      validateProposal.execute("tender-123", Buffer.from("pdf"))
+      validateProposal.execute("tender-123", Buffer.from("pdf")),
     ).rejects.toThrow("Proposal PDF seems empty");
   });
 
@@ -82,9 +90,9 @@ describe("ValidateProposal Use Case", () => {
       ],
       results: [],
     };
-    
+
     const mockProposalText = "We support SSO login for all users.";
-    
+
     mockTenderRepository.findById.mockResolvedValue(mockTender);
     mockPdfParser.parse.mockResolvedValue(mockProposalText);
 
@@ -107,18 +115,21 @@ describe("ValidateProposal Use Case", () => {
 
     mockTenderAnalyzer.compareBatch.mockResolvedValue(mockBatchResult);
 
-    const results = await validateProposal.execute("tender-123", Buffer.from("pdf"));
+    const results = await validateProposal.execute(
+      "tender-123",
+      Buffer.from("pdf"),
+    );
 
-    // Expected 2 results: 
+    // Expected 2 results:
     // 1. req-1 (Relevant, Analyzed -> MET)
     // 2. req-2 (Not Relevant, Skipped -> NOT_MET)
     expect(results).toHaveLength(2);
 
-    const relevantResult = results.find(r => r.requirementId === "req-1");
+    const relevantResult = results.find((r) => r.requirementId === "req-1");
     expect(relevantResult?.status).toBe("MET");
     expect(relevantResult?.reasoning).toBe("Confirmed SSO support.");
 
-    const skippedResult = results.find(r => r.requirementId === "req-2");
+    const skippedResult = results.find((r) => r.requirementId === "req-2");
     expect(skippedResult?.status).toBe("NOT_MET"); // Skipped default
     expect(skippedResult?.reasoning).toContain("no relevante");
 
@@ -130,24 +141,24 @@ describe("ValidateProposal Use Case", () => {
 
   it("should process all requirements if Vector Search returns nothing (Fallback)", async () => {
     const mockTender = {
-        id: "tender-123",
-        requirements: [{ id: "req-1", text: "Must do X" }],
+      id: "tender-123",
+      requirements: [{ id: "req-1", text: "Must do X" }],
     };
     mockTenderRepository.findById.mockResolvedValue(mockTender);
     mockPdfParser.parse.mockResolvedValue("Some text");
-    
+
     // Force VectorSearch to return empty similar list
     // We need to override the mock strictly for this test or rely on our setup
     // Since we mocked the class constructor globally, we can get the instance from the property if exposed,
-    // or we mock the method again on the prototype? 
+    // or we mock the method again on the prototype?
     // Easier way: The current global mock returns req-1. Let's assume for this test we want to simulate empty.
     // However, mocking inside the test block for imported modules is tricky in Vitest/Jest after import.
     // Instead, let's verify the logic of "processAll" if "findRelevant" returns empty.
-    
+
     // Actually, let's just test that it calls `tenderAnalyzer.compareBatch`
     // We already tested the vector path. If we want to unit test the fallback specifically, we might need a Spy on `findRelevantRequirements`
     // by casting the private method or using a more flexible mock.
-    
+
     // For now, let's rely on the first test covering the main flow.
   });
 });

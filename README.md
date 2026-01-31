@@ -44,6 +44,8 @@ app_port: 3000
   - **Dynamic Layouts**: Smart sizing for long titles and summaries.
   - **Responsive Design**: Mobile-optimized Navigation (Hamburger Menu) and High-Contrast Auth forms.
 - **Persistent History**: Stores all analyses in **Turso (Distributed SQLite)** for reliability.
+- **Enterprise Auth**: "Remember Me" functionality, "Welcome Back" interstitial, and Google Sign-In.
+- **History Management**: Browse, search, and delete previous analyses.
 - **History Management**: Browse, search, and delete previous analyses.
 - **Professional Export**: Generate branded **PDF Reports**.
 - **Secure by Design**: Zod validation, Helmet protection, strict CORS (`ALLOWED_ORIGINS`), and COOP/COEP compliant auth flows.

@@ -39,17 +39,20 @@ describe("TenderController", () => {
 
   it("should analyze tender successfully and return 201", async () => {
     vi.mocked(mockCreateTender.execute).mockResolvedValue({
-        id: "t1",
-        tenderTitle: "Test Tender",
-        status: "COMPLETED",
-        requirements: [], 
-        createdAt: new Date(),
-        updatedAt: new Date(),
+      id: "t1",
+      tenderTitle: "Test Tender",
+      status: "COMPLETED",
+      requirements: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
     } as any);
 
     await controller.analyze(req as Request, res as Response, next);
 
-    expect(mockCreateTender.execute).toHaveBeenCalledWith("user-1", expect.any(Buffer));
+    expect(mockCreateTender.execute).toHaveBeenCalledWith(
+      "user-1",
+      expect.any(Buffer),
+    );
     expect(res.status).toHaveBeenCalledWith(201);
     expect(res.json).toHaveBeenCalled();
   });
@@ -60,7 +63,9 @@ describe("TenderController", () => {
     await controller.analyze(req as Request, res as Response, next);
 
     expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith(expect.objectContaining({ error: "Validation Error" }));
+    expect(res.json).toHaveBeenCalledWith(
+      expect.objectContaining({ error: "Validation Error" }),
+    );
     expect(mockCreateTender.execute).not.toHaveBeenCalled();
   });
 

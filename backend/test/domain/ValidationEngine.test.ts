@@ -8,15 +8,15 @@ describe("ValidationEngine", () => {
   it("should return empty array if no rules", async () => {
     const engine = new ValidationEngine([]);
     const analysis: TenderAnalysis = {
-        id: "id",
-        userId: "user",
-        tenderTitle: "title",
-        documentUrl: "hash",
-        status: "PENDING",
-        createdAt: new Date(),
-        updatedAt: new Date()
+      id: "id",
+      userId: "user",
+      tenderTitle: "title",
+      documentUrl: "hash",
+      status: "PENDING",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
-    
+
     const results = await engine.validate(analysis);
     expect(results).toEqual([]);
   });
@@ -34,13 +34,13 @@ describe("ValidationEngine", () => {
 
     const engine = new ValidationEngine([mockRule]);
     const analysis: TenderAnalysis = {
-        id: "id",
-        userId: "user",
-        tenderTitle: "title",
-        documentUrl: "hash",
-        status: "PENDING",
-        createdAt: new Date(),
-        updatedAt: new Date()
+      id: "id",
+      userId: "user",
+      tenderTitle: "title",
+      documentUrl: "hash",
+      status: "PENDING",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
 
     const results = await engine.validate(analysis);
@@ -56,13 +56,13 @@ describe("ValidationEngine", () => {
 
     const engine = new ValidationEngine([passingRule]);
     const analysis: TenderAnalysis = {
-        id: "id",
-        userId: "user",
-        tenderTitle: "title",
-        documentUrl: "hash",
-        status: "PENDING",
-        createdAt: new Date(),
-        updatedAt: new Date()
+      id: "id",
+      userId: "user",
+      tenderTitle: "title",
+      documentUrl: "hash",
+      status: "PENDING",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
 
     const results = await engine.validate(analysis);

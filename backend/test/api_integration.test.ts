@@ -143,29 +143,39 @@ describe("Integration: POST /api/tenders/:id/validate-proposal", () => {
     // But `TenderRoutes.ts` instantiates `TursoTenderRepository` directly!
     // So we must use the DB to "seed" the state.
     await db.execute(
-       "INSERT OR IGNORE INTO tenders (id, user_id, title, status, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
-       ["tender-123", "test-user-id", "Test Tender", "COMPLETED", new Date().toISOString(), new Date().toISOString()]
+      "INSERT OR IGNORE INTO tenders (id, user_id, title, status, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
+      [
+        "tender-123",
+        "test-user-id",
+        "Test Tender",
+        "COMPLETED",
+        new Date().toISOString(),
+        new Date().toISOString(),
+      ],
     );
-     // Insert requirements? The Use Case logic fetches them.
-     // But `ValidateProposal` uses `tenderRepository.findById`.
-     // If `TursoTenderRepository` is real, it query DB.
-     // So we must insert requirements.
-     // This is getting complex for an integration test if we have to seed everything.
-     // Alternatives:
-     // 1. Mock `ValidateProposal` prototype using vi.spyOn?
-     // `ValidateProposal` is imported in `TenderRoutes`.
-     // If I spyOn `ValidateProposal.prototype.execute`, I can skip the DB setup!
+    // Insert requirements? The Use Case logic fetches them.
+    // But `ValidateProposal` uses `tenderRepository.findById`.
+    // If `TursoTenderRepository` is real, it query DB.
+    // So we must insert requirements.
+    // This is getting complex for an integration test if we have to seed everything.
+    // Alternatives:
+    // 1. Mock `ValidateProposal` prototype using vi.spyOn?
+    // `ValidateProposal` is imported in `TenderRoutes`.
+    // If I spyOn `ValidateProposal.prototype.execute`, I can skip the DB setup!
 
-    const { ValidateProposal } = await import("../src/application/use-cases/ValidateProposal.js");
-    const executeSpy = vi.spyOn(ValidateProposal.prototype, "execute").mockResolvedValue([
+    const { ValidateProposal } =
+      await import("../src/application/use-cases/ValidateProposal.js");
+    const executeSpy = vi
+      .spyOn(ValidateProposal.prototype, "execute")
+      .mockResolvedValue([
         {
-            requirementId: "req-1",
-            status: "MET",
-            reasoning: "Good",
-            confidence: 1,
-            evidence: { text: "ev", pageNumber: 1 }
-        }
-    ]);
+          requirementId: "req-1",
+          status: "MET",
+          reasoning: "Good",
+          confidence: 1,
+          evidence: { text: "ev", pageNumber: 1 },
+        },
+      ]);
 
     const response = await request(app)
       .post("/api/tenders/tender-123/validate-proposal")
