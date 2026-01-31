@@ -28,6 +28,7 @@ The easiest way to deploy is using the `render.yaml` Blueprint.
 | `GOOGLE_GENAI_API_KEY` | Gemini API Key | `AIza...` |
 | `VITE_GOOGLE_CLIENT_ID` | Google OAuth Client ID | `123...apps.googleusercontent.com` |
 | `VITE_API_BASE_URL` | Backend URL (Important for Auth) | `https://tendercheck-backend.onrender.com` |
+| `JWT_SECRET` | Secret for verifying tokens | `any_long_random_string` |
 | `SENTRY_DSN` | (Optional) Sentry DSN | `https://...@sentry.io/...` |
 
 ## 4. Manual Deployment (Alternative)
