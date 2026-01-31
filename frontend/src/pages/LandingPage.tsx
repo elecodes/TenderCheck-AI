@@ -56,7 +56,7 @@ export const LandingPage: React.FC = () => {
       </main>
 
         {/* Feature Strip (Bottom) */}
-        <section className="absolute bottom-0 w-full border-t border-white/10 bg-gradient-to-t from-black/5 to-transparent backdrop-blur-[2px] py-8">
+        <section className="relative md:absolute bottom-0 w-full border-t border-white/10 bg-gradient-to-t from-black/5 to-transparent backdrop-blur-[2px] py-8 mt-12 md:mt-0">
              <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-center items-center gap-12 md:gap-24 opacity-80">
                 <div className="flex items-center gap-4 group">
                     <div className="p-3 rounded-full bg-white/40 group-hover:bg-white/60 transition-colors">
