@@ -352,6 +352,9 @@ npm test
 # Run End-to-End Tests
 npx playwright test
 
+# View Test Report
+npx playwright show-report
+
 # Check Coverage (Baseline > 60%)
 npm run test:coverage
 ```
