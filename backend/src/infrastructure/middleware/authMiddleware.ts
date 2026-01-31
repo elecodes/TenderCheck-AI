@@ -22,18 +22,18 @@ export const authMiddleware = (
   res: Response,
   next: NextFunction,
 ) => {
-  const authHeader = req.headers.authorization;
+  let token = req.cookies?.token;
 
-  if (!authHeader) {
+  if (!token) {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      token = authHeader.split(" ")[1];
+    }
+  }
+
+  if (!token) {
     return next(new AppError("No authorization token provided", 401));
   }
-
-  const parts = authHeader.split(" ");
-  if (parts.length !== 2 || parts[0] !== "Bearer") {
-    return next(new AppError("Token error: invalid format", 401));
-  }
-
-  const token = parts[1];
 
   try {
     const secret: string = process.env.JWT_SECRET || JWT_SECRET_FALLBACK;

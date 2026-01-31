@@ -76,8 +76,8 @@ To run the analysis without costs/limits:
 - **Register**: Create a new account at `/register`. Upon success, a JWT is issued automatically and the user is redirected to the dashboard.
 - **Login**: Use credentials or **Google Sign-In (Redirect Mode)** to obtain a JWT. The Google flow uses full-page redirection to bypass COOP/COEP browser restrictions.
 - **Session Persistence**: 
-  - Default: `sessionStorage` (cleared on tab close).
-  - "Remember Me": `localStorage` (persists indefinitely).
+  - **Mechanic**: `HttpOnly` Cookies (Secure, SameSite).
+  - "Remember Me": Sets cookie expiration to 30 days. Unchecked = Session Cookie.
   - **Interstitial**: Returning users see a "Welcome Back" screen with a "Switch User" option.
 - **Protected Routes**: `/dashboard` is secured via `ProtectedRoute.tsx`.
 

@@ -30,9 +30,15 @@ const loginLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+// Core Auth
 router.post("/register", authController.register);
 router.post("/login", loginLimiter, authController.login);
 router.post("/google", loginLimiter, authController.googleLogin);
+router.post("/logout", authController.logout);
+
+import { authMiddleware } from "../../infrastructure/middleware/authMiddleware.js";
+router.get("/me", authMiddleware, authController.getMe);
+
 router.post("/reset-password-request", authController.requestPasswordReset);
 
 export default router;

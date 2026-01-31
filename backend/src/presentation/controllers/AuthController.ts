@@ -36,9 +36,10 @@ export class AuthController {
       // Generate token for auto-login after registration
       const { token } = await this.authService.login(email, password);
 
+      this.setCookie(res, token);
+
       res.status(HTTP_STATUS.CREATED).json({
         message: "User registered successfully",
-        token,
         user: {
           id: user.id,
           email: user.email,
@@ -64,13 +65,16 @@ export class AuthController {
       const schema = z.object({
         email: z.string().email(),
         password: z.string(),
+        rememberMe: z.boolean().optional(),
       });
 
-      const { email, password } = schema.parse(req.body);
+      const { email, password, rememberMe } = schema.parse(req.body);
 
       const { token, user } = await this.authService.login(email, password);
+
+      this.setCookie(res, token, rememberMe);
+
       res.json({
-        token,
         user: {
           id: user.id,
           email: user.email,
@@ -79,13 +83,28 @@ export class AuthController {
         },
       });
     } catch (error: any) {
-      // AuthService throws specific errors usually, but if Zod fails:
       if (error instanceof z.ZodError) {
         next(AppError.badRequest("Invalid email or password format"));
       } else {
         next(error);
       }
     }
+  };
+
+  logout = async (req: Request, res: Response) => {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    });
+    res.json({ message: "Logged out successfully" });
+  };
+
+  getMe = async (req: Request, res: Response) => {
+    if (!req.user) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    res.json({ user: req.user });
   };
 
   requestPasswordReset = async (
@@ -120,8 +139,9 @@ export class AuthController {
       const { token, user } =
         await this.authService.loginWithGoogle(accessToken);
 
+      this.setCookie(res, token, true); // Assume implicit Remember Me for Google
+
       res.json({
-        token,
         user: {
           id: user.id,
           email: user.email,
@@ -133,4 +153,18 @@ export class AuthController {
       next(error);
     }
   };
+
+  private setCookie(res: Response, token: string, rememberMe: boolean = false) {
+    const options: any = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // HTTPS in prod
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    };
+
+    if (rememberMe) {
+      options.maxAge = 30 * 24 * 60 * 60 * 1000; // 30 days
+    }
+
+    res.cookie("token", token, options);
+  }
 }

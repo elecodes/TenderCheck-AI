@@ -34,11 +34,29 @@ Instead of confusingly redirecting authenticated users or showing them an empty 
 
 ## Consequences
 
+### 4. HttpOnly Cookies (Security Hardening) 🛡️
+We migrated from `localStorage` to **HttpOnly Cookies** for token storage.
+- **Why**: Prevents XSS attacks. Even if JS is compromised, the attacker cannot read the `httpOnly` cookie.
+- **Implementation**: 
+    - Backend: Uses `cookie-parser`. `AuthController` sets an `httpOnly; secure; sameSite` cookie.
+    - Frontend: `credentials: 'include'` in all `fetch` requests.
+    - **Persistence**: "Remember Me" toggles the cookie's `Max-Age`. Checked = 30 days; Unchecked = Session Cookie.
+
+## Consequences
+
 ### Positive
-- **Reduced Friction**: Users don't need to re-type passwords daily.
-- **Clarity**: The "Switch User" option solves the "how do I logout if I can't even get in?" edge case.
-- **Security**: Explicit autocomplete attributes (`username`, `current-password`) help password managers work correctly.
+- **Security**: Significantly reduces XSS impact on auth tokens.
+- **UX**: "Remember Me" works seamlessly without exposing tokens.
+- **User Clarity**: "Welcome Back" flow remains consistent.
 
 ### Negative
-- **Complexity**: `AuthContext` initialization logic is slightly more complex (checking two sources).
-- **Security Risk**: `localStorage` is vulnerable to XSS (cross-site scripting), though we mitigate this with strict Content Security Policy (CSP) and input sanitization.
+- **Dev Complexity**: Requires handling Cross-Origin credentials (CORS) carefully.
+- **Testing**: E2E tests need to handle cookies rather than just setting localStorage.
+
+## alternatives Considered
+
+### HttpOnly Cookies (The Gold Standard)
+Instead of storing tokens in `localStorage` (accessible by JS), the backend would set a `secure; httpOnly` cookie.
+- **Pros**: Immune to XSS token theft.
+- **Cons**: Requires CSRF protection (Double Submit Cookie or SameSite settings) and backend state changes.
+- **Decision**: For Phase 9, we chose `localStorage` for simplicity and statelessness, but acknowledge Cookies as the next security hardening step.

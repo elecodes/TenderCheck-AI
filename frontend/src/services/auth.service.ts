@@ -6,21 +6,22 @@ export interface User {
 }
 
 export interface AuthResponse {
-  token: string;
   user: User;
+  // Token is now in HttpOnly cookie
 }
 
 const API_URL = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/$/, '');
 console.log('🔌 Auth Service Initialized. Backend URL:', `"${API_URL}"`); // Quote to see whitespace
 
-export const login = async (email: string, password: string): Promise<AuthResponse> => {
+export const login = async (email: string, password: string, rememberMe: boolean = false): Promise<AuthResponse> => {
   const target = `${API_URL}/api/auth/login`;
   console.log(`📡 [AuthService] Login Request -> ${target}`);
 
   const response = await fetch(target, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
+    credentials: 'include',
+    body: JSON.stringify({ email, password, rememberMe }),
   });
 
   const contentType = response.headers.get('content-type');
@@ -41,6 +42,7 @@ export const register = async (name: string, email: string, password: string, co
   const response = await fetch(`${API_URL}/api/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
     body: JSON.stringify({ name, email, password, company }),
   });
 
@@ -71,6 +73,7 @@ export const loginWithGoogle = async (token: string): Promise<AuthResponse> => {
     const response = await fetch(targetUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ token }),
     });
   
@@ -82,9 +85,30 @@ export const loginWithGoogle = async (token: string): Promise<AuthResponse> => {
     return response.json();
   };
 
-export const logout = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
+export const logout = async () => {
+  await fetch(`${API_URL}/api/auth/logout`, {
+     method: 'POST',
+     credentials: 'include'
+  });
+  localStorage.removeItem('user'); // Clean up UI state
+};
+
+// New Method: Verify Session via Cookie
+export const getMe = async (): Promise<User | null> => {
+  try {
+    const response = await fetch(`${API_URL}/api/auth/me`, {
+       method: 'GET',
+       credentials: 'include'
+    });
+    
+    if (response.ok) {
+       const data = await response.json();
+       return data.user;
+    }
+    return null;
+  } catch {
+    return null;
+  }
 };
 
 export const getCurrentUser = (): User | null => {

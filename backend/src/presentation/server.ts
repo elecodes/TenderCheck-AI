@@ -3,6 +3,7 @@ import express from "express";
 import helmet from "helmet";
 import cors from "cors";
 import { TursoDatabase } from "../infrastructure/database/TursoDatabase.js";
+import cookieParser from "cookie-parser";
 
 // Initialize Database Schema (Async)
 // This will connect to Turso and ensure tables exist
@@ -25,6 +26,7 @@ const app = express();
 app.set("trust proxy", 1); // Trust first proxy
 
 // 2. Security Middleware (Relaxed for Hugging Face Spaces Iframe)
+app.use(cookieParser());
 app.use(
   helmet({
     contentSecurityPolicy: {

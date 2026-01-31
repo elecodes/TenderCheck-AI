@@ -23,7 +23,7 @@ A continuación se detallan los algoritmos clave implementados en `backend/src/d
 
 ### 4.2.2. Sistema de Autenticación y Persistencia
 Se ha implementado un sistema robusto para la gestión de datos.
-- **Autenticación**: Basada en **JWT (JSON Web Tokens)** con almacenamiento seguro en el servidor y `localStorage` en el cliente.
+- **Autenticación**: Basada en **JWT (JSON Web Tokens)** gestionados mediante **HttpOnly Cookies** (invisible para JavaScript) para mitigar ataques XSS.
 - **Persistencia de Licitaciones**: Implementación del patrón *Repository* con **Turso (LibSQL)** para almacenar la relación entre Usuarios, Análisis, Requisitos y Resultados de Validación. Esta migración a la nube permite que los datos sobrevivan al reinicio de los contenedores de aplicación.
 - **Migración a la Nube**: Pivotaje arquitectónico desde SQLite local a Turso para resolver problemas de persistencia en entornos serverless (Render).
 
