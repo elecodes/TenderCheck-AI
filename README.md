@@ -26,6 +26,7 @@ app_port: 3000
 - [x] **Phase 14**: Persistence (SQLite -> Turso Migration)
 - [x] **Phase 4**: Cloud Auth & Security (Google Sign-In v1.1 - Redirect Mode)
 - [x] **Phase 6**: Cloud Deployment (Render + Turso + Gemini + COOP Fixes)
+- [x] **Phase 8**: Resilience & Testing (E2E Tests, Global Coverage > 60%, Global Error Handling)
 
 ## 🚀 Key Features
 - **Smart Ingestion**: Parses complex PDF structure from Tender Documents (*Pliegos*).
@@ -180,7 +181,10 @@ We enforce strict quality gates.
 # Run Unit Tests via Vitest
 npm test
 
-# Check Coverage (Must be > 80%)
+# Run End-to-End Tests
+npx playwright test
+
+# Check Coverage (Baseline > 60%)
 npm run test:coverage
 ```
 

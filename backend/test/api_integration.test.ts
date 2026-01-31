@@ -131,3 +131,50 @@ describe("Integration: POST /api/tenders/analyze", () => {
     expect(response.status).toBe(401);
   });
 });
+
+describe("Integration: POST /api/tenders/:id/validate-proposal", () => {
+  it("should upload proposal, validate against tender, and return results", async () => {
+    const token = generateTestToken();
+    const db = SqliteDatabase.getInstance();
+
+    // 1. Create a Tender to validate against
+    // We can insert directly into DB to simulate existing state
+    // Or assume the mock repository in the route handles it if we mock it?
+    // But `TenderRoutes.ts` instantiates `TursoTenderRepository` directly!
+    // So we must use the DB to "seed" the state.
+    await db.execute(
+       "INSERT OR IGNORE INTO tenders (id, user_id, title, status, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
+       ["tender-123", "test-user-id", "Test Tender", "COMPLETED", new Date().toISOString(), new Date().toISOString()]
+    );
+     // Insert requirements? The Use Case logic fetches them.
+     // But `ValidateProposal` uses `tenderRepository.findById`.
+     // If `TursoTenderRepository` is real, it query DB.
+     // So we must insert requirements.
+     // This is getting complex for an integration test if we have to seed everything.
+     // Alternatives:
+     // 1. Mock `ValidateProposal` prototype using vi.spyOn?
+     // `ValidateProposal` is imported in `TenderRoutes`.
+     // If I spyOn `ValidateProposal.prototype.execute`, I can skip the DB setup!
+
+    const { ValidateProposal } = await import("../src/application/use-cases/ValidateProposal.js");
+    const executeSpy = vi.spyOn(ValidateProposal.prototype, "execute").mockResolvedValue([
+        {
+            requirementId: "req-1",
+            status: "MET",
+            reasoning: "Good",
+            confidence: 1,
+            evidence: { text: "ev", pageNumber: 1 }
+        }
+    ]);
+
+    const response = await request(app)
+      .post("/api/tenders/tender-123/validate-proposal")
+      .set("Authorization", `Bearer ${token}`)
+      .attach("file", Buffer.from("proposal pdf"), "proposal.pdf");
+
+    expect(response.status).toBe(200);
+    expect(response.body.status).toBe("success");
+    expect(response.body.results).toHaveLength(1);
+    expect(executeSpy).toHaveBeenCalled();
+  });
+});

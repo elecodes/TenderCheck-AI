@@ -1,12 +1,13 @@
-import type { Request, Response } from "express";
+import type { Request, Response, NextFunction } from "express";
 import { AuthService } from "../../application/services/AuthService.js";
 import { z } from "zod";
 import { HTTP_STATUS, PASSWORD_MIN_LENGTH } from "../../config/constants.js";
+import { AppError } from "../../domain/errors/AppError.js";
 
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  register = async (req: Request, res: Response) => {
+  register = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const schema = z.object({
         name: z.string().min(2),
@@ -47,18 +48,14 @@ export class AuthController {
       });
     } catch (error: any) {
       if (error instanceof z.ZodError) {
-        res
-          .status(HTTP_STATUS.BAD_REQUEST)
-          .json({ error: "Validation Error", details: (error as any).errors });
+         next(AppError.badRequest(`Validation Error: ${error.errors.map(e => e.message).join(", ")}`));
       } else {
-        res
-          .status(HTTP_STATUS.BAD_REQUEST)
-          .json({ error: (error as Error).message });
+         next(error);
       }
     }
   };
 
-  login = async (req: Request, res: Response) => {
+  login = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const schema = z.object({
         email: z.string().email(),
@@ -78,11 +75,16 @@ export class AuthController {
         },
       });
     } catch (error: any) {
-      res.status(HTTP_STATUS.UNAUTHORIZED).json({ error: error.message });
+       // AuthService throws specific errors usually, but if Zod fails:
+       if (error instanceof z.ZodError) {
+          next(AppError.badRequest("Invalid email or password format"));
+       } else {
+          next(error);
+       }
     }
   };
 
-  requestPasswordReset = async (req: Request, res: Response) => {
+  requestPasswordReset = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const schema = z.object({ email: z.string().email() });
       const { email } = schema.parse(req.body);
@@ -94,12 +96,15 @@ export class AuthController {
         .status(HTTP_STATUS.OK)
         .json({ message: "If email exists, instructions have been sent." });
     } catch (error: any) {
-      // Even validation errors can be generic depending on strictness, but usually format errors are ok to return
-      res.status(HTTP_STATUS.BAD_REQUEST).json({ error: "Invalid request" });
+      if (error instanceof z.ZodError) {
+        next(AppError.badRequest("Invalid email format"));
+      } else {
+        next(error);
+      }
     }
   };
 
-  googleLogin = async (req: Request, res: Response) => {
+  googleLogin = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const schema = z.object({ token: z.string() });
       const { token: accessToken } = schema.parse(req.body);
@@ -117,11 +122,7 @@ export class AuthController {
         },
       });
     } catch (error: any) {
-      console.error("Google Login Error:", error);
-      res.status(HTTP_STATUS.UNAUTHORIZED).json({
-        error: "Google authentication failed",
-        details: error.message,
-      });
+      next(error);
     }
   };
 }

@@ -25,4 +25,6 @@
 - [x] **Render**: Setup `render.yaml` blueprint.
 - [x] **Turso**: Migrate DB to LibSQL Client.
 - [x] **Gemini**: Integrate Gemini 2.5 Flash for AI analysis.
+- [x] **COVR**: Achieved >60% Global Coverage (Baseline).
+- [x] **E2E**: Validated "Happy Path" with Playwright (Video Artifact).
 

@@ -100,21 +100,18 @@ router.delete("/:id", authMiddleware, async (req, res, next) => {
   try {
     const { id } = req.params;
     if (!id || typeof id !== "string") {
-      res.status(400).json({ error: "Invalid ID" });
-      return;
+      throw AppError.badRequest("Invalid ID");
     }
 
     const userId = (req as any).user?.userId;
 
     const tender = await repository.findById(id);
     if (!tender) {
-      res.status(404).json({ error: "Tender not found" });
-      return;
+      throw AppError.notFound("Tender not found");
     }
 
     if (tender.userId !== userId) {
-      res.status(403).json({ error: "Unauthorized" });
-      return;
+      throw AppError.forbidden("Unauthorized");
     }
 
     await repository.delete(id);

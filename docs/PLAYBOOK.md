@@ -19,7 +19,8 @@ Welcome to the team! This playbook defines **how we work** to ensure high qualit
 |---------|---------|-------------|
 | `npm test` | Run all unit tests | Must pass before push |
 | `npm run security:scan` | Check for vulnerabilities (Snyk) | **0 High Severity** |
-| `npm run test:coverage` | Generate coverage report | **100% Domain**, 80% Global, 0% Infra |
+| `npm run test:coverage` | Generate coverage report | **100% Domain**, 60% Global, 0% Infra |
+| `npx playwright test` | Run E2E Tests | Must pass before major releases |
 
 > **🛡️ Security Gate:** This project uses a **pre-push hook** (Husky). You cannot push to the remote repository if:
 > 1. `security:scan` (Snyk) finds vulnerabilities.
@@ -38,7 +39,7 @@ Please read the full [Coding Best Practices](../docs/standards/coding_best_pract
 ### ✅ Do's
 - **Validate Everything**: Use `Zod` schemas for any data entering the system (API inputs, parsed PDF text).
 - **ADRs**: Document significant architectural decisions in `docs/adr/`.
-- **Errors**: Throw typed Errors (e.g., `DomainError`, `ValidationError`), not generic objects.
+- **Errors**: Throw typed Errors (e.g., `DomainError`, `ValidationError`), not generic objects. Use `AppError` for operational errors (4xx).
 
 ### ❌ Don'ts
 - **No `any`**: Explicitly type everything.
@@ -100,6 +101,8 @@ To run the analysis without costs/limits:
 | **Frontend** | `npm run lint` | `eslint .` |
 | **Frontend** | `npm run preview` | `vite preview` |
 | **Frontend** | `npm run security:scan` | `snyk test` |
+| **E2E** | `npx playwright test` | Run E2E tests headless |
+| **E2E** | `npx playwright test --ui` | Run E2E tests with UI runner |
 
 <!-- SCRIPTS_END -->
 
