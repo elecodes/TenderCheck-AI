@@ -41,7 +41,7 @@ app_port: 3000
 - **Interfaz React Moderna**: 
   - **New Typography**: Professional serif fonts (*Playfair Display*) for high-value information.
   - **Dynamic Layouts**: Smart sizing for long titles and summaries.
-  - **Responsive Design**: Mobile-friendly dashboard and reports.
+  - **Responsive Design**: Mobile-optimized Navigation (Hamburger Menu) and High-Contrast Auth forms.
 - **Persistent History**: Stores all analyses in **Turso (Distributed SQLite)** for reliability.
 - **History Management**: Browse, search, and delete previous analyses.
 - **Professional Export**: Generate branded **PDF Reports**.

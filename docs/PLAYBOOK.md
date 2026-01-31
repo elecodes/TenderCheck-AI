@@ -49,6 +49,7 @@ Please read the full [Coding Best Practices](../docs/standards/coding_best_pract
 - **Premium Aesthetic**: Use `Inter` and `Playfair Display` fonts. Soft shadows.
 - **Dark Mode**: Use "Soft Charcoal" (`#242B33` or `#1a1c1a`), avoid pure black.
 - **Brand Colors**: Emerald (`emerald-600`) for Actions, Gold (`#C5A028`) for Accents.
+- **Mobile First**: Minimum touch target of 44px (padding > p-2.5). Ensure high contrast on mobile cards (`bg-zinc-900/95`).
 - **Smart/Dumb**: `App.tsx` handles state/API, components (e.g., `TenderUpload`) just render.
 
 ### 4. Adding Validation Rules

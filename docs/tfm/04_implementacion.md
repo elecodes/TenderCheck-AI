@@ -45,6 +45,7 @@ El sistema ha evolucionado hacia un modelo *Cloud-Native* para garantizar escala
   - **Comunicación**: Variables de entorno seguras (`DATA_API_KEY`, `ALLOWED_ORIGINS`).
   - **Mejoras UI (Fase 7.1)**: Refinamiento tipográfico con fuentes Serif (*Playfair Display*) para headers y rediseño dinámico de componentes para soportar resúmenes generados por IA de longitud variable (hasta 500 caracteres).
   - **Seguridad CORS (Fase 7.2)**: Implementación de lista blanca dinámica (`ALLOWED_ORIGINS`) en backend para restringir acceso exclusivamente a dominios de confianza (Producción + Localhost), mitigando riesgos de CSRF.
+  - **Experiencia Móvil (Fase 7.3)**: Implementación de menú de navegación responsivo ("Hamburger Menu") y mejora del contraste en formularios de autenticación (`bg-zinc-900`) para garantizar la legibilidad en dispositivos pequeños.
 - **Base de Datos (Turso)**:
   - Base de datos distribuida basada en libSQL.
   - Gestión de esquemas automática al inicio (`SqliteDatabase.initializeSchema()`).
