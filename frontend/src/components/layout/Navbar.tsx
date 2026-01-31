@@ -38,7 +38,31 @@ export const Navbar: React.FC = () => {
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
+          </div>
+        </div>
       </div>
+
+      {/* Mobile Menu Dropdown */}
+      {isOpen && (
+        <div className="md:hidden bg-white/90 backdrop-blur-md border-t border-[#D4AF37]/20 absolute w-full z-50 shadow-xl animate-in slide-in-from-top-2">
+          <div className="px-4 pt-4 pb-6 space-y-4 flex flex-col items-center">
+            <Link 
+              to="/login" 
+              onClick={() => setIsOpen(false)}
+              className="w-full text-center text-sm font-bold text-[#2D312D] uppercase tracking-widest py-3 border border-[#C5A028]/20 rounded-xl hover:bg-[#C5A028]/10"
+            >
+              Iniciar Sesión
+            </Link>
+            <Link 
+              to="/register" 
+              onClick={() => setIsOpen(false)}
+              className="w-full text-center py-3 rounded-xl bg-emerald-600 text-white text-sm font-bold uppercase tracking-widest shadow-lg active:scale-95"
+            >
+              Comenzar
+            </Link>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
