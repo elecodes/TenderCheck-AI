@@ -206,7 +206,11 @@ export function LoginForm() {
       
       <div className="text-center text-sm">
         <span className="text-emerald-100/40">¿No tienes una cuenta? </span>
-        <Link to="/register" className="font-medium text-emerald-400 hover:text-emerald-300 transition-colors">
+        <Link 
+          to="/register" 
+          onMouseDown={(e) => e.preventDefault()}
+          className="font-medium text-emerald-400 hover:text-emerald-300 transition-colors hover:underline focus:outline-none"
+        >
           Crear Cuenta
         </Link>
       </div>
