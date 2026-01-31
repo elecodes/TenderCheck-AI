@@ -34,9 +34,10 @@ export const Navbar: React.FC = () => {
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-md text-[#2D312D] hover:bg-[#D4AF37]/10 focus:outline-none"
+              className="p-2 rounded-lg text-black bg-white/20 backdrop-blur-sm border border-black/5 hover:bg-black/5 transition-all"
+              aria-label="Menu"
             >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
             </button>
           </div>
         </div>
