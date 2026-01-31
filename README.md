@@ -174,6 +174,8 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 ├── ci_cd_plan.md
 ├── docker-compose.yml
 ├── docs
+│   ├── ARCHITECTURE_SIMPLE_GUIDE.md
+│   ├── CLEAN_ARCHITECTURE_MAP.md
 │   ├── PLAYBOOK.md
 │   ├── PROJECT_PLAN.md
 │   ├── SRS.md
