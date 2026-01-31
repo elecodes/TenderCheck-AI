@@ -34,7 +34,7 @@ export const Navbar: React.FC = () => {
           <div className="md:hidden flex items-center mr-6">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-3 rounded-xl text-black bg-white shadow-lg border border-black/5 active:scale-95 transition-all"
+              className="p-3 rounded-xl text-[#2D312D] bg-[#D4AF37]/20 backdrop-blur-md border border-[#D4AF37]/30 hover:bg-[#D4AF37]/30 transition-all shadow-lg"
               aria-label="Menu"
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
