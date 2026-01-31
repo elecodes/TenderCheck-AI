@@ -62,7 +62,7 @@ export function ForgotPasswordForm() {
   }
 
   return (
-    <div className="w-full max-w-md p-8 space-y-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-300">
+    <div className="w-full max-w-md p-8 space-y-8 bg-black/60 backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-300">
       <div className="text-center space-y-2">
         <h1 className="text-3xl font-serif text-white tracking-tight">Recuperar Contraseña</h1>
         <p className="text-emerald-100/60 font-light">Introduce tu email para recibir instrucciones</p>

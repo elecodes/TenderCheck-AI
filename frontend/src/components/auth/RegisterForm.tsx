@@ -51,7 +51,7 @@ export function RegisterForm() {
   };
 
   return (
-    <div className="w-full max-w-md p-8 space-y-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl animate-in fade-in slide-in-from-right-10 duration-500">
+    <div className="w-full max-w-md p-8 space-y-8 bg-black/60 backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl animate-in fade-in slide-in-from-right-10 duration-500">
       <div className="text-center space-y-2">
         <h1 className="text-3xl font-serif text-white tracking-tight">Crear Cuenta</h1>
         <p className="text-emerald-100/60 font-light">Únete al estándar de élite en análisis de licitaciones públicas</p>
