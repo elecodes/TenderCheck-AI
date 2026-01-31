@@ -311,6 +311,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │       └── video.webm
 └── tests
     └── e2e
+        ├── screenshots.spec.ts
         └── tender-flow.spec.ts
 ```
 <!-- TREE_END -->
