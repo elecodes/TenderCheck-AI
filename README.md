@@ -76,22 +76,99 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   └── verify_cloud.ts
 │   ├── src
 │   │   ├── application
+│   │   │   ├── services
+│   │   │   │   └── AuthService.ts
+│   │   │   └── use-cases
+│   │   │       ├── CreateTender.spec.ts
+│   │   │       ├── CreateTender.ts
+│   │   │       └── ValidateProposal.ts
 │   │   ├── config
+│   │   │   ├── constants.ts
+│   │   │   └── genkit.config.ts
 │   │   ├── domain
+│   │   │   ├── entities
+│   │   │   │   ├── ComparisonResult.ts
+│   │   │   │   ├── Requirement.ts
+│   │   │   │   ├── TenderAnalysis.ts
+│   │   │   │   ├── User.ts
+│   │   │   │   └── ValidationResult.ts
+│   │   │   ├── errors
+│   │   │   │   └── AppError.ts
+│   │   │   ├── interfaces
+│   │   │   │   ├── IPdfParser.ts
+│   │   │   │   ├── IRule.ts
+│   │   │   │   └── ITenderAnalyzer.ts
+│   │   │   ├── repositories
+│   │   │   │   ├── ITenderRepository.ts
+│   │   │   │   └── UserRepository.ts
+│   │   │   ├── schemas
+│   │   │   │   └── TenderAnalysisSchema.ts
+│   │   │   ├── services
+│   │   │   │   └── RequirementsExtractor.ts
+│   │   │   └── validation
+│   │   │       ├── ValidationEngine.ts
+│   │   │       └── rules
+│   │   │           └── ScopeValidationRule.ts
 │   │   ├── infrastructure
 │   │   │   ├── adapters
+│   │   │   │   └── PdfParserAdapter.ts
 │   │   │   ├── config
+│   │   │   │   └── genkit-telemetry.ts
 │   │   │   ├── database
+│   │   │   │   ├── SqliteDatabase.ts
+│   │   │   │   ├── TursoDatabase.ts
+│   │   │   │   └── schema.sql
 │   │   │   ├── middleware
+│   │   │   │   ├── authMiddleware.ts
+│   │   │   │   └── errorHandler.ts
 │   │   │   ├── repositories
+│   │   │   │   ├── InMemoryTenderRepository.ts
+│   │   │   │   ├── InMemoryUserRepository.ts
+│   │   │   │   ├── TursoTenderRepository.ts
+│   │   │   │   └── TursoUserRepository.ts
 │   │   │   ├── schemas
+│   │   │   │   └── LLMSchemas.ts
 │   │   │   ├── services
+│   │   │   │   ├── GeminiGenkitService.ts
+│   │   │   │   └── VectorSearchService.ts
 │   │   │   └── utils
+│   │   │       └── safeExecute.ts
+│   │   └── presentation
+│   │       ├── controllers
+│   │       │   ├── AuthController.ts
+│   │       │   └── TenderController.ts
+│   │       ├── routes
+│   │       │   ├── AuthRoutes.ts
+│   │       │   └── TenderRoutes.ts
+│   │       └── server.ts
+│   ├── test
+│   │   ├── AppError.test.ts
+│   │   ├── PdfParserAdapter.test.ts
+│   │   ├── RequirementsExtractor.test.ts
+│   │   ├── ScopeValidationRule.test.ts
+│   │   ├── ValidationEngine.test.ts
+│   │   ├── api_integration.test.ts
+│   │   ├── application
+│   │   │   ├── services
+│   │   │   │   └── AuthService.test.ts
+│   │   │   └── use-cases
+│   │   │       └── ValidateProposal.test.ts
+│   │   ├── domain
+│   │   │   ├── AppError.test.ts
+│   │   │   ├── RequirementsExtractor.test.ts
+│   │   │   ├── ScopeValidationRule.test.ts
+│   │   │   ├── TenderAnalysisSchema.test.ts
+│   │   │   ├── ValidationEngine.test.ts
+│   │   │   ├── errors
+│   │   │   │   └── AppError.test.ts
+│   │   │   └── validation
+│   │   │       ├── ValidationEngine.test.ts
+│   │   │       └── rules
+│   │   │           └── ScopeValidationRule.test.ts
 │   │   ├── presentation
-│   │   │   ├── controllers
-│   │   │   ├── routes
-│   │   │   └── server.ts
-│   │   └── test
+│   │   │   └── controllers
+│   │   │       └── TenderController.test.ts
+│   │   └── security.test.ts
 │   ├── tsconfig.json
 │   └── vitest.config.ts
 ├── ci_cd_plan.md
@@ -102,7 +179,34 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   ├── SRS.md
 │   ├── TFM_PLAN.md
 │   ├── adr
+│   │   ├── 000-template.md
+│   │   ├── 001-validation-strategy.md
+│   │   ├── 002-frontend-stack.md
+│   │   ├── 003-ai-integration.md
+│   │   ├── 003-observability.md
+│   │   ├── 004-proposal-validation.md
+│   │   ├── 004-rules-engine.md
+│   │   ├── 005-local-auth-and-ollama.md
+│   │   ├── 006-ui-theme-routing.md
+│   │   ├── 007-security-hardening.md
+│   │   ├── 008-local-sql-persistence.md
+│   │   ├── 009-vector-search-performance.md
+│   │   ├── 010-frontend-localization-security.md
+│   │   ├── 011-cloud-authentication.md
+│   │   ├── 011-cloud-deployment.md
+│   │   ├── 012-cloud-pivot-render-turso.md
+│   │   ├── 013-ai-logic-refinements.md
+│   │   ├── 014-auth-strategy-pivot.md
+│   │   ├── 015-frontend-ui-and-security.md
+│   │   ├── 016-caching-strategy.md
+│   │   ├── 017-quality-metrics-standard.md
+│   │   ├── 018-mobile-first-ui.md
+│   │   ├── 019-resilience-testing-strategy.md
+│   │   ├── 020-auth-ux-enhancements.md
+│   │   └── README.md
 │   ├── architecture
+│   │   ├── mcp_feasibility_study.md
+│   │   └── system_architecture.md
 │   ├── deployment_guide.md
 │   ├── standards
 │   │   ├── architecture_systems.md
@@ -124,26 +228,88 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── usable_forms_best_practices.md
 │   │   └── ux_accessibility_policy.md
 │   └── tfm
+│       ├── 00_analisis_detallado.md
+│       ├── 01_introduccion_objetivos.md
+│       ├── 02_marco_teorico.md
+│       ├── 03_arquitectura.md
+│       └── 04_implementacion.md
 ├── frontend
 │   ├── README.md
+│   ├── eslint.config.js
+│   ├── frontend
+│   │   ├── package-lock.json
+│   │   └── package.json
 │   ├── index.html
+│   ├── package-lock.json
 │   ├── package.json
+│   ├── postcss.config.js
 │   ├── public
+│   │   ├── _headers
+│   │   └── vite.svg
 │   ├── src
+│   │   ├── App.css
+│   │   ├── App.tsx
+│   │   ├── assets
+│   │   │   └── react.svg
 │   │   ├── components
+│   │   │   ├── auth
+│   │   │   │   ├── ForgotPasswordForm.tsx
+│   │   │   │   ├── GoogleLoginButton.tsx
+│   │   │   │   ├── LoginForm.tsx
+│   │   │   │   └── RegisterForm.tsx
+│   │   │   ├── dashboard
+│   │   │   │   ├── AnalysisResults.test.tsx
+│   │   │   │   ├── AnalysisResults.tsx
+│   │   │   │   ├── ComparisonResults.tsx
+│   │   │   │   ├── Dashboard.tsx
+│   │   │   │   ├── HistorySidebar.tsx
+│   │   │   │   ├── TenderUpload.test.tsx
+│   │   │   │   ├── TenderUpload.tsx
+│   │   │   │   └── ValidationSummary.tsx
+│   │   │   ├── layout
+│   │   │   │   ├── Navbar.tsx
+│   │   │   │   └── ProtectedRoute.tsx
+│   │   │   └── ui
+│   │   │       ├── SentryErrorBoundary.tsx
+│   │   │       └── Skeleton.tsx
 │   │   ├── context
-│   │   ├── layout
+│   │   │   └── AuthContext.tsx
+│   │   ├── index.css
+│   │   ├── main.tsx
 │   │   ├── pages
+│   │   │   └── LandingPage.tsx
 │   │   ├── services
+│   │   │   ├── api.ts
+│   │   │   ├── auth.service.ts
+│   │   │   └── export.service.ts
+│   │   ├── test
+│   │   │   └── setup.ts
 │   │   └── types.ts
 │   ├── tailwind.config.js
+│   ├── tsconfig.app.json
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
 │   └── vite.config.ts
 ├── lint_output.txt
 ├── package-lock.json
 ├── package.json
+├── playwright-report
+│   ├── data
+│   │   ├── 357220596d3ec4f498a9421ab76d7bbcff5fedcb.webm
+│   │   └── 631a702380b92457b4edbe14065addea693c793d.png
+│   └── index.html
+├── playwright.config.ts
 ├── render.yaml
 ├── scripts
-└── start.sh
+│   └── docs-automator.js
+├── start.sh
+├── test-results
+│   └── tender-flow-Tender-Analysi-38a37-r-Upload-Pliego-and-Analyze-chromium
+│       ├── test-finished-1.png
+│       └── video.webm
+└── tests
+    └── e2e
+        └── tender-flow.spec.ts
 ```
 <!-- TREE_END -->
 

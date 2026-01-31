@@ -20,3 +20,9 @@
 | 012 | [12. Cloud Architecture Pivot: Render, Turso, and Gemini](./012-cloud-pivot-render-turso.md) | Unknown |
 | 013 | [ADR 013: Refinamiento de Lógica AI y Migración Vectorial Cloud](./013-ai-logic-refinements.md) | Unknown |
 | 014 | [ADR 014: Authentication Strategy Pivot (Popup vs Redirect)](./014-auth-strategy-pivot.md) | accepted |
+| 015 | [ADR 015: Frontend UI Refinements and CORS Security Strategy](./015-frontend-ui-and-security.md) | Unknown |
+| 016 | [ADR 016: Global Caching Strategy](./016-caching-strategy.md) | Unknown |
+| 017 | [ADR 017: Adoption of Strategic Quality Metrics (100/80/0)](./017-quality-metrics-standard.md) | Unknown |
+| 018 | [ADR 018: Mobile-First UI Improvements](./018-mobile-first-ui.md) | Unknown |
+| 019 | [19. Resilience and Testing Strategy 🧪](./019-resilience-testing-strategy.md) | Unknown |
+| 020 | [20. Auth UX Enhancements (Remember Me & Interstitial) 🔐](./020-auth-ux-enhancements.md) | Unknown |
