@@ -31,13 +31,13 @@ export const Navbar: React.FC = () => {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center mr-2">
+          <div className="md:hidden flex items-center mr-4">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg text-black bg-white/40 backdrop-blur-md border border-black/10 hover:bg-white/60 transition-all shadow-sm"
+              className="p-2.5 rounded-xl text-black bg-white shadow-lg border border-black/5 active:scale-95 transition-all"
               aria-label="Menu"
             >
-              {isOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
+              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
         </div>
