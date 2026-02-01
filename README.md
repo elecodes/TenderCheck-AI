@@ -31,6 +31,26 @@
 ## 📌 Overview
 **TenderCheck AI** is an intelligent assistant designed to validate public tender documents. Originally built for local inference, it has pivoted to a **Cloud-Native Architecture** (Render + Turso + Gemini) to ensure stability, persistence, and performance within free-tier limits.
 
+## Demo
+<p align="center">
+<img src="screenshots/00-landing-page.png" width="600">
+</p>
+
+<p align="center">
+<img src="screenshots/0B-register-page.png" width="400">
+<img src="screenshots/01-login-page.png" width="400">
+</p>
+
+<p align="center">
+<img src="screenshots/03-ready-to-analyze.png" width="300">
+<img src="screenshots/04-analysis-results.png" width="300">
+<img src="screenshots/05-validation-results.png" width="300">
+</p>
+
+
+
+[▶ Watch demo video](assets/demo.webm)
+
 ## 📚 Key Documentation
 - **[📘 Developer Playbook](docs/PLAYBOOK.md)**: Setup, Workflows, Commands.
 - **[📋 Project Plan](docs/PROJECT_PLAN.md)**: Roadmap & Phases.
