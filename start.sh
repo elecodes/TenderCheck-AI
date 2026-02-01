@@ -23,6 +23,6 @@ sleep 5
 # Start Backend
 echo "--- Starting Backend ---"
 cd backend
-export PORT=7860
+export PORT=3000
 # Use exec to ensure signals are passed to Node.js
 exec npm start

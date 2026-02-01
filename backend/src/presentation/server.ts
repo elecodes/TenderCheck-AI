@@ -33,16 +33,16 @@ app.use(
       directives: {
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"], // Needed for Vite/React
-        connectSrc: ["'self'", "https://huggingface.co", "https://*.hf.space"],
+        connectSrc: ["'self'"],
         imgSrc: ["'self'", "data:", "blob:"],
         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         fontSrc: ["'self'", "data:", "https://fonts.gstatic.com"],
-        frameAncestors: ["'self'", "https://huggingface.co"], // Allow embedding in HF
+        frameAncestors: ["'self'"], // Reverted from Hugging Face domains
       },
     },
     crossOriginEmbedderPolicy: false,
     crossOriginOpenerPolicy: false,
-    frameguard: false, // Disable X-Frame-Options to allow iframe embedding
+    frameguard: { action: "sameorigin" }, // Re-enable for protection against clickjacking
   }),
 );
 

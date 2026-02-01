@@ -102,17 +102,16 @@ RUN ollama serve & \
     ollama pull nomic-embed-text && \
     pkill ollama
 
-# Expose port
-EXPOSE 7860
+# Expose port (Standard Node.js port)
+EXPOSE 3000
 
 # Runtime Environment Variables (Production)
-ENV PORT=7860
+ENV PORT=3000
 ENV NODE_ENV=production
 ENV ALLOWED_ORIGINS=*
 ENV DATABASE_PATH=/app/data/tender.db
 
 # Create data directory with permissions for SQLite
-# chmod 777 needed because container might run as non-root user (Hugging Face default)
 RUN mkdir -p /app/data && chmod 777 /app/data
 
 # Health check
