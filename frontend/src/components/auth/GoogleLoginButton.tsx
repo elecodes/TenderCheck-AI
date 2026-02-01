@@ -41,17 +41,29 @@ const LoginButtonDetails = () => {
     handleGoogleRedirect();
   }, [loginWithGoogle, navigate]);
 
+  const handleSuccess = async (tokenResponse: any) => {
+      console.log('✅ Google SDK Success:', tokenResponse);
+      if (tokenResponse.access_token) {
+          setIsLoading(true);
+          try {
+              await loginWithGoogle(tokenResponse.access_token);
+              navigate('/dashboard');
+          } catch (error) {
+              console.error('❌ Backend Auth Error:', error);
+              setIsLoading(false);
+          }
+      }
+  };
+
   const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => {
-        // This won't fire in redirect mode, but keeps types happy
-        console.log('Google Success', tokenResponse);
-    },
+    onSuccess: handleSuccess,
     onError: (errorResponse) => {
       console.error('❌ Google SDK Error:', errorResponse);
       setIsLoading(false);
     },
+    // Attempt redirect, but handle success if it happens immediately (Popup fallback)
     flow: 'implicit', 
-    // @ts-expect-error - ux_mode is valid in runtime but missing in type definition for implicit flow
+    // @ts-expect-error - ux_mode is valid
     ux_mode: 'redirect',
     redirect_uri: window.location.origin + '/login'
   });

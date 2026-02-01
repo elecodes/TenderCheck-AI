@@ -47,7 +47,7 @@ export function LoginForm() {
                     <UserCircle className="w-10 h-10 text-emerald-400" />
                 </div>
                 <div className="space-y-1">
-                    <h1 className="text-2xl font-serif text-white tracking-tight">Hola de nuevo, {user.name.split(' ')[0]}</h1>
+                    <h1 className="text-2xl font-serif text-white tracking-tight">Hola de nuevo, {user?.name ? user.name.split(' ')[0] : 'Usuario'}</h1>
                     <p className="text-emerald-100/40 text-sm font-light">{user.email}</p>
                 </div>
             </div>
