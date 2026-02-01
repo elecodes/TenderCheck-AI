@@ -48,8 +48,8 @@
 </p>
 
 
-
-[▶ Watch demo video](assets/demo.webm)
+▶ Watch demo video
+https://github.com/user-attachments/assets/338457ab-3e39-43c9-b377-9a2bf3889e1d
 
 ## 📚 Key Documentation
 - **[📘 Developer Playbook](docs/PLAYBOOK.md)**: Setup, Workflows, Commands.
