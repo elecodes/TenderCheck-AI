@@ -50,10 +50,11 @@ describe("Integration: POST /api/tenders/analyze", () => {
     );
 
     // Spy on the real PdfParserAdapter to return fake text without needing a real PDF
+    // Spy on the real PdfParserAdapter to return fake text without needing a real PDF
     const parseSpy = vi
       .spyOn(PdfParserAdapter.prototype, "parse")
-      .mockResolvedValue(
-        "El sistema deberá procesar pagos. Must be secure. This text must be longer than 50 chars to pass validation.",
+      .mockImplementation(
+        async () => "El sistema deberá procesar pagos. Must be secure.",
       );
 
     // Spy on GeminiGenkitService to avoid calling cloud LLM

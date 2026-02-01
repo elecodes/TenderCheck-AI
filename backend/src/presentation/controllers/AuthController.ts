@@ -40,6 +40,7 @@ export class AuthController {
 
       res.status(HTTP_STATUS.CREATED).json({
         message: "User registered successfully",
+        token, // <-- Added for fallback
         user: {
           id: user.id,
           email: user.email,
@@ -75,6 +76,7 @@ export class AuthController {
       this.setCookie(res, token, rememberMe);
 
       res.json({
+        token, // <-- Added for fallback
         user: {
           id: user.id,
           email: user.email,
@@ -142,6 +144,7 @@ export class AuthController {
       this.setCookie(res, token, true); // Assume implicit Remember Me for Google
 
       res.json({
+        token, // <-- Added for fallback
         user: {
           id: user.id,
           email: user.email,

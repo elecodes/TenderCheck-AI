@@ -7,11 +7,21 @@ export interface User {
 
 export interface AuthResponse {
   user: User;
-  // Token is now in HttpOnly cookie
+  token?: string; // Fallback token
 }
 
 const API_URL = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/$/, '');
-console.log('🔌 Auth Service Initialized. Backend URL:', `"${API_URL}"`); // Quote to see whitespace
+console.log('🔌 Auth Service Initialized. Backend URL:', `"${API_URL}"`);
+
+// Helper to get auth headers
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('auth_token');
+  const headers: HeadersInit = { 'Content-Type': 'application/json' };
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  return headers;
+};
 
 export const login = async (email: string, password: string, rememberMe: boolean = false): Promise<AuthResponse> => {
   const target = `${API_URL}/api/auth/login`;
@@ -35,7 +45,11 @@ export const login = async (email: string, password: string, rememberMe: boolean
     throw new Error(errorData.error || 'Login failed');
   }
 
-  return response.json();
+  const data = await response.json();
+  if (data.token) {
+    localStorage.setItem('auth_token', data.token);
+  }
+  return data;
 };
 
 export const register = async (name: string, email: string, password: string, company?: string): Promise<AuthResponse> => {
@@ -51,7 +65,11 @@ export const register = async (name: string, email: string, password: string, co
     throw new Error(errorData.error || 'Registration failed');
   }
 
-  return response.json();
+  const data = await response.json();
+  if (data.token) {
+    localStorage.setItem('auth_token', data.token);
+  }
+  return data;
 };
 
 export const requestPasswordReset = async (email: string): Promise<void> => {
@@ -81,8 +99,12 @@ export const loginWithGoogle = async (token: string): Promise<AuthResponse> => {
       const errorData = await response.json().catch(() => ({}));
       throw new Error(errorData.error || 'Google Login failed');
     }
-  
-    return response.json();
+    
+    const data = await response.json();
+    if (data.token) {
+      localStorage.setItem('auth_token', data.token);
+    }
+    return data;
   };
 
 export const logout = async () => {
@@ -90,14 +112,16 @@ export const logout = async () => {
      method: 'POST',
      credentials: 'include'
   });
-  localStorage.removeItem('user'); // Clean up UI state
+  localStorage.removeItem('user');
+  localStorage.removeItem('auth_token'); // Cleanup token
 };
 
-// New Method: Verify Session via Cookie
+// New Method: Verify Session via Cookie OR Token
 export const getMe = async (): Promise<User | null> => {
   try {
     const response = await fetch(`${API_URL}/api/auth/me`, {
        method: 'GET',
+       headers: getAuthHeaders(), // Send token if available
        credentials: 'include'
     });
     
