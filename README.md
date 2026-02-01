@@ -1,32 +1,11 @@
----
-title: TenderCheck AI
-emoji: 📄
-colorFrom: blue
-colorTo: green
-sdk: docker
-pinned: false
-app_port: 3000
----
-
 # TenderCheck AI 🤖
 
 > **Automated Formal Validation for Public Tenders**
->
-> *Master's Thesis Project (TFM) - Week 2 Status*
 
-![Status](https://img.shields.io/badge/Status-Phase_6_Cloud_Migration-blue)
 ![Tech](https://img.shields.io/badge/Stack-TypeScript_React_Turso_Gemini-orange)
 ![Coverage](https://img.shields.io/badge/Coverage-100%25_Backend-brightgreen)
 ![Data](https://img.shields.io/badge/Storage-Turso_(LibSQL)-blue)
 ![AI](https://img.shields.io/badge/AI-Gemini_2.5_Flash-red)
-
-## 📋 Project Status
-- [x] **Week 1**: Architecture & Setup (Clean Architecture, TypeScript)
-- [x] **Phase 3**: Vector Search (Local Embeddings)
-- [x] **Phase 14**: Persistence (SQLite -> Turso Migration)
-- [x] **Phase 4**: Cloud Auth & Security (Google Sign-In v1.1 - Redirect Mode)
-- [x] **Phase 6**: Cloud Deployment (Render + Turso + Gemini + COOP Fixes)
-- [x] **Phase 8**: Resilience & Testing (E2E Tests, Global Coverage > 60%, Global Error Handling)
 
 ## 🚀 Key Features
 - **Secure Authentication**: Robust Email/Password login (JWT + HttpOnly Cookies) and Google OAuth integration (Development only, see deployment notes).
@@ -46,7 +25,6 @@ app_port: 3000
 - **Persistent History**: Stores all analyses in **Turso (Distributed SQLite)** for reliability.
 - **Enterprise Auth**: **HttpOnly Cookies** (XSS Protection), "Remember Me" functionality, "Welcome Back" interstitial, and Google Sign-In.
 - **History Management**: Browse, search, and delete previous analyses.
-- **History Management**: Browse, search, and delete previous analyses.
 - **Professional Export**: Generate branded **PDF Reports**.
 - **Secure by Design**: Zod validation, Helmet protection, strict CORS (`ALLOWED_ORIGINS`), and COOP/COEP compliant auth flows.
 
@@ -60,6 +38,28 @@ app_port: 3000
 
 ## 🏗 Architecture
 This project implements **Clean Architecture** with a Modular Monolith approach:
+
+### High-Level Overview
+```text
+├── backend/
+│   ├── src/
+│   │   ├── domain/         # Entities, Repositories, Interfaces (Pure Logic)
+│   │   ├── application/    # Use Cases & Services (Orchestration)
+│   │   ├── infrastructure/ # DB Adapters (Turso), AI (Genkit), Middleware
+│   │   └── presentation/   # Express Controllers & Routes
+├── frontend/
+│   ├── src/
+│   │   ├── components/     # UI, Auth, Dashboard, Layout
+│   │   ├── services/       # API, Auth, Export Services
+│   │   └── pages/          # Main Application Views
+├── tests/
+│   ├── e2e/                # Playwright End-to-End flows
+│   └── fixtures/           # Mock PDFs for testing
+└── docs/                   # ADRs, Standards, and TFM Documentation
+```
+
+<details>
+<summary>📂 View Detailed File Structure</summary>
 
 <!-- TREE_START -->
 ```text
@@ -328,6 +328,10 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
         └── dummy.pdf
 ```
 <!-- TREE_END -->
+
+For more details, see the [📘 Simple Architecture Guide](docs/ARCHITECTURE_SIMPLE_GUIDE.md).
+
+</details>
 
 ## 🚀 Getting Started
 

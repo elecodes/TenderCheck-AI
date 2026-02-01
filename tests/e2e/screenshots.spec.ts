@@ -55,11 +55,11 @@ const mockAnalysis = {
 };
 
 const mockValidationResults = [
-  { requirementId: '1', status: 'MET', confidence: 0.99, reasoning: 'La página 12 del anexo 3 incluye el certificado ISO 27001 válido hasta 2028.', evidence: { text: 'Certificado ISO 27001:2013', pageNumber: 12 } },
-  { requirementId: '2', status: 'MET', confidence: 0.98, reasoning: 'Cláusula 4.2 garantiza un uptime del 99.95% anual.', evidence: { text: 'Garantía SLA 99.95%', pageNumber: 42 } },
-  { requirementId: '3', status: 'PARTIALLY_MET', confidence: 0.75, reasoning: 'Se menciona soporte 24/7 pero no se especifica explícitamente el idioma español.', evidence: { text: 'Support Center 24/7 available', pageNumber: 15 } },
-  { requirementId: '4', status: 'NOT_MET', confidence: 0.95, reasoning: 'La empresa se constituyó hace 3 años, no cumple con los 5 años requeridos.', evidence: { text: 'Fecha de constitución: 2023', pageNumber: 2 } },
-  { requirementId: '5', status: 'MET', confidence: 0.99, reasoning: 'La oferta económica es de 48.500€, dentro del límite.', evidence: { text: 'Total Oferta: 48.500€', pageNumber: 1 } }
+  { requirementId: '1', status: 'MET', confidence: 1.0, reasoning: 'La propuesta implementa autenticación de doble factor (24A) para todos los administradores usando Google Authenticator.', evidence: { text: 'Inclusión nativa con Google Authenticator y tokens físicos', pageNumber: 12 } },
+  { requirementId: '2', status: 'PARTIALLY_MET', confidence: 0.5, reasoning: 'Se menciona el uso de estándares de cifrado pero no se especifica el protocolo AES-256 requerido por el pliego.', evidence: { text: 'Nuestra plataforma utiliza estándares de cifrado de alta seguridad', pageNumber: 42 } },
+  { requirementId: '3', status: 'NOT_MET', confidence: 0.75, reasoning: 'El centro de datos principal está ubicado en Irlanda, lo cual contradice el requisito de ubicación en territorio español.', evidence: { text: 'Servidores alojados en AWS (Región de Irlanda)', pageNumber: 15 } },
+  { requirementId: '4', status: 'MET', confidence: 0.99, reasoning: 'Se acredita la experiencia mínima requerida de 5 años con certificados de proyectos similares.', evidence: { text: 'Trayectoria desde 2018 en el sector público', pageNumber: 2 } },
+  { requirementId: '5', status: 'MET', confidence: 1.0, reasoning: 'La oferta económica total se ajusta al presupuesto máximo de 50.000€.', evidence: { text: 'Importe total: 49.500€', pageNumber: 1 } }
 ];
 
 test('📸 Generate Marketing Screenshots & Video', async ({ page }) => {
@@ -164,4 +164,9 @@ test('📸 Generate Marketing Screenshots & Video', async ({ page }) => {
   // 9. Capture Results
   await page.mouse.wheel(0, 400); // Scroll to see details
   await page.screenshot({ path: 'screenshots/04-analysis-results.png', fullPage: true });
+
+  // 10. Dedicated Validation Results Screenshot (Colors & %)
+  await page.locator('text=Resultado de Validación de Oferta').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(1000); // Wait for potential animations
+  await page.screenshot({ path: 'screenshots/05-validation-results.png' });
 });
