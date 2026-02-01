@@ -402,8 +402,9 @@ npx playwright test
 npx playwright show-report
 
 # Check Coverage (Critical Baseline > 60%)
-# Why 60%? For this Master's Thesis, we prioritize "Honest Coverage" on high-complexity 
-# Domain logic (Rules, AI Evaluators) rather than 80% on generic boilerplate.
+# Why 60%? We enforce "Honest Coverage": 100% on high-complexity 
+# Domain logic (Rules, AI Evaluators) and 60% Global, avoiding 
+# inflated metrics on generic boilerplate.
 npm run test:coverage
 ```
 

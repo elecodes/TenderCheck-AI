@@ -19,12 +19,12 @@ Welcome to the team! This playbook defines **how we work** to ensure high qualit
 |---------|---------|-------------|
 | `npm test` | Run all unit tests | Must pass before push |
 | `npm run security:scan` | Check for vulnerabilities (Snyk) | **0 High Severity** |
-| `npm run test:coverage` | Generate coverage report | **100% Domain**, 60% Global, 0% Infra |
+| `npm run test:coverage` | Generate coverage report | **100% Domain, 60% Global** (Honest Coverage) |
 | `npx playwright test` | Run E2E Tests | Must pass before major releases |
 
 > **🛡️ Security Gate:** This project uses a **pre-push hook** (Husky). You cannot push to the remote repository if:
 > 1. `security:scan` (Snyk) finds vulnerabilities.
-> 2. `test:coverage` fails to meet the **100/80/0** threshold.
+> 2. `test:coverage` fails to meet the **100/60/0** threshold (Honest Coverage).
 > **🔴 Important:** Attempting to bypass these hooks is a violation of the [Quality Metrics Policy](../docs/standards/quality_metrics.md).
 
 ### 3. Architecture Guidelines
