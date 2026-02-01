@@ -115,7 +115,13 @@ test('📸 Generate Marketing Screenshots & Video', async ({ page }) => {
   await page.waitForTimeout(1000); 
   await page.screenshot({ path: 'screenshots/00-landing-page.png', fullPage: true });
 
-  // 4. Register (Fast flow)
+  // 4. Login Page (Show Google Auth implementation)
+  await page.goto('/login');
+  await page.evaluate(() => document.documentElement.classList.add('dark'));
+  await page.waitForSelector('text=Continuar con Google');
+  await page.screenshot({ path: 'screenshots/01-login-page.png' });
+
+  // 5. Register (Fast flow)
   await page.goto('/register');
   await page.evaluate(() => document.documentElement.classList.add('dark'));
   
