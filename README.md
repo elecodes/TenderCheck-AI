@@ -297,9 +297,8 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 ├── package.json
 ├── playwright-report
 │   ├── data
-│   │   ├── 6a61be4621e10ee3210314109c43efeeffe85735.md
-│   │   ├── 83dd2f17d09788761e0329ba81124e289f55902b.webm
-│   │   └── f9edd2ab6dfedd0a77970f354317331a857d167d.png
+│   │   ├── 013085b0681e1c7bf8db21470999754a5032d4ce.png
+│   │   └── 9c4bcf1efeba38b030a2506d6ad00cbf3f77f0f6.webm
 │   └── index.html
 ├── playwright.config.ts
 ├── render.yaml
@@ -307,20 +306,24 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   ├── 00-landing-page.png
 │   ├── 01-login-page.png
 │   ├── 02-dashboard-empty.png
+│   ├── 03-ready-to-analyze.png
+│   ├── 04-analysis-results.png
 │   ├── 0B-register-page.png
+│   ├── demo-video-full.webm
 │   └── demo-video.webm
 ├── scripts
 │   └── docs-automator.js
 ├── start.sh
 ├── test-results
-│   └── screenshots-📸-Generate-Marketing-Screenshots-chromium
-│       ├── error-context.md
-│       ├── test-failed-1.png
+│   └── screenshots-📸-Generate-Marketing-Screenshots-Video-chromium
+│       ├── test-finished-1.png
 │       └── video.webm
 └── tests
-    └── e2e
-        ├── screenshots.spec.ts
-        └── tender-flow.spec.ts
+    ├── e2e
+    │   ├── screenshots.spec.ts
+    │   └── tender-flow.spec.ts
+    └── fixtures
+        └── dummy.pdf
 ```
 <!-- TREE_END -->
 
