@@ -61,10 +61,10 @@ const LoginButtonDetails = () => {
       console.error('❌ Google SDK Error:', errorResponse);
       setIsLoading(false);
     },
-    // Attempt redirect, but handle success if it happens immediately (Popup fallback)
+    // Force Popup mode for better cross-origin reliability
     flow: 'implicit',
-    ux_mode: 'redirect',
-    redirect_uri: window.location.origin + '/login'
+    ux_mode: 'popup', 
+    // redirect_uri is ignored in popup mode, but keeping it invalidates nothing
   } as any);
 
   return (

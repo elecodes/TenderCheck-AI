@@ -39,6 +39,25 @@ router.post("/logout", authController.logout);
 import { authMiddleware } from "../../infrastructure/middleware/authMiddleware.js";
 router.get("/me", authMiddleware, authController.getMe);
 
+router.get("/debug-cookie", (req, res) => {
+  const isSecure = req.secure;
+  const protocol = req.protocol;
+  const forwardedProto = req.headers["x-forwarded-proto"];
+
+  res.cookie("debug_test", "works", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
+
+  res.json({
+    isSecure,
+    protocol,
+    forwardedProto,
+    env: process.env.NODE_ENV,
+  });
+});
+
 router.post("/reset-password-request", authController.requestPasswordReset);
 
 export default router;
