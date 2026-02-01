@@ -124,6 +124,8 @@ test('📸 Generate Marketing Screenshots & Video', async ({ page }) => {
   // 5. Register (Fast flow)
   await page.goto('/register');
   await page.evaluate(() => document.documentElement.classList.add('dark'));
+  await page.waitForSelector('text=Continuar con Google');
+  await page.screenshot({ path: 'screenshots/0B-register-page.png' });
   
   const uniqueId = Date.now();
   await page.fill('input[id="name"]', 'Demo User');
