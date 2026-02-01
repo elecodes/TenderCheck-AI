@@ -24,7 +24,9 @@ Welcome to the team! This playbook defines **how we work** to ensure high qualit
 
 > **🛡️ Security Gate:** This project uses a **pre-push hook** (Husky). You cannot push to the remote repository if:
 > 1. `security:scan` (Snyk) finds vulnerabilities.
-> 2. `test:coverage` fails to meet the **100/60/0** threshold (Honest Coverage).
+> 2. `test:coverage` fails to meet the **100/60/0** threshold.
+>
+> **💡 Why 100/60/0?** While 80% global coverage is an industry ideal, we enforce **"Honest Coverage"**: 100% on critical **Domain logic** (Rules, AI Evaluators) and 60% Global to avoid inflating metrics with generic boilerplate or 3rd party adapters.
 > **🔴 Important:** Attempting to bypass these hooks is a violation of the [Quality Metrics Policy](../docs/standards/quality_metrics.md).
 
 ### 3. Architecture Guidelines
@@ -65,12 +67,6 @@ To add a new check for tenders (e.g., "Must be in Madrid"):
 - **Structured Outputs**: Always use `zodResponseFormat` when adding new AI features. Never parse raw strings.
 - **Prompting**: Keep System Prompts in the Service or a dedicated config. Use clear instructions ("You are...", "Return JSON...").
 
-### 6. Local AI Setup (Ollama) 🦙
-To run the analysis without costs/limits:
-1.  **Install Ollama**: Download from [ollama.com](https://ollama.com).
-2.  **Pull Models**: Run `ollama pull mistral` and `ollama pull nomic-embed-text` (for vector embeddings).
-3.  **Start Server**: Run `ollama serve` (or just open the app).
-4.  **Verify**: The backend logs will show `Analyzing text with Ollama...`.
 
 ### 7. Authentication Flow 🔐
 - **Register**: Create a new account at `/register`. Upon success, a JWT is issued automatically and the user is redirected to the dashboard.
