@@ -1,7 +1,10 @@
 # TenderCheck AI 🤖
 
 > **Automated Formal Validation for Public Tenders**
+>
+> [**🚀 Ver Demo en Vivo (Render)**](https://tendercheck-frontend.onrender.com)
 
+![Deployment](https://img.shields.io/badge/Deployment-Render-46E3B7?style=flat-square&logo=render&logoColor=white)
 ![Tech](https://img.shields.io/badge/Stack-TypeScript_React_Turso_Gemini-orange)
 ![Coverage](https://img.shields.io/badge/Coverage-100%25_Backend-brightgreen)
 ![Data](https://img.shields.io/badge/Storage-Turso_(LibSQL)-blue)
@@ -383,6 +386,7 @@ cd backend && npm run dev
 cd frontend && npm run dev
 
 ## ⚠️ Known Limitations (Deployment)
+- **Startup Delay**: This project is hosted on **Render's Free Tier**. If the application hasn't been used recently, it may take **30-50 seconds** to "wake up" on the first load. We appreciate your patience!
 - **Google Authentication**: The "Sign in with Google" feature is fully implemented and works in the local environment (`localhost`). However, due to strict Cross-Origin-Opener-Policies (COOP) enforced by Google, it requires a verified custom domain to function in the Render production environment. As this project currently runs on a free-tier shared subdomain (`.onrender.com`), the feature is disabled in production to ensure stability. Please use **Email/Password** registration for the live demo.
 
 ### Testing
