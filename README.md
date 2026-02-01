@@ -34,12 +34,12 @@ app_port: 3000
 - **Requirement Extraction**: Identifies technical clauses, distinguishing **OBLIGATORIO** vs **OPCIONAL**.
 - **Real Proposal Validation**: Real-time comparison of vendor proposals with AI reasoning.
 - **Improved AI Summary**: Detailed analysis summaries up to 500 characters (truncated from 100 in previous versions).
-- **Análisis Inteligente (Dual Persona)**: 
-  - **Auditor Legal (Extracción)**: Identifica requisitos estrictos ("deberá", "obligatorio").
-  - **Evaluador Senior (Validación)**: Entiende sinónimos técnicos y matices de cumplimiento parcial.
-- **Búsqueda Semántica Cloud**: Vector Search nativo con Google Genkit (`text-embedding-004`).
-- **Arquitectura Cloud-Native**: Backend en Render + Base de Datos Turso (Edge SQLite).
-- **Interfaz React Moderna**: 
+- **Intelligent Analysis (Dual Persona)**: 
+  - **Legal Auditor (Extraction)**: Identifies strict requirements ("deberá", "obligatorio").
+  - **Senior Evaluator (Validation)**: Understands technical synonyms and partial compliance nuances.
+- **Cloud Semantic Search**: Native Vector Search with Google Genkit (`text-embedding-004`).
+- **Cloud-Native Architecture**: Backend on Render + Turso Database (Edge SQLite).
+- **Modern React Interface**: 
   - **New Typography**: Professional serif fonts (*Playfair Display*) for high-value information.
   - **Dynamic Layouts**: Smart sizing for long titles and summaries.
   - **Responsive Design**: Mobile-optimized Navigation (Hamburger Menu) and High-Contrast Auth forms.
@@ -374,7 +374,9 @@ npx playwright test
 # View Test Report
 npx playwright show-report
 
-# Check Coverage (Baseline > 60%)
+# Check Coverage (Critical Baseline > 60%)
+# Why 60%? For this Master's Thesis, we prioritize "Honest Coverage" on high-complexity 
+# Domain logic (Rules, AI Evaluators) rather than 80% on generic boilerplate.
 npm run test:coverage
 ```
 
