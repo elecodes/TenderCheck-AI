@@ -68,7 +68,7 @@ To add a new check for tenders (e.g., "Must be in Madrid"):
 - **Prompting**: Keep System Prompts in the Service or a dedicated config. Use clear instructions ("You are...", "Return JSON...").
 
 
-### 7. Authentication Flow 🔐
+### 6. Authentication Flow 🔐
 - **Register**: Create a new account at `/register`. Upon success, a JWT is issued automatically and the user is redirected to the dashboard.
 - **Login**: Use credentials or **Google Sign-In (Redirect Mode)** to obtain a JWT. The Google flow uses full-page redirection to bypass COOP/COEP browser restrictions.
 - **Session Persistence**: 
@@ -77,7 +77,7 @@ To add a new check for tenders (e.g., "Must be in Madrid"):
   - **Interstitial**: Returning users see a "Welcome Back" screen with a "Switch User" option.
 - **Protected Routes**: `/dashboard` is secured via `ProtectedRoute.tsx`.
 
-### 8. Performance & Caching Strategy 🚀
+### 7. Performance & Caching Strategy 🚀
 *   **Current State**: Real-time fetching (Fetch-on-mount). We prioritize strictly fresh data over instant navigation.
 *   **Future Actions**: If dashboard loading exceeds **800ms**, we will migrate to **React Query** (TanStack Query) with a 5-minute `staleTime`.
 *   **Reference**: See [ADR 016](../docs/adr/016-caching-strategy.md).
@@ -105,13 +105,13 @@ To add a new check for tenders (e.g., "Must be in Madrid"):
 
 <!-- SCRIPTS_END -->
 
-### 11. Security & UX Standards
+### 8. Security & UX Standards
 - **User Enumeration Prevention**: NEVER return specific error messages like "User already exists" or "User not found" to the client. Always use generic messages:
   - Login: "Credenciales inválidas"
   - Register: "No se pudo crear la cuenta"
 - **Localization**: The UI is Spanish-first. Ensure all new features are fully marked up with Spanish copy.
 
-### 12. Deployment (Render)
+### 9. Deployment (Render)
 Pushing to `main` triggers auto-deployment.
 **Note:** Google Auth is disabled in production due to domain verification requirements. Use Email/Password for live testing.
 See `docs/adr/004-google-auth-limitation.md` for details.
