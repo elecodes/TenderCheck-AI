@@ -299,8 +299,8 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 ├── package.json
 ├── playwright-report
 │   ├── data
-│   │   ├── 013085b0681e1c7bf8db21470999754a5032d4ce.png
-│   │   └── 9c4bcf1efeba38b030a2506d6ad00cbf3f77f0f6.webm
+│   │   ├── a9a2bb85f76938a679af8c9075548c7bf610e031.webm
+│   │   └── fc01e06052b26646ce00b063eb6ea4ca6c8aea69.png
 │   └── index.html
 ├── playwright.config.ts
 ├── render.yaml
