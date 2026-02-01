@@ -15,10 +15,7 @@ export const LandingPage: React.FC = () => {
       {/* Hero Section */}
       <main className="pt-48 pb-48 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center text-center relative z-10">
         
-        {/* Logo/Badge */}
-        <div className="mb-12 opacity-80">
-             {/* Optional top badge */}
-        </div>
+        {/* Hero Content */}
 
         <h1 className="text-6xl md:text-8xl font-serif font-medium mb-8 leading-[0.9] max-w-5xl text-[#2D312D] tracking-tight">
           Precisión en cada <br/> propuesta.
