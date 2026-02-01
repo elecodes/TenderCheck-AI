@@ -7,6 +7,7 @@
 | 002 | [ADR 002: Frontend Technology Stack](./002-frontend-stack.md) | accepted |
 | 003 | [ADR 003: AI Integration & Resilience Strategy](./003-ai-integration.md) | accepted |
 | 003 | [ADR 003: Observability & Resilience Strategy](./003-observability.md) | accepted |
+| 004 | [ADR 004: Google Auth Limitation in Production](./004-google-auth-limitation.md) | Unknown |
 | 004 | [ADR 004: Proposal Validation & Comparison Logic](./004-proposal-validation.md) | accepted |
 | 004 | [ADR-004: Validation Rules Engine](./004-rules-engine.md) | Unknown |
 | 005 | [ADR 005: Local-First AI & Authentication Strategy](./005-local-auth-and-ollama.md) | Unknown |

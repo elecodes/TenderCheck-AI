@@ -179,6 +179,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   ├── PLAYBOOK.md
 │   ├── PROJECT_PLAN.md
 │   ├── SRS.md
+│   ├── TFM_DEFENSE_NOTES.md
 │   ├── TFM_PLAN.md
 │   ├── adr
 │   │   ├── 000-template.md
@@ -186,6 +187,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── 002-frontend-stack.md
 │   │   ├── 003-ai-integration.md
 │   │   ├── 003-observability.md
+│   │   ├── 004-google-auth-limitation.md
 │   │   ├── 004-proposal-validation.md
 │   │   ├── 004-rules-engine.md
 │   │   ├── 005-local-auth-and-ollama.md
