@@ -1,13 +1,28 @@
-import type { TenderAnalysis } from '../../types';
+import type { TenderAnalysis, ValidationResult } from '../../types';
 import { FileText, Download, FileJson, FileCode, RotateCcw } from 'lucide-react';
 import { exportToJSON, exportToPDF } from '../../services/export.service';
 
 interface AnalysisResultsProps {
   analysis: TenderAnalysis;
+  validationResults?: ValidationResult[];
   onReset: () => void;
 }
 
-export const AnalysisResults = ({ analysis, onReset }: AnalysisResultsProps) => {
+export const AnalysisResults = ({ analysis, validationResults, onReset }: AnalysisResultsProps) => {
+
+  const handleExport = (type: 'pdf' | 'json') => {
+      // Merge analysis with validation results for export
+      const dataToExport = {
+          ...analysis,
+          results: validationResults || analysis.results || []
+      };
+
+      if (type === 'pdf') {
+          exportToPDF(dataToExport);
+      } else {
+          exportToJSON(dataToExport);
+      }
+  };
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -46,7 +61,7 @@ export const AnalysisResults = ({ analysis, onReset }: AnalysisResultsProps) => 
             {/* Actions (Right) */}
             <div className="flex flex-wrap gap-2 md:gap-3 flex-shrink-0">
               <button 
-                onClick={() => exportToJSON(analysis)}
+                onClick={() => handleExport('json')}
                 className="flex items-center space-x-1.5 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-blue-400 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 rounded-lg transition-all active:scale-95"
                 title="Exportar como JSON"
               >
@@ -55,7 +70,7 @@ export const AnalysisResults = ({ analysis, onReset }: AnalysisResultsProps) => 
               </button>
               
               <button 
-                onClick={() => exportToPDF(analysis)}
+                onClick={() => handleExport('pdf')}
                 className="flex items-center space-x-1.5 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 rounded-lg transition-all active:scale-95"
                 title="Exportar como PDF"
               >

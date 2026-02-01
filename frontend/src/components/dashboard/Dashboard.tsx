@@ -266,6 +266,7 @@ export const Dashboard = () => {
                 <div className="space-y-12 pb-24">
                    <AnalysisResults 
                       analysis={analysis} 
+                      validationResults={comparisonResults || undefined}
                       onReset={handleReset} 
                    />
 
