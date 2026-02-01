@@ -29,8 +29,8 @@ app_port: 3000
 - [x] **Phase 8**: Resilience & Testing (E2E Tests, Global Coverage > 60%, Global Error Handling)
 
 ## 🚀 Key Features
-- **Smart Ingestion**: Parses complex PDF structure from Tender Documents (*Pliegos*).
-- **Cloud AI Analysis**: Extracts requirements using **Gemini 2.5 Flash** (Fast, Free Tier compatible).
+- **Secure Authentication**: Robust Email/Password login (JWT + HttpOnly Cookies) and Google OAuth integration (Development only, see deployment notes).
+- **PDF Analysis**: Extracts text from tender documents to identify key requirements using **Gemini 2.5 Flash** (Fast, Free Tier compatible).
 - **Requirement Extraction**: Identifies technical clauses, distinguishing **OBLIGATORIO** vs **OPCIONAL**.
 - **Real Proposal Validation**: Real-time comparison of vendor proposals with AI reasoning.
 - **Improved AI Summary**: Detailed analysis summaries up to 500 characters (truncated from 100 in previous versions).
@@ -356,6 +356,9 @@ cd backend && npm run dev
 
 # Frontend (Port 5173)
 cd frontend && npm run dev
+
+## ⚠️ Known Limitations (Deployment)
+- **Google Authentication**: The "Sign in with Google" feature is fully implemented and works in the local environment (`localhost`). However, due to strict Cross-Origin-Opener-Policies (COOP) enforced by Google, it requires a verified custom domain to function in the Render production environment. As this project currently runs on a free-tier shared subdomain (`.onrender.com`), the feature is disabled in production to ensure stability. Please use **Email/Password** registration for the live demo.
 
 ### Testing
 We enforce strict quality gates.

@@ -115,7 +115,10 @@ To run the analysis without costs/limits:
   - Register: "No se pudo crear la cuenta"
 - **Localization**: The UI is Spanish-first. Ensure all new features are fully marked up with Spanish copy.
 
-### 12. Deployment Guide 🚀 (Render + Turso)
+### 12. Deployment (Render)
+Pushing to `main` triggers auto-deployment.
+**Note:** Google Auth is disabled in production due to domain verification requirements. Use Email/Password for live testing.
+See `docs/adr/004-google-auth-limitation.md` for details.
 - **Hosting**: Render (Web Service + Static Site).
 - **Database**: Turso (LibSQL).
 - **AI**: Gemini 2.5 Flash (Google AI Studio).
