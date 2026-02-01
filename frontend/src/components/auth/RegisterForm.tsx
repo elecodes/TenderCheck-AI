@@ -201,7 +201,11 @@ export function RegisterForm() {
       
       <div className="text-center text-sm">
         <span className="text-emerald-100/40">¿Ya tienes una cuenta? </span>
-        <Link to="/login" className="font-medium text-amber-500 hover:text-amber-400 transition-colors">
+        <Link 
+          to="/login" 
+          onMouseDown={(e) => e.preventDefault()}
+          className="font-medium text-amber-500 hover:text-amber-400 transition-colors"
+        >
           Iniciar sesión
         </Link>
       </div>
