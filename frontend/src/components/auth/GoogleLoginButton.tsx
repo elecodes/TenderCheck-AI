@@ -57,16 +57,15 @@ const LoginButtonDetails = () => {
 
   const login = useGoogleLogin({
     onSuccess: handleSuccess,
-    onError: (errorResponse) => {
+    onError: (errorResponse: any) => {
       console.error('❌ Google SDK Error:', errorResponse);
       setIsLoading(false);
     },
     // Attempt redirect, but handle success if it happens immediately (Popup fallback)
-    flow: 'implicit', 
-    // @ts-expect-error - ux_mode is valid
+    flow: 'implicit',
     ux_mode: 'redirect',
     redirect_uri: window.location.origin + '/login'
-  });
+  } as any);
 
   return (
     <button
