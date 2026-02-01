@@ -299,20 +299,19 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 ├── package.json
 ├── playwright-report
 │   ├── data
-│   │   ├── a9a2bb85f76938a679af8c9075548c7bf610e031.webm
-│   │   └── fc01e06052b26646ce00b063eb6ea4ca6c8aea69.png
+│   │   ├── afcbe273a993c9918b62e9249edc000b39eb70cf.webm
+│   │   └── fd5f9ca5399fd49a176cfc80a29fb5b33a67d4e8.png
 │   └── index.html
 ├── playwright.config.ts
 ├── render.yaml
 ├── screenshots
 │   ├── 00-landing-page.png
 │   ├── 01-login-page.png
-│   ├── 02-dashboard-empty.png
 │   ├── 03-ready-to-analyze.png
 │   ├── 04-analysis-results.png
+│   ├── 05-validation-results.png
 │   ├── 0B-register-page.png
-│   ├── demo-video-full.webm
-│   └── demo-video.webm
+│   └── demo-video-full.webm
 ├── scripts
 │   └── docs-automator.js
 ├── start.sh
