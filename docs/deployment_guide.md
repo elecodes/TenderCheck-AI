@@ -52,7 +52,26 @@ If you prefer manual setup:
 *   **750 Hours**: The Free Tier gives you 750 hours/month (enough for 24/7 if you only have one service, or plenty for testing).
 *   **Database**: Turso is serverless and does *not* sleep (always fast).
 
-## 6. Troubleshooting
+## 6. Gemini API Pricing & Tiers 🤖💰
+
+This project is compatible with the **Google AI Studio Free Tier**. However, your specific cost will depend on your project's configuration:
+
+### 1. Free Tier (Zero Cost)
+- **Conditions**: Your Google Cloud project **must not** have a billing account attached.
+- **Limits**: Lower rate limits (e.g., 15 requests per minute).
+- **Data Policy**: Google may use your data to improve their models.
+
+### 2. Pay-as-you-go Tier (Paid)
+- **Condition**: If you link a **Credit Card / Billing Account** to your Google Cloud Project, it automatically switches to the paid tier.
+- **Costs**: You are charged per 1M characters (input/output). This is what causes the €0.35 charges seen in reports.
+- **Data Policy**: Your data is **private** and not used for model training.
+
+> [!WARNING]
+> If you see charges in your Google Cloud report (like "Gemini API Output Tokens"), it means your project is in the **Pay-as-you-go** tier. To avoid this, ensure no billing account is linked to your `gen-lang-client-...` project in the [GCP Billing Console](https://console.cloud.google.com/billing).
+
+---
+
+## 7. Troubleshooting
 If the backend fails to start, check the "Logs" tab in Render.
 *   **"Table not found"**: Ensure `SqliteDatabase.initializeSchema()` ran correctly (it should run automatically on startup).
 *   **"404 Models"**: If the AI fails, check that the `GOOGLE_GENAI_API_KEY` is correct and has access to `gemini-2.5-flash`.

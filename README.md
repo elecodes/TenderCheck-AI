@@ -12,7 +12,7 @@
 
 ## 🚀 Key Features
 - **Secure Authentication**: Robust Email/Password login (JWT + HttpOnly Cookies) and Google OAuth integration (Development only, see deployment notes).
-- **PDF Analysis**: Extracts text from tender documents to identify key requirements using **Gemini 2.5 Flash** (Fast, Free Tier compatible).
+- **PDF Analysis**: Extracts text from tender documents to identify key requirements using **Gemini 2.5 Flash** (Fast, [Google AI Studio Free Tier](https://aistudio.google.com/app/plan_information) compatible).
 - **Requirement Extraction**: Identifies technical clauses, distinguishing **OBLIGATORIO** vs **OPCIONAL**.
 - **Real Proposal Validation**: Real-time comparison of vendor proposals with AI reasoning.
 - **Improved AI Summary**: Detailed analysis summaries up to 500 characters (truncated from 100 in previous versions).
@@ -388,6 +388,7 @@ cd frontend && npm run dev
 ## ⚠️ Known Limitations (Deployment)
 - **Startup Delay**: This project is hosted on **Render's Free Tier**. If the application hasn't been used recently, it may take **30-50 seconds** to "wake up" on the first load. We appreciate your patience!
 - **Google Authentication**: The "Sign in with Google" feature is fully implemented and works in the local environment (`localhost`). However, due to strict Cross-Origin-Opener-Policies (COOP) enforced by Google, it requires a verified custom domain to function in the Render production environment. As this project currently runs on a free-tier shared subdomain (`.onrender.com`), the feature is disabled in production to ensure stability. Please use **Email/Password** registration for the live demo.
+- **AI Service Costs**: While this project is designed for the **Google AI Studio Free Tier**, project owners may incur costs if they link a Google Cloud Billing account to their project (switching it to the **Pay-as-you-go** tier). In the Free Tier, Google may use your data to improve their models. Please check your [AI Studio Plan Settings](https://aistudio.google.com/app/plan_information) for details.
 
 ### Testing
 We enforce strict quality gates.
