@@ -411,4 +411,4 @@ npm run test:coverage
 ```
 
 ## 📜 License
-Educational / TFM Use Only.
+MIT

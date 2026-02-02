@@ -1,19 +1,19 @@
 # Quality Assurance & Metrics Policy: TenderCheckAI
 
-## [cite_start]1. Strategic Coverage: The 100/80/0 System [cite: 1729]
-[cite_start]Instead of chasing a blind percentage, categorize code by business risk to focus testing resources where they matter most[cite: 1730].
+## [cite_start]1. Strategic "Honest Coverage": The 100/60/0 System [cite: 1729]
+[cite_start]Instead of chasing a blind percentage, categorize code by business risk to focus testing resources where they matter most. We adopt the **"Honest Coverage"** philosophy: prioritize real logic over boilerplate inflation[cite: 1730].
 
 - [cite_start]**CORE (100% Coverage Mandatory)**: [cite: 1731]
-    - [cite_start]**Criteria**: Code where failure causes direct business loss, security breaches, or critical data corruption[cite: 1733].
-    - [cite_start]**Examples**: Requirement validation logic, data persistence utils, and security handlers[cite: 1734].
-    - [cite_start]**Action**: Configure `vitest.config.ts` to strictly require 100% in statements, branches, functions, and lines for these files[cite: 1735, 1736].
-- [cite_start]**IMPORTANT (80% Coverage Required)**: [cite: 1736]
-    - [cite_start]**Criteria**: User-facing functionalities where failure causes frustration but not immediate business failure[cite: 1739].
-    - [cite_start]**Examples**: UI components, dashboards, and input forms[cite: 1740, 1741].
-    - [cite_start]**Action**: Focus on primary user flows and omit rare edge cases[cite: 1742].
-- [cite_start]**INFRASTRUCTURE (0% Strategic Coverage)**: [cite: 1743]
-    - [cite_start]**Criteria**: Static code or code self-validated by TypeScript[cite: 1745].
-    - [cite_start]**Examples**: Interfaces, constants, and type configurations (e.g., `types/interfaces.ts`)[cite: 1746].
+    - [cite_start]**Criteria**: The "Hard Base". Zero tolerance for logic errors[cite: 1733].
+    - [cite_start]**Examples**: `src/domain` logic, business rules, and AI evaluators[cite: 1734].
+    - [cite_start]**Action**: Vitest must enforce 100% statements/branches/lines[cite: 1735, 1736].
+- [cite_start]**GLOBAL (Target 60% Coverage)**: [cite: 1736]
+    - [cite_start]**Criteria**: Orchestration, UI, and Adapters. Reaching higher percentages here often inflates metrics by testing 3rd party boilerplate[cite: 1739].
+    - [cite_start]**Examples**: Application services, controllers, and database adapters[cite: 1740, 1741].
+    - [cite_start]**Action**: Focus on primary user flows. Accept 60% as a threshold for "Honest" verification[cite: 1742].
+- [cite_start]**INFRASTRUCTURE (0% Coverage)**: [cite: 1743]
+    - [cite_start]**Criteria**: Purely static or type-checking code[cite: 1745].
+    - [cite_start]**Examples**: Constants, mocks, and type files (e.g., `types.ts`)[cite: 1746].
 
 ## [cite_start]2. Actionable Metrics (Decision-Driving) [cite: 1747]
 [cite_start]Avoid vanity metrics; prioritize data that enables specific technical or business decisions[cite: 1748, 1749].
