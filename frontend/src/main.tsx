@@ -16,21 +16,12 @@ Sentry.init({
   replaysOnErrorSampleRate: 1.0, 
 });
 
-import { GoogleOAuthProvider } from '@react-oauth/google';
-
-const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-console.log('🚀 TenderCheck Web App v1.3.4 - Explicit CSP Fixed');
+console.log('🚀 TenderCheck Web App v1.3.5 - Purist Mode (No Library)');
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      {googleClientId ? (
-        <GoogleOAuthProvider clientId={googleClientId}>
-          <App />
-        </GoogleOAuthProvider>
-      ) : (
-        <App />
-      )}
+      <App />
     </BrowserRouter>
   </StrictMode>,
 )

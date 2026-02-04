@@ -15,7 +15,10 @@ const LoginButtonDetails = () => {
   useEffect(() => {
     const handleGoogleRedirect = async () => {
         const hash = window.location.hash;
+        if (hash) console.log('🔍 Auth Hash Detected. Length:', hash.length);
+        
         if (hash && hash.includes('access_token')) {
+            console.log('✅ Found Google Token in Hash. Processing redirect...');
             const params = new URLSearchParams(hash.substring(1)); // remove #
             const token = params.get('access_token');
             
@@ -47,7 +50,7 @@ const LoginButtonDetails = () => {
     // Construct manual OAuth URL to bypass ALL library/popup logic
     const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
     
-    console.log('🚀 NUCLEUS OPTION: Manual Page Redirect to Google...');
+    console.log('🚀 Redirecting to Google Login page:', authUrl.split('?')[0]);
     window.location.href = authUrl;
   };
 
