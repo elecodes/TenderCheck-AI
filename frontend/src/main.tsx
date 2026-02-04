@@ -16,7 +16,7 @@ Sentry.init({
   replaysOnErrorSampleRate: 1.0, 
 });
 
-console.log('🚀 TenderCheck Web App v1.3.7 - Global Logic Fixed');
+console.log('🚀 TenderCheck Web App v1.3.8 - Debugging 500');
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
