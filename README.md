@@ -230,6 +230,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── 018-mobile-first-ui.md
 │   │   ├── 019-resilience-testing-strategy.md
 │   │   ├── 020-auth-ux-enhancements.md
+│   │   ├── 021-manual-native-redirect.md
 │   │   └── README.md
 │   ├── architecture
 │   │   ├── mcp_feasibility_study.md
