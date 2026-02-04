@@ -43,14 +43,14 @@ const LoginButtonDetails = () => {
 
   const handleManualLogin = () => {
     const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    const redirectUri = window.location.origin;
+    const redirectUri = encodeURIComponent(window.location.origin);
     const scope = encodeURIComponent('openid email profile');
     const responseType = 'token'; // Implicit flow
     
     // Construct manual OAuth URL to bypass ALL library/popup logic
     const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
     
-    console.log('🚀 Redirecting to Google Login page:', authUrl.split('?')[0]);
+    console.log('🚀 [v1.3.6] Redirecting to Google Login page...');
     window.location.href = authUrl;
   };
 
