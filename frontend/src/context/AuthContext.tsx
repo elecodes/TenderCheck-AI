@@ -24,7 +24,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
        // 1. Handle Google Redirect Hash (before session check)
        const hash = window.location.hash;
        if (hash && hash.includes('access_token')) {
-           console.log('🔍 GLOBAL: Google Auth Hash Detected');
            const params = new URLSearchParams(hash.substring(1));
            const token = params.get('access_token');
            if (token) {
@@ -34,12 +33,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                    const response = await api.loginWithGoogle(token);
                    localStorage.setItem('user', JSON.stringify(response.user));
                    setUser(response.user);
-                   console.log('🎉 GLOBAL: Google Auth Success');
+                   console.log('✅ [Auth] Google Auth Success');
                    window.history.replaceState(null, '', window.location.pathname);
                    window.location.href = '/dashboard';
-                   return; // Exit and let the redirect handle it
+                   return;
                } catch (error) {
-                   console.error('❌ GLOBAL: Google Auth Error:', error);
+                   console.error('❌ [Auth] Google Auth Error:', error);
                }
            }
        }

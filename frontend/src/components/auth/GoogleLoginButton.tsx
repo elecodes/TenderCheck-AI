@@ -3,7 +3,6 @@ import { Loader2 } from 'lucide-react';
 
 // Separate component to safely use the hook
 const LoginButtonDetails = () => {
-  console.log('🚀 [v1.3.7] Auth: Manual Redirect Mode Active');
   const [isLoading] = useState(false);
 
   const handleManualLogin = () => {
@@ -15,7 +14,7 @@ const LoginButtonDetails = () => {
     // Construct manual OAuth URL to bypass ALL library/popup logic
     const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
     
-    console.log('🚀 [v1.3.6] Redirecting to Google Login page...');
+    console.log('📡 [Auth] Redirecting to Google Login...');
     window.location.href = authUrl;
   };
 

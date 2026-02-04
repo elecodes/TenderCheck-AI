@@ -70,7 +70,8 @@ To add a new check for tenders (e.g., "Must be in Madrid"):
 
 ### 6. Authentication Flow 🔐
 - **Register**: Create a new account at `/register`. Upon success, a JWT is issued automatically and the user is redirected to the dashboard.
-- **Login**: Use credentials or **Google Sign-In (Redirect Mode)** to obtain a JWT. The Google flow uses full-page redirection to bypass COOP/COEP browser restrictions.
+- **Login**: Use credentials or **Google Sign-In (Native Redirect Mode)** to obtain a JWT. The Google flow uses a manual full-page redirection to bypass COOP/COEP browser restrictions on shared domains.
+- **Global Capture**: The `AuthContext` globally monitors for auth tokens in the URL fragment after redirect.
 - **Session Persistence**: 
   - **Mechanic**: `HttpOnly` Cookies (Secure, SameSite).
   - "Remember Me": Sets cookie expiration to 30 days. Unchecked = Session Cookie.
@@ -113,8 +114,8 @@ To add a new check for tenders (e.g., "Must be in Madrid"):
 
 ### 9. Deployment (Render)
 Pushing to `main` triggers auto-deployment.
-**Note:** Google Auth is disabled in production due to domain verification requirements. Use Email/Password for live testing.
-See `docs/adr/004-google-auth-limitation.md` for details.
+**Note:** Google Auth is fully supported via the manual redirect flow.
+See `docs/adr/021-manual-native-redirect.md` for details.
 - **Hosting**: Render (Web Service + Static Site).
 - **Database**: Turso (LibSQL).
 - **AI**: Gemini 2.5 Flash (Google AI Studio).
@@ -140,6 +141,6 @@ See `docs/adr/004-google-auth-limitation.md` for details.
     - **"Table not found"**: Check if `SqliteDatabase.initializeSchema()` ran in the logs.
     - **"404 Model"**: Check `GeminiGenkitService` model string and API Key scope.
     - **CORS Errors**: Verify `ALLOWED_ORIGINS` in Render environment matches your frontend URL (`https://your-app.onrender.com`).
-    - **Google Sign-In Hidden**: Ensure `VITE_ENABLE_GOOGLE_AUTH=true` is set in Vercel/Render frontend environment.
+    - **Google Sign-In Issues**: Ensure `VITE_GOOGLE_CLIENT_ID` is correctly set in the Render frontend environment.
 
 

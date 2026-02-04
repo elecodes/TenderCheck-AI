@@ -117,7 +117,7 @@ export class AuthService {
     let user = await this.userRepository.findByEmail(normalizedEmail);
 
     if (!user) {
-      console.log('📝 [AuthService] Creating new user for:', normalizedEmail);
+      console.log('👤 [AuthService] Creating new Google user:', normalizedEmail);
       user = {
         id: uuidv4(),
         email: normalizedEmail,
@@ -128,13 +128,10 @@ export class AuthService {
       };
       try {
         await this.userRepository.save(user);
-        console.log('✅ [AuthService] New user saved successfully');
       } catch (dbError: any) {
-        console.error('💥 [AuthService] Database Save Error:', dbError);
+        console.error('💥 [AuthService] User Save Error:', dbError);
         throw new AppError(`Failed to save user: ${dbError.message}`, 500);
       }
-    } else {
-      console.log('👤 [AuthService] Existing user found:', normalizedEmail);
     }
 
     // 3. Issue Token
