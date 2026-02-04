@@ -124,7 +124,7 @@ export const Dashboard = () => {
 
   return (
     <SentryErrorBoundary>
-      <div className="flex flex-col h-screen bg-brand-dark bg-gradient-to-br from-[#1a1c1a] to-[#0a0a0a] text-gray-100 font-sans overflow-hidden">
+      <div className="flex flex-col h-screen bg-brand-dark bg-gradient-to-br from-[#1a1c1a] to-[#121412] text-gray-100 font-sans overflow-hidden">
         
         {/* Navbar */}
         <header className="border-b border-gray-800 bg-brand-dark/50 backdrop-blur-md z-10">
@@ -189,7 +189,7 @@ export const Dashboard = () => {
           </aside>
 
           {/* Main Dashboard Area */}
-          <div className="flex-1 overflow-y-auto bg-[#0a0a0a]">
+          <div className="flex-1 overflow-y-auto bg-[#121412]">
             <main className="max-w-5xl mx-auto px-8 py-12">
               {error && (
                 <div className="mb-8 p-4 bg-red-900/10 border border-red-500/20 text-red-400 rounded-2xl flex items-center animate-in slide-in-from-top-2 backdrop-blur-md">
@@ -211,7 +211,7 @@ export const Dashboard = () => {
                      </div>
 
                     {/* Upload Section */}
-                    <div className="w-full max-w-4xl bg-white/[0.03] backdrop-blur-3xl rounded-[32px] border border-white/5 p-10 shadow-2xl transition-soft hover:border-white/10">
+                    <div className="w-full max-w-4xl bg-white/5 backdrop-blur-3xl rounded-[32px] border border-white/10 p-10 shadow-2xl transition-soft hover:border-white/20">
                        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                           <div className="space-y-4">
                              <div className="text-center">

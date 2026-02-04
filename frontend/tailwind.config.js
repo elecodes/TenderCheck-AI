@@ -14,7 +14,7 @@ export default {
       colors: {
         brand: {
           gold: '#D4AF37', // Metallic Gold
-          dark: '#111111', // Deep Charcoal / Black
+          dark: '#1a1c1a', // Soft Charcoal
           green: '#2E8B57', // Sea Green (muted)
           cream: '#F5F5DC', // Beige/Cream text
         },

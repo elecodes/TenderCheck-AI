@@ -146,7 +146,7 @@ export const AnalysisResults = ({ analysis, validationResults, onReset }: Analys
                     </div>
                 ))
             ) : (
-                <div className="text-center p-16 bg-[#0a0a0a]/40 rounded-3xl border border-dashed border-gray-800 text-gray-700">
+                <div className="text-center p-16 bg-[#121412]/40 rounded-3xl border border-dashed border-gray-800 text-gray-700">
                     <div className="w-16 h-16 bg-gray-800/30 rounded-full flex items-center justify-center mx-auto mb-4">
                         <FileText className="w-8 h-8 opacity-20" />
                     </div>

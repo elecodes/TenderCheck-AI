@@ -19,7 +19,7 @@ export const TenderUpload = ({ onFileSelect, selectedFile, disabled, className, 
       if (dragActive) return "border-emerald-500 bg-emerald-500/10";
       if (selectedFile) return "border-emerald-500/30 bg-emerald-500/[0.02] shadow-2xl shadow-emerald-500/5";
       
-      return "border-white/[0.05] hover:border-emerald-500/30 bg-white/[0.01] hover:bg-white/[0.03]";
+      return "border-white/10 hover:border-emerald-500/30 bg-white/5 hover:bg-white/10 shadow-xl transition-all";
   };
 
   const IconColor = selectedFile 
