@@ -86,9 +86,9 @@ export function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-md p-8 space-y-8 bg-purple-900/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-300">
+    <div className="w-full max-w-md p-8 space-y-8 bg-zinc-900/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-300">
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-serif text-white tracking-tight text-fuchsia-400">PURPLE MODE - v1.3.0</h1>
+        <h1 className="text-3xl font-serif text-white tracking-tight">Bienvenido de nuevo</h1>
         <p className="text-emerald-100/60 font-light">TenderCheck AI Enterprise</p>
       </div>
 
