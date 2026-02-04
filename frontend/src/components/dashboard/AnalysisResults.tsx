@@ -1,5 +1,5 @@
 import type { TenderAnalysis, ValidationResult } from '../../types';
-import { FileText, Download, FileJson, FileCode, RotateCcw } from 'lucide-react';
+import { FileText, Download, FileJson, RotateCcw } from 'lucide-react';
 import { exportToJSON, exportToPDF } from '../../services/export.service';
 
 interface AnalysisResultsProps {
@@ -25,64 +25,64 @@ export const AnalysisResults = ({ analysis, validationResults, onReset }: Analys
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <div className="w-full max-w-4xl mx-auto space-y-10 animate-fade-up">
       
       {/* Header Card */}
-      <div className="bg-[#1e242c]/60 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-800/50 p-8">
+      <div className="bg-white/[0.03] backdrop-blur-3xl rounded-[32px] shadow-2xl border border-white/10 p-10 transition-soft hover-lift hover:border-white/20">
         
         {/* Row 1: Title (Full Width) */}
-        <div className="flex items-start space-x-4 mb-6">
-            <div className="p-2 bg-emerald-500/10 rounded-lg mt-1 flex-shrink-0">
-              <FileText className="w-6 h-6 text-emerald-500" />
+        <div className="flex items-start space-x-6 mb-8">
+            <div className="p-3 bg-emerald-500/10 rounded-2xl flex-shrink-0 border border-emerald-500/20">
+              <FileText className="w-8 h-8 text-emerald-500" />
             </div>
-            <h2 className={`${analysis.tenderTitle.length > 80 ? 'text-lg md:text-xl' : 'text-2xl md:text-3xl'} font-serif font-medium text-white leading-relaxed`}>
+            <h2 className={`${analysis.tenderTitle.length > 80 ? 'text-xl md:text-2xl' : 'text-3xl md:text-4xl'} font-serif font-medium text-white leading-[1.2]`}>
               {analysis.tenderTitle}
             </h2>
         </div>
 
         {/* Row 2: Metadata & Actions */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6 border-t border-gray-800/50 pt-6">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 border-t border-white/5 pt-8">
             
             {/* Metadata (Left) */}
-            <div className="flex flex-wrap items-center gap-3 text-xs font-medium uppercase tracking-widest text-gray-500">
-                <span className="flex items-center bg-gray-800/50 px-3 py-1 rounded-full border border-gray-700/50">
+            <div className="flex flex-wrap items-center gap-4 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">
+                <span className="flex items-center bg-white/[0.02] px-4 py-2 rounded-full border border-white/5">
                     ID: {analysis.id.slice(0, 8)}
                 </span>
-                <span className="flex items-center bg-gray-800/50 px-3 py-1 rounded-full border border-gray-700/50">
+                <span className="flex items-center bg-white/[0.02] px-4 py-2 rounded-full border border-white/5">
                     {new Date(analysis.createdAt).toLocaleDateString()}
                 </span>
-                <span className={`px-3 py-1 rounded-full border font-bold ${
-                    analysis.status === 'COMPLETED' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500' : 'bg-amber-500/10 border-amber-500/20 text-amber-500'
+                <span className={`px-4 py-2 rounded-full border font-black ${
+                    analysis.status === 'COMPLETED' ? 'bg-emerald-500/10 border-emerald-500/10 text-emerald-500' : 'bg-amber-500/10 border-amber-500/10 text-amber-500'
                 }`}>
                     {analysis.status === 'COMPLETED' ? 'COMPLETADO' : analysis.status}
                 </span>
             </div>
 
             {/* Actions (Right) */}
-            <div className="flex flex-wrap gap-2 md:gap-3 flex-shrink-0">
+            <div className="flex flex-wrap gap-3 flex-shrink-0">
               <button 
                 onClick={() => handleExport('json')}
-                className="flex items-center space-x-1.5 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-blue-400 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 rounded-lg transition-all active:scale-95"
+                className="flex items-center space-x-2 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest text-blue-400 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/10 rounded-xl transition-soft hover-lift"
                 title="Exportar como JSON"
               >
-                <FileJson className="w-3.5 h-3.5" />
+                <FileJson className="w-4 h-4" />
                 <span>JSON</span>
               </button>
               
               <button 
                 onClick={() => handleExport('pdf')}
-                className="flex items-center space-x-1.5 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 rounded-lg transition-all active:scale-95"
+                className="flex items-center space-x-2 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/10 rounded-xl transition-soft hover-lift"
                 title="Exportar como PDF"
               >
-                <Download className="w-3.5 h-3.5" />
+                <Download className="w-4 h-4" />
                 <span>PDF</span>
               </button>
 
               <button 
                 onClick={onReset}
-                className="flex items-center space-x-1.5 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-gray-400 hover:text-white bg-gray-800/50 hover:bg-gray-700 border border-gray-700/50 rounded-lg transition-all active:scale-95"
+                className="flex items-center space-x-2 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white bg-white/5 hover:bg-white/10 border border-white/5 rounded-xl transition-soft hover-lift"
               >
-                <RotateCcw className="w-3.5 h-3.5" />
+                <RotateCcw className="w-4 h-4" />
                 <span>Nuevo</span>
               </button>
             </div>
@@ -91,30 +91,30 @@ export const AnalysisResults = ({ analysis, validationResults, onReset }: Analys
 
       {/* Results Section */}
       <div className="space-y-6">
-        <div className="flex items-center justify-between px-2">
-            <h3 className="text-xl font-bold text-white flex items-center">
-               <FileCode className="w-5 h-5 mr-3 text-emerald-500" />
-               Requisitos Extraídos del Pliego
+        <div className="flex items-center justify-between px-4">
+            <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white flex items-center">
+               <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-3 animate-pulse" />
+               Requisitos Detectados
             </h3>
-            <span className="text-sm text-gray-500 font-medium font-mono uppercase tracking-tighter">
-                {analysis.requirements?.length || 0} items encontrados
+            <span className="text-[10px] text-gray-600 font-black uppercase tracking-widest">
+                {analysis.requirements?.length || 0} items
             </span>
         </div>
         
-        <div className="grid gap-4">
+        <div className="grid gap-6">
             {analysis.requirements && analysis.requirements.length > 0 ? (
                 analysis.requirements.map((req, idx) => (
-                    <div key={idx} className={`p-6 rounded-2xl border transition-all bg-[#252c34]/40 hover:bg-[#2a323b]/50 backdrop-blur-sm ${
+                    <div key={idx} className={`p-8 rounded-[28px] border bg-white/[0.02] backdrop-blur-md transition-soft hover-lift ${
                         req.type === 'MANDATORY' 
-                            ? 'border-emerald-500/10 hover:border-emerald-500/30' 
-                            : 'border-purple-500/10 hover:border-purple-500/30'
+                            ? 'border-white/5 hover:border-emerald-500/20' 
+                            : 'border-white/5 hover:border-purple-500/20'
                     }`}>
-                        <div className="flex justify-between items-start mb-4">
-                            <div className="flex items-center space-x-3">
-                                <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-inner ${
+                        <div className="flex justify-between items-start mb-6">
+                            <div className="flex items-center space-x-4">
+                                <span className={`text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-lg border ${
                                     req.type === 'MANDATORY' 
-                                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/20' 
-                                        : 'bg-purple-500/20 text-purple-400 border border-purple-500/20'
+                                        ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' 
+                                        : 'bg-purple-500/10 text-purple-400 border-purple-500/20'
                                 }`}>
                                     {(() => {
                                         switch(req.type) {
@@ -129,18 +129,17 @@ export const AnalysisResults = ({ analysis, validationResults, onReset }: Analys
                                     })()}
                                 </span>
                                 {req.source.pageNumber > 0 && (
-                                    <span className="text-[10px] uppercase tracking-widest font-bold text-gray-600">
-                                        Pag. {req.source.pageNumber}
+                                    <span className="text-[9px] uppercase tracking-[0.2em] font-black text-gray-700">
+                                        Pág. {req.source.pageNumber}
                                     </span>
                                 )}
                             </div>
-                            <div className="h-1 w-12 bg-gray-800/50 rounded-full" />
                         </div>
-                        <p className="text-gray-100 text-xl font-serif leading-relaxed mb-4">{req.text}</p>
+                        <p className="text-gray-200 text-lg font-sans font-medium leading-relaxed mb-6">{req.text}</p>
                         <div className="flex flex-wrap gap-2">
                             {req.keywords.map((kw, kIdx) => (
-                                <span key={kIdx} className="text-[10px] font-bold bg-brand-dark/50 px-3 py-1 rounded-lg border border-gray-800 text-gray-500 hover:text-emerald-500 hover:border-emerald-500/30 transition-colors uppercase tracking-tight">
-                                    #{kw}
+                                <span key={kIdx} className="text-[9px] font-black bg-white/[0.02] px-3 py-1.5 rounded-lg border border-white/5 text-gray-600 hover:text-emerald-500 hover:border-emerald-500/20 transition-soft uppercase tracking-widest cursor-default">
+                                    {kw}
                                 </span>
                             ))}
                         </div>

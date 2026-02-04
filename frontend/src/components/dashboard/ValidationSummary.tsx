@@ -43,62 +43,63 @@ export const ValidationSummary = ({ analysis, results }: ValidationSummaryProps)
   const score = totalReqs > 0 ? Math.round((totalMet / totalReqs) * 100) : 0;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-in fade-in slide-in-from-top-4 duration-700">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-up">
       {/* Overall Score */}
-      <div className="bg-brand-dark/40 backdrop-blur-xl rounded-2xl p-6 border border-emerald-500/20 flex items-center space-x-6">
-        <div className="relative h-20 w-20 flex items-center justify-center">
-          <svg className="h-20 w-20 transform -rotate-90">
+      <div className="bg-white/[0.03] backdrop-blur-3xl rounded-[32px] p-8 border border-white/10 flex items-center space-x-8 transition-soft hover-lift hover:border-emerald-500/20 shadow-2xl">
+        <div className="relative h-24 w-24 flex items-center justify-center">
+          <svg className="h-24 w-24 transform -rotate-90">
             <circle
-              cx="40"
-              cy="40"
-              r="34"
+              cx="48"
+              cy="48"
+              r="40"
               fill="transparent"
-              stroke="#1f2937"
-              strokeWidth="8"
+              stroke="white"
+              strokeOpacity="0.05"
+              strokeWidth="10"
             />
             <circle
-              cx="40"
-              cy="40"
-              r="34"
+              cx="48"
+              cy="48"
+              r="40"
               fill="transparent"
               stroke="#10b981"
-              strokeWidth="8"
-              strokeDasharray={213.6}
-              strokeDashoffset={213.6 - (213.6 * score) / 100}
+              strokeWidth="10"
+              strokeDasharray={251.2}
+              strokeDashoffset={251.2 - (251.2 * score) / 100}
               strokeLinecap="round"
-              className="transition-all duration-1000 ease-out"
+              className="transition-all duration-1000 ease-out shadow-[0_0_20px_rgba(16,185,129,0.3)]"
             />
           </svg>
-          <span className="absolute text-xl font-black text-white">{score}%</span>
+          <span className="absolute text-2xl font-black text-white">{score}%</span>
         </div>
         <div>
-          <h4 className="text-gray-400 text-xs font-black uppercase tracking-widest mb-1">Puntuación Total</h4>
-          <p className="text-white font-bold">Cumplimiento General</p>
+          <h4 className="text-gray-500 text-[10px] font-black uppercase tracking-[0.2em] mb-1">Puntuación</h4>
+          <p className="text-white font-bold text-xl">Cumplimiento</p>
         </div>
       </div>
 
       {/* Mandatory Stats */}
-      <div className="bg-brand-dark/40 backdrop-blur-xl rounded-2xl p-6 border border-emerald-500/10 flex items-center space-x-4">
-        <div className="p-3 bg-emerald-500/10 rounded-xl">
-          <Target className="w-6 h-6 text-emerald-500" />
+      <div className="bg-white/[0.03] backdrop-blur-3xl rounded-[32px] p-8 border border-white/5 flex items-center space-x-6 transition-soft hover-lift hover:border-emerald-500/10">
+        <div className="p-4 bg-emerald-500/10 rounded-2xl border border-emerald-500/20">
+          <Target className="w-8 h-8 text-emerald-500" />
         </div>
         <div>
-          <h4 className="text-gray-400 text-xs font-black uppercase tracking-widest mb-1">Obligatorios</h4>
-          <p className="text-2xl font-black text-white">
-            {stats.mandatory.met} <span className="text-gray-600 text-sm font-bold">/ {stats.mandatory.total}</span>
+          <h4 className="text-gray-500 text-[10px] font-black uppercase tracking-[0.2em] mb-1">Obligatorios</h4>
+          <p className="text-3xl font-black text-white">
+            {stats.mandatory.met} <span className="text-gray-600 text-sm font-bold uppercase tracking-widest">/ {stats.mandatory.total}</span>
           </p>
         </div>
       </div>
 
       {/* Optional Stats */}
-      <div className="bg-brand-dark/40 backdrop-blur-xl rounded-2xl p-6 border border-purple-500/10 flex items-center space-x-4">
-        <div className="p-3 bg-purple-500/10 rounded-xl">
-          <Award className="w-6 h-6 text-purple-500" />
+      <div className="bg-white/[0.03] backdrop-blur-3xl rounded-[32px] p-8 border border-white/5 flex items-center space-x-6 transition-soft hover-lift hover:border-purple-500/10">
+        <div className="p-4 bg-purple-500/10 rounded-2xl border border-purple-500/20">
+          <Award className="w-8 h-8 text-purple-500" />
         </div>
         <div>
-          <h4 className="text-gray-400 text-xs font-black uppercase tracking-widest mb-1">Opcionales</h4>
-          <p className="text-2xl font-black text-white">
-            {stats.optional.met} <span className="text-gray-600 text-sm font-bold">/ {stats.optional.total}</span>
+          <h4 className="text-gray-500 text-[10px] font-black uppercase tracking-[0.2em] mb-1">Opcionales</h4>
+          <p className="text-3xl font-black text-white">
+            {stats.optional.met} <span className="text-gray-600 text-sm font-bold uppercase tracking-widest">/ {stats.optional.total}</span>
           </p>
         </div>
       </div>

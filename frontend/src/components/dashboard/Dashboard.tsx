@@ -199,23 +199,23 @@ export const Dashboard = () => {
               )}
 
               {!analysis ? (
-                 <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-12 animate-in fade-in duration-700">
+                 <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-12 animate-fade-up">
                     {/* Hero Section */}
                      <div className="text-center max-w-2xl space-y-3">
-                        <h1 className="text-3xl font-serif font-medium tracking-tight text-gray-900 dark:text-white leading-tight">
+                        <h1 className="text-4xl md:text-5xl font-serif font-medium tracking-tight text-white leading-tight">
                           Análisis Inteligente de Licitaciones
                         </h1>
-                        <p className="text-lg text-gray-500 dark:text-gray-400 leading-relaxed">
+                        <p className="text-lg text-gray-400 leading-relaxed font-sans font-light">
                           Sube el documento del pliego para extraer requisitos y valida tu oferta automáticamente en segundos.
                         </p>
                      </div>
 
                     {/* Upload Section */}
-                    <div className="w-full max-w-4xl bg-white dark:bg-gray-900/50 rounded-2xl border border-gray-200 dark:border-gray-800 p-8 shadow-2xl shadow-gray-200/50 dark:shadow-black/50 backdrop-blur-xl">
-                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="w-full max-w-4xl bg-white/5 backdrop-blur-3xl rounded-[32px] border border-white/10 p-10 shadow-2xl transition-soft hover:border-white/20">
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                           <div className="space-y-4">
                              <div className="text-center">
-                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Documento del Pliego</h3>
+                                <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-gray-500">Documento del Pliego</h3>
                              </div>
                              <TenderUpload 
                                 onFileSelect={handleFileSelect} 
@@ -228,7 +228,7 @@ export const Dashboard = () => {
 
                           <div className="space-y-4">
                              <div className="text-center">
-                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Documento de la Oferta</h3>
+                                <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-gray-500">Documento de la Oferta</h3>
                              </div>
                              <TenderUpload 
                                 onFileSelect={handleProposalSelect} 
@@ -240,22 +240,22 @@ export const Dashboard = () => {
                           </div>
                        </div>
 
-                       <div className="mt-10 flex justify-center">
+                       <div className="mt-12 flex justify-center">
                           <button
                             onClick={handleStartAnalysis}
                             disabled={!selectedFile || isAnalyzing || isComparing}
                             className={`
-                              group relative px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 flex items-center space-x-2
+                              group relative px-10 py-5 rounded-full font-bold text-sm uppercase tracking-widest transition-soft flex items-center space-x-3
                               ${!selectedFile || isAnalyzing || isComparing
-                                 ? 'bg-gray-800 text-gray-600 cursor-not-allowed' 
-                                 : 'bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white shadow-lg hover:shadow-emerald-500/25 active:scale-95'
+                                 ? 'bg-white/5 text-gray-600 cursor-not-allowed border border-white/5' 
+                                 : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-xl shadow-emerald-600/20 hover-lift active:scale-95'
                               }
                             `}
                           >
                             <span>
-                               {isAnalyzing ? 'Analizando Pliego...' : 
-                                isComparing ? 'Validando Oferta...' : 
-                                selectedProposal ? 'Ejecutar Análisis Completo' : 'Analizar Pliego'}
+                               {isAnalyzing ? 'Analizando...' : 
+                                isComparing ? 'Validando...' : 
+                                selectedProposal ? 'Ejecución Completa' : 'Iniciar Análisis'}
                             </span>
                             {(!isAnalyzing && !isComparing) && <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />}
                           </button>

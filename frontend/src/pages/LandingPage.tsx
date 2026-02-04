@@ -9,11 +9,11 @@ export const LandingPage: React.FC = () => {
       <Navbar />
 
       {/* Decorative Orbs (Mixed) */}
-      <div className="absolute top-[-20%] left-[-10%] w-[1000px] h-[1000px] bg-white/40 rounded-full blur-[150px] pointer-events-none mix-blend-overlay" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[800px] h-[800px] bg-[#D4AF37]/15 rounded-full blur-[120px] pointer-events-none mix-blend-overlay" />
+      <div className="absolute top-[-20%] left-[-10%] w-[1000px] h-[1000px] bg-white/40 rounded-full blur-[150px] pointer-events-none mix-blend-overlay animate-float" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[800px] h-[800px] bg-[#D4AF37]/15 rounded-full blur-[120px] pointer-events-none mix-blend-overlay animate-float" style={{ animationDelay: '-3s' }} />
 
       {/* Hero Section */}
-      <main className="pt-48 pb-48 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center text-center relative z-10">
+      <main className="pt-48 pb-48 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center text-center relative z-10 animate-fade-up">
         
         {/* Hero Content */}
 
@@ -21,20 +21,20 @@ export const LandingPage: React.FC = () => {
           Precisión en cada <br/> propuesta.
         </h1>
         
-        <p className="text-xl md:text-2xl text-[#4a4f4a] max-w-2xl mb-16 font-light leading-relaxed">
+        <p className="text-xl md:text-2xl text-[#4a4f4a] max-w-2xl mb-16 font-sans font-light leading-relaxed">
           Análisis de alta fidelidad para documentos complejos de contratación pública. 
           Sube tus <span className="text-[#C5A028] font-serif italic">Pliegos</span> para cumplimiento instantáneo.
         </p>
 
         {/* Central Glass Card */}
-        <div className="w-full max-w-md relative group">
+        <div className="w-full max-w-md relative group hover-lift">
             {/* Card Background */}
-            <div className="absolute -inset-1 bg-gradient-to-b from-[#C5A028]/20 to-emerald-500/5 rounded-[35px] blur-sm opacity-50 group-hover:opacity-75 transition duration-500"></div>
+            <div className="absolute -inset-1 bg-gradient-to-b from-[#C5A028]/20 to-emerald-500/5 rounded-[35px] blur-sm opacity-50 group-hover:opacity-75 transition-soft duration-500"></div>
             
-            <div className="relative rounded-[32px] bg-white/20 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] p-12 flex flex-col items-center gap-8 overflow-hidden">
+            <div className="relative rounded-[32px] bg-white/30 backdrop-blur-3xl border border-white/50 shadow-[0_20px_50px_rgba(31,38,135,0.1)] p-12 flex flex-col items-center gap-8 overflow-hidden transition-soft">
                 
                 {/* Icon Box */}
-                <div className="w-20 h-20 rounded-2xl bg-[#effaf3] shadow-inner flex items-center justify-center mb-2 border border-[#C5A028]/20">
+                <div className="w-20 h-20 rounded-2xl bg-white/50 shadow-inner flex items-center justify-center mb-2 border border-[#C5A028]/20 transition-soft group-hover:scale-110">
                     <UploadCloud className="w-8 h-8 text-[#C5A028]" />
                 </div>
                 
@@ -45,7 +45,7 @@ export const LandingPage: React.FC = () => {
                     </p>
                 </div>
 
-                <Link to="/register" className="w-full py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold tracking-widest uppercase shadow-xl shadow-emerald-600/40 transition-all active:scale-[0.98] flex items-center justify-center mt-4">
+                <Link to="/register" className="w-full py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold tracking-widest uppercase shadow-xl shadow-emerald-600/40 transition-soft active:scale-[0.98] flex items-center justify-center mt-4 group-hover:shadow-2xl group-hover:shadow-emerald-600/50">
                    Subir Licitación
                 </Link>
             </div>
@@ -53,7 +53,7 @@ export const LandingPage: React.FC = () => {
       </main>
 
         {/* Feature Strip (Bottom) */}
-        <section className="relative md:absolute bottom-0 w-full border-t border-white/10 bg-gradient-to-t from-black/5 to-transparent backdrop-blur-[2px] py-8 mt-12 md:mt-0">
+        <section className="relative md:absolute bottom-0 w-full border-t border-white/10 bg-gradient-to-t from-black/5 to-transparent backdrop-blur-[2px] py-8 mt-12 md:mt-0 animate-fade-up" style={{ animationDelay: '0.4s' }}>
              <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-center items-center gap-12 md:gap-24 opacity-80">
                 <div className="flex items-center gap-4 group">
                     <div className="p-3 rounded-full bg-white/40 group-hover:bg-white/60 transition-colors">

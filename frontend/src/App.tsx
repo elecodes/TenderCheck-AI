@@ -20,17 +20,17 @@ function App() {
             </ProtectedRoute>
           } />
           <Route path="/login" element={
-            <div className="min-h-screen flex items-center justify-center p-4 bg-brand-dark bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-brand-dark to-brand-dark">
+            <div className="min-h-screen flex items-center justify-center p-4 bg-brand-dark bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-brand-dark to-brand-dark animate-fade-up">
               <LoginForm />
             </div>
           } />
           <Route path="/register" element={
-            <div className="min-h-screen flex items-center justify-center p-4 bg-brand-dark bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-brand-dark to-brand-dark">
+            <div className="min-h-screen flex items-center justify-center p-4 bg-brand-dark bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-brand-dark to-brand-dark animate-fade-up">
               <RegisterForm />
             </div>
           } />
           <Route path="/forgot-password" element={
-            <div className="min-h-screen flex items-center justify-center p-4 bg-brand-dark bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-brand-dark to-brand-dark">
+            <div className="min-h-screen flex items-center justify-center p-4 bg-brand-dark bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-brand-dark to-brand-dark animate-fade-up">
               <ForgotPasswordForm />
             </div>
           } />

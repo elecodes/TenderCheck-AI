@@ -46,13 +46,13 @@ export const ComparisonResults = ({ results, analysis }: ComparisonResultsProps)
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-6 duration-700">
+    <div className="space-y-8 animate-fade-up">
       <div className="flex items-center justify-between px-2">
-          <h3 className="text-2xl font-bold text-white flex items-center tracking-tight">
+          <h3 className="text-2xl font-serif font-medium text-white flex items-center tracking-tight">
              <Scale className="w-6 h-6 mr-3 text-blue-500" />
              Resultado de Validación de Oferta
           </h3>
-          <span className="text-xs font-bold text-gray-500 uppercase tracking-widest bg-gray-800/50 px-3 py-1 rounded-full border border-gray-700/50">
+          <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest bg-white/5 px-3 py-1 rounded-full border border-white/5">
               Analizado por AI
           </span>
       </div>
@@ -65,15 +65,15 @@ export const ComparisonResults = ({ results, analysis }: ComparisonResultsProps)
           return (
             <div 
               key={idx} 
-              className={`p-6 rounded-2xl border transition-all backdrop-blur-md group hover:translate-x-1 ${getStatusColor(result.status)}`}
+              className={`p-8 rounded-[28px] border transition-soft hover-lift backdrop-blur-md group ${getStatusColor(result.status)}`}
             >
               <div className="flex items-start justify-between gap-6">
                 <div className="flex-1 space-y-4">
                   <div className="flex items-center space-x-3">
-                    <div className={`p-1.5 rounded-lg shadow-inner ${getStatusColor(result.status)} bg-opacity-20`}>
+                    <div className={`p-2 rounded-xl shadow-inner ${getStatusColor(result.status)} bg-opacity-20 transition-soft group-hover:scale-110`}>
                       {getStatusIcon(result.status)}
                     </div>
-                    <span className={`font-bold text-lg tracking-tight ${getStatusTextColor(result.status)}`}>
+                    <span className={`font-serif text-lg leading-snug ${getStatusTextColor(result.status)}`}>
                       {displayTitle}
                     </span>
                   </div>

@@ -21,10 +21,10 @@ export const Navbar: React.FC = () => {
           
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-6">
-               <Link to="/login" className="text-sm font-bold text-[#C5A028] hover:text-[#b08d22] transition-colors uppercase tracking-widest border border-[#C5A028]/20 px-4 py-2 rounded-full hover:bg-[#C5A028]/10 shadow-md shadow-[#C5A028]/10">
+               <Link to="/login" className="text-[10px] font-black text-[#C5A028] hover:text-[#b08d22] transition-soft uppercase tracking-[0.2em] border border-[#C5A028]/20 px-6 py-2.5 rounded-full hover:bg-[#C5A028]/10 hover-lift">
                   Iniciar Sesión
                </Link>
-               <Link to="/register" className="px-6 py-2.5 rounded-full bg-emerald-600 text-white text-xs font-bold uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-600/40 active:scale-95">
+               <Link to="/register" className="px-8 py-3 rounded-full bg-emerald-600 text-white text-[10px] font-black uppercase tracking-[0.2em] hover:bg-emerald-700 transition-soft shadow-xl shadow-emerald-600/40 hover-lift active:scale-95">
                   Comenzar
                </Link>
             </div>
