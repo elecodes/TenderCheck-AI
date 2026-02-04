@@ -25,24 +25,70 @@ import cookieParser from "cookie-parser";
 const app = express();
 app.set("trust proxy", 1); // Trust first proxy
 
-// 2. Security Middleware (Relaxed for Hugging Face Spaces Iframe)
+// 2. Security Middleware (Redundant Header Control)
 app.use(cookieParser());
+
+app.use((_req, res, next) => {
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+  res.setHeader("Cross-Origin-Embedder-Policy", "unsafe-none");
+  res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+  res.setHeader("Referrer-Policy", "no-referrer-when-downgrade");
+  next();
+});
+
 app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"], // Needed for Vite/React
-        connectSrc: ["'self'"],
-        imgSrc: ["'self'", "data:", "blob:"],
-        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "'unsafe-eval'",
+          "https://accounts.google.com",
+          "https://apis.google.com",
+          "https://content-compute.google.com",
+          "https://ssl.gstatic.com",
+          "https://www.gstatic.com",
+        ], // Needed for Vite/React and Google Auth
+        connectSrc: [
+          "'self'",
+          "https://accounts.google.com",
+          "https://www.googleapis.com",
+          "https://identitytoolkit.googleapis.com",
+          "https://*.googleapis.com",
+          "https://tendercheck-backend.onrender.com",
+        ],
+        imgSrc: [
+          "'self'",
+          "data:",
+          "blob:",
+          "https://lh3.googleusercontent.com",
+          "https://*.googleusercontent.com",
+          "https://*.google.com",
+        ],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://fonts.googleapis.com",
+          "https://www.gstatic.com",
+          "https://*.googleapis.com",
+        ],
         fontSrc: ["'self'", "data:", "https://fonts.gstatic.com"],
         frameAncestors: ["'self'"], // Reverted from Hugging Face domains
+        frameSrc: [
+          "'self'",
+          "https://accounts.google.com",
+          "https://content-compute.google.com",
+          "https://*.google.com",
+        ],
       },
     },
+    referrerPolicy: { policy: "no-referrer-when-downgrade" },
     crossOriginEmbedderPolicy: false,
     crossOriginOpenerPolicy: false,
-    frameguard: { action: "sameorigin" }, // Re-enable for protection against clickjacking
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+    frameguard: { action: "sameorigin" },
   }),
 );
 
