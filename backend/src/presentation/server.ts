@@ -58,6 +58,7 @@ app.use(
           "https://identitytoolkit.googleapis.com",
           "https://*.googleapis.com",
           "https://tendercheck-backend.onrender.com",
+          "https://*.sentry.io",
         ],
         imgSrc: [
           "'self'",
