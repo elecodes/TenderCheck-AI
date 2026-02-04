@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const LoginButtonDetails = () => {
-  console.log('%c🚀 [v2.5] MANUAL REDIRECT MODE (ULTIMATE FIX)', 'color: emerald; font-weight: bold; font-size: 14px;');
+  console.log('🚀 [v1.3.2] Auth: Manual Redirect Mode Active');
   const navigate = useNavigate();
   const { loginWithGoogle } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
@@ -56,7 +56,7 @@ const LoginButtonDetails = () => {
       type="button"
       onClick={handleManualLogin}
       disabled={isLoading}
-      className="w-full flex items-center justify-center px-4 py-3 border-2 border-red-500 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-200"
+      className="w-full flex items-center justify-center px-4 py-3 border border-white/10 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-200"
     >
       {isLoading ? (
         <div className="flex items-center gap-2">
