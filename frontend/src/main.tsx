@@ -19,7 +19,7 @@ Sentry.init({
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-console.log(`%c🛑 AUTH DEBUG: Loading v1.2.3 (MANUAL REDIRECT) - Build: ${new Date().toLocaleTimeString()}`, 'color: white; background: darkred; font-size: 20px; font-weight: bold;');
+console.log(`%c🛑 AUTH DEBUG: Loading v1.2.4 (MANUAL REDIRECT) - ID: e41a9dd - Time: ${new Date().toLocaleTimeString()}`, 'color: yellow; background: black; font-size: 22px; font-weight: bold; border: 4px solid yellow; padding: 10px;');
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
