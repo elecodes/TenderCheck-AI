@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const LoginButtonDetails = () => {
+  console.log('%c🚀 [v2.3] REDIRECT MODE INITIALIZED', 'color: emerald; font-weight: bold; font-size: 14px;');
   const navigate = useNavigate();
   const { loginWithGoogle } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
@@ -61,16 +62,19 @@ const LoginButtonDetails = () => {
       console.error('❌ Google SDK Error:', errorResponse);
       setIsLoading(false);
     },
-    // Force Popup mode for better cross-origin reliability
     flow: 'implicit',
-    ux_mode: 'popup', 
-    // redirect_uri is ignored in popup mode, but keeping it invalidates nothing
+    ux_mode: 'redirect',
+    redirect_uri: window.location.origin, 
+    // Redirect mode is required for Render/COOP environments
   } as any);
 
   return (
     <button
       type="button"
-      onClick={() => login()}
+      onClick={() => {
+        console.log('🚀 Redirecting to Google Auth...');
+        login();
+      }}
       disabled={isLoading}
       className="w-full flex items-center justify-center px-4 py-3 border border-white/10 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-200"
     >
