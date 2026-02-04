@@ -17,7 +17,7 @@ export const HistorySidebar = ({ history, onSelect, onDelete, selectedId }: Hist
   );
 
   return (
-    <div className="flex flex-col h-full bg-[#1e242c]/80 backdrop-blur-xl border-r border-gray-800/50">
+    <div className="flex flex-col h-full bg-[#0a0a0a] backdrop-blur-xl border-r border-gray-800/50">
       <div className="p-6 border-b border-gray-800/50">
         <div className="flex items-center justify-between mb-6">
             <h2 className="text-sm font-bold text-gray-400 uppercase tracking-widest flex items-center">

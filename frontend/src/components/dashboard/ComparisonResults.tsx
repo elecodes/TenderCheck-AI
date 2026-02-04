@@ -83,7 +83,7 @@ export const ComparisonResults = ({ results, analysis }: ComparisonResultsProps)
                   </p>
                   
                   {result.evidence && (
-                    <div className="p-4 bg-brand-dark/40 rounded-xl border border-gray-800/50 relative overflow-hidden">
+                    <div className="p-4 bg-brand-dark/20 rounded-xl border border-gray-800/50 relative overflow-hidden">
                       <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-500/30" />
                       <span className="text-[10px] uppercase font-black tracking-widest text-gray-600 block mb-2">Evidencia detectada</span>
                       <p className="text-sm italic text-gray-400 font-medium leading-relaxed">

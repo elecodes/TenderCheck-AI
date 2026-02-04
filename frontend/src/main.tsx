@@ -16,7 +16,7 @@ Sentry.init({
   replaysOnErrorSampleRate: 1.0, 
 });
 
-console.log('🚀 TenderCheck Web App v1.4.0 - Auth & CSP Fully Fixed');
+console.log('🚀 TenderCheck Web App v1.4.1 - Design Restored');
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
