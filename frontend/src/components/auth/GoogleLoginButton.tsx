@@ -1,5 +1,4 @@
 import { useAuth } from '../../context/AuthContext';
-import { Loader2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 // Separate component to safely use the hook
