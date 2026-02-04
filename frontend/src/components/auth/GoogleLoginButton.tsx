@@ -7,12 +7,12 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const LoginButtonDetails = () => {
-  console.log('%c🚀 [v2.3] REDIRECT MODE INITIALIZED', 'color: emerald; font-weight: bold; font-size: 14px;');
+  console.log('%c🚀 [v2.4] POPUP MODE (MAX RELAXATION)', 'color: emerald; font-weight: bold; font-size: 14px;');
   const navigate = useNavigate();
   const { loginWithGoogle } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
-  // Handle Redirect Back from Google
+  // Handle Redirect Back from Google (Kept for safety, though using popup)
   useEffect(() => {
     const handleGoogleRedirect = async () => {
         // Check for access_token in the URL fragment (Implicit flow)
@@ -63,9 +63,8 @@ const LoginButtonDetails = () => {
       setIsLoading(false);
     },
     flow: 'implicit',
-    ux_mode: 'redirect',
-    redirect_uri: window.location.origin, 
-    // Redirect mode is required for Render/COOP environments
+    ux_mode: 'popup', 
+    // Reverting to popup as user prefers, but with max relaxation
   } as any);
 
   return (
