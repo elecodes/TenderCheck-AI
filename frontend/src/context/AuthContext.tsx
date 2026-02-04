@@ -18,25 +18,48 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Initial Session Check
+  // Initial Session Check & Google Redirect Handler
   useEffect(() => {
-    const checkSession = async () => {
+    const initAuth = async () => {
+       // 1. Handle Google Redirect Hash (before session check)
+       const hash = window.location.hash;
+       if (hash && hash.includes('access_token')) {
+           console.log('🔍 GLOBAL: Google Auth Hash Detected');
+           const params = new URLSearchParams(hash.substring(1));
+           const token = params.get('access_token');
+           if (token) {
+               try {
+                   setIsLoading(true);
+                   const api = await import('../services/auth.service');
+                   const response = await api.loginWithGoogle(token);
+                   localStorage.setItem('user', JSON.stringify(response.user));
+                   setUser(response.user);
+                   console.log('🎉 GLOBAL: Google Auth Success');
+                   window.history.replaceState(null, '', window.location.pathname);
+                   window.location.href = '/dashboard';
+                   return; // Exit and let the redirect handle it
+               } catch (error) {
+                   console.error('❌ GLOBAL: Google Auth Error:', error);
+               }
+           }
+       }
+
+       // 2. Normal Session Check
        try {
           const user = await getMe();
           if (user) {
              setUser(user);
-             localStorage.setItem('user', JSON.stringify(user)); // Cache user info for UI
+             localStorage.setItem('user', JSON.stringify(user));
           } else {
              localStorage.removeItem('user');
           }
        } catch {
-          // Silent fail
           localStorage.removeItem('user');
        } finally {
           setIsLoading(false);
        }
     };
-    checkSession();
+    initAuth();
   }, []);
 
   const login = async (email: string, password: string, rememberMe: boolean = false) => {

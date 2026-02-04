@@ -1,45 +1,10 @@
-import { useAuth } from '../../context/AuthContext';
+import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
-import { useState, useEffect } from 'react';
 
 // Separate component to safely use the hook
-import { useNavigate } from 'react-router-dom';
-
 const LoginButtonDetails = () => {
-  console.log('🚀 [v1.3.2] Auth: Manual Redirect Mode Active');
-  const navigate = useNavigate();
-  const { loginWithGoogle } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
-
-  // Handle Redirect Back from Google
-  useEffect(() => {
-    const handleGoogleRedirect = async () => {
-        const hash = window.location.hash;
-        if (hash) console.log('🔍 Auth Hash Detected. Length:', hash.length);
-        
-        if (hash && hash.includes('access_token')) {
-            console.log('✅ Found Google Token in Hash. Processing redirect...');
-            const params = new URLSearchParams(hash.substring(1)); // remove #
-            const token = params.get('access_token');
-            
-            if (token) {
-                console.log('✅ Google Redirect Success: Token found');
-                setIsLoading(true);
-                try {
-                    await loginWithGoogle(token);
-                    console.log('🎉 Backend Auth Success');
-                    window.history.replaceState(null, '', window.location.pathname);
-                    navigate('/dashboard');
-                } catch (error) {
-                    console.error('❌ Backend Auth Error:', error);
-                    setIsLoading(false);
-                }
-            }
-        }
-    };
-    
-    handleGoogleRedirect();
-  }, [loginWithGoogle, navigate]);
+  console.log('🚀 [v1.3.7] Auth: Manual Redirect Mode Active');
+  const [isLoading] = useState(false);
 
   const handleManualLogin = () => {
     const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
