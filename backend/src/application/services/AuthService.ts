@@ -4,6 +4,7 @@ import { SALT_ROUNDS, JWT_SECRET_FALLBACK } from "../../config/constants.js";
 import type { User } from "../../domain/entities/User.js";
 import type { UserRepository } from "../../domain/repositories/UserRepository.js";
 import { v4 as uuidv4 } from "uuid";
+import { AppError } from "../../domain/errors/AppError.js";
 
 export class AuthService {
   constructor(private userRepository: UserRepository) {}
@@ -84,21 +85,31 @@ export class AuthService {
     accessToken: string,
   ): Promise<{ token: string; user: User }> {
     // 1. Get User Info from Google
-    const googleResponse = await fetch(
-      "https://www.googleapis.com/oauth2/v3/userinfo",
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      },
-    );
+    console.log('📡 [AuthService] Fetching Google user info...');
+    let googleResponse;
+    try {
+      googleResponse = await fetch(
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        },
+      );
+    } catch (fetchError: any) {
+      console.error('💥 [AuthService] Google Fetch CRASH:', fetchError);
+      throw new AppError(`Google API connection failed: ${fetchError.message}`, 502);
+    }
 
     if (!googleResponse.ok) {
-      throw new Error("Invalid Google Token");
+      const errorText = await googleResponse.text();
+      console.error('❌ [AuthService] Google API Error:', errorText);
+      throw new AppError("Invalid Google Token or Session Expired", 401);
     }
 
     const googleUser = (await googleResponse.json()) as any;
+    console.log('✅ [AuthService] Google User Info received for:', googleUser.email);
 
     if (!googleUser.email) {
-      throw new Error("Google account must have an email");
+      throw new AppError("Google account must have an email", 400);
     }
 
     // 2. Find or Create User
@@ -106,6 +117,7 @@ export class AuthService {
     let user = await this.userRepository.findByEmail(normalizedEmail);
 
     if (!user) {
+      console.log('📝 [AuthService] Creating new user for:', normalizedEmail);
       user = {
         id: uuidv4(),
         email: normalizedEmail,
@@ -114,7 +126,15 @@ export class AuthService {
         passwordHash: await bcrypt.hash(uuidv4(), SALT_ROUNDS),
         createdAt: new Date(),
       };
-      await this.userRepository.save(user);
+      try {
+        await this.userRepository.save(user);
+        console.log('✅ [AuthService] New user saved successfully');
+      } catch (dbError: any) {
+        console.error('💥 [AuthService] Database Save Error:', dbError);
+        throw new AppError(`Failed to save user: ${dbError.message}`, 500);
+      }
+    } else {
+      console.log('👤 [AuthService] Existing user found:', normalizedEmail);
     }
 
     // 3. Issue Token
