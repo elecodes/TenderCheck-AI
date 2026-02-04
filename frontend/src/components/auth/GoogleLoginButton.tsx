@@ -1,4 +1,3 @@
-import { useGoogleLogin } from '@react-oauth/google';
 import { useAuth } from '../../context/AuthContext';
 import { Loader2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
@@ -7,15 +6,14 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const LoginButtonDetails = () => {
-  console.log('%c🚀 [v2.4] POPUP MODE (MAX RELAXATION)', 'color: emerald; font-weight: bold; font-size: 14px;');
+  console.log('%c🚀 [v2.5] MANUAL REDIRECT MODE (ULTIMATE FIX)', 'color: emerald; font-weight: bold; font-size: 14px;');
   const navigate = useNavigate();
   const { loginWithGoogle } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
-  // Handle Redirect Back from Google (Kept for safety, though using popup)
+  // Handle Redirect Back from Google
   useEffect(() => {
     const handleGoogleRedirect = async () => {
-        // Check for access_token in the URL fragment (Implicit flow)
         const hash = window.location.hash;
         if (hash && hash.includes('access_token')) {
             const params = new URLSearchParams(hash.substring(1)); // remove #
@@ -25,10 +23,8 @@ const LoginButtonDetails = () => {
                 console.log('✅ Google Redirect Success: Token found');
                 setIsLoading(true);
                 try {
-                    console.log('🚀 Initiating Backend Auth with token...');
                     await loginWithGoogle(token);
                     console.log('🎉 Backend Auth Success');
-                    // Clean URL
                     window.history.replaceState(null, '', window.location.pathname);
                     navigate('/dashboard');
                 } catch (error) {
@@ -42,38 +38,23 @@ const LoginButtonDetails = () => {
     handleGoogleRedirect();
   }, [loginWithGoogle, navigate]);
 
-  const handleSuccess = async (tokenResponse: any) => {
-      console.log('✅ Google SDK Success:', tokenResponse);
-      if (tokenResponse.access_token) {
-          setIsLoading(true);
-          try {
-              await loginWithGoogle(tokenResponse.access_token);
-              navigate('/dashboard');
-          } catch (error) {
-              console.error('❌ Backend Auth Error:', error);
-              setIsLoading(false);
-          }
-      }
+  const handleManualLogin = () => {
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    const redirectUri = window.location.origin;
+    const scope = encodeURIComponent('openid email profile');
+    const responseType = 'token'; // Implicit flow
+    
+    // Construct manual OAuth URL to bypass ALL library/popup logic
+    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
+    
+    console.log('🚀 NUCLEUS OPTION: Manual Page Redirect to Google...');
+    window.location.href = authUrl;
   };
-
-  const login = useGoogleLogin({
-    onSuccess: handleSuccess,
-    onError: (errorResponse: any) => {
-      console.error('❌ Google SDK Error:', errorResponse);
-      setIsLoading(false);
-    },
-    flow: 'implicit',
-    ux_mode: 'popup', 
-    // Reverting to popup as user prefers, but with max relaxation
-  } as any);
 
   return (
     <button
       type="button"
-      onClick={() => {
-        console.log('🚀 Redirecting to Google Auth...');
-        login();
-      }}
+      onClick={handleManualLogin}
       disabled={isLoading}
       className="w-full flex items-center justify-center px-4 py-3 border border-white/10 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-200"
     >
