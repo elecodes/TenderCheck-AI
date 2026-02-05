@@ -8,7 +8,7 @@ export const RATE_LIMIT_MAX_ATTEMPTS = 3;
 
 export const PASSWORD_MIN_LENGTH = 8;
 export const SALT_ROUNDS = 10;
-export const DEFAULT_PORT = 3001;
+export const DEFAULT_PORT = 3001; // Keep local default 3001
 export const JWT_SECRET_FALLBACK = "dev_secret_key_only_for_local_testing";
 
 export const MIN_JUSTIFICATION_LENGTH = 10;
