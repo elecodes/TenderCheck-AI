@@ -11,7 +11,7 @@ export interface AuthResponse {
 }
 
 const API_URL = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/$/, '');
-console.log('🔌 Auth Service Initialized. Backend URL:', `"${API_URL}"`);
+console.log('🔌 [AuthService] Initialized in', API_URL ? `Absolute Mode (${API_URL})` : 'Proxy/Relative Mode');
 
 // Helper to get auth headers
 const getAuthHeaders = () => {

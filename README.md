@@ -380,10 +380,10 @@ npm install
 
 ### Running the Project
 # Run Development Mode
-# Backend (Port 3000)
+# Backend (Port 3001)
 cd backend && npm run dev
 
-# Frontend (Port 5173)
+# Frontend (Port 3000)
 cd frontend && npm run dev
 
 ## ⚠️ Known Limitations (Deployment)

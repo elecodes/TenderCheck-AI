@@ -190,7 +190,12 @@ import { DEFAULT_PORT } from "../config/constants.js";
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   const PORT = parseInt(process.env.PORT || DEFAULT_PORT.toString());
+  console.log(`🚀 [Server] Initializing...`);
+  console.log(`📡 [Server] Target Port: ${PORT}`);
+  console.log(`🌍 [Server] Node Env: ${process.env.NODE_ENV}`);
+  console.log(`🔐 [Server] JWT_SECRET present: ${!!process.env.JWT_SECRET}`);
+  
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`✅ [Server] Ready and listening on port ${PORT}`);
   });
 }

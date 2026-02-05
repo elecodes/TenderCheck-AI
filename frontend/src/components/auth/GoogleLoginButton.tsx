@@ -1,13 +1,30 @@
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import { useEffect, useState } from 'react';
 import { Loader2 } from 'lucide-react';
 
 // Separate component to safely use the hook
 const LoginButtonDetails = () => {
-  const [isLoading] = useState(false);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [isRedirecting, setIsRedirecting] = useState(false);
+
+  // If user becomes authenticated, go to dashboard
+  useEffect(() => {
+    if (user) {
+      console.log('🚀 [Auth] User detected, navigating to dashboard...');
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
 
   const handleManualLogin = () => {
     const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    const redirectUri = encodeURIComponent(window.location.origin);
+    
+    // Normalize redirect URI for development (explicitly avoid trailing slash if needed)
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const redirectUriBase = isLocal ? 'http://localhost:3000' : window.location.origin.replace(/\/$/, '');
+    
+    const redirectUri = encodeURIComponent(redirectUriBase);
     const scope = encodeURIComponent('openid email profile');
     const responseType = 'token'; // Implicit flow
     
@@ -15,20 +32,29 @@ const LoginButtonDetails = () => {
     const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
     
     console.log('📡 [Auth] Redirecting to Google Login...');
+    console.log('🔗 [Auth] Client ID:', clientId);
+    console.log('🔗 [Auth] Redirect URI:', redirectUriBase);
+    console.log('🔗 [Auth] Final URL:', authUrl);
+    
     window.location.href = authUrl;
+  };
+
+  const handleLogin = () => {
+    setIsRedirecting(true);
+    handleManualLogin();
   };
 
   return (
     <button
       type="button"
-      onClick={handleManualLogin}
-      disabled={isLoading}
+      onClick={handleLogin}
+      disabled={isRedirecting}
       className="w-full flex items-center justify-center px-4 py-3 border border-white/10 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-200"
     >
-      {isLoading ? (
+      {isRedirecting ? (
         <div className="flex items-center gap-2">
            <Loader2 className="w-5 h-5 animate-spin text-gray-500" />
-           <span>Autenticando...</span>
+           <span>Redirigiendo...</span>
         </div>
       ) : (
         <div className="flex items-center gap-3">

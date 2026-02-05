@@ -20,7 +20,7 @@ services:
       - key: PORT
         value: 10000
       - key: ALLOWED_ORIGINS
-        value: https://tendercheck-frontend.onrender.com,http://localhost:5173
+        value: https://tendercheck-frontend.onrender.com,http://localhost:3000
 
   # 2. Frontend Service (Static Site)
   - type: web
@@ -48,3 +48,5 @@ services:
     envVars:
       - key: VITE_API_BASE_URL
         sync: false # Set in Dashboard after Backend is live
+      - key: VITE_GOOGLE_CLIENT_ID
+        sync: false # Set in Dashboard
