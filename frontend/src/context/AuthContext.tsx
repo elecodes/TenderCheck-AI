@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import { type User, login as apiLogin, register as apiRegister, logout as apiLogout, getMe } from '../services/auth.service';
+import { useNavigate } from 'react-router-dom';
 
 interface AuthContextType {
   user: User | null;
@@ -17,26 +18,51 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
-  // Initial Session Check
+  // Initial Session & Google Redirect Check
   useEffect(() => {
-    const checkSession = async () => {
+    const initializeAuth = async () => {
+       // 1. Handle Google Redirect Hash (before session check)
+       const hash = window.location.hash;
+       if (hash && hash.includes('access_token')) {
+           const params = new URLSearchParams(hash.substring(1));
+           const token = params.get('access_token');
+           if (token) {
+               try {
+                   setIsLoading(true);
+                   const api = await import('../services/auth.service');
+                   const response = await api.loginWithGoogle(token);
+                   localStorage.setItem('user', JSON.stringify(response.user));
+                   setUser(response.user);
+                   console.log('✅ [Auth] Google Auth Success');
+                   window.history.replaceState(null, '', window.location.pathname);
+                   setIsLoading(false);
+                   navigate('/dashboard');
+                   return;
+               } catch (error) {
+                   console.error('❌ [Auth] Google Auth Error:', error);
+                   setIsLoading(false);
+               }
+           }
+       }
+
+       // 2. Normal Session Check
        try {
           const user = await getMe();
           if (user) {
              setUser(user);
-             localStorage.setItem('user', JSON.stringify(user)); // Cache user info for UI
+             localStorage.setItem('user', JSON.stringify(user));
           } else {
              localStorage.removeItem('user');
           }
        } catch {
-          // Silent fail
           localStorage.removeItem('user');
        } finally {
           setIsLoading(false);
        }
     };
-    checkSession();
+    initializeAuth();
   }, []);
 
   const login = async (email: string, password: string, rememberMe: boolean = false) => {

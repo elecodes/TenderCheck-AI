@@ -5,7 +5,7 @@ Welcome to the team! This playbook defines **how we work** to ensure high qualit
 ## ⚡ Quick Start workflows
 
 ### 1. Development Loop
-1.  **Start Services**: `npm run dev` (Runs Backend :3000 & Frontend :5173).
+1.  **Start Services**: `npm run dev` (Runs Backend :3001 & Frontend :3000).
 2.  **Upload & Validate**: Go to Dashboard. Upload **Pliego** and **Oferta** together for a seamless "One-Click" analysis.
 3.  **Check History**: Use the left sidebar to access previous analyses. You can delete incorrect ones using the **TrashIcon**.
 4.  **Review Summary**: Check the **Validation Summary** card at the top for quick compliance stats (Mandatory vs Optional).
@@ -95,7 +95,7 @@ To add a new check for tenders (e.g., "Must be in Madrid"):
 | **Backend** | `npm run audit:arch` | `depcruise src --config .dependency-cruiser.cjs` |
 | **Backend** | `npm run security:scan` | `snyk test` |
 | **Backend** | `npm run prepare` | `husky` |
-| **Frontend** | `npm run dev` | `vite` |
+| **Frontend** | `npm run dev` | `vite --port 3000` |
 | **Frontend** | `npm run build` | `tsc -b && vite build` |
 | **Frontend** | `npm run lint` | `eslint .` |
 | **Frontend** | `npm run preview` | `vite preview` |

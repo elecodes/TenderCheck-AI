@@ -6,62 +6,56 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const LoginButtonDetails = () => {
-  console.log('🚀 [v1.3.2] Auth: Manual Redirect Mode Active');
+  const { user } = useAuth();
   const navigate = useNavigate();
-  const { loginWithGoogle } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
-  // Handle Redirect Back from Google
+  // If user becomes authenticated, go to dashboard
   useEffect(() => {
-    const handleGoogleRedirect = async () => {
-        const hash = window.location.hash;
-        if (hash && hash.includes('access_token')) {
-            const params = new URLSearchParams(hash.substring(1)); // remove #
-            const token = params.get('access_token');
-            
-            if (token) {
-                console.log('✅ Google Redirect Success: Token found');
-                setIsLoading(true);
-                try {
-                    await loginWithGoogle(token);
-                    console.log('🎉 Backend Auth Success');
-                    window.history.replaceState(null, '', window.location.pathname);
-                    navigate('/dashboard');
-                } catch (error) {
-                    console.error('❌ Backend Auth Error:', error);
-                    setIsLoading(false);
-                }
-            }
-        }
-    };
-    
-    handleGoogleRedirect();
-  }, [loginWithGoogle, navigate]);
+    if (user) {
+      console.log('🚀 [Auth] User detected, navigating to dashboard...');
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
 
   const handleManualLogin = () => {
     const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    const redirectUri = window.location.origin;
+    
+    // Normalize redirect URI for development (explicitly avoid trailing slash if needed)
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const redirectUriBase = isLocal ? 'http://localhost:3000' : window.location.origin.replace(/\/$/, '');
+    
+    const redirectUri = encodeURIComponent(redirectUriBase);
     const scope = encodeURIComponent('openid email profile');
     const responseType = 'token'; // Implicit flow
     
     // Construct manual OAuth URL to bypass ALL library/popup logic
     const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
     
-    console.log('🚀 NUCLEUS OPTION: Manual Page Redirect to Google...');
+    console.log('📡 [Auth] Redirecting to Google Login...');
+    console.log('🔗 [Auth] Client ID:', clientId);
+    console.log('🔗 [Auth] Redirect URI:', redirectUriBase);
+    console.log('🔗 [Auth] Final URL:', authUrl);
+    
     window.location.href = authUrl;
+  };
+
+  const handleLogin = () => {
+    setIsRedirecting(true);
+    handleManualLogin();
   };
 
   return (
     <button
       type="button"
-      onClick={handleManualLogin}
-      disabled={isLoading}
+      onClick={handleLogin}
+      disabled={isRedirecting}
       className="w-full flex items-center justify-center px-4 py-3 border border-white/10 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-200"
     >
-      {isLoading ? (
+      {isRedirecting ? (
         <div className="flex items-center gap-2">
            <Loader2 className="w-5 h-5 animate-spin text-gray-500" />
-           <span>Autenticando...</span>
+           <span>Redirigiendo...</span>
         </div>
       ) : (
         <div className="flex items-center gap-3">
