@@ -3,7 +3,6 @@ import rateLimit from "express-rate-limit";
 import { AuthController } from "../controllers/AuthController.js";
 import { AuthService } from "../../application/services/AuthService.js";
 import { TursoUserRepository } from "../../infrastructure/repositories/TursoUserRepository.js";
-import { AppError } from "../../domain/errors/AppError.js";
 import type { Request, Response, NextFunction } from "express";
 
 const router = Router();
