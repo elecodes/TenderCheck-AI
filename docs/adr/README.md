@@ -28,3 +28,4 @@
 | 019 | [19. Resilience and Testing Strategy 🧪](./019-resilience-testing-strategy.md) | Unknown |
 | 020 | [20. Auth UX Enhancements (Remember Me & Interstitial) 🔐](./020-auth-ux-enhancements.md) | Unknown |
 | 021 | [21. Manual Native Redirect for Google Auth 🚀](./021-manual-native-redirect.md) | Unknown |
+| 022 | [ADR 022: Dynamic Industry Validation](./022-dynamic-industry-validation.md) | accepted |

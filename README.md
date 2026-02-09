@@ -234,6 +234,12 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── 022-dynamic-industry-validation.md
 │   │   └── README.md
 │   ├── architecture
+│   │   ├── MIRO_ARCHITECTURE_GUIDE.md
+│   │   ├── diagrams
+│   │   │   ├── c4_component_diagram.png
+│   │   │   ├── class_diagram_premium.png
+│   │   │   ├── clean_architecture_layers.png
+│   │   │   └── create_tender_sequence.png
 │   │   ├── mcp_feasibility_study.md
 │   │   └── system_architecture.md
 │   ├── deployment_guide.md
