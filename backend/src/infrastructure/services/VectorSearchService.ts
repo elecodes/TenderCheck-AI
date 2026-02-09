@@ -1,5 +1,5 @@
 import { genkit } from "genkit";
-import { googleAI, textEmbedding004 } from "@genkit-ai/googleai";
+import { googleAI } from "@genkit-ai/google-genai";
 import { genkitTelemetry } from "../config/genkit-telemetry.js";
 
 // Initialize Genkit
@@ -25,7 +25,7 @@ export class VectorSearchService {
   private dimensions: number;
 
   constructor() {
-    this.embeddingModel = textEmbedding004;
+    this.embeddingModel = "googleai/text-embedding-004";
     this.dimensions = 768; // text-embedding-004 dimensions
   }
 

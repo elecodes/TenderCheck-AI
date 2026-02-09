@@ -50,7 +50,7 @@
   "dependencies": {
     "@genkit-ai/ai": "^1.28.0",
     "@genkit-ai/core": "^1.28.0",
-    "@genkit-ai/googleai": "^1.28.0",
+    "@genkit-ai/google-genai": "^1.28.0",
     "@libsql/client": "^0.17.0",
     "@sentry/node": "^10.36.0",
     "@sentry/profiling-node": "^10.36.0",

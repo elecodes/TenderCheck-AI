@@ -1,6 +1,6 @@
 # ADR 003: AI Integration & Resilience Strategy
 
-* Status: accepted
+* Status: superseded by [ADR 012](./012-cloud-pivot-render-turso.md)
 * Deciders: Elena, Senior Architect
 * Date: 2026-01-23
 

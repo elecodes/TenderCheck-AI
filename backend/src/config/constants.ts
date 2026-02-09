@@ -15,8 +15,6 @@ export const MIN_JUSTIFICATION_LENGTH = 10;
 export const MIN_ITEMS_LENGTH = 5;
 
 // AI / LLM Constants
-export const OLLAMA_TIMEOUT = 60000; // 60 seconds (ms) - Updated from 30 minutes
-export const OLLAMA_MAX_TOKENS = 4000;
 export const OPENAI_TIMEOUT = 50000;
 export const OPENAI_MAX_RETRIES = 4;
 export const OPENAI_MATCH_THRESHOLD = 50; //%
@@ -38,11 +36,6 @@ export const SIMILARITY_THRESHOLD = 0.3; // Very low threshold - process almost 
 export const TOP_K_SIMILAR = 5; // Number of similar results to return
 export const EMBEDDING_BATCH_SIZE = 10; // Batch size for embedding generation
 export const MAX_RELEVANT_REQUIREMENTS = 999; // Process all requirements (accuracy over speed)
-
-// Mistral Model Constants
-export const MISTRAL_MODEL = "mistral"; // Model name in Ollama
-export const MISTRAL_TEMPERATURE = 0.0; // Zero for fully deterministic outputs
-export const MISTRAL_MAX_TOKENS = 4096; // Context window
 
 export const HTTP_STATUS = {
   OK: 200,

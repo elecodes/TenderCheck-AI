@@ -1,7 +1,7 @@
 # ADR 005: Local-First AI & Authentication Strategy
 
 ## Status
-Accepted
+Superseded by [ADR 012](./012-cloud-pivot-render-turso.md) and [ADR 013](./013-ai-logic-refinements.md)
 
 ## Context
 The project initially relied on OpenAI for tender analysis and lacked a user authentication system.

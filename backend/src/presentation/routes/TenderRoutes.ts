@@ -4,7 +4,6 @@ import { TenderController } from "../controllers/TenderController.js";
 import { CreateTender } from "../../application/use-cases/CreateTender.js";
 import { TursoTenderRepository } from "../../infrastructure/repositories/TursoTenderRepository.js";
 import { PdfParserAdapter } from "../../infrastructure/adapters/PdfParserAdapter.js";
-// import { MistralGenkitService } from "../../infrastructure/services/MistralGenkitService.js";
 import { GeminiGenkitService } from "../../infrastructure/services/GeminiGenkitService.js";
 
 import { ValidationEngine } from "../../domain/validation/ValidationEngine.js";
@@ -16,7 +15,7 @@ import { AppError } from "../../domain/errors/AppError.js"; // Added from instru
 // In a larger app, this would be in a dedicated DI container or factory
 const repository = new TursoTenderRepository();
 const pdfParser = new PdfParserAdapter();
-const aiService = new GeminiGenkitService(); // Replaced Mistral with Gemini and renamed variable
+const aiService = new GeminiGenkitService();
 const validationEngine = new ValidationEngine([new ScopeValidationRule()]);
 
 const createTenderUseCase = new CreateTender(

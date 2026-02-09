@@ -85,7 +85,7 @@ export class AuthService {
     accessToken: string,
   ): Promise<{ token: string; user: User }> {
     // 1. Get User Info from Google
-    console.log('📡 [AuthService] Fetching Google user info...');
+    console.log("📡 [AuthService] Fetching Google user info...");
     let googleResponse;
     try {
       googleResponse = await fetch(
@@ -95,18 +95,24 @@ export class AuthService {
         },
       );
     } catch (fetchError: any) {
-      console.error('💥 [AuthService] Google Fetch CRASH:', fetchError);
-      throw new AppError(`Google API connection failed: ${fetchError.message}`, 502);
+      console.error("💥 [AuthService] Google Fetch CRASH:", fetchError);
+      throw new AppError(
+        `Google API connection failed: ${fetchError.message}`,
+        502,
+      );
     }
 
     if (!googleResponse.ok) {
       const errorText = await googleResponse.text();
-      console.error('❌ [AuthService] Google API Error:', errorText);
+      console.error("❌ [AuthService] Google API Error:", errorText);
       throw new AppError("Invalid Google Token or Session Expired", 401);
     }
 
     const googleUser = (await googleResponse.json()) as any;
-    console.log('✅ [AuthService] Google User Info received for:', googleUser.email);
+    console.log(
+      "✅ [AuthService] Google User Info received for:",
+      googleUser.email,
+    );
 
     if (!googleUser.email) {
       throw new AppError("Google account must have an email", 400);
@@ -117,7 +123,10 @@ export class AuthService {
     let user = await this.userRepository.findByEmail(normalizedEmail);
 
     if (!user) {
-      console.log('👤 [AuthService] Creating new Google user:', normalizedEmail);
+      console.log(
+        "👤 [AuthService] Creating new Google user:",
+        normalizedEmail,
+      );
       user = {
         id: uuidv4(),
         email: normalizedEmail,
@@ -129,7 +138,7 @@ export class AuthService {
       try {
         await this.userRepository.save(user);
       } catch (dbError: any) {
-        console.error('💥 [AuthService] User Save Error:', dbError);
+        console.error("💥 [AuthService] User Save Error:", dbError);
         throw new AppError(`Failed to save user: ${dbError.message}`, 500);
       }
     }
