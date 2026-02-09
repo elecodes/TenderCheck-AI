@@ -131,6 +131,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   │   │   └── RequirementsExtractor.ts
 │   │   │   └── validation
 │   │   │       ├── ValidationEngine.ts
+│   │   │       ├── ValidationRuleFactory.ts
 │   │   │       └── rules
 │   │   │           └── ScopeValidationRule.ts
 │   │   ├── infrastructure
@@ -169,7 +170,6 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── AppError.test.ts
 │   │   ├── PdfParserAdapter.test.ts
 │   │   ├── RequirementsExtractor.test.ts
-│   │   ├── ScopeValidationRule.test.ts
 │   │   ├── ValidationEngine.test.ts
 │   │   ├── api_integration.test.ts
 │   │   ├── application
@@ -180,7 +180,6 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── domain
 │   │   │   ├── AppError.test.ts
 │   │   │   ├── RequirementsExtractor.test.ts
-│   │   │   ├── ScopeValidationRule.test.ts
 │   │   │   ├── TenderAnalysisSchema.test.ts
 │   │   │   ├── ValidationEngine.test.ts
 │   │   │   ├── errors
@@ -232,6 +231,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── 019-resilience-testing-strategy.md
 │   │   ├── 020-auth-ux-enhancements.md
 │   │   ├── 021-manual-native-redirect.md
+│   │   ├── 022-dynamic-industry-validation.md
 │   │   └── README.md
 │   ├── architecture
 │   │   ├── mcp_feasibility_study.md
