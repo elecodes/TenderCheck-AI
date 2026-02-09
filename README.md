@@ -29,6 +29,7 @@
 - **Enterprise Auth**: **HttpOnly Cookies** (XSS Protection), "Remember Me" functionality, "Welcome Back" interstitial, and Google Sign-In.
 - **History Management**: Browse, search, and delete previous analyses.
 - **Professional Export**: Generate branded **PDF Reports**.
+- **Dynamic Industry Validation**: Intelligent scope filtering that adapts to different sectors (Digital Services, Construction, etc.) using database-driven keyword presets.
 - **Secure by Design**: Zod validation, Helmet protection, strict CORS (`ALLOWED_ORIGINS`), and COOP/COEP compliant auth flows.
 
 ## 📌 Overview

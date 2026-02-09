@@ -56,10 +56,15 @@ Please read the full [Coding Best Practices](../docs/standards/coding_best_pract
 - **Smart/Dumb**: `App.tsx` handles state/API, components (e.g., `TenderUpload`) just render.
 
 ### 4. Adding Validation Rules
-To add a new check for tenders (e.g., "Must be in Madrid"):
-1. Create a class implementing `IRule` in `backend/src/domain/validation/rules/`.
-2. Implement `validate(analysis)`: Return `ValidationResult` on failure, `null` on pass/neutral.
-3. Register the rule in `backend/src/presentation/routes/TenderRoutes.ts` (Composition Root).
+To add a new check for tenders:
+1.  **Static Rules**: Create a class implementing `IRule` in `backend/src/domain/validation/rules/`.
+2.  **Dynamic Industry Rules**: The `ScopeValidationRule` is now dynamic. To add a new industry, insert a row into the `industry_presets` table in Turso:
+    ```sql
+    INSERT INTO industry_presets (id, name, positive_keywords, negative_keywords)
+    VALUES ('healthcare', 'Healthcare', '["sanitario", "hospital"]', '["obra", "software"]');
+    ```
+3.  **Registration**: Register new static rules in `ValidationRuleFactory.ts` or ensure the factory picks up the new industry from the DB.
+4.  **Composition**: The `CreateTender` use case uses the factory to initialize rules based on the user's industry selection.
 
 
 ### 5. AI & LLM Development 🧠

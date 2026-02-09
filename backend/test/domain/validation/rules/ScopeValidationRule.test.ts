@@ -31,7 +31,19 @@ describe("ScopeValidationRule", () => {
   });
 
   beforeEach(() => {
-    rule = new ScopeValidationRule();
+    rule = new ScopeValidationRule(
+      [
+        "software",
+        "digital",
+        "plataforma",
+        "app",
+        "sistema",
+        "informático",
+        "tecnológico",
+        "cloud",
+      ],
+      ["limpieza", "obra", "construcción", "mantenimiento vial"],
+    );
   });
 
   it("should return MET for a valid software tender", async () => {

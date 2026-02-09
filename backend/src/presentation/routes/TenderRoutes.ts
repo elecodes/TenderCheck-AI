@@ -6,23 +6,14 @@ import { TursoTenderRepository } from "../../infrastructure/repositories/TursoTe
 import { PdfParserAdapter } from "../../infrastructure/adapters/PdfParserAdapter.js";
 import { GeminiGenkitService } from "../../infrastructure/services/GeminiGenkitService.js";
 
-import { ValidationEngine } from "../../domain/validation/ValidationEngine.js";
-import { ScopeValidationRule } from "../../domain/validation/rules/ScopeValidationRule.js";
 import { authMiddleware } from "../../infrastructure/middleware/authMiddleware.js";
-import { AppError } from "../../domain/errors/AppError.js"; // Added from instruction
+import { AppError } from "../../domain/errors/AppError.js";
 
-// Composition Root (Simple Manual Dependency Injection)
-// In a larger app, this would be in a dedicated DI container or factory
 const repository = new TursoTenderRepository();
 const pdfParser = new PdfParserAdapter();
 const aiService = new GeminiGenkitService();
-const validationEngine = new ValidationEngine([new ScopeValidationRule()]);
 
-const createTenderUseCase = new CreateTender(
-  repository,
-  pdfParser,
-  aiService, // Using aiService
-);
+const createTenderUseCase = new CreateTender(repository, pdfParser, aiService);
 
 import { ValidateProposal } from "../../application/use-cases/ValidateProposal.js";
 const validateProposalUseCase = new ValidateProposal(
@@ -55,7 +46,24 @@ router.post(
   "/analyze",
   authMiddleware,
   upload.single("file"),
-  tenderController.analyze,
+  async (req, res, next) => {
+    try {
+      if (!req.file) throw AppError.badRequest("No file uploaded");
+      const userId = (req as any).user?.userId;
+      if (!userId) throw AppError.unauthorized("User session not found");
+
+      const { industry } = req.body; // New: Optional industry parameter
+
+      const result = await createTenderUseCase.execute(
+        userId,
+        req.file.buffer,
+        industry,
+      );
+      res.status(201).json(result);
+    } catch (error) {
+      next(error);
+    }
+  },
 );
 
 // POST /api/tenders/:id/validate-proposal (Oferta)

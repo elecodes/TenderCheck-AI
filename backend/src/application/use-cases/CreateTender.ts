@@ -5,6 +5,8 @@ import { AppError } from "../../domain/errors/AppError.js";
 import type { TenderAnalysis } from "../../domain/entities/TenderAnalysis.js";
 import { VectorSearchService } from "../../infrastructure/services/VectorSearchService.js";
 import { TursoDatabase } from "../../infrastructure/database/TursoDatabase.js";
+import { ValidationRuleFactory } from "../../domain/validation/ValidationRuleFactory.js";
+import { ValidationEngine } from "../../domain/validation/ValidationEngine.js";
 
 export class CreateTender {
   private vectorSearch: VectorSearchService;
@@ -17,7 +19,11 @@ export class CreateTender {
     this.vectorSearch = new VectorSearchService();
   }
 
-  async execute(userId: string, pdfBuffer: Buffer): Promise<TenderAnalysis> {
+  async execute(
+    userId: string,
+    pdfBuffer: Buffer,
+    industry?: string,
+  ): Promise<TenderAnalysis> {
     // 1. Parse PDF
     const text = await this.pdfParser.parse(pdfBuffer);
     if (!text) {
@@ -27,6 +33,17 @@ export class CreateTender {
     // 2. Analyze with AI
     const analysis = await this.tenderAnalyzer.analyze(text);
     analysis.userId = userId;
+
+    // 3. Optional: Scope Validation (Dynamic based on industry)
+    // This adds the "Scope" check to the validation results if it exists
+    const rules = await ValidationRuleFactory.createRules(industry);
+    const engine = new ValidationEngine(rules);
+    const validationResults = await engine.validate(analysis);
+
+    // Merge scope validation results into the analysis if they exist
+    if (validationResults.length > 0) {
+      (analysis as any).scopeValidation = validationResults[0]; // For MVP, we only have one scope rule
+    }
 
     // 3. Generate embeddings for requirements (for vector search)
     if (analysis.requirements && analysis.requirements.length > 0) {

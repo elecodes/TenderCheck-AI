@@ -56,4 +56,13 @@ CREATE TABLE IF NOT EXISTS decision_logs (
     model_version TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (tender_id) REFERENCES tenders(id) ON DELETE CASCADE
-); 
+);
+
+-- 6. Industry Presets for Scope Validation
+CREATE TABLE IF NOT EXISTS industry_presets (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE,
+    positive_keywords TEXT NOT NULL, -- JSON array
+    negative_keywords TEXT NOT NULL, -- JSON array
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);

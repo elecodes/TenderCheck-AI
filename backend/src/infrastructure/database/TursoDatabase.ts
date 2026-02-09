@@ -63,12 +63,79 @@ export class TursoDatabase {
         await db.execute("ALTER TABLE requirements ADD COLUMN embedding BLOB");
         console.log("✅ Added embedding column to requirements table");
       } catch (e: any) {
-        if (
-          !e.message?.includes("duplicate column") &&
-          !e.message?.includes("OperationalError")
-        ) {
-          // console.warn("Migration note:", e.message);
+        // Silently ignore if column already exists
+      }
+
+      // Seeding: Industry Presets
+      try {
+        const count = await db.execute(
+          "SELECT count(*) as count FROM industry_presets",
+        );
+        if (count.rows[0]?.count === 0) {
+          console.log("🌱 Seeding industry presets...");
+          const presets = [
+            {
+              id: "tech",
+              name: "Digital Services",
+              positives: JSON.stringify([
+                "software",
+                "digital",
+                "plataforma",
+                "app",
+                "sistema",
+                "informático",
+                "tecnológico",
+                "licencias",
+                "cloud",
+                "seguridad",
+                "system",
+                "technology",
+                "data",
+                "service",
+                "platform",
+              ]),
+              negatives: JSON.stringify([
+                "limpieza",
+                "obra",
+                "construcción",
+                "mantenimiento vial",
+                "jardinería",
+                "seguridad física",
+              ]),
+            },
+            {
+              id: "construction",
+              name: "Construction",
+              positives: JSON.stringify([
+                "obra",
+                "construcción",
+                "edificación",
+                "reforma",
+                "vivienda",
+                "infraestructura",
+                "pavimentación",
+                "albañilería",
+                "fontanería",
+              ]),
+              negatives: JSON.stringify([
+                "software",
+                "app",
+                "cloud",
+                "licencias software",
+              ]),
+            },
+          ];
+
+          for (const p of presets) {
+            await db.execute({
+              sql: "INSERT INTO industry_presets (id, name, positive_keywords, negative_keywords) VALUES (?, ?, ?, ?)",
+              args: [p.id, p.name, p.positives, p.negatives],
+            });
+          }
+          console.log("✅ Industry presets seeded successfully");
         }
+      } catch (e: any) {
+        console.error("❌ Failed to seed industry presets:", e.message);
       }
     } catch (error) {
       console.error("❌ Schema initialization failed:", error);

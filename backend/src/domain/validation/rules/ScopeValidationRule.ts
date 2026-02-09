@@ -5,31 +5,10 @@ import type { ValidationResult } from "../../entities/ValidationResult.js";
 export class ScopeValidationRule implements IRule {
   id = "scope-validation";
 
-  private readonly positiveKeywords = [
-    "software",
-    "digital",
-    "plataforma",
-    "app",
-    "sistema",
-    "informático",
-    "tecnológico",
-    "licencias",
-    "cloud",
-    "seguridad",
-    "system",
-    "technology",
-    "data",
-    "service",
-    "platform",
-  ];
-  private readonly negativeKeywords = [
-    "limpieza",
-    "obra",
-    "construcción",
-    "mantenimiento vial",
-    "jardinería",
-    "seguridad física",
-  ];
+  constructor(
+    private readonly positiveKeywords: string[],
+    private readonly negativeKeywords: string[],
+  ) {}
 
   async validate(analysis: TenderAnalysis): Promise<ValidationResult | null> {
     const textToCheck = (

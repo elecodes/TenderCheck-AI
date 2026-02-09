@@ -60,6 +60,7 @@ Actúa como **orquestador** del sistema. No contiene lógica de negocio compleja
     - **`ValidateProposal`**: Ejecuta la lógica de comparación entre una oferta y los requisitos del pliego.
 - **Servicios de Aplicación**:
     - **`AuthService`**: Gestiona el flujo de registro y login, hasheando contraseñas y generando tokens, delegando la persistencia en el repositorio.
+    - **`ValidationRuleFactory`**: (Dominio/Aplicación) Permite la creación dinámica de reglas de validación (`IRule`) inyectando parámetros de configuración sectoriales desde la base de datos, siguiendo el patrón *Factory*.
 
 ### 3.3.3. Capa de Infraestructura (Infrastructure)
 Contiene los detalles técnicos y librerías externas.
@@ -79,6 +80,7 @@ Desarrollada como una **SPA** (Single Page Application).
 Se han documentado formalmente las siguientes decisiones:
 - **ADR-003**: Inyección de Dependencias manual para mantener la simplicidad.
 - **ADR-005**: Estrategia "Local-First" para IA y Autenticación, priorizando la privacidad de datos sensibles gubernamentales.
+- **ADR-022**: Validación Dinámica basada en datos (Factoría de Reglas) para soportar múltiples industrias.
 
 ## 3.5. Subsistema de Búsqueda Vectorial y Optimización
 Para mejorar el rendimiento y preparar el sistema para filtrado semántico, se ha implementado una infraestructura de búsqueda vectorial:

@@ -9,6 +9,7 @@
     - [x] Describe the Dependency Injection approach (SOLID).
     - [x] **Pivot:** Document Migration to Render + Turso + Gemini (ADR 012).
     - [x] **Auth UX:** Documented "Remember Me" & Interstitial patterns (ADR 020).
+    - [x] **Dynamic Validation:** Documented Industry-Specific Factory pattern (ADR 022).
 
 ## 2. Authentication Feature (New Branch: `feat/auth-forms`)
 - [x] **Frontend (React)**
@@ -30,3 +31,7 @@
 - [x] **COVR**: Achieved >60% Global Coverage (Baseline).
 - [x] **E2E**: Validated "Happy Path" with Playwright (Video Artifact).
 
+## 4. Industry Specificity (Phase 7)
+- [x] **Dynamic Context**: Implemented `industry_presets` for data-driven validation.
+- [x] **Factory Pattern**: Decoupled rule instantiation from the Composition Root.
+- [x] **Presets**: Seeded "Digital Services" and "Construction" defaults.

@@ -5,6 +5,12 @@ import type { IPdfParser } from "../../domain/interfaces/IPdfParser.js";
 import type { ITenderAnalyzer } from "../../domain/interfaces/ITenderAnalyzer.js";
 import { ValidationEngine } from "../../domain/validation/ValidationEngine.js";
 
+vi.mock("../../domain/validation/ValidationRuleFactory.js", () => ({
+  ValidationRuleFactory: {
+    createRules: vi.fn().mockResolvedValue([]),
+  },
+}));
+
 describe("CreateTender Use Case", () => {
   let createTender: CreateTender;
   let mockRepository: any;

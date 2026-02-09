@@ -73,11 +73,14 @@ Se ha desarrollado un componente de visualización que calcula dinámicamente:
 - Ratio de cumplimiento de requisitos **OBLIGATORIOS**.
 - Ratio de cumplimiento de requisitos **OPCIONALES**.
 
-## 4.5. Exportación y Gestión de Historial
-- **Informe PDF (jsPDF)**: Generación dinámica de reportes profesionales que incluyen el logo, el resumen de estadísticas y la tabla detallada de evidencias.
-- **Gestión de Historial**: Implementación de una barra lateral dinámica que permite la búsqueda reactiva y la eliminación segura de registros de la base de datos.
+## 4.6. Validación Dinámica Sectorial (Fase 7)
+Se ha implementado un sistema de validación basado en datos que permite al motor de reglas adaptarse a diferentes sectores industriales sin modificaciones en el código fuente (ADR 022).
 
-## 4.6. Resultados Obtenidos
+- **Gestión de Presets**: Los criterios de validación (palabras clave positivas y exclusiones) se almacenan en la tabla `industry_presets`.
+- **Factoría de Reglas**: Implementación de `ValidationRuleFactory` que carga dinámicamente las reglas de validación basándose en el sector seleccionado por el usuario, permitiendo una expansión ilimitada a nuevos ámbitos (e.g., Sanidad, Servicios Sociales).
+- **Resiliencia**: Inclusión de un mecanismo de fallback que garantiza la operatividad del sistema de validación incluso ante fallos en la persistencia de datos sectoriales.
+
+## 4.7. Resultados Obtenidos
 La versión final de TenderCheck AI permite:
 1.  **Ingesta Inteligente**: Procesamiento de pliegos y ofertas atomizado.
 2.  **Validación Basada en Evidencias**: No solo dice si cumple, sino que muestra *por qué* y *dónde* está la prueba en el documento del licitador.
