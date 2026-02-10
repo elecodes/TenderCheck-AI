@@ -1,7 +1,8 @@
 # ADR 023: LangSmith Tracing for AI Observability
 
-## Status
-Accepted
+* Status: accepted
+* Deciders: Elena, Antigravity
+* Date: 2026-02-10
 
 ## Context
 As the project transitioned from a monolithic local AI inference (Ollama) to a Cloud-Native architecture using **Google Genkit** and **Gemini 2.5 Flash**, the need for robust observability of AI interactions became critical. 
