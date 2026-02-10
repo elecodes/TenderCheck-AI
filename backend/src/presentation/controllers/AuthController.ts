@@ -135,6 +135,10 @@ export class AuthController {
 
   googleLogin = async (req: Request, res: Response, next: NextFunction) => {
     try {
+      console.log(
+        "📥 [AuthController] Google Login Request received",
+        req.body,
+      );
       const schema = z.object({ token: z.string() });
       const { token: accessToken } = schema.parse(req.body);
 

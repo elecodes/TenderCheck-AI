@@ -25,6 +25,8 @@ export const globalErrorHandler = (
       }
     } else {
       // Convert unknown errors to AppError
+      console.error("💥 [CRASH] Unknown Error detected in Middleware:", err);
+      console.error("Stack trace:", err.stack);
       error = new AppError("Internal Server Error", 500, false);
     }
   }

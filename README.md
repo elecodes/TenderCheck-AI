@@ -9,10 +9,12 @@
 ![Coverage](https://img.shields.io/badge/Coverage-100%25_Backend-brightgreen)
 ![Data](https://img.shields.io/badge/Storage-Turso_(LibSQL)-blue)
 ![AI](https://img.shields.io/badge/AI-Gemini_2.5_Flash-red)
+![Observability](https://img.shields.io/badge/Observability-LangSmith-blueviolet)
 
 ## 🚀 Key Features
 - **Secure Authentication**: Robust Email/Password login (JWT + HttpOnly Cookies) and Google OAuth integration (Production-ready).
-- **PDF Analysis**: Extracts text from tender documents to identify key requirements using **Gemini 2.5 Flash** (Fast, [Google AI Studio Free Tier](https://aistudio.google.com/app/plan_information) compatible).
+- **PDF Analysis**: Extracts text from tender documents to identify key requirements using- **AI**: Gemini 2.5 Flash (Google AI Studio).
+- **Observability**: **LangSmith** (via `traceable` SDK).
 - **Requirement Extraction**: Identifies technical clauses, distinguishing **OBLIGATORIO** vs **OPCIONAL**.
 - **Real Proposal Validation**: Real-time comparison of vendor proposals with AI reasoning.
 - **Improved AI Summary**: Detailed analysis summaries up to 500 characters (truncated from 100 in previous versions).
@@ -31,6 +33,7 @@
 - **Professional Export**: Generate branded **PDF Reports**.
 - **Dynamic Industry Validation**: Intelligent scope filtering that adapts to different sectors (Digital Services, Construction, etc.) using database-driven keyword presets.
 - **Secure by Design**: Zod validation, Helmet protection, strict CORS (`ALLOWED_ORIGINS`), and COOP/COEP compliant auth flows.
+- **AI Observability**: Integrated with **LangSmith** for real-time tracing, prompt versioning, and performance monitoring.
 
 ## 📌 Overview
 **TenderCheck AI** is an intelligent assistant designed to validate public tender documents. Originally built for local inference, it has pivoted to a **Cloud-Native Architecture** (Render + Turso + Gemini) to ensure stability, persistence, and performance within free-tier limits.

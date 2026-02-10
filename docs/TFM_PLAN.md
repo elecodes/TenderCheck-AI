@@ -10,6 +10,7 @@
     - [x] **Pivot:** Document Migration to Render + Turso + Gemini (ADR 012).
     - [x] **Auth UX:** Documented "Remember Me" & Interstitial patterns (ADR 020).
     - [x] **Dynamic Validation:** Documented Industry-Specific Factory pattern (ADR 022).
+    - [x] **Observability:** Integrated LangSmith for AI tracing and prompt optimization (ADR 023).
 
 ## 2. Authentication Feature (New Branch: `feat/auth-forms`)
 - [x] **Frontend (React)**

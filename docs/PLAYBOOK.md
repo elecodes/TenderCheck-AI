@@ -71,6 +71,7 @@ To add a new check for tenders:
 - **No API Key?** No problem. The system automatically falls back to **Mock Mode** if the API key is missing or quota is exceeded.
 - **Structured Outputs**: Always use `zodResponseFormat` when adding new AI features. Never parse raw strings.
 - **Prompting**: Keep System Prompts in the Service or a dedicated config. Use clear instructions ("You are...", "Return JSON...").
+- **Observability**: Use **LangSmith** to monitor AI performance. Ensure `LANGCHAIN_API_KEY` is set. Tracing is manually instrumented via the `traceable` wrapper in `GeminiGenkitService`.
 
 
 ### 6. Authentication Flow 🔐
