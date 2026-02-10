@@ -96,6 +96,7 @@ export class AuthService {
       );
     } catch (fetchError: any) {
       console.error("💥 [AuthService] Google Fetch CRASH:", fetchError);
+      console.error("Stack:", fetchError.stack);
       throw new AppError(
         `Google API connection failed: ${fetchError.message}`,
         502,

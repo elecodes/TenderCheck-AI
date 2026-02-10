@@ -194,6 +194,9 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   console.log(`📡 [Server] Target Port: ${PORT}`);
   console.log(`🌍 [Server] Node Env: ${process.env.NODE_ENV}`);
   console.log(`🔐 [Server] JWT_SECRET present: ${!!process.env.JWT_SECRET}`);
+  console.log(
+    `🔍 [LangSmith] Tracing Enabled: ${process.env.LANGCHAIN_TRACING_V2 === "true"}`,
+  );
 
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`✅ [Server] Ready and listening on port ${PORT}`);

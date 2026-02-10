@@ -36,6 +36,7 @@ Se implementó una estrategia de "Doble Prompt" para maximizar la precisión:
 1.  **Extracción (Input)**: Se utiliza un prompt de "Auditor Legal" que filtra estrictamente los requisitos obligatorios (RTOs) basándose en imperativos legales.
 2.  **Validación (RAG)**: Se emplea un prompt de "Evaluador Senior" con una ventana de contexto ampliada a **500,000 caracteres** (Gemini 2.5 Flash), permitiendo la detección de evidencia en documentos extensos sin alucinaciones.
 3.  **Embeddings Cloud**: Se migró el servicio de búsqueda vectorial a **Google `text-embedding-004`**, eliminando la dependencia de servidores locales (Ollama) para el despliegue en producción.
+4.  **Observabilidad con LangSmith**: Se integró el SDK de **LangSmith** para monitorizar y depurar las interacciones con la IA en tiempo real. Mediante la instrumentación de métodos clave con `traceable`, se pudieron optimizar los prompts de validación analizando casos de borde en documentos reales, garantizando que requisitos numéricos (años de experiencia, importes de seguros) sean detectados con precisión.
 
 ## 4.3. Despliegue y Arquitectura Cloud (Render + Turso + Gemini)
 El sistema ha evolucionado hacia un modelo *Cloud-Native* para garantizar escalabilidad y estabilidad:
