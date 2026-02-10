@@ -29,3 +29,4 @@
 | 020 | [20. Auth UX Enhancements (Remember Me & Interstitial) 🔐](./020-auth-ux-enhancements.md) | Unknown |
 | 021 | [21. Manual Native Redirect for Google Auth 🚀](./021-manual-native-redirect.md) | Unknown |
 | 022 | [ADR 022: Dynamic Industry Validation](./022-dynamic-industry-validation.md) | accepted |
+| 023 | [ADR 023: LangSmith Tracing for AI Observability](./023-langsmith-tracing-integration.md) | accepted |

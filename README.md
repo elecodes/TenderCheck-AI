@@ -234,6 +234,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── 020-auth-ux-enhancements.md
 │   │   ├── 021-manual-native-redirect.md
 │   │   ├── 022-dynamic-industry-validation.md
+│   │   ├── 023-langsmith-tracing-integration.md
 │   │   └── README.md
 │   ├── architecture
 │   │   ├── mcp_feasibility_study.md
