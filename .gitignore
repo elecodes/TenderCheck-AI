@@ -20,3 +20,9 @@ backend/.env
 .huggingface/.cache/
 *.sqlite*
 *.db*
+
+# Documentation and Defense Notes
+docs/TFM_DEFENSE_NOTES.md
+docs/architecture/MIRO_ARCHITECTURE_GUIDE.md
+docs/architecture/diagrams/
+
