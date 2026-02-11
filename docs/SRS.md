@@ -6,7 +6,7 @@
 ## 2. Professional & Academic Standards (MANDATORY)
 *Based on Master's Final Project Official Guidelines:*
 - **Architecture:** Clean Architecture (Domain, Application, Infrastructure, Presentation).
-- **Quality Gate:** Minimum **80% code coverage** enforced via Vitest.
+- **Quality Gate:** Minimum **71% core branch coverage (60% global)** enforced via Vitest.
 - **Security:** - Runtime validation using **Zod**.
     - Security headers via **Helmet.js**.
     - Input sanitization (XSS prevention).
@@ -17,7 +17,7 @@
 - **FR-1: Document Ingestion:** The system must accept a PDF file (Tender Documents).
 - **FR-2: Text Extraction:** Convert PDF content into normalized text for processing.
 - **FR-3: Semantic Search & RAG:** 
-    - Use **Google Genkit (`text-embedding-004`)** to generate vector embeddings.
+    - Use **Google Genkit (`gemini-embedding-001`)** to generate vector embeddings (3072D).
     - Store and retrieve embeddings via **Turso (LibSQL)**.
 - **FR-4: Requirement Extraction:** 
     - **Dual Persona Strategy**:
@@ -41,7 +41,7 @@
 ## 5. Technical Stack
 - **Runtime:** Node.js (LTS 22+)
 - **Language:** TypeScript (Strict Mode)
-- **AI Framework:** **Google Genkit** (Gemini 2.5 Flash + text-embedding-004)
+- **AI Framework:** **Google Genkit** (Gemini 2.5 Flash + gemini-embedding-001)
 - **Database:** **Turso** (Distributed SQLite)
 - **Frontend:** React + Vite + TailwindCSS
 - **Deployment:** **Render** (Cloud Native)

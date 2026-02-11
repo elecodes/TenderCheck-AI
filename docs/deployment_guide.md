@@ -26,6 +26,7 @@ The easiest way to deploy is using the `render.yaml` Blueprint.
 | `TURSO_DB_URL` | Turso Database Connection URL | `libsql://tendercheck-ai-ely.turso.io` |
 | `TURSO_AUTH_TOKEN` | Turso Auth Token | `ey...` |
 | `GOOGLE_GENAI_API_KEY` | Gemini API Key | `AIza...` |
+| `GOOGLE_API_KEY` | Standard Google AI Key | `AIza...` |
 | `VITE_GOOGLE_CLIENT_ID` | Google OAuth Client ID | `123...apps.googleusercontent.com` |
 | `VITE_API_BASE_URL` | Backend URL (Important for Auth) | `https://tendercheck-backend.onrender.com` |
 | `JWT_SECRET` | Secret for verifying tokens | `any_long_random_string` |
@@ -74,7 +75,7 @@ This project is compatible with the **Google AI Studio Free Tier**. However, you
 ## 7. Troubleshooting
 If the backend fails to start, check the "Logs" tab in Render.
 *   **"Table not found"**: Ensure `SqliteDatabase.initializeSchema()` ran correctly (it should run automatically on startup).
-*   **"404 Models"**: If the AI fails, check that the `GOOGLE_GENAI_API_KEY` is correct and has access to `gemini-2.5-flash`.
+*   **"404 Models"**: If the AI fails, check that the `GOOGLE_GENAI_API_KEY` (or `GOOGLE_API_KEY`) is correct and has access to `gemini-2.5-flash` and `gemini-embedding-001`.
 *   **"Google Auth Error: redirect_uri_mismatch"**:
     1.  Go to [Google Cloud Console > Credentials](https://console.cloud.google.com/apis/credentials).
     2.  Edit your OAuth 2.0 Client ID.
