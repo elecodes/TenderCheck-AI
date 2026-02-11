@@ -11,6 +11,7 @@
     - [x] **Auth UX:** Documented "Remember Me" & Interstitial patterns (ADR 020).
     - [x] **Dynamic Validation:** Documented Industry-Specific Factory pattern (ADR 022).
     - [x] **Observability:** Integrated LangSmith for AI tracing and prompt optimization (ADR 023).
+- [x] **Model Migration:** Pivoted to gemini-embedding-001 (3072D) due to Genkit updates (ADR 024).
 
 ## 2. Authentication Feature (New Branch: `feat/auth-forms`)
 - [x] **Frontend (React)**
@@ -29,7 +30,7 @@
 - [x] **Render**: Setup `render.yaml` blueprint.
 - [x] **Turso**: Migrate DB to LibSQL Client.
 - [x] **Gemini**: Integrate Gemini 2.5 Flash for AI analysis.
-- [x] **COVR**: Achieved >60% Global Coverage (Baseline).
+- [x] **COVR**: Achieved 71% Core Branch / 60% Global Coverage.
 - [x] **E2E**: Validated "Happy Path" with Playwright (Video Artifact).
 
 ## 4. Industry Specificity (Phase 7)
