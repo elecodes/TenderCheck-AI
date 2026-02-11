@@ -10,7 +10,7 @@ TenderCheck AI is a **Modular Monolith** deployed on a Cloud-Native infrastructu
 *   **Frontend**: React (Vite) + TailwindCSS.
 *   **Backend**: Node.js (Express) + TypeScript.
 *   **Database & Vector Store**: **Turso** (LibSQL) - *Serverless SQLite at the Edge*.
-*   **AI Engine**: **Google Genkit** (Gemini 2.5 Flash + text-embedding-004).
+*   **AI Engine**: **Google Genkit** (Gemini 2.5 Flash + gemini-embedding-001).
 *   **Infrastructure**: **Render** (Cloud PaaS).
 
 ---
@@ -56,7 +56,7 @@ graph TD
 *   **AI Service**: `GeminiGenkitService` (wraps Google AI SDK).
     *   **Dual Persona Logic**: Uses different prompts for "Extraction" (Auditor) vs "Validation" (Evaluator).
 *   **Vector Search**: `VectorSearchService`.
-    *   Generates embeddings via `text-embedding-004`.
+    *   Generates embeddings via `gemini-embedding-001`.
     *   Queries Turso using `vector_top_k` (LibSQL native vector extension).
 
 ### 3.3 Database (Persistence)

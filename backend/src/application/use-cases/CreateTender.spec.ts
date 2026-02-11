@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { CreateTender } from "./CreateTender.js";
+import { VectorSearchService } from "../../infrastructure/services/VectorSearchService.js";
 import type { ITenderRepository } from "../../domain/repositories/ITenderRepository.js";
 import type { IPdfParser } from "../../domain/interfaces/IPdfParser.js";
 import type { ITenderAnalyzer } from "../../domain/interfaces/ITenderAnalyzer.js";
@@ -17,6 +18,7 @@ describe("CreateTender Use Case", () => {
   let mockPdfParser: any;
   let mockAnalyzer: any;
   let mockValidationEngine: any;
+  let mockVectorSearch: any;
 
   beforeEach(() => {
     mockRepository = {
@@ -28,6 +30,12 @@ describe("CreateTender Use Case", () => {
     mockAnalyzer = {
       analyze: vi.fn(),
     };
+    mockVectorSearch = {
+      generateEmbedding: vi
+        .fn()
+        .mockResolvedValue(new Float32Array([0.1, 0.2, 0.3])),
+      serializeEmbedding: vi.fn().mockReturnValue(Buffer.from("mock-emb")),
+    };
     mockValidationEngine = {
       validate: vi.fn(), // Corrected method name to validate based on CreateTender.ts usage
     };
@@ -36,6 +44,7 @@ describe("CreateTender Use Case", () => {
       mockRepository,
       mockPdfParser,
       mockAnalyzer,
+      mockVectorSearch,
     );
   });
 

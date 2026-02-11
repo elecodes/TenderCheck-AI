@@ -65,7 +65,7 @@ Actúa como **orquestador** del sistema. No contiene lógica de negocio compleja
 ### 3.3.3. Capa de Infraestructura (Infrastructure)
 Contiene los detalles técnicos y librerías externas.
 - **`MistralGenkitService`**: Implementación concreta que conecta con Mistral a través de Ollama (puerto 11434). Incluye lógica de *retry*, limpieza de JSON, y telemetría con Genkit.
-- **`VectorSearchService`**: Servicio de búsqueda vectorial que genera embeddings con `nomic-embed-text` (768 dimensiones) y calcula similitud coseno para filtrado semántico de requisitos.
+- **VectorSearchService**: Servicio de búsqueda vectorial que genera embeddings con `gemini-embedding-001` (3072 dimensiones) y calcula similitud coseno para filtrado semántico de requisitos.
 - **`SqliteTenderRepository`**: Implementación persistente utilizando SQLite. Gestiona el ciclo de vida de los análisis, requisitos, resultados de validación y **embeddings vectoriales** (almacenados como BLOB) mediante una base de datos relacional embebida.
 
 ### 3.3.3. Capa de Presentación (Frontend)
@@ -84,7 +84,7 @@ Se han documentado formalmente las siguientes decisiones:
 
 ## 3.5. Subsistema de Búsqueda Vectorial y Optimización
 Para mejorar el rendimiento y preparar el sistema para filtrado semántico, se ha implementado una infraestructura de búsqueda vectorial:
-1.  **Generación de Embeddings**: Durante la creación del tender, cada requisito se convierte en un vector de 768 dimensiones usando `nomic-embed-text`.
+1.  **Generación de Embeddings**: Durante la creación del tender, cada requisito se convierte en un vector de 3072 dimensiones usando `gemini-embedding-001`.
 2.  **Almacenamiento**: Los embeddings se guardan en SQLite como columnas BLOB, permitiendo persistencia sin dependencias externas.
 3.  **Similitud Coseno**: Implementación de cálculo de similitud para futuras optimizaciones de filtrado.
 4.  **Procesamiento Paralelo**: Validación de 3 requisitos simultáneamente (3x concurrencia) para reducir el tiempo de validación de 5+ minutos a 2-3 minutos.
@@ -107,7 +107,7 @@ Se cumple con el nivel AA de las WCAG 2.1:
 
 ## 3.7. Estrategia de Calidad y Pruebas
 La arquitectura soporta una estrategia de testing piramidal:
-- **Unit Testing (Vitest)**: Cobertura objetiva >80% en lógica de negocio (Entidades, Validadores).
+- **Unit Testing (Vitest)**: Cobertura objetiva >71% en lógica de negocio (Core Branch) y >60% global.
 - **Integration Testing**: Verificación de los adaptadores (Ollama service, Repositorios) con datos mockeados.
 - **Static Analysis**: ESLint y TypeScript en modo estricto para prevenir errores en tiempo de compilación.
 

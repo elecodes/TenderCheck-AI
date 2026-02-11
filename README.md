@@ -6,7 +6,7 @@
 
 ![Deployment](https://img.shields.io/badge/Deployment-Render-46E3B7?style=flat-square&logo=render&logoColor=white)
 ![Tech](https://img.shields.io/badge/Stack-TypeScript_React_Turso_Gemini-orange)
-![Coverage](https://img.shields.io/badge/Coverage-100%25_Backend-brightgreen)
+![Coverage](https://img.shields.io/badge/Coverage-71%25_Core_Branch-brightgreen)
 ![Data](https://img.shields.io/badge/Storage-Turso_(LibSQL)-blue)
 ![AI](https://img.shields.io/badge/AI-Gemini_2.5_Flash-red)
 ![Observability](https://img.shields.io/badge/Observability-LangSmith-blueviolet)
@@ -21,7 +21,7 @@
 - **Intelligent Analysis (Dual Persona)**: 
   - **Legal Auditor (Extraction)**: Identifies strict requirements ("deberá", "obligatorio").
   - **Senior Evaluator (Validation)**: Understands technical synonyms and partial compliance nuances.
-- **Cloud Semantic Search**: Native Vector Search with Google Genkit (`text-embedding-004`).
+- **Cloud Semantic Search**: Native Vector Search with Google Genkit (`gemini-embedding-001` - 3072D).
 - **Cloud-Native Architecture**: Backend on Render + Turso Database (Edge SQLite).
 - **Modern React Interface**: 
   - **New Typography**: Professional serif fonts (*Playfair Display*) for high-value information.
@@ -408,8 +408,8 @@ npx playwright test
 npx playwright show-report
 
 # Check Coverage (Critical Baseline > 60%)
-# Why 100/60/0? While 80% global coverage is the target ideal, we 
-# enforce "Honest Coverage": 100% on high-complexity Domain logic 
+# Why 71/60/0? While 80% global coverage is the target ideal, we 
+# enforce "Honest Coverage": ~71% on high-complexity Domain logic 
 # (Rules, AI Evaluators) and 60% Global, prioritizing proof of work 
 # over boilerplate metrics.
 npm run test:coverage

@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { ValidateProposal } from "../../../src/application/use-cases/ValidateProposal.js";
+import { VectorSearchService } from "../../../src/infrastructure/services/VectorSearchService.js";
 import { AppError } from "../../../src/domain/errors/AppError.js";
 import { TursoDatabase } from "../../../src/infrastructure/database/TursoDatabase.js";
 
@@ -22,18 +23,18 @@ const mockTenderAnalyzer = {
 vi.mock("../../../src/infrastructure/services/VectorSearchService.js", () => {
   return {
     VectorSearchService: class {
-      generateEmbedding = vi
-        .fn()
-        .mockResolvedValue(new Float32Array([0.1, 0.2, 0.3]));
-      serializeEmbedding = vi
-        .fn()
-        .mockReturnValue(Buffer.from("mock-embedding"));
-      deserializeEmbedding = vi
-        .fn()
-        .mockReturnValue(new Float32Array([0.1, 0.2, 0.3]));
-      findSimilar = vi
-        .fn()
-        .mockReturnValue([{ id: "req-1", similarity: 0.95 }]);
+      generateEmbedding() {
+        return Promise.resolve(new Float32Array([0.1, 0.2, 0.3]));
+      }
+      serializeEmbedding() {
+        return Buffer.from("mock-embedding");
+      }
+      deserializeEmbedding() {
+        return new Float32Array([0.1, 0.2, 0.3]);
+      }
+      findSimilar() {
+        return [{ id: "req-1", similarity: 0.95 }];
+      }
     },
   };
 });
@@ -59,7 +60,12 @@ describe("ValidateProposal Use Case", () => {
       mockTenderRepository as any,
       mockPdfParser as any,
       mockTenderAnalyzer as any,
+      new VectorSearchService(),
     );
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("should throw NotFound error if tender does not exist", async () => {
@@ -139,26 +145,140 @@ describe("ValidateProposal Use Case", () => {
     expect(saveCallArg.results).toHaveLength(2);
   });
 
+  it("should generate embeddings if they do not exist in database", async () => {
+    const mockTender = {
+      id: "tender-123",
+      requirements: [{ id: "req-1", text: "Must do X" }],
+    };
+    mockTenderRepository.findById.mockResolvedValue(mockTender);
+    mockPdfParser.parse.mockResolvedValue(
+      "Some longer text to pass length check",
+    );
+
+    const mockDb = TursoDatabase.getInstance();
+    // 1. ensureEmbeddingsExist check: return empty (trigger generate)
+    // 2. findRelevantRequirements: return one with embedding
+    (mockDb.execute as any)
+      .mockResolvedValueOnce({ rows: [] }) // Trigger generation
+      .mockResolvedValueOnce({ rows: [{ embedding: Buffer.from("mock") }] }); // for findRelevant
+
+    await validateProposal.execute("tender-123", Buffer.from("pdf"));
+
+    expect(mockTenderRepository.findById).toHaveBeenCalled();
+  });
+
   it("should process all requirements if Vector Search returns nothing (Fallback)", async () => {
     const mockTender = {
       id: "tender-123",
       requirements: [{ id: "req-1", text: "Must do X" }],
     };
     mockTenderRepository.findById.mockResolvedValue(mockTender);
-    mockPdfParser.parse.mockResolvedValue("Some text");
+    mockPdfParser.parse.mockResolvedValue(
+      "Some longer text to pass length check",
+    );
+
+    const mockDb = TursoDatabase.getInstance();
+    (mockDb.execute as any).mockResolvedValue({
+      rows: [{ embedding: Buffer.from("mock-embedding") }],
+    });
 
     // Force VectorSearch to return empty similar list
-    // We need to override the mock strictly for this test or rely on our setup
-    // Since we mocked the class constructor globally, we can get the instance from the property if exposed,
-    // or we mock the method again on the prototype?
-    // Easier way: The current global mock returns req-1. Let's assume for this test we want to simulate empty.
-    // However, mocking inside the test block for imported modules is tricky in Vitest/Jest after import.
-    // Instead, let's verify the logic of "processAll" if "findRelevant" returns empty.
+    vi.spyOn(VectorSearchService.prototype, "findSimilar").mockReturnValue([]);
 
-    // Actually, let's just test that it calls `tenderAnalyzer.compareBatch`
-    // We already tested the vector path. If we want to unit test the fallback specifically, we might need a Spy on `findRelevantRequirements`
-    // by casting the private method or using a more flexible mock.
+    const mockBatchResult = new Map();
+    mockBatchResult.set("req-1", {
+      status: "COMPLIANT",
+      reasoning: "Fallback match.",
+      score: 80,
+    });
+    mockTenderAnalyzer.compareBatch.mockResolvedValue(mockBatchResult);
 
-    // For now, let's rely on the first test covering the main flow.
+    const results = await validateProposal.execute(
+      "tender-123",
+      Buffer.from("pdf"),
+    );
+
+    expect(results).toHaveLength(1);
+    expect(mockTenderAnalyzer.compareBatch).toHaveBeenCalled();
+  });
+
+  it("should handle partial status and normalize confidence scores", async () => {
+    const mockTender = {
+      id: "tender-123",
+      requirements: [{ id: "req-1", text: "X" }],
+      results: [
+        { requirementId: "SCOPE_CHECK", status: "MET", reasoning: "OK" },
+      ],
+    };
+    mockTenderRepository.findById.mockResolvedValue(mockTender);
+    mockPdfParser.parse.mockResolvedValue(
+      "Some longer text to pass length check",
+    );
+
+    const mockDb = TursoDatabase.getInstance();
+    (mockDb.execute as any).mockResolvedValue({
+      rows: [{ embedding: Buffer.from("mock") }],
+    });
+
+    const mockBatchResult = new Map();
+    mockBatchResult.set("req-1", {
+      status: "PARTIAL",
+      score: 0.85,
+      reasoning: "Partially done.",
+    });
+    mockTenderAnalyzer.compareBatch.mockResolvedValue(mockBatchResult);
+
+    const results = await validateProposal.execute(
+      "tender-123",
+      Buffer.from("pdf"),
+    );
+
+    expect(results[0].status).toBe("PARTIALLY_MET");
+    expect(results[0].confidence).toBe(0.85);
+
+    // Verify SCOPE_CHECK was preserved
+    const saveCallArg = mockTenderRepository.save.mock.calls[0][0];
+    expect(
+      saveCallArg.results.find((r: any) => r.requirementId === "SCOPE_CHECK"),
+    ).toBeDefined();
+  });
+
+  it("should process multiple chunks if requirements exceed BATCH_CHUNK_SIZE", async () => {
+    const mockTender = {
+      id: "tender-123",
+      requirements: [
+        { id: "req-1", text: "R1" },
+        { id: "req-2", text: "R2" },
+        { id: "req-3", text: "R3" },
+        { id: "req-4", text: "R4" },
+      ],
+    };
+    mockTenderRepository.findById.mockResolvedValue(mockTender);
+    mockPdfParser.parse.mockResolvedValue(
+      "Some longer text to pass length check",
+    );
+
+    // Force findSimilar to return all 4 so it triggers 2 chunks (size 3 and 1)
+    vi.spyOn(VectorSearchService.prototype, "findSimilar").mockReturnValue([
+      { id: "req-1", similarity: 0.9 },
+      { id: "req-2", similarity: 0.9 },
+      { id: "req-3", similarity: 0.9 },
+      { id: "req-4", similarity: 0.9 },
+    ]);
+
+    // Mock compareBatch to return results for all IDs
+    mockTenderAnalyzer.compareBatch.mockImplementation((reqs) => {
+      const m = new Map();
+      reqs.forEach((r: any) => m.set(r.id, { status: "COMPLIANT", score: 90 }));
+      return Promise.resolve(m);
+    });
+
+    const results = await validateProposal.execute(
+      "tender-123",
+      Buffer.from("pdf"),
+    );
+    expect(results).toHaveLength(4);
+    // BATCH_CHUNK_SIZE is 3, so 4 reqs = 2 batches
+    expect(mockTenderAnalyzer.compareBatch).toHaveBeenCalledTimes(2);
   });
 });

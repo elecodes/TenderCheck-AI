@@ -15,7 +15,12 @@ describe("TenderController", () => {
   let next: NextFunction;
 
   beforeEach(() => {
-    mockCreateTender = new CreateTender({} as any, {} as any, {} as any);
+    mockCreateTender = new CreateTender(
+      {} as any,
+      {} as any,
+      {} as any,
+      {} as any,
+    );
     mockCreateTender.execute = vi.fn(); // Explicitly mock the method
     controller = new TenderController(mockCreateTender);
 

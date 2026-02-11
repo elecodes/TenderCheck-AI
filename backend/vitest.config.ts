@@ -5,12 +5,7 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "html"],
-      exclude: [
-        "src/infrastructure/**", // Tier 3: 0% Coverage
-        "test/**",
-        "**/*.d.ts",
-        "**/*.config.*",
-      ],
+      exclude: ["test/**", "**/*.d.ts", "**/*.config.*"],
       thresholds: {
         global: {
           statements: 60,

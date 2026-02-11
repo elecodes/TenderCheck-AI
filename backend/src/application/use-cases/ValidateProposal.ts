@@ -23,15 +23,12 @@ import {
  * Performance improvement: 60-80% faster by reducing LLM calls
  */
 export class ValidateProposal {
-  private vectorSearch: VectorSearchService;
-
   constructor(
     private readonly tenderRepository: ITenderRepository,
     private readonly pdfParser: IPdfParser,
     private readonly tenderAnalyzer: ITenderAnalyzer,
-  ) {
-    this.vectorSearch = new VectorSearchService();
-  }
+    private readonly vectorSearch: VectorSearchService,
+  ) {}
 
   async execute(
     tenderId: string,

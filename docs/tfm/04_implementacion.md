@@ -8,14 +8,14 @@ La implementación integra controles de calidad automatizados:
 - **Pre-Commit (Husky)**: Ejecuta `lint` y `test` para asegurar la calidad del código.
 - **Pre-Push (Husky)**:
     - Ejecuta `snyk test` para prevenir la subida de dependencias vulnerables.
-    - Ejecuta `npm run test:coverage` para imponer el estándar **100/80/0** (100% Dominio, 80% Global).
+    - Ejecuta `npm run test:coverage` para imponer el estándar **71/60/0** (71% Core Branch, 60% Global).
 - **Observabilidad**: Instrumentación con Sentry en capas Frontend y Backend.
 - **Frontend**: React + Vite + TailwindCSS (Interfaz completamente localizada al **Español**).
     - **Accesibilidad**: Cumplimiento WCAG 2.1 AA (Navegación por teclado, anillos de foco visibles, tamaño de texto legible en móvil).
     - **Seguridad**: Prevención de enumeración de usuarios mediante mensajes de error genéricos en formularios de autenticación.
     - **Autenticación en Nube**: Integración con **Google Sign-In** (OIDC) y flujos de recuperación de contraseña ("Forgot Password").
 - **Backend**: Node.js + Express + TypeScript (API REST).
-- **IA**: Ollama (Mistral) para inferencia local con **búsqueda vectorial** (nomic-embed-text, 768 dimensiones).
+- **IA**: Google Genkit (Gemini 2.5 Flash) con **búsqueda vectorial** (`gemini-embedding-001`, 3072 dimensiones).
 - **Base de Datos**: Persistencia relacional mediante **SQLite** (`better-sqlite3`) con almacenamiento de **embeddings vectoriales** (BLOB), garantizando que los análisis no se pierdan al cerrar la sesión.
 
 ## 4.3. Implementación de Algoritmos (Code Snippets)
@@ -35,7 +35,7 @@ Durante la integración de Google Sign-In en producción, se identificó un conf
 Se implementó una estrategia de "Doble Prompt" para maximizar la precisión:
 1.  **Extracción (Input)**: Se utiliza un prompt de "Auditor Legal" que filtra estrictamente los requisitos obligatorios (RTOs) basándose en imperativos legales.
 2.  **Validación (RAG)**: Se emplea un prompt de "Evaluador Senior" con una ventana de contexto ampliada a **500,000 caracteres** (Gemini 2.5 Flash), permitiendo la detección de evidencia en documentos extensos sin alucinaciones.
-3.  **Embeddings Cloud**: Se migró el servicio de búsqueda vectorial a **Google `text-embedding-004`**, eliminando la dependencia de servidores locales (Ollama) para el despliegue en producción.
+3.  **Embeddings Cloud**: Se migró el servicio de búsqueda vectorial a **Google `gemini-embedding-001` (3072D)**, eliminando la dependencia de servidores locales (Ollama) para el despliegue en producción.
 4.  **Observabilidad con LangSmith**: Se integró el SDK de **LangSmith** para monitorizar y depurar las interacciones con la IA en tiempo real. Mediante la instrumentación de métodos clave con `traceable`, se pudieron optimizar los prompts de validación analizando casos de borde en documentos reales, garantizando que requisitos numéricos (años de experiencia, importes de seguros) sean detectados con precisión.
 
 ## 4.3. Despliegue y Arquitectura Cloud (Render + Turso + Gemini)
@@ -64,7 +64,7 @@ Tras extraer los requisitos del pliego, el sistema permite subir una oferta para
 
 ### 4.4.2. Optimización de Rendimiento
 - **Procesamiento Paralelo**: Validación de 3 requisitos simultáneamente (3x concurrencia).
-- **Búsqueda Vectorial**: Infraestructura de embeddings con `nomic-embed-text` para futuras optimizaciones de filtrado semántico.
+- **Búsqueda Vectorial**: Infraestructura de embeddings con `gemini-embedding-001` (3072D) para optimizaciones de filtrado semántico.
 - **Resultados Determinísticos**: Temperatura 0.0 para garantizar consistencia en las validaciones.
 - **Rendimiento**: Reducción del tiempo de validación de 5+ minutos a 2-3 minutos (mejora del 50%).
 

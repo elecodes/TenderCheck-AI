@@ -9,17 +9,26 @@ import { GeminiGenkitService } from "../../infrastructure/services/GeminiGenkitS
 import { authMiddleware } from "../../infrastructure/middleware/authMiddleware.js";
 import { AppError } from "../../domain/errors/AppError.js";
 
+import { ValidateProposal } from "../../application/use-cases/ValidateProposal.js";
+import { VectorSearchService } from "../../infrastructure/services/VectorSearchService.js";
+
 const repository = new TursoTenderRepository();
 const pdfParser = new PdfParserAdapter();
 const aiService = new GeminiGenkitService();
+const vectorSearch = new VectorSearchService();
 
-const createTenderUseCase = new CreateTender(repository, pdfParser, aiService);
+const createTenderUseCase = new CreateTender(
+  repository,
+  pdfParser,
+  aiService,
+  vectorSearch,
+);
 
-import { ValidateProposal } from "../../application/use-cases/ValidateProposal.js";
 const validateProposalUseCase = new ValidateProposal(
   repository,
   pdfParser,
   aiService,
+  vectorSearch,
 );
 
 const tenderController = new TenderController(createTenderUseCase);

@@ -3,6 +3,7 @@ import request from "supertest";
 // import { app } from "../src/presentation/server.js"; // Removed static import
 import { PdfParserAdapter } from "../src/infrastructure/adapters/PdfParserAdapter.js";
 import { GeminiGenkitService } from "../src/infrastructure/services/GeminiGenkitService.js";
+import { VectorSearchService } from "../src/infrastructure/services/VectorSearchService.js";
 
 import jwt from "jsonwebtoken";
 import { JWT_SECRET_FALLBACK } from "../src/config/constants.js";
@@ -56,6 +57,23 @@ describe("Integration: POST /api/tenders/analyze", () => {
       .mockImplementation(
         async () => "El sistema deberá procesar pagos. Must be secure.",
       );
+
+    // Mock VectorSearchService to avoid hitting Genkit API
+    vi.spyOn(
+      VectorSearchService.prototype,
+      "generateEmbedding",
+    ).mockResolvedValue(new Float32Array([0.1, 0.2, 0.3]));
+    vi.spyOn(
+      VectorSearchService.prototype,
+      "serializeEmbedding",
+    ).mockReturnValue(Buffer.from("mock-emb"));
+    vi.spyOn(
+      VectorSearchService.prototype,
+      "deserializeEmbedding",
+    ).mockReturnValue(new Float32Array([0.1, 0.2, 0.3]));
+    vi.spyOn(VectorSearchService.prototype, "findSimilar").mockReturnValue([
+      { id: "1", similarity: 0.95 },
+    ]);
 
     // Spy on GeminiGenkitService to avoid calling cloud LLM
     const analyzeSpy = vi
