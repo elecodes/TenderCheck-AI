@@ -5,10 +5,10 @@
 
 ## 🛠️ Tech Stack (Strategic Alignment)
 - [cite_start]**Backend:** Node.js + TypeScript (Clean Architecture)[cite: 72, 77, 1010].
-- [cite_start]**AI:** LangChain / Genkit + OpenAI for orchestration and reasoning[cite: 74, 1049].
+- [cite_start]**AI:** Google Genkit + Gemini 2.5 Flash for orchestration and reasoning[cite: 74, 1049].
 - [cite_start]**Frontend:** React + Vite (Simple dashboard)[cite: 79, 1000].
 - [cite_start]**Infrastructure:** Docker + PDF Parsing (pdf-parse / OCR optional)[cite: 76, 78, 1013].
-- [cite_start]**Quality Assurance:** Vitest (80% minimum coverage) + Husky + GitHub Actions[cite: 196, 198, 202, 657].
+- [cite_start]**Quality Assurance:** Vitest (71% Core Branch / 60% Global coverage) + Husky + GitHub Actions[cite: 196, 198, 202, 657].
 - [cite_start]**Security:** Zod for validation + Helmet.js for secure headers[cite: 170, 171, 218].
 
 ## 📅 Execution Roadmap (4 Weeks / 5h Daily)
