@@ -25,8 +25,8 @@ export class VectorSearchService {
   private dimensions: number;
 
   constructor() {
-    this.embeddingModel = "googleai/text-embedding-004";
-    this.dimensions = 768; // text-embedding-004 dimensions
+    this.embeddingModel = "googleai/gemini-embedding-001";
+    this.dimensions = 3072; // gemini-embedding-001 dimensions
   }
 
   /**

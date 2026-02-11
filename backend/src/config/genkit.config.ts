@@ -36,7 +36,7 @@ export const GENKIT_CONFIG = {
   RETRY_DELAY_MS: 1000,
 
   // Vector search settings
-  EMBEDDING_DIMENSIONS: 1536, // Standard for most embedding models
+  EMBEDDING_DIMENSIONS: 3072, // Matches gemini-embedding-001
   SIMILARITY_THRESHOLD: 0.75, // Cosine similarity threshold
   TOP_K_RESULTS: 5, // Number of similar results to return
 } as const;
