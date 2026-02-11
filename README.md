@@ -206,6 +206,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   ├── PROJECT_PLAN.md
 │   ├── SRS.md
 │   ├── TFM_PLAN.md
+│   ├── VALIDATION_REPORT.md
 │   ├── adr
 │   │   ├── 000-template.md
 │   │   ├── 001-validation-strategy.md
