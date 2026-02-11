@@ -30,3 +30,4 @@
 | 021 | [21. Manual Native Redirect for Google Auth 🚀](./021-manual-native-redirect.md) | Unknown |
 | 022 | [ADR 022: Dynamic Industry Validation](./022-dynamic-industry-validation.md) | accepted |
 | 023 | [ADR 023: LangSmith Tracing for AI Observability](./023-langsmith-tracing-integration.md) | accepted |
+| 024 | [ADR 024: Migration to gemini-embedding-001 (3072 Dimensions)](./024-embedding-model-migration.md) | Unknown |

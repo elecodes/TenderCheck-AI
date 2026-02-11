@@ -191,6 +191,9 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   │       ├── ValidationEngine.test.ts
 │   │   │       └── rules
 │   │   │           └── ScopeValidationRule.test.ts
+│   │   ├── infrastructure
+│   │   │   └── repositories
+│   │   │       └── TursoTenderRepository.test.ts
 │   │   ├── presentation
 │   │   │   └── controllers
 │   │   │       └── TenderController.test.ts
@@ -236,6 +239,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── 021-manual-native-redirect.md
 │   │   ├── 022-dynamic-industry-validation.md
 │   │   ├── 023-langsmith-tracing-integration.md
+│   │   ├── 024-embedding-model-migration.md
 │   │   └── README.md
 │   ├── architecture
 │   │   ├── mcp_feasibility_study.md
