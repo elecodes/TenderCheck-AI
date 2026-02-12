@@ -126,7 +126,7 @@ export class VectorSearchService {
    * Deserialize Buffer from SQLite to Float32Array
    */
   deserializeEmbedding(buffer: Buffer): Float32Array {
-    if (!buffer || !buffer.buffer) {
+    if (!buffer || !buffer.buffer || buffer.length === 0) {
       return new Float32Array(this.dimensions);
     }
     return new Float32Array(

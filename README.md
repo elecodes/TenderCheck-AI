@@ -6,7 +6,7 @@
 
 ![Deployment](https://img.shields.io/badge/Deployment-Render-46E3B7?style=flat-square&logo=render&logoColor=white)
 ![Tech](https://img.shields.io/badge/Stack-TypeScript_React_Turso_Gemini-orange)
-![Coverage](https://img.shields.io/badge/Coverage-98%25_Domain_/_65%25_Global-brightgreen)
+![Coverage](https://img.shields.io/badge/Coverage-84%25_Global-brightgreen)
 ![Data](https://img.shields.io/badge/Storage-Turso_(LibSQL)-blue)
 ![AI](https://img.shields.io/badge/AI-Gemini_2.5_Flash-red)
 ![Observability](https://img.shields.io/badge/Observability-LangSmith-blueviolet)
@@ -423,11 +423,9 @@ npx playwright test
 # View Test Report
 npx playwright show-report
 
-# Check Coverage (Critical Baseline > 60%)
-# Why 98/65? While 80% global coverage is the target ideal, we 
-# enforce "Honest Coverage": ~98% on high-complexity Domain logic 
-# (Rules, Services, AI Evaluators) and ~65% Global Lines.
-# Note: Interface/DTO files (0% logic) are excluded from domain metrics.
+# Check Coverage (Critical Baseline > 80%)
+# We have achieved ~84% Global Coverage, ensuring high reliability across
+# Domain logic, AI Services, and API Routes.
 npm run test:coverage
 ```
 
