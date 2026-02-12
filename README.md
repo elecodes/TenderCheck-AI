@@ -189,17 +189,24 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   │   │   └── AppError.test.ts
 │   │   │   └── validation
 │   │   │       ├── ValidationEngine.test.ts
+│   │   │       ├── ValidationRuleFactory.test.ts
 │   │   │       └── rules
 │   │   │           └── ScopeValidationRule.test.ts
 │   │   ├── infrastructure
 │   │   │   ├── database
 │   │   │   │   └── TursoDatabase.test.ts
-│   │   │   └── repositories
-│   │   │       ├── TursoTenderRepository.test.ts
-│   │   │       └── TursoUserRepository.test.ts
+│   │   │   ├── repositories
+│   │   │   │   ├── TursoTenderRepository.test.ts
+│   │   │   │   └── TursoUserRepository.test.ts
+│   │   │   └── services
+│   │   │       ├── GeminiGenkitService.test.ts
+│   │   │       └── VectorSearchService.test.ts
 │   │   ├── presentation
-│   │   │   └── controllers
-│   │   │       └── TenderController.test.ts
+│   │   │   ├── controllers
+│   │   │   │   ├── AuthController.test.ts
+│   │   │   │   └── TenderController.test.ts
+│   │   │   └── routes
+│   │   │       └── TenderRoutes.test.ts
 │   │   └── security.test.ts
 │   ├── test-db-connection.js
 │   ├── test-results.json
@@ -246,6 +253,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── 023-langsmith-tracing-integration.md
 │   │   ├── 024-embedding-model-migration.md
 │   │   ├── 025-enforce-https-turso.md
+│   │   ├── 026-high-coverage-standard.md
 │   │   └── README.md
 │   ├── architecture
 │   │   ├── mcp_feasibility_study.md
