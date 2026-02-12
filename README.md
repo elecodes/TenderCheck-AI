@@ -402,6 +402,10 @@ cd frontend && npm run dev
 - **Google Authentication**: The "Sign in with Google" feature is fully functional in both local and production (Render) environments. It uses a custom **Manual Native Redirect** flow to bypass Cross-Origin limitations on shared domains.
 - **AI Service Costs**: While this project is designed for the **Google AI Studio Free Tier**, project owners may incur costs if they link a Google Cloud Billing account to their project (switching it to the **Pay-as-you-go** tier). In the Free Tier, Google may use your data to improve their models. Please check your [AI Studio Plan Settings](https://aistudio.google.com/app/plan_information) for details.
 
+### Troubleshooting
+- **503 / Database Connection Errors**: If you encounter intermittent database errors, ensure your `TURSO_DB_URL` is correct. The system now automatically enforces `https://` for stability on serverless platforms.
+
+
 ### Testing
 We enforce strict quality gates.
 ```bash

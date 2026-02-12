@@ -50,6 +50,7 @@ El sistema ha evolucionado hacia un modelo *Cloud-Native* para garantizar escala
 - **Base de Datos (Turso)**:
   - Base de datos distribuida basada en libSQL.
   - Gestión de esquemas automática al inicio (`SqliteDatabase.initializeSchema()`).
+  - **Estabilidad**: Uso forzado de protocolo `https://` para evitar desconexiones en entornos serverless.
 - **IA (Gemini 2.5 Flash)**:
   - Sustitución de Ollama (ejecución local pesada) por API de Google Vertex AI.
   - Reducción drástica de latencia (<5s vs 2min) y eliminación de timeouts en despliegue.

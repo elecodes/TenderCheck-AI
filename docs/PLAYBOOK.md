@@ -129,7 +129,7 @@ See `docs/adr/021-manual-native-redirect.md` for details.
 #### Prerequisites
 1.  **Turso**: A database created with `CREATE TABLE...` (handled by `SqliteDatabase.ts` auto-init).
 2.  **Environment Variables**:
-    - `TURSO_DB_URL`: `libsql://...`
+    - `TURSO_DB_URL`: `libsql://...` or `https://...` (System enforces HTTPS automatically).
     - `TURSO_AUTH_TOKEN`: `...`
     - `GOOGLE_GENAI_API_KEY`: `...`
     - `GOOGLE_API_KEY`: `...` (Same as above, required by some Genkit plugins)

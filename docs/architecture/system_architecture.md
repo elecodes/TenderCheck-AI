@@ -9,7 +9,7 @@ TenderCheck AI is a **Modular Monolith** deployed on a Cloud-Native infrastructu
 ### Core Stack
 *   **Frontend**: React (Vite) + TailwindCSS.
 *   **Backend**: Node.js (Express) + TypeScript.
-*   **Database & Vector Store**: **Turso** (LibSQL) - *Serverless SQLite at the Edge*.
+*   **Database & Vector Store**: **Turso** (LibSQL over HTTPS) - *Serverless SQLite at the Edge*.
 *   **AI Engine**: **Google Genkit** (Gemini 2.5 Flash + gemini-embedding-001).
 *   **Infrastructure**: **Render** (Cloud PaaS).
 
