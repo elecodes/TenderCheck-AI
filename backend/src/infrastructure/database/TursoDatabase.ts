@@ -28,12 +28,16 @@ export class TursoDatabase {
         throw new Error("🚨 TURSO_AUTH_TOKEN is required for remote Turso DB.");
       }
 
+      // Force HTTP for better stability in serverless/stateless environments
+      // The 'libsql://' protocol uses WebSocket which can be unstable if not managed perfectly
+      const safeUrl = url.replace("libsql://", "https://");
+
       console.log(
-        `🔌 Connecting to Turso at: ${url.replace(authToken || "", "***")}`,
+        `🔌 Connecting to Turso at: ${safeUrl.replace(authToken || "", "***")}`,
       );
 
       TursoDatabase.instance = createClient({
-        url,
+        url: safeUrl,
         ...(authToken ? { authToken } : {}),
       } as any);
     }

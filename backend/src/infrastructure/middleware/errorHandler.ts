@@ -25,9 +25,23 @@ export const globalErrorHandler = (
       }
     } else {
       // Convert unknown errors to AppError
-      console.error("💥 [CRASH] Unknown Error detected in Middleware:", err);
-      console.error("Stack trace:", err.stack);
-      error = new AppError("Internal Server Error", 500, false);
+      if (err.name === "ZodError" || (err as any).issues) {
+        error = AppError.badRequest("Validation Error");
+      } else if (
+        err.name === "LibsqlError" ||
+        (err as any).code === "SQLITE_UNKNOWN"
+      ) {
+        console.error("💥 [DB ERROR] Turso/Libsql Connection Failed:", err);
+        error = new AppError(
+          "Database Service Unavailable. Please try again.",
+          503,
+          false,
+        );
+      } else {
+        console.error("💥 [CRASH] Unknown Error detected in Middleware:", err);
+        console.error("Stack trace:", err.stack);
+        error = new AppError("Internal Server Error", 500, false);
+      }
     }
   }
 
@@ -44,7 +58,8 @@ export const globalErrorHandler = (
   // Response Strategy
   res.status(statusCode).json({
     status: "error",
-    message: isOperational ? message : "Something went wrong",
+    error: isOperational ? message : "Something went wrong", // Frontend expects 'error'
+    message: isOperational ? message : "Something went wrong", // Backward compatibility
     ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
   });
 };

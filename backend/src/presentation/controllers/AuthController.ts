@@ -157,7 +157,11 @@ export class AuthController {
         },
       });
     } catch (error: any) {
-      next(error);
+      if (error instanceof z.ZodError) {
+        next(AppError.badRequest("Invalid Google Token format"));
+      } else {
+        next(error);
+      }
     }
   };
 
