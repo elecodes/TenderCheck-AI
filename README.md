@@ -254,6 +254,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── 024-embedding-model-migration.md
 │   │   ├── 025-enforce-https-turso.md
 │   │   ├── 026-high-coverage-standard.md
+│   │   ├── 027-auth-header-fallback.md
 │   │   └── README.md
 │   ├── architecture
 │   │   ├── mcp_feasibility_study.md

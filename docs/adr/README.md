@@ -33,3 +33,4 @@
 | 024 | [ADR 024: Migration to gemini-embedding-001 (3072 Dimensions)](./024-embedding-model-migration.md) | Unknown |
 | 025 | [25. Enforce HTTPS for Turso (LibSQL)](./025-enforce-https-turso.md) | Unknown |
 | 026 | [ADR 026: High Coverage Standard for Domain Logic](./026-high-coverage-standard.md) | Unknown |
+| 027 | [27. Auth Header Fallback Strategy](./027-auth-header-fallback.md) | Unknown |
