@@ -14,7 +14,7 @@
     "lint:fix": "eslint . --fix",
     "audit:arch": "depcruise src --config .dependency-cruiser.cjs",
     "security:scan": "snyk test",
-    "prepare": "husky"
+    "prepare": "if [ \"$NODE_ENV\" != \"production\" ]; then husky; fi"
   },
   "keywords": [],
   "author": "",
