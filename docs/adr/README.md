@@ -31,3 +31,4 @@
 | 022 | [ADR 022: Dynamic Industry Validation](./022-dynamic-industry-validation.md) | accepted |
 | 023 | [ADR 023: LangSmith Tracing for AI Observability](./023-langsmith-tracing-integration.md) | accepted |
 | 024 | [ADR 024: Migration to gemini-embedding-001 (3072 Dimensions)](./024-embedding-model-migration.md) | Unknown |
+| 025 | [25. Enforce HTTPS for Turso (LibSQL)](./025-enforce-https-turso.md) | Unknown |

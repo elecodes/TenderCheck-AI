@@ -242,6 +242,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── 022-dynamic-industry-validation.md
 │   │   ├── 023-langsmith-tracing-integration.md
 │   │   ├── 024-embedding-model-migration.md
+│   │   ├── 025-enforce-https-turso.md
 │   │   └── README.md
 │   ├── architecture
 │   │   ├── mcp_feasibility_study.md
