@@ -198,6 +198,8 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   │   └── controllers
 │   │   │       └── TenderController.test.ts
 │   │   └── security.test.ts
+│   ├── test-db-connection.js
+│   ├── test-results.json
 │   ├── tsconfig.json
 │   └── vitest.config.ts
 ├── ci_cd_plan.md
