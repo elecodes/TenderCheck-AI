@@ -8,7 +8,13 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "html"],
-      exclude: ["test/**", "**/*.d.ts", "**/*.config.*"],
+      exclude: [
+        "test/**", 
+        "**/*.d.ts", 
+        "**/*.config.*",
+        "src/domain/entities/**",
+        "src/domain/interfaces/**"
+      ],
       thresholds: {
         global: {
           statements: 60,
