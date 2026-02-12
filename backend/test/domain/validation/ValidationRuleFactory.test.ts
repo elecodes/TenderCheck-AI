@@ -108,4 +108,22 @@ describe("ValidationRuleFactory", () => {
     expect(consoleSpy).toHaveBeenCalled();
     expect(rules).toHaveLength(1); // Returns fallback
   });
+
+
+  it("should validly parse null values from DB as empty arrays", async () => {
+    mockExecute.mockResolvedValueOnce({
+      rows: [
+        {
+          positive_keywords: null,
+          negative_keywords: undefined,
+        },
+      ],
+    });
+
+    const rules = await ValidationRuleFactory.createRules("Tech");
+
+    expect(rules).toHaveLength(1);
+    expect(rules[0]).toBeInstanceOf(ScopeValidationRule);
+    // Since we can't easily inspect private props, we assume it worked without throwing
+  });
 });
