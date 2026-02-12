@@ -6,7 +6,7 @@
 
 ![Deployment](https://img.shields.io/badge/Deployment-Render-46E3B7?style=flat-square&logo=render&logoColor=white)
 ![Tech](https://img.shields.io/badge/Stack-TypeScript_React_Turso_Gemini-orange)
-![Coverage](https://img.shields.io/badge/Coverage-71%25_Core_Branch-brightgreen)
+![Coverage](https://img.shields.io/badge/Coverage-71%25_Domain_/_63%25_Global-brightgreen)
 ![Data](https://img.shields.io/badge/Storage-Turso_(LibSQL)-blue)
 ![AI](https://img.shields.io/badge/AI-Gemini_2.5_Flash-red)
 ![Observability](https://img.shields.io/badge/Observability-LangSmith-blueviolet)
@@ -421,7 +421,7 @@ npx playwright show-report
 # Check Coverage (Critical Baseline > 60%)
 # Why 71/60/0? While 80% global coverage is the target ideal, we 
 # enforce "Honest Coverage": ~71% on high-complexity Domain logic 
-# (Rules, AI Evaluators) and 60% Global, prioritizing proof of work 
+# (Rules, AI Evaluators) and ~63% Global Lines, prioritizing proof of work 
 # over boilerplate metrics.
 npm run test:coverage
 ```
