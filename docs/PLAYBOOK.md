@@ -79,7 +79,9 @@ To add a new check for tenders:
 - **Login**: Use credentials or **Google Sign-In (Native Redirect Mode)** to obtain a JWT. The Google flow uses a manual full-page redirection to bypass COOP/COEP browser restrictions on shared domains.
 - **Global Capture**: The `AuthContext` globally monitors for auth tokens in the URL fragment after redirect.
 - **Session Persistence**: 
-  - **Mechanic**: `HttpOnly` Cookies (Secure, SameSite).
+  - **Mechanic**: Hybrid Strategy.
+    1. **Primary**: `HttpOnly` Cookies (Secure, SameSite) for security.
+    2. **Fallback**: `Authorization: Bearer <token>` header for reliability on restrictive networks/browsers (ADR 027).
   - "Remember Me": Sets cookie expiration to 30 days. Unchecked = Session Cookie.
   - **Interstitial**: Returning users see a "Welcome Back" screen with a "Switch User" option.
 - **Protected Routes**: `/dashboard` is secured via `ProtectedRoute.tsx`.

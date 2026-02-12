@@ -12,7 +12,7 @@
 ![Observability](https://img.shields.io/badge/Observability-LangSmith-blueviolet)
 
 ## 🚀 Key Features
-- **Secure Authentication**: Robust Email/Password login (JWT + HttpOnly Cookies) and Google OAuth integration (Production-ready).
+- **Secure Authentication**: Hybrid Strategy (HttpOnly Cookies + Bearer Token Fallback) ensures reliability on all platforms. Google OAuth integration (Production-ready).
 - **PDF Analysis**: Extracts text from tender documents to identify key requirements using- **AI**: Gemini 2.5 Flash (Google AI Studio).
 - **Observability**: **LangSmith** (via `traceable` SDK).
 - **Requirement Extraction**: Identifies technical clauses, distinguishing **OBLIGATORIO** vs **OPCIONAL**.
@@ -434,7 +434,15 @@ npx playwright show-report
 # Check Coverage (Critical Baseline > 80%)
 # We have achieved **100% Domain / 84% Global Coverage**, ensuring high reliability across
 # Domain logic, AI Services, and API Routes.
+# Check Coverage (Critical Baseline > 80%)
+# We have achieved **100% Domain / 84% Global Coverage**, ensuring high reliability across
+# Domain logic, AI Services, and API Routes.
 npm run test:coverage
+
+# Run Security Scan (Snyk)
+# Checks for vulnerabilities in dependencies.
+npm run security:scan
+
 ```
 
 ## 📜 License

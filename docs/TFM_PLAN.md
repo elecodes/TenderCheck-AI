@@ -25,12 +25,14 @@
     - [x] Middleware: `authenticateToken`.
     - [x] **Google Sign-In** Integrated.
     - [x] **UX Enhancements**: Remember Me, Welcome Screen, Switch User.
+    - [x] **Resilience**: Implemented Hybrid Auth (Cookie + Header Fallback) for cross-site reliability (ADR 027).
 
 ## 3. Cloud Deployment (Phase 6)
 - [x] **Render**: Setup `render.yaml` blueprint.
 - [x] **Turso**: Migrate DB to LibSQL Client.
 - [x] **Gemini**: Integrate Gemini 2.5 Flash for AI analysis.
 - [x] **COVR**: Achieved **100% Domain / 84% Global Coverage** (Exceeded Goals).
+- [x] **Security**: Automated vulnerability scanning with Snyk (CI/CD Gate).
 - [x] **E2E**: Validated "Happy Path" with Playwright (Video Artifact).
 
 ## 4. Industry Specificity (Phase 7)
