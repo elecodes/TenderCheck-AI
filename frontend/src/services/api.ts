@@ -2,11 +2,16 @@ import type { TenderAnalysis } from '../types';
 
 const API_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
 
-// Helper for Fetch Options with Credentials (Cookies)
+// Helper for Fetch Options with Credentials (Cookies) + Auth Header
 const getFetchOptions = (method: string, body?: any) => {
+  const token = localStorage.getItem('auth_token');
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
   };
+
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`; // Fallback for when cookies fail
+  }
 
   return {
     method,
@@ -24,9 +29,17 @@ export const uploadTender = async (file: File): Promise<TenderAnalysis> => {
   const formData = new FormData();
   formData.append('file', blob, file.name);
 
+  // Get token for auth header
+  const token = localStorage.getItem('auth_token');
+  const headers: HeadersInit = {};
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
   const response = await fetch(`${API_URL}/api/tenders/analyze`, {
     method: 'POST',
     // No Content-Type header; fetch adds boundary for FormData
+    headers,
     credentials: 'include', // Send cookies
     body: formData,
   });
@@ -47,9 +60,17 @@ export const validateProposal = async (tenderId: string, file: File) => {
   const formData = new FormData();
   formData.append('file', blob, file.name);
 
+  // Get token for auth header
+  const token = localStorage.getItem('auth_token');
+  const headers: HeadersInit = {};
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
   const response = await fetch(`${API_URL}/api/tenders/${tenderId}/validate-proposal`, {
     method: 'POST',
     // No Content-Type header; fetch adds boundary for FormData
+    headers,
     credentials: 'include', // Send cookies
     body: formData,
   });
