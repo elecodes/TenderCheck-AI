@@ -408,7 +408,7 @@ cd frontend && npm run dev
 
 ### Troubleshooting
 - **503 / Database Connection Errors**: If you encounter intermittent database errors, ensure your `TURSO_DB_URL` is correct. The system now automatically enforces `https://` for stability on serverless platforms.
-- **Render Build**: Ensure your build command includes `npm rebuild @libsql/client` to compile the native database driver for Linux.
+- **Render Build**: Ensure your build command includes `--include=dev` (to access TypeScript/Husky) and `npm rebuild @libsql/client` (for Linux). Example: `cd backend && npm install --include=dev && npm rebuild @libsql/client && npm run build`
 
 
 ### Testing

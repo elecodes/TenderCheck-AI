@@ -46,12 +46,12 @@ describe("TursoDatabase", () => {
       "TURSO_DB_URL is missing",
     );
   });
-  
+
   it("should throw error if TURSO_AUTH_TOKEN is missing for remote URL", () => {
-     process.env.TURSO_DB_URL = "libsql://remote.db";
-     delete process.env.TURSO_AUTH_TOKEN;
-     (TursoDatabase as any).instance = null;
-     expect(() => TursoDatabase.getInstance()).toThrow(
+    process.env.TURSO_DB_URL = "libsql://remote.db";
+    delete process.env.TURSO_AUTH_TOKEN;
+    (TursoDatabase as any).instance = null;
+    expect(() => TursoDatabase.getInstance()).toThrow(
       "TURSO_AUTH_TOKEN is required",
     );
   });
@@ -116,7 +116,7 @@ describe("TursoDatabase", () => {
       );
     });
 
-     it("should NOT seed industry presets if table is NOT empty", async () => {
+    it("should NOT seed industry presets if table is NOT empty", async () => {
       // Mock fs
       vi.mocked(readFileSync).mockReturnValue("");
 

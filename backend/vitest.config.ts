@@ -9,11 +9,11 @@ export default defineConfig({
       provider: "v8",
       reporter: ["text", "json", "html", "json-summary"],
       exclude: [
-        "test/**", 
-        "**/*.d.ts", 
+        "test/**",
+        "**/*.d.ts",
         "**/*.config.*",
         "src/domain/entities/**",
-        "src/domain/interfaces/**"
+        "src/domain/interfaces/**",
       ],
       thresholds: {
         global: {
