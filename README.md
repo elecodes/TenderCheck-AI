@@ -192,8 +192,11 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   │       └── rules
 │   │   │           └── ScopeValidationRule.test.ts
 │   │   ├── infrastructure
+│   │   │   ├── database
+│   │   │   │   └── TursoDatabase.test.ts
 │   │   │   └── repositories
-│   │   │       └── TursoTenderRepository.test.ts
+│   │   │       ├── TursoTenderRepository.test.ts
+│   │   │       └── TursoUserRepository.test.ts
 │   │   ├── presentation
 │   │   │   └── controllers
 │   │   │       └── TenderController.test.ts
