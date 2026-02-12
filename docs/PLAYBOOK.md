@@ -151,3 +151,16 @@ See `docs/adr/021-manual-native-redirect.md` for details.
     - **Google Sign-In Issues**: Ensure `VITE_GOOGLE_CLIENT_ID` is correctly set in the Render frontend environment.
 
 
+
+## 🔧 Troubleshooting
+
+### Database Connection Errors (500/503)
+**Symtom:** `LibsqlError: SQLITE_UNKNOWN: SQLite error: connection not opened`
+**Cause:** In serverless environments (Render) or during "Scale to Zero", the WebSocket connection (`libsql://`) may drop or fail to establish quickly.
+**Solution:**
+1.  **Enforce HTTPS**: The `TursoDatabase` singleton automatically replaces `libsql://` with `https://` to use the stateless HTTP protocol.
+2.  **Rebuild Client**: Ensure `render.yaml` includes `npm rebuild @libsql/client` to compile the native binary for the correct architecture (Linux).
+
+### "Invalid ELF Header" (Render)
+**Cause:** The `@libsql/client` package includes a native binary. If installed on macOS and deployed to Linux without rebuilding, it will fail.
+**Solution:** Update the build command: `npm install && npm rebuild @libsql/client && npm run build`.
