@@ -109,7 +109,6 @@ describe("ValidationRuleFactory", () => {
     expect(rules).toHaveLength(1); // Returns fallback
   });
 
-
   it("should validly parse null values from DB as empty arrays", async () => {
     mockExecute.mockResolvedValueOnce({
       rows: [

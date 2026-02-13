@@ -20,17 +20,17 @@ function App() {
             </ProtectedRoute>
           } />
           <Route path="/login" element={
-            <div className="min-h-screen flex items-center justify-center p-4 bg-brand-dark bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-brand-dark to-brand-dark animate-fade-up">
+            <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50 dark:bg-gray-900 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-500/10 via-gray-50 to-gray-50 dark:from-emerald-900/20 dark:via-gray-900 dark:to-gray-900 animate-fade-up transition-colors duration-300">
               <LoginForm />
             </div>
           } />
           <Route path="/register" element={
-            <div className="min-h-screen flex items-center justify-center p-4 bg-brand-dark bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-brand-dark to-brand-dark animate-fade-up">
+            <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50 dark:bg-gray-900 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-500/10 via-gray-50 to-gray-50 dark:from-emerald-900/20 dark:via-gray-900 dark:to-gray-900 animate-fade-up transition-colors duration-300">
               <RegisterForm />
             </div>
           } />
           <Route path="/forgot-password" element={
-            <div className="min-h-screen flex items-center justify-center p-4 bg-brand-dark bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-brand-dark to-brand-dark animate-fade-up">
+            <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50 dark:bg-gray-900 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-500/10 via-gray-50 to-gray-50 dark:from-emerald-900/20 dark:via-gray-900 dark:to-gray-900 animate-fade-up transition-colors duration-300">
               <ForgotPasswordForm />
             </div>
           } />

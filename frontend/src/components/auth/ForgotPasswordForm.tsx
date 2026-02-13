@@ -62,25 +62,25 @@ export function ForgotPasswordForm() {
   }
 
   return (
-    <div className="w-full max-w-md p-8 space-y-8 bg-black/60 backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-300">
+    <div className="w-full max-w-md p-8 space-y-8 bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border border-gray-200 dark:border-gray-700 rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-300 transition-colors duration-300">
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-serif text-white tracking-tight">Recuperar Contraseña</h1>
-        <p className="text-emerald-100/60 font-light">Introduce tu email para recibir instrucciones</p>
+        <h1 className="text-3xl font-serif text-gray-900 dark:text-white tracking-tight">Recuperar Contraseña</h1>
+        <p className="text-gray-500 dark:text-gray-400 font-light">Introduce tu email para recibir instrucciones</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {error && (
-          <div role="alert" className="p-3 bg-amber-500/10 border border-amber-500/20 text-amber-200 text-sm rounded-lg flex items-center gap-2">
+          <div role="alert" className="p-3 bg-amber-50 border border-amber-200 text-amber-700 text-sm rounded-lg flex items-center gap-2">
              <span className="font-semibold">Info:</span> {error}
           </div>
         )}
 
         <div className="space-y-2">
-          <label htmlFor="email" className="block text-xs font-medium uppercase tracking-widest text-emerald-100/50">
+          <label htmlFor="email" className="block text-xs font-medium uppercase tracking-widest text-gray-500">
             Correo Electrónico
           </label>
           <div className="relative group">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-100/30 group-focus-within:text-emerald-400 transition-colors">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
               <Mail className="h-5 w-5" />
             </div>
             <input
@@ -88,13 +88,13 @@ export function ForgotPasswordForm() {
               type="email"
               autoFocus
               placeholder="nombre@empresa.com"
-              className={`block w-full pl-10 pr-3 py-3 bg-white/5 border ${errors.email ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-emerald-400'} rounded-lg text-base text-emerald-50 placeholder-emerald-100/20 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all`}
+              className={`block w-full pl-10 pr-3 py-3 bg-gray-50 dark:bg-gray-900 border ${errors.email ? 'border-red-300 focus:border-red-500' : 'border-gray-200 dark:border-gray-700 focus:border-emerald-500 dark:focus:border-emerald-500'} rounded-lg text-base text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all`}
               aria-invalid={errors.email ? 'true' : 'false'}
               {...register('email')}
             />
           </div>
           {errors.email && (
-            <p role="alert" className="text-xs text-red-300 mt-1 flex items-center gap-1 animate-in slide-in-from-top-1">
+            <p role="alert" className="text-xs text-red-500 mt-1 flex items-center gap-1 animate-in slide-in-from-top-1">
               • {errors.email.message}
             </p>
           )}
@@ -103,7 +103,7 @@ export function ForgotPasswordForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full flex items-center justify-center py-3.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02]"
+          className="w-full flex items-center justify-center py-3.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02]"
         >
           {isLoading ? (
             <div className="flex items-center gap-2">
@@ -119,7 +119,7 @@ export function ForgotPasswordForm() {
       </form>
       
       <div className="text-center text-sm">
-        <Link to="/login" className="font-medium text-emerald-400 hover:text-emerald-300 transition-colors flex items-center justify-center gap-2">
+        <Link to="/login" className="font-medium text-emerald-600 hover:text-emerald-500 transition-colors flex items-center justify-center gap-2">
           <ArrowLeft className="w-4 h-4" /> Volver al Inicio de Sesión
         </Link>
       </div>
