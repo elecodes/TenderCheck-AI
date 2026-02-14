@@ -33,7 +33,7 @@ export const Navbar: React.FC = () => {
                <Link to="/login" className="text-[10px] font-black text-[#C5A028] hover:text-[#B08D20] dark:text-[#D4AF37] dark:hover:text-[#E5C158] transition-soft uppercase tracking-[0.2em] border border-[#C5A028]/30 dark:border-[#D4AF37]/30 px-6 py-2.5 rounded-full hover:bg-[#C5A028]/10 dark:hover:bg-[#D4AF37]/10 hover-lift">
                   Iniciar Sesión
                </Link>
-               <Link to="/register" className="px-8 py-3 rounded-full bg-[#C5A028] hover:bg-[#B08D20] dark:bg-[#D4AF37] dark:hover:bg-[#C5A028] text-white text-[10px] font-black uppercase tracking-[0.2em] transition-soft shadow-xl shadow-[#C5A028]/20 hover-lift active:scale-95 border border-[#C5A028]/20">
+               <Link to="/register" className="px-8 py-3 rounded-full bg-emerald-600 hover:bg-emerald-700 dark:bg-[#D4AF37] dark:hover:bg-[#C5A028] text-white text-[10px] font-black uppercase tracking-[0.2em] transition-soft shadow-xl shadow-emerald-600/20 hover-lift active:scale-95 border border-emerald-600/20">
                   Comenzar
                </Link>
             </div>
