@@ -113,19 +113,19 @@ test('📸 Generate Marketing Screenshots & Video', async ({ page }) => {
   await page.waitForSelector('nav');
   await page.mouse.wheel(0, 300);
   await page.waitForTimeout(1000); 
-  await page.screenshot({ path: 'screenshots/00-landing-page.png', fullPage: true });
+  await page.screenshot({ path: 'screenshots/00-landing-page-dark.png', fullPage: true });
 
   // 4. Login Page (Show Google Auth implementation)
   await page.goto('/login');
   await page.evaluate(() => document.documentElement.classList.add('dark'));
   await page.waitForSelector('text=Continuar con Google');
-  await page.screenshot({ path: 'screenshots/01-login-page.png' });
+  await page.screenshot({ path: 'screenshots/01-login-page-dark.png' });
 
   // 5. Register (Fast flow)
   await page.goto('/register');
   await page.evaluate(() => document.documentElement.classList.add('dark'));
   await page.waitForSelector('text=Continuar con Google');
-  await page.screenshot({ path: 'screenshots/0B-register-page.png' });
+  await page.screenshot({ path: 'screenshots/0B-register-page-dark.png' });
   
   const uniqueId = Date.now();
   await page.fill('input[id="name"]', 'Demo User');
@@ -147,10 +147,11 @@ test('📸 Generate Marketing Screenshots & Video', async ({ page }) => {
   await page.waitForTimeout(500); // Visual feedback
 
   // Snapshot of "Ready to Analyze" state
-  await page.screenshot({ path: 'screenshots/03-ready-to-analyze.png' });
+  await page.screenshot({ path: 'screenshots/03-ready-to-analyze-dark.png' });
 
   // 7. Click Analyze
-  await page.click('button:has-text("Ejecutar Análisis Completo")');
+  await page.waitForSelector('button:has-text("Ejecución Completa"):not([disabled])', { timeout: 10000 });
+  await page.click('button:has-text("Ejecución Completa")');
 
   // 8. Wait for Results
   // Wait for loading indicator to disappear (if applicable) or check for table
@@ -163,10 +164,10 @@ test('📸 Generate Marketing Screenshots & Video', async ({ page }) => {
 
   // 9. Capture Results
   await page.mouse.wheel(0, 400); // Scroll to see details
-  await page.screenshot({ path: 'screenshots/04-analysis-results.png', fullPage: true });
+  await page.screenshot({ path: 'screenshots/04-analysis-results-dark.png', fullPage: true });
 
   // 10. Dedicated Validation Results Screenshot (Colors & %)
   await page.locator('text=Resultado de Validación de Oferta').scrollIntoViewIfNeeded();
   await page.waitForTimeout(1000); // Wait for potential animations
-  await page.screenshot({ path: 'screenshots/05-validation-results.png' });
+  await page.screenshot({ path: 'screenshots/05-validation-results-dark.png' });
 });

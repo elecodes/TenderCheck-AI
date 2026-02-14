@@ -19,7 +19,7 @@ Welcome to the team! This playbook defines **how we work** to ensure high qualit
 |---------|---------|-------------|
 | `npm test` | Run all unit tests | Must pass before push |
 | `npm run security:scan` | Check for vulnerabilities (Snyk) | **0 High Severity** |
-| `npm run test:coverage` | Generate coverage report | **100% Domain, 80% Global** (High Reliability Standard) |
+| `npm run test:coverage` | Generate coverage report | **100% Domain / 100% Frontend Components** (High Reliability) |
 | `npx playwright test` | Run E2E Tests | Must pass before major releases |
 
 > **🛡️ Security Gate:** This project uses a **pre-push hook** (Husky). You cannot push to the remote repository if:
@@ -49,8 +49,8 @@ Please read the full [Coding Best Practices](../docs/standards/coding_best_pract
 - **No inline styles**: Use TailwindCSS utility classes.
 
 ### 🎨 Frontend Guidelines
-- **Premium Aesthetic**: Use `Inter` and `Playfair Display` fonts. Soft shadows.
-- **Dark Mode**: Use "Soft Charcoal" (`#242B33` or `#1a1c1a`), avoid pure black.
+- **Premium Aesthetic**: Use `Inter` and `Playfair Display` fonts. **Glassmorphism** cards with backdrop blur.
+- **Global Theme**: Support for both **Light** (Crema/Gold) and **Dark** (Charcoal/Emerald) modes.
 - **Brand Colors**: Emerald (`emerald-600`) for Actions, Gold (`#C5A028`) for Accents.
 - **Mobile First**: Minimum touch target of 44px (padding > p-2.5). Ensure high contrast on mobile cards (`bg-zinc-900/95`).
 - **Smart/Dumb**: `App.tsx` handles state/API, components (e.g., `TenderUpload`) just render.
@@ -84,6 +84,9 @@ To add a new check for tenders:
     2. **Fallback**: `Authorization: Bearer <token>` header for reliability on restrictive networks/browsers (ADR 027).
   - "Remember Me": Sets cookie expiration to 30 days. Unchecked = Session Cookie.
   - **Interstitial**: Returning users see a "Welcome Back" screen with a "Switch User" option.
+- **Error Handling**: 
+  - **401 Unauthorized**: Triggers immediate client-side logout to prevent zombie sessions.
+  - **Caching**: All auth endpoints use `Cache-Control: no-store` (ADR 029).
 - **Protected Routes**: `/dashboard` is secured via `ProtectedRoute.tsx`.
 
 ### 7. Performance & Caching Strategy 🚀

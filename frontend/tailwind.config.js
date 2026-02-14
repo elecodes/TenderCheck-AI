@@ -13,17 +13,26 @@ export default {
       },
       colors: {
         brand: {
-          gold: '#D4AF37', // Metallic Gold
-          dark: '#1a1c1a', // Soft Charcoal
+          gold: {
+            light: '#C5A028', // Oro Marca
+            DEFAULT: '#D4AF37', // Oro Suave (Dark)
+            dark: '#D4AF37',
+          },
+          charcoal: '#242B33', // Soft Charcoal (Dark BG)
+          gris: '#2D312D', // Gris Profundo (Dark Grey) - User Requested
+          crema: '#D3D0C2', // Crema Base (Original Lighter)
+          'crema-light': '#E8E6DE', // Light Gradient Start (Original Lighter)
+          'crema-dark': '#B8C1B7', // Light Gradient End (Original Lighter)
+          dark: '#1a1c1a', // Keep existing as fallback or specific use
           green: '#2E8B57', // Sea Green (muted)
           cream: '#F5F5DC', // Beige/Cream text
         },
         primary: {
-            50: '#f0f9ff',
-            100: '#e0f2fe',
-            500: '#0ea5e9',
-            600: '#0284c7',
-            900: '#0c4a6e',
+            50: '#ecfdf5', // emerald-50
+            100: '#d1fae5', // emerald-100
+            500: '#10b981', // emerald-500
+            600: '#059669', // emerald-600
+            900: '#064e3b', // emerald-900
         }
       }
     },

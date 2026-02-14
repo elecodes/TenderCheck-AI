@@ -82,9 +82,17 @@ Se ha implementado un sistema de validación basado en datos que permite al moto
 - **Factoría de Reglas**: Implementación de `ValidationRuleFactory` que carga dinámicamente las reglas de validación basándose en el sector seleccionado por el usuario, permitiendo una expansión ilimitada a nuevos ámbitos (e.g., Sanidad, Servicios Sociales).
 - **Resiliencia**: Inclusión de un mecanismo de fallback que garantiza la operatividad del sistema de validación incluso ante fallos en la persistencia de datos sectoriales.
 
-## 4.7. Resultados Obtenidos
+## 4.8. Sistema de Diseño UX/UI (Fase 8)
+Se ha implementado un sistema de diseño integral ("TenderCheck Design System") para garantizar la usabilidad y la coherencia visual:
+- **Tema Dual**: Soporte completo para modo Claro (inspirado en tonos "Crema" y papel) y Oscuro ("Charcoal").
+- **Tipografía**: Jerarquía visual clara mediante el uso de *Playfair Display* para títulos y *Inter* para datos densos.
+- **Feedback Visual**: Uso de micro-interacciones y estados de carga (Skeletons) para mejorar la percepción de rendimiento.
+- **Accesibilidad**: Alto contraste en formularios y navegación optimizada para teclado y lectores de pantalla.
+
+## 4.9. Resultados Obtenidos
 La versión final de TenderCheck AI permite:
 1.  **Ingesta Inteligente**: Procesamiento de pliegos y ofertas atomizado.
 2.  **Validación Basada en Evidencias**: No solo dice si cumple, sino que muestra *por qué* y *dónde* está la prueba en el documento del licitador.
 3.  **Auditoría Histórica**: Capacidad de revisar y gestionar el cumplimiento de múltiples licitaciones de forma persistente.
 4.  **Entrega Profesional**: Generación de documentos PDF listos para ser adjuntados a un expediente de contratación.
+

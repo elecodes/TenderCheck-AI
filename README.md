@@ -24,15 +24,16 @@
 - **Cloud Semantic Search**: Native Vector Search with Google Genkit (`gemini-embedding-001` - 3072D).
 - **Cloud-Native Architecture**: Backend on Render + Turso Database (Edge SQLite).
 - **Modern React Interface**: 
-  - **New Typography**: Professional serif fonts (*Playfair Display*) for high-value information.
-  - **Dynamic Layouts**: Smart sizing for long titles and summaries.
-  - **Responsive Design**: Mobile-optimized Navigation (Hamburger Menu) and High-Contrast Auth forms.
+  - **Dual Theme Support**: Comprehensive **Light** (Beige/Gold) and **Dark** (Charcoal/Emerald) modes with a global toggle.
+  - **Premium Aesthetic**: **Glassmorphism** design with backdrop blurs, soft shadows, and mesh gradients.
+  - **Typography**: Professional pairing of *Playfair Display* (Headings) and *Inter* (Body).
+  - **Responsive Design**: Mobile-optimized Navigation and High-Contrast Accessibility.
 - **Persistent History**: Stores all analyses in **Turso (Distributed SQLite)** for reliability.
 - **Enterprise Auth**: **HttpOnly Cookies** (XSS Protection), "Remember Me" functionality, "Welcome Back" interstitial, and Google Sign-In.
 - **History Management**: Browse, search, and delete previous analyses.
 - **Professional Export**: Generate branded **PDF Reports**.
 - **Dynamic Industry Validation**: Intelligent scope filtering that adapts to different sectors (Digital Services, Construction, etc.) using database-driven keyword presets.
-- **Secure by Design**: Zod validation, Helmet protection, strict CORS (`ALLOWED_ORIGINS`), and COOP/COEP compliant auth flows.
+- **Secure by Design**: Zod validation, Helmet protection, strict CORS (`ALLOWED_ORIGINS`), and specialized **401 Error Handling** for session recovery.
 - **AI Observability**: Integrated with **LangSmith** for real-time tracing, prompt versioning, and performance monitoring.
 
 ## 📌 Overview
@@ -255,6 +256,9 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── 025-enforce-https-turso.md
 │   │   ├── 026-high-coverage-standard.md
 │   │   ├── 027-auth-header-fallback.md
+│   │   ├── 028-ui-design-system.md
+│   │   ├── 029-auth-error-handling.md
+│   │   ├── 030-global-theme-strategy.md
 │   │   └── README.md
 │   ├── architecture
 │   │   ├── mcp_feasibility_study.md
@@ -314,9 +318,11 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   │   │   ├── AnalysisResults.tsx
 │   │   │   │   ├── ComparisonResults.tsx
 │   │   │   │   ├── Dashboard.tsx
+│   │   │   │   ├── HistorySidebar.test.tsx
 │   │   │   │   ├── HistorySidebar.tsx
 │   │   │   │   ├── TenderUpload.test.tsx
 │   │   │   │   ├── TenderUpload.tsx
+│   │   │   │   ├── ValidationSummary.test.tsx
 │   │   │   │   └── ValidationSummary.tsx
 │   │   │   ├── layout
 │   │   │   │   ├── Navbar.tsx
@@ -435,9 +441,7 @@ npx playwright show-report
 # Check Coverage (Critical Baseline > 80%)
 # We have achieved **100% Domain / 84% Global Coverage**, ensuring high reliability across
 # Domain logic, AI Services, and API Routes.
-# Check Coverage (Critical Baseline > 80%)
-# We have achieved **100% Domain / 84% Global Coverage**, ensuring high reliability across
-# Domain logic, AI Services, and API Routes.
+
 npm run test:coverage
 
 # Run Security Scan (Snyk)

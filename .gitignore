@@ -26,3 +26,7 @@ docs/TFM_DEFENSE_NOTES.md
 docs/architecture/MIRO_ARCHITECTURE_GUIDE.md
 docs/architecture/diagrams/
 
+
+# Playwright
+playwright-report/
+test-results/

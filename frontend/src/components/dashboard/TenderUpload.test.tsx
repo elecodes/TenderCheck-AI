@@ -32,8 +32,8 @@ describe('TenderUpload', () => {
             />
         );
         expect(screen.getByText('test-file.pdf')).toBeInTheDocument();
-        expect(screen.getByText('Documento Listo')).toBeInTheDocument();
-        expect(screen.getByText('Cambiar Archivo')).toBeInTheDocument();
+        expect(screen.getByText('Documento Verificado')).toBeInTheDocument();
+        expect(screen.getByText('Eliminar')).toBeInTheDocument();
     });
 
     it('calls onFileSelect when a file is uploaded', () => {
@@ -63,6 +63,84 @@ describe('TenderUpload', () => {
         fireEvent.change(input!, { target: { files: [file] } });
 
         expect(mockOnFileSelect).toHaveBeenCalledWith(file);
+    });
+
+    it('handles drag and drop events', () => {
+        render(
+            <TenderUpload 
+                onFileSelect={mockOnFileSelect} 
+                selectedFile={null} 
+                disabled={false} 
+            />
+        );
+
+        const dropZone = screen.getByRole('button');
+
+        // Test drag enter
+        fireEvent.dragEnter(dropZone);
+        expect(dropZone).toHaveClass('border-emerald-500/50'); // partial match for dragActive style
+
+        // Test drag leave
+        fireEvent.dragLeave(dropZone);
+        expect(dropZone).not.toHaveClass('border-emerald-500/50');
+
+        // Test drop
+        const file = new File(['dummy'], 'dropped.pdf', { type: 'application/pdf' });
+        fireEvent.drop(dropZone, {
+            dataTransfer: {
+                files: [file],
+                types: ['Files'],
+            },
+        });
+
+        expect(mockOnFileSelect).toHaveBeenCalledWith(file);
+    });
+
+    it('handles keyboard interaction', () => {
+        render(
+            <TenderUpload 
+                onFileSelect={mockOnFileSelect} 
+                selectedFile={null} 
+                disabled={false}
+                variant="default"
+            />
+        );
+
+        const dropZone = screen.getByRole('button');
+        const input = document.body.querySelector('#file-upload-default') as HTMLInputElement;
+        const clickSpy = vi.spyOn(input, 'click');
+
+        // Test Enter key
+        fireEvent.keyDown(dropZone, { key: 'Enter' });
+        expect(clickSpy).toHaveBeenCalled();
+
+        // Test Space key
+        fireEvent.keyDown(dropZone, { key: ' ' });
+        expect(clickSpy).toHaveBeenCalledTimes(2);
+
+        // Test Click on the area
+        fireEvent.click(dropZone);
+        expect(clickSpy).toHaveBeenCalledTimes(3);
+    });
+
+    it('allows clearing the selected file', () => {
+        const file = new File(['dummy'], 'test.pdf', { type: 'application/pdf' });
+        render(
+            <TenderUpload 
+                onFileSelect={mockOnFileSelect} 
+                selectedFile={file} 
+                disabled={false} 
+            />
+        );
+
+        const deleteButton = screen.getByRole('button', { name: /eliminar/i }); // Assuming text inside button
+        // Current button text is "Eliminar" inside a span, might need getByText or adjust query
+        // The button has "Eliminar" text.
+        
+        fireEvent.click(deleteButton);
+        
+        // When cleared, it calls onFileSelect with null (cast as File in component)
+        expect(mockOnFileSelect).toHaveBeenCalledWith(null);
     });
 
     it('shows alert for non-pdf files', () => {

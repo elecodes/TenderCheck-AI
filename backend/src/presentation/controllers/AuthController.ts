@@ -170,6 +170,7 @@ export class AuthController {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production", // HTTPS in prod
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      path: "/",
     };
 
     if (rememberMe) {

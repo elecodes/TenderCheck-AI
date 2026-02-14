@@ -41,28 +41,28 @@ export function LoginForm() {
   // If already authenticated, show Welcome Back Interstitial
   if (isAuthenticated && user) {
       return (
-        <div className="w-full max-w-md p-8 space-y-8 bg-zinc-900/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-300">
+        <div className="w-full max-w-md p-8 space-y-8 bg-brand-crema-light/90 dark:bg-white/[0.03] backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-300">
             <div className="text-center space-y-4">
-                <div className="mx-auto w-20 h-20 bg-emerald-500/20 rounded-full flex items-center justify-center border-2 border-emerald-500/30">
-                    <UserCircle className="w-10 h-10 text-emerald-400" />
+                <div className="mx-auto w-20 h-20 bg-emerald-100/50 dark:bg-emerald-500/20 rounded-full flex items-center justify-center border-2 border-emerald-500/30">
+                    <UserCircle className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
                 </div>
                 <div className="space-y-1">
-                    <h1 className="text-2xl font-serif text-white tracking-tight">Hola de nuevo, {user?.name ? user.name.split(' ')[0] : 'Usuario'}</h1>
-                    <p className="text-emerald-100/40 text-sm font-light">{user.email}</p>
+                    <h1 className="text-2xl font-serif text-brand-charcoal dark:text-white tracking-tight">Hola de nuevo, {user?.name ? user.name.split(' ')[0] : 'Usuario'}</h1>
+                    <p className="text-brand-charcoal/60 dark:text-emerald-100/40 text-sm font-light">{user.email}</p>
                 </div>
             </div>
 
             <div className="space-y-4 pt-4">
                 <button
                     onClick={() => navigate('/dashboard')}
-                    className="w-full flex items-center justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-base font-medium text-white bg-emerald-600 hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-200 transform hover:scale-[1.02]"
+                    className="w-full flex items-center justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg shadow-emerald-600/20 text-base font-medium text-white bg-emerald-600 hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-200 transform hover:scale-[1.02]"
                 >
                     Continuar al Dashboard <ArrowRight className="ml-2 h-5 w-5" />
                 </button>
 
                 <button
                     onClick={() => logout()}
-                    className="w-full flex items-center justify-center py-3 px-4 border border-white/10 rounded-xl text-sm font-medium text-emerald-100/60 hover:text-white hover:bg-white/5 hover:border-white/20 transition-all duration-200"
+                    className="w-full flex items-center justify-center py-3 px-4 border border-emerald-200 dark:border-emerald-500/30 rounded-xl text-sm font-medium text-brand-charcoal/60 dark:text-emerald-100/60 hover:text-brand-charcoal dark:hover:text-white hover:bg-emerald-50 dark:hover:bg-white/5 transition-all duration-200"
                 >
                     <LogOut className="mr-2 h-4 w-4" /> Cambiar de usuario
                 </button>
@@ -86,25 +86,25 @@ export function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-md p-8 space-y-8 bg-zinc-900/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-300">
+    <div className="w-full max-w-md p-8 space-y-8 bg-white/30 dark:bg-white/[0.03] backdrop-blur-3xl border border-white/50 dark:border-white/10 rounded-2xl shadow-[0_20px_50px_rgba(31,38,135,0.1)] animate-in fade-in zoom-in duration-300 transition-colors duration-300">
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-serif text-white tracking-tight">Bienvenido de nuevo</h1>
-        <p className="text-emerald-100/60 font-light">TenderCheck AI Enterprise</p>
+        <h1 className="text-3xl font-serif text-brand-charcoal dark:text-white tracking-tight">Bienvenido de nuevo</h1>
+        <p className="text-brand-charcoal/60 dark:text-gray-400 font-light">TenderCheck AI Enterprise</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {error && (
-          <div role="alert" className="p-3 bg-red-500/10 border border-red-500/20 text-red-200 text-sm rounded-lg flex items-center gap-2">
+          <div role="alert" className="p-3 bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg flex items-center gap-2">
              <span className="font-semibold">Error:</span> {error}
           </div>
         )}
 
         <div className="space-y-2">
-          <label htmlFor="email" className="block text-xs font-medium uppercase tracking-widest text-emerald-100/50">
+          <label htmlFor="email" className="block text-xs font-medium uppercase tracking-widest text-gray-500 dark:text-gray-400">
             Correo Electrónico
           </label>
           <div className="relative group">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-100/30 group-focus-within:text-emerald-400 transition-colors">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-emerald-600 dark:group-focus-within:text-emerald-500 transition-colors">
               <Mail className="h-5 w-5" />
             </div>
             <input
@@ -113,13 +113,13 @@ export function LoginForm() {
               autoFocus
               autoComplete="username"
               placeholder="name@company.com"
-              className={`block w-full pl-10 pr-3 py-3 bg-white/5 border ${errors.email ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-emerald-400'} rounded-lg text-base text-emerald-50 placeholder-emerald-100/20 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all`}
+              className={`block w-full pl-10 pr-3 py-3 bg-white/50 dark:bg-black/20 border ${errors.email ? 'border-red-300 focus:border-red-500' : 'border-emerald-200 dark:border-emerald-500/20 focus:border-emerald-500 dark:focus:border-emerald-500'} rounded-lg text-base text-brand-charcoal dark:text-white placeholder-brand-charcoal/40 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all`}
               aria-invalid={errors.email ? 'true' : 'false'}
               {...register('email')}
             />
           </div>
           {errors.email && (
-            <p role="alert" className="text-xs text-red-300 mt-1 flex items-center gap-1 animate-in slide-in-from-top-1">
+            <p role="alert" className="text-xs text-red-500 mt-1 flex items-center gap-1 animate-in slide-in-from-top-1">
               • {errors.email.message}
             </p>
           )}
@@ -127,20 +127,20 @@ export function LoginForm() {
 
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label htmlFor="password" className="block text-xs font-medium uppercase tracking-widest text-emerald-100/50">
+            <label htmlFor="password" className="block text-xs font-medium uppercase tracking-widest text-gray-500 dark:text-gray-400">
               Contraseña
             </label>
-            <Link to="/forgot-password" className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">¿Olvidaste tu contraseña?</Link>
+            <Link to="/forgot-password" className="text-xs text-emerald-600 hover:text-emerald-500 dark:text-emerald-500 dark:hover:text-emerald-400 transition-colors">¿Olvidaste tu contraseña?</Link>
           </div>
           <div className="relative group">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-100/30 group-focus-within:text-emerald-400 transition-colors">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-emerald-600 dark:group-focus-within:text-emerald-500 transition-colors">
               <Lock className="h-5 w-5" />
             </div>
             <input
               id="password"
               type={showPassword ? 'text' : 'password'}
               autoComplete="current-password"
-              className={`block w-full pl-10 pr-10 py-3 bg-white/5 border ${errors.password ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-emerald-400'} rounded-lg text-base text-emerald-50 placeholder-emerald-100/20 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all`}
+              className={`block w-full pl-10 pr-10 py-3 bg-white/50 dark:bg-black/20 border ${errors.password ? 'border-red-300 focus:border-red-500' : 'border-emerald-200 dark:border-emerald-500/20 focus:border-emerald-500 dark:focus:border-emerald-500'} rounded-lg text-base text-brand-charcoal dark:text-white placeholder-brand-charcoal/40 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all`}
               placeholder="••••••••"
               aria-invalid={errors.password ? 'true' : 'false'}
               {...register('password')}
@@ -148,14 +148,14 @@ export function LoginForm() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-emerald-100/30 hover:text-emerald-100 transition-colors"
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
               {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
             </button>
           </div>
           {errors.password && (
-            <p role="alert" className="text-xs text-red-300 mt-1 flex items-center gap-1 animate-in slide-in-from-top-1">
+            <p role="alert" className="text-xs text-red-500 mt-1 flex items-center gap-1 animate-in slide-in-from-top-1">
               • {errors.password.message}
             </p>
           )}
@@ -168,9 +168,9 @@ export function LoginForm() {
             type="checkbox"
             checked={rememberMe}
             onChange={(e) => setRememberMe(e.target.checked)}
-            className="h-4 w-4 rounded border-white/10 bg-white/5 text-emerald-600 focus:ring-emerald-500/50 focus:ring-offset-0 transition-colors cursor-pointer"
+            className="h-4 w-4 rounded border-gray-300 bg-gray-50 text-emerald-600 focus:ring-emerald-500 focus:ring-offset-0 transition-colors cursor-pointer"
           />
-          <label htmlFor="remember-me" className="ml-2 block text-sm text-emerald-100/60 cursor-pointer select-none hover:text-emerald-100/80 transition-colors">
+          <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-600 cursor-pointer select-none hover:text-gray-800 transition-colors">
             Recuérdame
           </label>
         </div>
@@ -178,7 +178,7 @@ export function LoginForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full flex items-center justify-center py-3.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02]"
+          className="w-full flex items-center justify-center py-3.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02]"
         >
           {isLoading ? (
             <div className="flex items-center gap-2">
@@ -196,20 +196,20 @@ export function LoginForm() {
       {enableGoogle && (
         <div className="space-y-4">
           <div className="flex items-center gap-4">
-             <div className="h-px flex-1 bg-emerald-100/10"></div>
-             <span className="text-xs text-emerald-100/30 uppercase">O</span>
-             <div className="h-px flex-1 bg-emerald-100/10"></div>
+             <div className="h-px flex-1 bg-gray-200"></div>
+             <span className="text-xs text-gray-400 uppercase">O</span>
+             <div className="h-px flex-1 bg-gray-200"></div>
           </div>
           <GoogleLoginButton />
         </div>
       )}
       
       <div className="text-center text-sm">
-        <span className="text-emerald-100/40">¿No tienes una cuenta? </span>
+        <span className="text-gray-500">¿No tienes una cuenta? </span>
         <Link 
           to="/register" 
           onMouseDown={(e) => e.preventDefault()}
-          className="font-medium text-emerald-400 hover:text-emerald-300 transition-colors hover:underline focus:outline-none"
+          className="font-medium text-emerald-600 hover:text-emerald-500 transition-colors hover:underline focus:outline-none"
         >
           Crear Cuenta
         </Link>

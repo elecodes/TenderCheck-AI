@@ -57,25 +57,25 @@ export function RegisterForm() {
   };
 
   return (
-    <div className="w-full max-w-md p-8 space-y-8 bg-zinc-900/95 backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl animate-in fade-in slide-in-from-right-10 duration-500">
+    <div className="w-full max-w-md p-8 space-y-8 bg-white/30 dark:bg-white/[0.03] backdrop-blur-3xl border border-white/50 dark:border-white/10 rounded-2xl shadow-[0_20px_50px_rgba(31,38,135,0.1)] animate-in fade-in slide-in-from-right-10 duration-500 transition-colors duration-300">
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-serif text-white tracking-tight">Crear Cuenta</h1>
-        <p className="text-emerald-100/60 font-light">Únete al estándar de élite en análisis de licitaciones públicas</p>
+        <h1 className="text-3xl font-serif text-brand-charcoal dark:text-white tracking-tight">Crear Cuenta</h1>
+        <p className="text-brand-charcoal/60 dark:text-gray-400 font-light">Únete al estándar de élite en análisis de licitaciones públicas</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         {error && (
-            <div role="alert" className="p-3 bg-red-500/10 border border-red-500/20 text-red-200 text-sm rounded-lg flex items-center gap-2">
+            <div role="alert" className="p-3 bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg flex items-center gap-2">
                 <span className="font-semibold">Error:</span> {error}
             </div>
         )}
 
         <div className="space-y-2">
-          <label htmlFor="name" className="block text-xs font-medium uppercase tracking-widest text-emerald-100/50">
+          <label htmlFor="name" className="block text-xs font-medium uppercase tracking-widest text-gray-500">
             Nombre Completo
           </label>
           <div className="relative group">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-100/30 group-focus-within:text-emerald-400 transition-colors">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
               <User className="h-5 w-5" />
             </div>
             <input
@@ -83,64 +83,64 @@ export function RegisterForm() {
               type="text"
               autoFocus
               placeholder="e.g. Julian Sterling"
-              className={`block w-full pl-10 pr-3 py-3 bg-white/5 border ${errors.name ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-emerald-400'} rounded-lg text-base text-emerald-50 placeholder-emerald-100/20 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all`}
+              className={`block w-full pl-10 pr-3 py-3 bg-white/50 dark:bg-black/20 border ${errors.name ? 'border-red-300 focus:border-red-500' : 'border-emerald-200 dark:border-emerald-500/20 focus:border-emerald-500'} rounded-lg text-base text-brand-charcoal dark:text-white placeholder-brand-charcoal/40 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all`}
               aria-invalid={errors.name ? 'true' : 'false'}
               {...register('name')}
             />
           </div>
-          {errors.name && <p className="text-xs text-red-300 mt-1">• {errors.name.message}</p>}
+          {errors.name && <p className="text-xs text-red-500 mt-1">• {errors.name.message}</p>}
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="email" className="block text-xs font-medium uppercase tracking-widest text-emerald-100/50">
+          <label htmlFor="email" className="block text-xs font-medium uppercase tracking-widest text-gray-500">
             Correo Electrónico
           </label>
           <div className="relative group">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-100/30 group-focus-within:text-emerald-400 transition-colors">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
               <Mail className="h-5 w-5" />
             </div>
             <input
               id="email"
               type="email"
               placeholder="name@company.com"
-              className={`block w-full pl-10 pr-3 py-3 bg-white/5 border ${errors.email ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-emerald-400'} rounded-lg text-base text-emerald-50 placeholder-emerald-100/20 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all`}
+              className={`block w-full pl-10 pr-3 py-3 bg-white/50 dark:bg-black/20 border ${errors.email ? 'border-red-300 focus:border-red-500' : 'border-emerald-200 dark:border-emerald-500/20 focus:border-emerald-500'} rounded-lg text-base text-brand-charcoal dark:text-white placeholder-brand-charcoal/40 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all`}
               aria-invalid={errors.email ? 'true' : 'false'}
               {...register('email')}
             />
           </div>
-          {errors.email && <p className="text-xs text-red-300 mt-1">• {errors.email.message}</p>}
+          {errors.email && <p className="text-xs text-red-500 mt-1">• {errors.email.message}</p>}
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="company" className="block text-xs font-medium uppercase tracking-widest text-emerald-100/50">
+          <label htmlFor="company" className="block text-xs font-medium uppercase tracking-widest text-gray-500">
             Empresa (Opcional)
           </label>
           <div className="relative group">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-100/30 group-focus-within:text-emerald-400 transition-colors">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
               <Building className="h-5 w-5" />
             </div>
             <input
               id="company"
               type="text"
               placeholder="Nombre de la Organización"
-              className="block w-full pl-10 pr-3 py-3 bg-white/5 border border-white/10 rounded-lg text-base text-emerald-50 placeholder-emerald-100/20 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
+              className="block w-full pl-10 pr-3 py-3 bg-white/50 dark:bg-black/20 border border-emerald-200 dark:border-emerald-500/20 rounded-lg text-base text-brand-charcoal dark:text-white placeholder-brand-charcoal/40 dark:placeholder-gray-500 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all"
               {...register('company')}
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="password" className="block text-xs font-medium uppercase tracking-widest text-emerald-100/50">
+          <label htmlFor="password" className="block text-xs font-medium uppercase tracking-widest text-gray-500">
             Contraseña
           </label>
           <div className="relative group">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-100/30 group-focus-within:text-emerald-400 transition-colors">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
               <Lock className="h-5 w-5" />
             </div>
             <input
               id="password"
               type={showPassword ? "text" : "password"}
-              className={`block w-full pl-10 pr-10 py-3 bg-white/5 border ${errors.password ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-emerald-400'} rounded-lg text-base text-emerald-50 placeholder-emerald-100/20 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all`}
+              className={`block w-full pl-10 pr-10 py-3 bg-white/50 dark:bg-black/20 border ${errors.password ? 'border-red-300 focus:border-red-500' : 'border-emerald-200 dark:border-emerald-500/20 focus:border-emerald-500'} rounded-lg text-base text-brand-charcoal dark:text-white placeholder-brand-charcoal/40 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all`}
               placeholder="••••••••"
               aria-invalid={errors.password ? 'true' : 'false'}
               {...register('password')}
@@ -148,20 +148,20 @@ export function RegisterForm() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-emerald-100/30 hover:text-emerald-100 transition-colors"
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
               {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
             </button>
           </div>
-          {errors.password && <p className="text-xs text-red-300 mt-1">• {errors.password.message}</p>}
+          {errors.password && <p className="text-xs text-red-500 mt-1">• {errors.password.message}</p>}
           
           {/* Password Requirements Hint */}
-          <div className="mt-2 p-3 rounded-lg bg-emerald-900/20 border border-emerald-500/10">
-             <p className="text-[10px] uppercase tracking-wider font-semibold text-emerald-100/50 mb-1">
+          <div className="mt-2 p-3 rounded-lg bg-emerald-50 border border-emerald-100">
+             <p className="text-[10px] uppercase tracking-wider font-semibold text-emerald-800 mb-1">
                Requisitos de la Contraseña:
              </p>
-             <ul className="text-xs text-emerald-100/40 space-y-0.5 list-disc pl-3">
+             <ul className="text-xs text-emerald-700 space-y-0.5 list-disc pl-3">
                <li>Al menos 8 caracteres</li>
                <li>Una letra mayúscula (A-Z)</li>
                <li>Un número (0-9)</li>
@@ -191,20 +191,20 @@ export function RegisterForm() {
       {enableGoogle && (
         <div className="space-y-4">
           <div className="flex items-center gap-4">
-             <div className="h-px flex-1 bg-emerald-100/10"></div>
-             <span className="text-xs text-emerald-100/30 uppercase">O</span>
-             <div className="h-px flex-1 bg-emerald-100/10"></div>
+             <div className="h-px flex-1 bg-gray-200"></div>
+             <span className="text-xs text-gray-400 uppercase">O</span>
+             <div className="h-px flex-1 bg-gray-200"></div>
           </div>
           <GoogleLoginButton />
         </div>
       )}
       
       <div className="text-center text-sm">
-        <span className="text-emerald-100/40">¿Ya tienes una cuenta? </span>
+        <span className="text-gray-500">¿Ya tienes una cuenta? </span>
         <Link 
           to="/login" 
           onMouseDown={(e) => e.preventDefault()}
-          className="font-medium text-amber-500 hover:text-amber-400 transition-colors"
+          className="font-medium text-amber-600 hover:text-amber-500 transition-colors"
         >
           Iniciar sesión
         </Link>

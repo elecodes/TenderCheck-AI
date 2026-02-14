@@ -20,18 +20,24 @@ function App() {
             </ProtectedRoute>
           } />
           <Route path="/login" element={
-            <div className="min-h-screen flex items-center justify-center p-4 bg-brand-dark bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-brand-dark to-brand-dark animate-fade-up">
-              <LoginForm />
+            <div className="min-h-screen w-full flex items-center justify-center p-4 bg-[#D3D0C2] bg-gradient-to-br from-[#E8E6DE] via-[#D3D0C2] to-[#B8C1B7] dark:bg-[#1a1f24] dark:bg-gradient-to-br dark:from-[#3a4450] dark:via-[#242b33] dark:to-[#1a1f24] relative overflow-hidden transition-colors duration-500">
+                <div className="absolute top-[-20%] left-[-10%] w-[1000px] h-[1000px] bg-[#C5A028]/5 rounded-full blur-[150px] pointer-events-none mix-blend-multiply dark:mix-blend-screen animate-float" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[800px] h-[800px] bg-[#C5A028]/5 rounded-full blur-[120px] pointer-events-none mix-blend-multiply dark:mix-blend-screen animate-float" style={{ animationDelay: '-3s' }} />
+                <LoginForm />
             </div>
           } />
           <Route path="/register" element={
-            <div className="min-h-screen flex items-center justify-center p-4 bg-brand-dark bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-brand-dark to-brand-dark animate-fade-up">
-              <RegisterForm />
+            <div className="min-h-screen w-full flex items-center justify-center p-4 bg-[#D3D0C2] bg-gradient-to-br from-[#E8E6DE] via-[#D3D0C2] to-[#B8C1B7] dark:bg-[#1a1f24] dark:bg-gradient-to-br dark:from-[#3a4450] dark:via-[#242b33] dark:to-[#1a1f24] relative overflow-hidden transition-colors duration-500">
+                <div className="absolute top-[-20%] left-[-10%] w-[1000px] h-[1000px] bg-[#C5A028]/5 rounded-full blur-[150px] pointer-events-none mix-blend-multiply dark:mix-blend-screen animate-float" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[800px] h-[800px] bg-[#C5A028]/5 rounded-full blur-[120px] pointer-events-none mix-blend-multiply dark:mix-blend-screen animate-float" style={{ animationDelay: '-3s' }} />
+                <RegisterForm />
             </div>
           } />
           <Route path="/forgot-password" element={
-            <div className="min-h-screen flex items-center justify-center p-4 bg-brand-dark bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-brand-dark to-brand-dark animate-fade-up">
-              <ForgotPasswordForm />
+            <div className="min-h-screen w-full flex items-center justify-center p-4 bg-[#D3D0C2] bg-gradient-to-br from-[#E8E6DE] via-[#D3D0C2] to-[#B8C1B7] dark:bg-[#1a1f24] dark:bg-gradient-to-br dark:from-[#3a4450] dark:via-[#242b33] dark:to-[#1a1f24] relative overflow-hidden transition-colors duration-500">
+                <div className="absolute top-[-20%] left-[-10%] w-[1000px] h-[1000px] bg-[#C5A028]/5 rounded-full blur-[150px] pointer-events-none mix-blend-multiply dark:mix-blend-screen animate-float" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[800px] h-[800px] bg-[#C5A028]/5 rounded-full blur-[120px] pointer-events-none mix-blend-multiply dark:mix-blend-screen animate-float" style={{ animationDelay: '-3s' }} />
+                <ForgotPasswordForm />
             </div>
           } />
         </Routes>

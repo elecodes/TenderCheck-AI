@@ -10,6 +10,7 @@ import { getCurrentUser, logout as logoutService } from '../../services/auth.ser
 import type { TenderAnalysis, ValidationResult } from '../../types'
 import { FileText, ArrowRight, Play, LogOut, User as UserIcon, PanelLeftClose, PanelLeftOpen } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { ApiError } from '../../services/api'
 
 export const Dashboard = () => {
   const navigate = useNavigate()
@@ -32,8 +33,11 @@ export const Dashboard = () => {
         try {
             const data = await fetchHistory();
             setHistory(data);
-        } catch (err) {
+        } catch (err: any) {
             console.error("Failed to load history:", err);
+            if (err instanceof ApiError && err.status === 401) {
+                handleLogout();
+            }
         }
     };
     loadHistory();
@@ -80,8 +84,12 @@ export const Dashboard = () => {
 
       const updatedHistory = await fetchHistory();
       setHistory(updatedHistory);
-    } catch (err) {
-      setError((err as Error).message)
+    } catch (err: any) {
+      if (err instanceof ApiError && err.status === 401) {
+          handleLogout();
+          return;
+      }
+      setError(err.message || "An error occurred during analysis")
     } finally {
       setIsAnalyzing(false)
     }
@@ -94,8 +102,12 @@ export const Dashboard = () => {
     try {
       const { results } = await validateProposal(analysis.id, selectedProposal)
       setComparisonResults(results)
-    } catch (err) {
-      setError((err as Error).message)
+    } catch (err: any) {
+      if (err instanceof ApiError && err.status === 401) {
+          handleLogout();
+          return;
+      }
+      setError(err.message || "Comparación fallida")
     } finally {
       setIsComparing(false)
     }
@@ -109,7 +121,11 @@ export const Dashboard = () => {
         if (analysis?.id === id) {
             handleReset();
         }
-    } catch {
+    } catch (err: any) {
+        if (err instanceof ApiError && err.status === 401) {
+            handleLogout();
+            return;
+        }
         setError("Error al eliminar el historial");
     }
   }
@@ -124,15 +140,16 @@ export const Dashboard = () => {
 
   return (
     <SentryErrorBoundary>
-      <div className="flex flex-col h-screen bg-brand-dark bg-gradient-to-br from-[#242B33] to-[#1a1f24] text-gray-100 font-sans overflow-hidden">
+      <div className="flex flex-col h-screen bg-[#D3D0C2] bg-gradient-to-br from-[#E8E6DE] via-[#D3D0C2] to-[#B8C1B7] dark:bg-brand-charcoal dark:bg-gradient-to-br dark:from-[#3a4450] dark:via-[#242b33] dark:to-[#1a1f24] text-brand-charcoal dark:text-gray-100 font-sans overflow-hidden transition-colors duration-300">
         
         {/* Navbar */}
-        <header className="border-b border-gray-800 bg-brand-dark/50 backdrop-blur-md z-10">
+        {/* Navbar */}
+        <header className="border-b border-white/20 dark:border-white/10 bg-white/30 dark:bg-[#242b33]/80 backdrop-blur-md z-10 sticky top-0 transition-colors duration-300">
           <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
             <div className="flex items-center space-x-3">
                <button 
                   onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                  className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-all mr-4 hidden lg:flex items-center space-x-2 border border-transparent hover:border-gray-700"
+                  className="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all mr-4 hidden lg:flex items-center space-x-2 border border-transparent hover:border-gray-200"
                   title={isSidebarOpen ? "Ocultar panel" : "Mostrar panel"}
                 >
                   {isSidebarOpen ? <PanelLeftClose className="w-5 h-5" /> : <PanelLeftOpen className="w-5 h-5" />}
@@ -140,26 +157,26 @@ export const Dashboard = () => {
                     {isSidebarOpen ? "Ocultar Historial" : "Ver Historial"}
                   </span>
                 </button>
-               <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center shadow-md shadow-emerald-500/20">
+               <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center shadow-md shadow-emerald-600/20">
                  <FileText className="text-white w-5 h-5" /> 
                </div>
-               <span className="text-xl font-bold tracking-tight text-white">TenderCheck AI</span>
+               <span className="text-xl font-serif font-bold tracking-tight text-brand-charcoal dark:text-white">TenderCheck AI</span>
             </div>
             
             <div className="flex items-center gap-4">
                {user && (
                    <div className="hidden md:flex flex-col items-end mr-2">
-                      <span className="text-sm font-medium text-gray-100">{user.name}</span>
-                      <span className="text-xs text-gray-400">{user.company || 'Enterprise Account'}</span>
+                      <span className="text-sm font-medium text-gray-900">{user.name}</span>
+                      <span className="text-xs text-gray-500">{user.company || 'Enterprise Account'}</span>
                    </div>
                )}
-               <div className="h-8 w-8 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-gray-500 dark:text-gray-400">
+               <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
                   <UserIcon className="w-4 h-4" />
                </div>
-               <div className="h-8 w-px bg-gray-200 dark:bg-gray-800 mx-2"></div>
+               <div className="h-8 w-px bg-gray-200 mx-2"></div>
                <button 
                   onClick={handleLogout}
-                  className="p-2 text-gray-500 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="p-2 text-gray-500 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50"
                   title="Sign out"
                >
                   <LogOut className="w-5 h-5" />
@@ -170,7 +187,8 @@ export const Dashboard = () => {
 
         <div className="flex flex-1 overflow-hidden h-[calc(100vh-64px)]">
           {/* History Sidebar */}
-          <aside className={`flex-shrink-0 hidden lg:block transition-all duration-300 ease-in-out border-r border-gray-800/50 ${isSidebarOpen ? 'w-80 opacity-100' : 'w-0 opacity-0 overflow-hidden'}`}>
+          {/* History Sidebar */}
+          <aside className={`flex-shrink-0 hidden lg:block transition-all duration-300 ease-in-out border-r border-white/20 dark:border-white/10 bg-white/20 dark:bg-[#1a1f24]/50 backdrop-blur-sm ${isSidebarOpen ? 'w-80 opacity-100' : 'w-0 opacity-0 overflow-hidden'}`}>
             <div className="w-80 h-full"> {/* Inner wrapper to maintain sidebar content width while transition happens */}
                 <HistorySidebar 
                     history={history} 
@@ -189,10 +207,10 @@ export const Dashboard = () => {
           </aside>
 
           {/* Main Dashboard Area */}
-          <div className="flex-1 overflow-y-auto bg-[#1a1f24]">
+          <div className="flex-1 overflow-y-auto bg-transparent transition-colors duration-300">
             <main className="max-w-5xl mx-auto px-8 py-12">
               {error && (
-                <div className="mb-8 p-4 bg-red-900/10 border border-red-500/20 text-red-400 rounded-2xl flex items-center animate-in slide-in-from-top-2 backdrop-blur-md">
+                <div className="mb-8 p-4 bg-red-50 border border-red-200 text-red-600 rounded-2xl flex items-center animate-in slide-in-from-top-2 backdrop-blur-md">
                    <div className="w-2 h-2 bg-red-500 rounded-full mr-3 animate-pulse" />
                    <span className="font-semibold text-sm">Error:</span> <span className="ml-2 text-sm">{error}</span>
                 </div>
@@ -202,20 +220,20 @@ export const Dashboard = () => {
                  <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-12 animate-fade-up">
                     {/* Hero Section */}
                      <div className="text-center max-w-2xl space-y-3">
-                        <h1 className="text-4xl md:text-5xl font-serif font-medium tracking-tight text-white leading-tight">
+                        <h1 className="text-4xl md:text-5xl font-serif font-medium tracking-tight text-brand-charcoal dark:text-white leading-tight">
                           Análisis Inteligente de Licitaciones
                         </h1>
-                        <p className="text-lg text-gray-400 leading-relaxed font-sans font-light">
+                        <p className="text-lg text-gray-500 dark:text-gray-400 leading-relaxed font-sans font-light">
                           Sube el documento del pliego para extraer requisitos y valida tu oferta automáticamente en segundos.
                         </p>
                      </div>
 
                     {/* Upload Section */}
-                    <div className="w-full max-w-4xl bg-white/5 backdrop-blur-3xl rounded-[32px] border border-white/10 p-10 shadow-2xl transition-soft hover:border-white/20">
+                    <div className="w-full max-w-4xl bg-white/30 dark:bg-white/[0.03] backdrop-blur-3xl rounded-[32px] border border-white/50 dark:border-white/10 p-10 shadow-[0_20px_50px_rgba(31,38,135,0.1)] transition-soft hover:shadow-2xl hover:border-white/80 dark:hover:border-emerald-500/20">
                        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                           <div className="space-y-4">
                              <div className="text-center">
-                                <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-gray-500">Documento del Pliego</h3>
+                                <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400">Documento del Pliego</h3>
                              </div>
                              <TenderUpload 
                                 onFileSelect={handleFileSelect} 
@@ -228,7 +246,7 @@ export const Dashboard = () => {
 
                           <div className="space-y-4">
                              <div className="text-center">
-                                <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-gray-500">Documento de la Oferta</h3>
+                                <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400">Documento de la Oferta</h3>
                              </div>
                              <TenderUpload 
                                 onFileSelect={handleProposalSelect} 
@@ -247,8 +265,8 @@ export const Dashboard = () => {
                             className={`
                               group relative px-10 py-5 rounded-full font-bold text-sm uppercase tracking-widest transition-soft flex items-center space-x-3
                               ${!selectedFile || isAnalyzing || isComparing
-                                 ? 'bg-white/5 text-gray-600 cursor-not-allowed border border-white/5' 
-                                 : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-xl shadow-emerald-600/20 hover-lift active:scale-95'
+                                 ? 'bg-gray-100 dark:bg-white/5 text-gray-400 dark:text-gray-500 cursor-not-allowed border border-gray-200 dark:border-white/10' 
+                                 : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-xl shadow-emerald-600/30 hover-lift active:scale-95'
                               }
                             `}
                           >
@@ -292,19 +310,19 @@ export const Dashboard = () => {
                    
                    {/* Step 4: Loading state or Validation Prompt */}
                    {isComparing && (
-                      <div className="w-full max-w-4xl mx-auto p-12 text-center bg-brand-dark/30 rounded-3xl border border-emerald-500/20 animate-pulse">
-                         <Play className="w-12 h-12 text-emerald-500 mx-auto mb-4 animate-bounce" />
-                         <h3 className="text-xl font-bold text-white">Validando Cumplimiento...</h3>
+                      <div className="w-full max-w-4xl mx-auto p-12 text-center bg-white rounded-3xl border border-emerald-100 shadow-xl animate-pulse">
+                         <Play className="w-12 h-12 text-emerald-600 mx-auto mb-4 animate-bounce" />
+                         <h3 className="text-xl font-bold text-gray-900">Validando Cumplimiento...</h3>
                          <p className="text-gray-500">La IA está comparando tu oferta con los requisitos extraídos.</p>
                       </div>
                    )}
 
                    {(!isComparing && !comparisonResults && (!analysis.results || analysis.results.filter(r => r.requirementId !== 'SCOPE_CHECK').length === 0)) && (
-                       <div className="w-full max-w-4xl mx-auto bg-white dark:bg-gray-900/50 rounded-2xl border border-gray-200 dark:border-gray-800 p-8 shadow-xl text-center space-y-6 animate-in fade-in slide-in-from-bottom-4">
-                           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                       <div className="w-full max-w-4xl mx-auto bg-white rounded-2xl border border-gray-200 p-8 shadow-xl text-center space-y-6 animate-in fade-in slide-in-from-bottom-4">
+                           <h2 className="text-2xl font-bold text-gray-900">
                               {selectedProposal ? 'Casi listo: Valida tu oferta' : '¿Listo para validar la oferta?'}
                            </h2>
-                           <p className="text-gray-500 dark:text-gray-400 text-lg">
+                           <p className="text-gray-500 text-lg">
                                {selectedProposal 
                                  ? 'Ya tenemos el pliego analizado. Pulsa el botón para ejecutar la validación sobre el documento seleccionado.'
                                  : 'Ya has extraído los requisitos. Ahora, sube el documento de la "Oferta" para comprobar el cumplimiento.'}
@@ -326,8 +344,8 @@ export const Dashboard = () => {
                                 className={`
                                   mt-4 px-8 py-3 rounded-full font-semibold text-lg transition-colors flex items-center space-x-2 mx-auto
                                   ${!selectedProposal || isComparing
-                                     ? 'bg-gray-800 text-gray-600 cursor-not-allowed' 
-                                     : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg'
+                                     ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
+                                     : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-600/20'
                                   }
                                 `}
                            >
@@ -339,10 +357,10 @@ export const Dashboard = () => {
 
                    {/* Finalizar Button */}
                    {comparisonResults && (
-                      <div className="flex justify-center pt-8 border-t border-gray-800/50">
+                      <div className="flex justify-center pt-8 border-t border-gray-200">
                         <button
                           onClick={handleReset}
-                          className="px-8 py-4 bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white rounded-full font-black uppercase tracking-widest transition-all active:scale-95 border border-gray-700/50 flex items-center space-x-3"
+                          className="px-8 py-4 bg-white hover:bg-gray-50 text-gray-500 hover:text-gray-900 rounded-full font-black uppercase tracking-widest transition-all active:scale-95 border border-gray-200 shadow-sm flex items-center space-x-3"
                         >
                           <LogOut className="w-5 h-5 rotate-180" />
                           <span>Finalizar y Salir</span>
@@ -353,7 +371,7 @@ export const Dashboard = () => {
               )}
             </main>
 
-            <footer className="py-8 text-center text-gray-500 dark:text-gray-600 text-sm">
+            <footer className="py-8 text-center text-gray-400 text-sm">
                &copy; 2026 TenderCheck AI. All rights reserved.
             </footer>
           </div>
