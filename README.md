@@ -260,6 +260,8 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   ├── CLEAN_ARCHITECTURE_MAP.md
 │   ├── PLAYBOOK.md
 │   ├── PROJECT_PLAN.md
+│   ├── Presentation
+│   │   └── Final_TenderCheckAI_Presentation2026.pdf
 │   ├── SRS.md
 │   ├── TFM_PLAN.md
 │   ├── VALIDATION_REPORT.md
