@@ -2,9 +2,9 @@ import { test, expect } from '@playwright/test';
 import { join } from 'path';
 
 const mockAnalysis = {
-  id: 'mock-123',
-  userId: 'demo-user',
-  tenderTitle: 'Suministro de Licencias Software IA',
+  id: 'mock-123-light',
+  userId: 'demo-user-light',
+  tenderTitle: 'Suministro de Licencias Software IA - Light Mode',
   documentUrl: 'uploads/mock.pdf',
   status: 'COMPLETED',
   createdAt: new Date().toISOString(),
@@ -62,10 +62,10 @@ const mockValidationResults = [
   { requirementId: '5', status: 'MET', confidence: 1.0, reasoning: 'La oferta económica total se ajusta al presupuesto máximo de 50.000€.', evidence: { text: 'Importe total: 49.500€', pageNumber: 1 } }
 ];
 
-test('📸 Generate Marketing Screenshots & Video', async ({ page }) => {
+test('📸 Generate Marketing Screenshots & Video (Light Mode)', async ({ page }) => {
   // 1. Setup
   await page.setViewportSize({ width: 1920, height: 1080 });
-  await page.emulateMedia({ colorScheme: 'dark' });
+  await page.emulateMedia({ colorScheme: 'light' });
 
   // 2. Setup Network Mocks for Instant Analysis
   
@@ -109,32 +109,32 @@ test('📸 Generate Marketing Screenshots & Video', async ({ page }) => {
 
   // 3. Landing Page
   await page.goto('/');
-  await page.evaluate(() => document.documentElement.classList.add('dark'));
+  await page.evaluate(() => document.documentElement.classList.remove('dark')); // Ensure light mode
   await page.waitForSelector('nav');
   await page.mouse.wheel(0, 300);
   await page.waitForTimeout(1000); 
-  await page.screenshot({ path: 'screenshots/00-landing-page-dark.png', fullPage: true });
+  await page.screenshot({ path: 'screenshots/00-landing-page-light.png', fullPage: true });
 
   // 4. Login Page (Show Google Auth implementation)
   await page.goto('/login');
-  await page.evaluate(() => document.documentElement.classList.add('dark'));
+  await page.evaluate(() => document.documentElement.classList.remove('dark'));
   await page.waitForSelector('text=Continuar con Google');
-  await page.screenshot({ path: 'screenshots/01-login-page-dark.png' });
+  await page.screenshot({ path: 'screenshots/01-login-page-light.png' });
 
   // 5. Register (Fast flow)
   await page.goto('/register');
-  await page.evaluate(() => document.documentElement.classList.add('dark'));
+  await page.evaluate(() => document.documentElement.classList.remove('dark'));
   await page.waitForSelector('text=Continuar con Google');
-  await page.screenshot({ path: 'screenshots/0B-register-page-dark.png' });
+  await page.screenshot({ path: 'screenshots/0B-register-page-light.png' });
   
   const uniqueId = Date.now();
-  await page.fill('input[id="name"]', 'Demo User');
-  await page.fill('input[id="email"]', `demo${uniqueId}@tendercheck.ai`);
+  await page.fill('input[id="name"]', 'Demo User Light');
+  await page.fill('input[id="email"]', `demolight${uniqueId}@tendercheck.ai`);
   await page.fill('input[id="password"]', 'Password123!');
   await page.click('button[type="submit"]');
   
   await expect(page).toHaveURL('/dashboard');
-  await page.evaluate(() => document.documentElement.classList.add('dark'));
+  await page.evaluate(() => document.documentElement.classList.remove('dark'));
   await page.waitForTimeout(1000);
 
   // 5. Dashboard - Upload Pliego
@@ -147,7 +147,7 @@ test('📸 Generate Marketing Screenshots & Video', async ({ page }) => {
   await page.waitForTimeout(500); // Visual feedback
 
   // Snapshot of "Ready to Analyze" state
-  await page.screenshot({ path: 'screenshots/03-ready-to-analyze-dark.png' });
+  await page.screenshot({ path: 'screenshots/03-ready-to-analyze-light.png' });
 
   // 7. Click Analyze
   await page.waitForSelector('button:has-text("Ejecución Completa"):not([disabled])', { timeout: 10000 });
@@ -164,10 +164,10 @@ test('📸 Generate Marketing Screenshots & Video', async ({ page }) => {
 
   // 9. Capture Results
   await page.mouse.wheel(0, 400); // Scroll to see details
-  await page.screenshot({ path: 'screenshots/04-analysis-results-dark.png', fullPage: true });
+  await page.screenshot({ path: 'screenshots/04-analysis-results-light.png', fullPage: true });
 
   // 10. Dedicated Validation Results Screenshot (Colors & %)
   await page.locator('text=Resultado de Validación de Oferta').scrollIntoViewIfNeeded();
   await page.waitForTimeout(1000); // Wait for potential animations
-  await page.screenshot({ path: 'screenshots/05-validation-results-dark.png' });
+  await page.screenshot({ path: 'screenshots/05-validation-results-light.png' });
 });
