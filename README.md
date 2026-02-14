@@ -439,9 +439,7 @@ npx playwright show-report
 # Check Coverage (Critical Baseline > 80%)
 # We have achieved **100% Domain / 84% Global Coverage**, ensuring high reliability across
 # Domain logic, AI Services, and API Routes.
-# Check Coverage (Critical Baseline > 80%)
-# We have achieved **100% Domain / 84% Global Coverage**, ensuring high reliability across
-# Domain logic, AI Services, and API Routes.
+
 npm run test:coverage
 
 # Run Security Scan (Snyk)
