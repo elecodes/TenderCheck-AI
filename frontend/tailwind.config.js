@@ -19,7 +19,7 @@ export default {
             dark: '#D4AF37',
           },
           charcoal: '#242B33', // Soft Charcoal (Dark BG)
-          gris: '#2D312D', // Gris Profundo (Light Text)
+          gris: '#374151', // Gris Profundo (Light Text) - Now Lighter
           crema: '#D3D0C2', // Crema Base (Light BG)
           'crema-light': '#E8E6DE', // Light Gradient Start
           'crema-dark': '#B8C1B7', // Light Gradient End
