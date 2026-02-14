@@ -19,7 +19,7 @@ Welcome to the team! This playbook defines **how we work** to ensure high qualit
 |---------|---------|-------------|
 | `npm test` | Run all unit tests | Must pass before push |
 | `npm run security:scan` | Check for vulnerabilities (Snyk) | **0 High Severity** |
-| `npm run test:coverage` | Generate coverage report | **100% Domain, 80% Global** (High Reliability Standard) |
+| `npm run test:coverage` | Generate coverage report | **100% Domain / 100% Frontend Components** (High Reliability) |
 | `npx playwright test` | Run E2E Tests | Must pass before major releases |
 
 > **🛡️ Security Gate:** This project uses a **pre-push hook** (Husky). You cannot push to the remote repository if:

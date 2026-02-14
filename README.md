@@ -24,9 +24,10 @@
 - **Cloud Semantic Search**: Native Vector Search with Google Genkit (`gemini-embedding-001` - 3072D).
 - **Cloud-Native Architecture**: Backend on Render + Turso Database (Edge SQLite).
 - **Modern React Interface**: 
-  - **New Typography**: Professional serif fonts (*Playfair Display*) for high-value information.
-  - **Dynamic Layouts**: Smart sizing for long titles and summaries.
-  - **Responsive Design**: Mobile-optimized Navigation (Hamburger Menu) and High-Contrast Auth forms.
+  - **Dual Theme Support**: Comprehensive **Light** (Beige/Gold) and **Dark** (Charcoal/Emerald) modes.
+  - **Premium Aesthetic**: Glassmorphism effects, custom "Crema" color palette, and polished UI components.
+  - **Typography**: Professional pairing of *Playfair Display* (Headings) and *Inter* (Body).
+  - **Responsive Design**: Mobile-optimized Navigation and High-Contrast Accessibility.
 - **Persistent History**: Stores all analyses in **Turso (Distributed SQLite)** for reliability.
 - **Enterprise Auth**: **HttpOnly Cookies** (XSS Protection), "Remember Me" functionality, "Welcome Back" interstitial, and Google Sign-In.
 - **History Management**: Browse, search, and delete previous analyses.

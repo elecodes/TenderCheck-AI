@@ -27,7 +27,7 @@
 - **FR-6: Status Attribution:** 
     - `COMPLIANT` (Green)
     - `NON_COMPLIANT` (Red)
-    - `PARTIALLY_MET` (Amber) - *New*
+    - `PARTIALLY_MET` (Amber) - *Implemented*
 - **FR-7: Report Generation:** Produce a final validation report and a dashboard with **AI Reliability Score**.
 
 ## 4. Non-Functional Requirements (NFR)
