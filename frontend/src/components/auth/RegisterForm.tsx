@@ -57,10 +57,10 @@ export function RegisterForm() {
   };
 
   return (
-    <div className="w-full max-w-md p-8 space-y-8 bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border border-gray-200 dark:border-gray-700 rounded-2xl shadow-2xl animate-in fade-in slide-in-from-right-10 duration-500 transition-colors duration-300">
+    <div className="w-full max-w-md p-8 space-y-8 bg-[#F5F4F0]/90 dark:bg-white/[0.03] backdrop-blur-lg border border-white/40 dark:border-white/10 rounded-2xl shadow-2xl animate-in fade-in slide-in-from-right-10 duration-500 transition-colors duration-300">
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-serif text-gray-900 dark:text-white tracking-tight">Crear Cuenta</h1>
-        <p className="text-gray-500 dark:text-gray-400 font-light">Únete al estándar de élite en análisis de licitaciones públicas</p>
+        <h1 className="text-3xl font-serif text-brand-charcoal dark:text-white tracking-tight">Crear Cuenta</h1>
+        <p className="text-brand-charcoal/60 dark:text-gray-400 font-light">Únete al estándar de élite en análisis de licitaciones públicas</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -83,7 +83,7 @@ export function RegisterForm() {
               type="text"
               autoFocus
               placeholder="e.g. Julian Sterling"
-              className={`block w-full pl-10 pr-3 py-3 bg-gray-50 border ${errors.name ? 'border-red-300 focus:border-red-500' : 'border-gray-200 focus:border-emerald-500'} rounded-lg text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all`}
+              className={`block w-full pl-10 pr-3 py-3 bg-white/50 dark:bg-black/20 border ${errors.name ? 'border-red-300 focus:border-red-500' : 'border-emerald-200 dark:border-emerald-500/20 focus:border-emerald-500'} rounded-lg text-base text-brand-charcoal dark:text-white placeholder-brand-charcoal/40 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all`}
               aria-invalid={errors.name ? 'true' : 'false'}
               {...register('name')}
             />
@@ -103,7 +103,7 @@ export function RegisterForm() {
               id="email"
               type="email"
               placeholder="name@company.com"
-              className={`block w-full pl-10 pr-3 py-3 bg-gray-50 border ${errors.email ? 'border-red-300 focus:border-red-500' : 'border-gray-200 focus:border-emerald-500'} rounded-lg text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all`}
+              className={`block w-full pl-10 pr-3 py-3 bg-white/50 dark:bg-black/20 border ${errors.email ? 'border-red-300 focus:border-red-500' : 'border-emerald-200 dark:border-emerald-500/20 focus:border-emerald-500'} rounded-lg text-base text-brand-charcoal dark:text-white placeholder-brand-charcoal/40 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all`}
               aria-invalid={errors.email ? 'true' : 'false'}
               {...register('email')}
             />
@@ -123,7 +123,7 @@ export function RegisterForm() {
               id="company"
               type="text"
               placeholder="Nombre de la Organización"
-              className="block w-full pl-10 pr-3 py-3 bg-gray-50 border border-gray-200 rounded-lg text-base text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all"
+              className="block w-full pl-10 pr-3 py-3 bg-white/50 dark:bg-black/20 border border-emerald-200 dark:border-emerald-500/20 rounded-lg text-base text-brand-charcoal dark:text-white placeholder-brand-charcoal/40 dark:placeholder-gray-500 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all"
               {...register('company')}
             />
           </div>
@@ -140,7 +140,7 @@ export function RegisterForm() {
             <input
               id="password"
               type={showPassword ? "text" : "password"}
-              className={`block w-full pl-10 pr-10 py-3 bg-gray-50 dark:bg-gray-900 border ${errors.password ? 'border-red-300 focus:border-red-500' : 'border-gray-200 dark:border-gray-700 focus:border-emerald-500 dark:focus:border-emerald-500'} rounded-lg text-base text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all`}
+              className={`block w-full pl-10 pr-10 py-3 bg-white/50 dark:bg-black/20 border ${errors.password ? 'border-red-300 focus:border-red-500' : 'border-emerald-200 dark:border-emerald-500/20 focus:border-emerald-500'} rounded-lg text-base text-brand-charcoal dark:text-white placeholder-brand-charcoal/40 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all`}
               placeholder="••••••••"
               aria-invalid={errors.password ? 'true' : 'false'}
               {...register('password')}

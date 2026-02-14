@@ -19,7 +19,7 @@ export const ComparisonResults = ({ results, analysis }: ComparisonResultsProps)
       case 'PARTIALLY_MET': 
       case 'AMBIGUOUS': 
         return 'border-amber-200 bg-amber-50/50 hover:border-amber-300';
-      default: return 'border-gray-200 bg-gray-50';
+      default: return 'border-brand-charcoal/10 bg-white/50 dark:bg-white/5';
     }
   };
 
@@ -48,7 +48,7 @@ export const ComparisonResults = ({ results, analysis }: ComparisonResultsProps)
   return (
     <div className="space-y-8 animate-fade-up">
       <div className="flex items-center justify-between px-2">
-          <h3 className="text-2xl font-serif font-medium text-gray-900 flex items-center tracking-tight">
+          <h3 className="text-2xl font-serif font-medium text-brand-charcoal dark:text-white flex items-center tracking-tight">
              <Scale className="w-6 h-6 mr-3 text-blue-600" />
              Resultado de Validación de Oferta
           </h3>
@@ -78,7 +78,7 @@ export const ComparisonResults = ({ results, analysis }: ComparisonResultsProps)
                     </span>
                   </div>
                 
-                  <p className="text-gray-600 leading-relaxed text-sm">
+                  <p className="text-brand-charcoal/80 dark:text-gray-300 leading-relaxed text-sm">
                     {result.reasoning}
                   </p>
                   

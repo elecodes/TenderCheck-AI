@@ -124,11 +124,11 @@ export const Dashboard = () => {
 
   return (
     <SentryErrorBoundary>
-      <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans overflow-hidden transition-colors duration-300">
+      <div className="flex flex-col h-screen bg-[#D3D0C2] bg-gradient-to-br from-[#E8E6DE] via-[#D3D0C2] to-[#B8C1B7] dark:bg-brand-charcoal dark:bg-gradient-to-br dark:from-[#3a4450] dark:via-[#242b33] dark:to-[#1a1f24] text-brand-charcoal dark:text-gray-100 font-sans overflow-hidden transition-colors duration-300">
         
         {/* Navbar */}
         {/* Navbar */}
-        <header className="border-b border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md z-10 sticky top-0 transition-colors duration-300">
+        <header className="border-b border-white/20 dark:border-white/10 bg-[#F5F4F0]/80 dark:bg-[#242b33]/80 backdrop-blur-md z-10 sticky top-0 transition-colors duration-300">
           <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
             <div className="flex items-center space-x-3">
                <button 
@@ -144,7 +144,7 @@ export const Dashboard = () => {
                <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center shadow-md shadow-emerald-600/20">
                  <FileText className="text-white w-5 h-5" /> 
                </div>
-               <span className="text-xl font-bold tracking-tight text-gray-900">TenderCheck AI</span>
+               <span className="text-xl font-serif font-bold tracking-tight text-brand-charcoal dark:text-white">TenderCheck AI</span>
             </div>
             
             <div className="flex items-center gap-4">
@@ -172,7 +172,7 @@ export const Dashboard = () => {
         <div className="flex flex-1 overflow-hidden h-[calc(100vh-64px)]">
           {/* History Sidebar */}
           {/* History Sidebar */}
-          <aside className={`flex-shrink-0 hidden lg:block transition-all duration-300 ease-in-out border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 ${isSidebarOpen ? 'w-80 opacity-100' : 'w-0 opacity-0 overflow-hidden'}`}>
+          <aside className={`flex-shrink-0 hidden lg:block transition-all duration-300 ease-in-out border-r border-white/20 dark:border-white/10 bg-[#F5F4F0]/50 dark:bg-[#1a1f24]/50 backdrop-blur-sm ${isSidebarOpen ? 'w-80 opacity-100' : 'w-0 opacity-0 overflow-hidden'}`}>
             <div className="w-80 h-full"> {/* Inner wrapper to maintain sidebar content width while transition happens */}
                 <HistorySidebar 
                     history={history} 
@@ -191,7 +191,7 @@ export const Dashboard = () => {
           </aside>
 
           {/* Main Dashboard Area */}
-          <div className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+          <div className="flex-1 overflow-y-auto bg-transparent transition-colors duration-300">
             <main className="max-w-5xl mx-auto px-8 py-12">
               {error && (
                 <div className="mb-8 p-4 bg-red-50 border border-red-200 text-red-600 rounded-2xl flex items-center animate-in slide-in-from-top-2 backdrop-blur-md">
@@ -204,7 +204,7 @@ export const Dashboard = () => {
                  <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-12 animate-fade-up">
                     {/* Hero Section */}
                      <div className="text-center max-w-2xl space-y-3">
-                        <h1 className="text-4xl md:text-5xl font-serif font-medium tracking-tight text-gray-900 dark:text-white leading-tight">
+                        <h1 className="text-4xl md:text-5xl font-serif font-medium tracking-tight text-brand-charcoal dark:text-white leading-tight">
                           Análisis Inteligente de Licitaciones
                         </h1>
                         <p className="text-lg text-gray-500 dark:text-gray-400 leading-relaxed font-sans font-light">
@@ -213,7 +213,7 @@ export const Dashboard = () => {
                      </div>
 
                     {/* Upload Section */}
-                    <div className="w-full max-w-4xl bg-white dark:bg-white/5 rounded-[32px] border border-gray-200 dark:border-white/10 p-10 shadow-xl transition-soft hover:shadow-2xl hover:border-emerald-100 dark:hover:border-emerald-500/20">
+                    <div className="w-full max-w-4xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl rounded-[32px] border border-white/60 dark:border-white/10 p-10 shadow-xl transition-soft hover:shadow-2xl hover:border-white/80 dark:hover:border-emerald-500/20">
                        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                           <div className="space-y-4">
                              <div className="text-center">

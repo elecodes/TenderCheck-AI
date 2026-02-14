@@ -43,7 +43,7 @@ export function ForgotPasswordForm() {
 
   if (isSuccess) {
     return (
-      <div className="w-full max-w-md p-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-300 text-center">
+      <div className="w-full max-w-md p-8 bg-[#F5F4F0]/90 dark:bg-white/[0.03] backdrop-blur-lg border border-white/40 dark:border-white/10 rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-300 text-center">
         <div className="mx-auto w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mb-6">
             <CheckCircle className="w-8 h-8 text-emerald-400" />
         </div>
@@ -62,10 +62,10 @@ export function ForgotPasswordForm() {
   }
 
   return (
-    <div className="w-full max-w-md p-8 space-y-8 bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border border-gray-200 dark:border-gray-700 rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-300 transition-colors duration-300">
+    <div className="w-full max-w-md p-8 space-y-8 bg-[#F5F4F0]/90 dark:bg-white/[0.03] backdrop-blur-lg border border-white/40 dark:border-white/10 rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-300 transition-colors duration-300">
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-serif text-gray-900 dark:text-white tracking-tight">Recuperar Contraseña</h1>
-        <p className="text-gray-500 dark:text-gray-400 font-light">Introduce tu email para recibir instrucciones</p>
+        <h1 className="text-3xl font-serif text-brand-charcoal dark:text-white tracking-tight">Recuperar Contraseña</h1>
+        <p className="text-brand-charcoal/60 dark:text-gray-400 font-light">Introduce tu email para recibir instrucciones</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -88,7 +88,7 @@ export function ForgotPasswordForm() {
               type="email"
               autoFocus
               placeholder="nombre@empresa.com"
-              className={`block w-full pl-10 pr-3 py-3 bg-gray-50 dark:bg-gray-900 border ${errors.email ? 'border-red-300 focus:border-red-500' : 'border-gray-200 dark:border-gray-700 focus:border-emerald-500 dark:focus:border-emerald-500'} rounded-lg text-base text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all`}
+              className={`block w-full pl-10 pr-3 py-3 bg-white/50 dark:bg-black/20 border ${errors.email ? 'border-red-300 focus:border-red-500' : 'border-emerald-200 dark:border-emerald-500/20 focus:border-emerald-500'} rounded-lg text-base text-brand-charcoal dark:text-white placeholder-brand-charcoal/40 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all`}
               aria-invalid={errors.email ? 'true' : 'false'}
               {...register('email')}
             />

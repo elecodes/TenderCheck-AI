@@ -41,28 +41,28 @@ export function LoginForm() {
   // If already authenticated, show Welcome Back Interstitial
   if (isAuthenticated && user) {
       return (
-        <div className="w-full max-w-md p-8 space-y-8 bg-zinc-900/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-300">
+        <div className="w-full max-w-md p-8 space-y-8 bg-brand-crema-light/90 dark:bg-white/[0.03] backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-300">
             <div className="text-center space-y-4">
-                <div className="mx-auto w-20 h-20 bg-emerald-500/20 rounded-full flex items-center justify-center border-2 border-emerald-500/30">
-                    <UserCircle className="w-10 h-10 text-emerald-400" />
+                <div className="mx-auto w-20 h-20 bg-emerald-100/50 dark:bg-emerald-500/20 rounded-full flex items-center justify-center border-2 border-emerald-500/30">
+                    <UserCircle className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
                 </div>
                 <div className="space-y-1">
-                    <h1 className="text-2xl font-serif text-white tracking-tight">Hola de nuevo, {user?.name ? user.name.split(' ')[0] : 'Usuario'}</h1>
-                    <p className="text-emerald-100/40 text-sm font-light">{user.email}</p>
+                    <h1 className="text-2xl font-serif text-brand-charcoal dark:text-white tracking-tight">Hola de nuevo, {user?.name ? user.name.split(' ')[0] : 'Usuario'}</h1>
+                    <p className="text-brand-charcoal/60 dark:text-emerald-100/40 text-sm font-light">{user.email}</p>
                 </div>
             </div>
 
             <div className="space-y-4 pt-4">
                 <button
                     onClick={() => navigate('/dashboard')}
-                    className="w-full flex items-center justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-base font-medium text-white bg-emerald-600 hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-200 transform hover:scale-[1.02]"
+                    className="w-full flex items-center justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg shadow-emerald-600/20 text-base font-medium text-white bg-emerald-600 hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-200 transform hover:scale-[1.02]"
                 >
                     Continuar al Dashboard <ArrowRight className="ml-2 h-5 w-5" />
                 </button>
 
                 <button
                     onClick={() => logout()}
-                    className="w-full flex items-center justify-center py-3 px-4 border border-white/10 rounded-xl text-sm font-medium text-emerald-100/60 hover:text-white hover:bg-white/5 hover:border-white/20 transition-all duration-200"
+                    className="w-full flex items-center justify-center py-3 px-4 border border-emerald-200 dark:border-emerald-500/30 rounded-xl text-sm font-medium text-brand-charcoal/60 dark:text-emerald-100/60 hover:text-brand-charcoal dark:hover:text-white hover:bg-emerald-50 dark:hover:bg-white/5 transition-all duration-200"
                 >
                     <LogOut className="mr-2 h-4 w-4" /> Cambiar de usuario
                 </button>
@@ -86,10 +86,10 @@ export function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-md p-8 space-y-8 bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border border-gray-200 dark:border-gray-700 rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-300 transition-colors duration-300">
+    <div className="w-full max-w-md p-8 space-y-8 bg-[#F5F4F0]/90 dark:bg-white/[0.03] backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-300 transition-colors duration-300">
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-serif text-gray-900 dark:text-white tracking-tight">Bienvenido de nuevo</h1>
-        <p className="text-gray-500 dark:text-gray-400 font-light">TenderCheck AI Enterprise</p>
+        <h1 className="text-3xl font-serif text-brand-charcoal dark:text-white tracking-tight">Bienvenido de nuevo</h1>
+        <p className="text-brand-charcoal/60 dark:text-gray-400 font-light">TenderCheck AI Enterprise</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -113,7 +113,7 @@ export function LoginForm() {
               autoFocus
               autoComplete="username"
               placeholder="name@company.com"
-              className={`block w-full pl-10 pr-3 py-3 bg-gray-50 dark:bg-gray-900 border ${errors.email ? 'border-red-300 focus:border-red-500' : 'border-gray-200 dark:border-gray-700 focus:border-emerald-500 dark:focus:border-emerald-500'} rounded-lg text-base text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all`}
+              className={`block w-full pl-10 pr-3 py-3 bg-white/50 dark:bg-black/20 border ${errors.email ? 'border-red-300 focus:border-red-500' : 'border-emerald-200 dark:border-emerald-500/20 focus:border-emerald-500 dark:focus:border-emerald-500'} rounded-lg text-base text-brand-charcoal dark:text-white placeholder-brand-charcoal/40 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all`}
               aria-invalid={errors.email ? 'true' : 'false'}
               {...register('email')}
             />
@@ -140,7 +140,7 @@ export function LoginForm() {
               id="password"
               type={showPassword ? 'text' : 'password'}
               autoComplete="current-password"
-              className={`block w-full pl-10 pr-10 py-3 bg-gray-50 dark:bg-gray-900 border ${errors.password ? 'border-red-300 focus:border-red-500' : 'border-gray-200 dark:border-gray-700 focus:border-emerald-500 dark:focus:border-emerald-500'} rounded-lg text-base text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all`}
+              className={`block w-full pl-10 pr-10 py-3 bg-white/50 dark:bg-black/20 border ${errors.password ? 'border-red-300 focus:border-red-500' : 'border-emerald-200 dark:border-emerald-500/20 focus:border-emerald-500 dark:focus:border-emerald-500'} rounded-lg text-base text-brand-charcoal dark:text-white placeholder-brand-charcoal/40 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all`}
               placeholder="••••••••"
               aria-invalid={errors.password ? 'true' : 'false'}
               {...register('password')}

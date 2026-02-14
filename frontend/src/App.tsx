@@ -20,18 +20,24 @@ function App() {
             </ProtectedRoute>
           } />
           <Route path="/login" element={
-            <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50 dark:bg-gray-900 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-500/10 via-gray-50 to-gray-50 dark:from-emerald-900/20 dark:via-gray-900 dark:to-gray-900 animate-fade-up transition-colors duration-300">
-              <LoginForm />
+            <div className="min-h-screen w-full flex items-center justify-center p-4 bg-brand-crema bg-gradient-to-br from-brand-crema-light via-brand-crema to-brand-crema-dark dark:bg-brand-charcoal dark:bg-gradient-to-br dark:from-[#3a4450] dark:via-[#242b33] dark:to-[#1a1f24] relative overflow-hidden transition-colors duration-500">
+                <div className="absolute inset-0 bg-grid-slate-900/[0.04] bg-[bottom_1px_center] dark:bg-grid-slate-400/[0.05] dark:bg-bottom dark:border-b dark:border-slate-100/5 -z-10" style={{ maskImage: 'linear-gradient(to bottom, transparent, black)' }}></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-crema via-transparent to-transparent dark:from-brand-charcoal -z-10"></div>
+                <LoginForm />
             </div>
           } />
           <Route path="/register" element={
-            <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50 dark:bg-gray-900 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-500/10 via-gray-50 to-gray-50 dark:from-emerald-900/20 dark:via-gray-900 dark:to-gray-900 animate-fade-up transition-colors duration-300">
-              <RegisterForm />
+            <div className="min-h-screen w-full flex items-center justify-center p-4 bg-brand-crema bg-gradient-to-br from-brand-crema-light via-brand-crema to-brand-crema-dark dark:bg-brand-charcoal dark:bg-gradient-to-br dark:from-[#3a4450] dark:via-[#242b33] dark:to-[#1a1f24] relative overflow-hidden transition-colors duration-500">
+                <div className="absolute inset-0 bg-grid-slate-900/[0.04] bg-[bottom_1px_center] dark:bg-grid-slate-400/[0.05] dark:bg-bottom dark:border-b dark:border-slate-100/5 -z-10" style={{ maskImage: 'linear-gradient(to bottom, transparent, black)' }}></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-crema via-transparent to-transparent dark:from-brand-charcoal -z-10"></div>
+                <RegisterForm />
             </div>
           } />
           <Route path="/forgot-password" element={
-            <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50 dark:bg-gray-900 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-500/10 via-gray-50 to-gray-50 dark:from-emerald-900/20 dark:via-gray-900 dark:to-gray-900 animate-fade-up transition-colors duration-300">
-              <ForgotPasswordForm />
+            <div className="min-h-screen w-full flex items-center justify-center p-4 bg-brand-crema bg-gradient-to-br from-brand-crema-light via-brand-crema to-brand-crema-dark dark:bg-brand-charcoal dark:bg-gradient-to-br dark:from-[#3a4450] dark:via-[#242b33] dark:to-[#1a1f24] relative overflow-hidden transition-colors duration-500">
+                <div className="absolute inset-0 bg-grid-slate-900/[0.04] bg-[bottom_1px_center] dark:bg-grid-slate-400/[0.05] dark:bg-bottom dark:border-b dark:border-slate-100/5 -z-10" style={{ maskImage: 'linear-gradient(to bottom, transparent, black)' }}></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-crema via-transparent to-transparent dark:from-brand-charcoal -z-10"></div>
+                <ForgotPasswordForm />
             </div>
           } />
         </Routes>

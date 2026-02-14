@@ -45,7 +45,7 @@ export const ValidationSummary = ({ analysis, results }: ValidationSummaryProps)
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-up">
       {/* Overall Score */}
-      <div className="bg-white backdrop-blur-3xl rounded-[32px] p-8 border border-gray-200 flex items-center space-x-8 transition-soft hover-lift hover:border-emerald-200 shadow-xl">
+      <div className="bg-[#F5F4F0]/60 dark:bg-[#1a1f24]/60 backdrop-blur-3xl rounded-[32px] p-8 border border-white/40 dark:border-white/5 flex items-center space-x-8 transition-soft hover-lift hover:border-emerald-200 dark:hover:border-emerald-800 shadow-xl">
         <div className="relative h-24 w-24 flex items-center justify-center">
           <svg className="h-24 w-24 transform -rotate-90">
             <circle
@@ -70,36 +70,36 @@ export const ValidationSummary = ({ analysis, results }: ValidationSummaryProps)
               className="transition-all duration-1000 ease-out shadow-[0_0_20px_rgba(16,185,129,0.3)]"
             />
           </svg>
-          <span className="absolute text-2xl font-black text-emerald-900">{score}%</span>
+          <span className="absolute text-2xl font-black text-emerald-900 dark:text-emerald-100">{score}%</span>
         </div>
         <div>
-          <h4 className="text-gray-400 text-[10px] font-black uppercase tracking-[0.2em] mb-1">Puntuación</h4>
-          <p className="text-gray-900 font-bold text-xl">Cumplimiento</p>
+          <h4 className="text-brand-charcoal/40 dark:text-gray-500 text-[10px] font-black uppercase tracking-[0.2em] mb-1">Puntuación</h4>
+          <p className="text-brand-charcoal dark:text-white font-bold text-xl">Cumplimiento</p>
         </div>
       </div>
 
       {/* Mandatory Stats */}
-      <div className="bg-white backdrop-blur-3xl rounded-[32px] p-8 border border-gray-200 flex items-center space-x-6 transition-soft hover-lift hover:border-emerald-200 shadow-sm hover:shadow-md">
-        <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
+      <div className="bg-[#F5F4F0]/60 dark:bg-[#1a1f24]/60 backdrop-blur-3xl rounded-[32px] p-8 border border-white/40 dark:border-white/5 flex items-center space-x-6 transition-soft hover-lift hover:border-emerald-200 dark:hover:border-emerald-800 shadow-sm hover:shadow-md">
+        <div className="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl border border-emerald-100 dark:border-emerald-500/20">
           <Target className="w-8 h-8 text-emerald-600" />
         </div>
         <div>
-          <h4 className="text-gray-400 text-[10px] font-black uppercase tracking-[0.2em] mb-1">Obligatorios</h4>
-          <p className="text-3xl font-black text-gray-900">
-            {stats.mandatory.met} <span className="text-gray-400 text-sm font-bold uppercase tracking-widest">/ {stats.mandatory.total}</span>
+          <h4 className="text-brand-charcoal/40 dark:text-gray-500 text-[10px] font-black uppercase tracking-[0.2em] mb-1">Obligatorios</h4>
+          <p className="text-3xl font-black text-brand-charcoal dark:text-white">
+            {stats.mandatory.met} <span className="text-brand-charcoal/40 dark:text-gray-500 text-sm font-bold uppercase tracking-widest">/ {stats.mandatory.total}</span>
           </p>
         </div>
       </div>
 
       {/* Optional Stats */}
-      <div className="bg-white backdrop-blur-3xl rounded-[32px] p-8 border border-gray-200 flex items-center space-x-6 transition-soft hover-lift hover:border-purple-200 shadow-sm hover:shadow-md">
-        <div className="p-4 bg-purple-50 rounded-2xl border border-purple-100">
+      <div className="bg-[#F5F4F0]/60 dark:bg-[#1a1f24]/60 backdrop-blur-3xl rounded-[32px] p-8 border border-white/40 dark:border-white/5 flex items-center space-x-6 transition-soft hover-lift hover:border-purple-200 dark:hover:border-purple-800 shadow-sm hover:shadow-md">
+        <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-2xl border border-purple-100 dark:border-purple-500/20">
           <Award className="w-8 h-8 text-purple-600" />
         </div>
         <div>
-          <h4 className="text-gray-400 text-[10px] font-black uppercase tracking-[0.2em] mb-1">Opcionales</h4>
-          <p className="text-3xl font-black text-gray-900">
-            {stats.optional.met} <span className="text-gray-400 text-sm font-bold uppercase tracking-widest">/ {stats.optional.total}</span>
+          <h4 className="text-brand-charcoal/40 dark:text-gray-500 text-[10px] font-black uppercase tracking-[0.2em] mb-1">Opcionales</h4>
+          <p className="text-3xl font-black text-brand-charcoal dark:text-white">
+            {stats.optional.met} <span className="text-brand-charcoal/40 dark:text-gray-500 text-sm font-bold uppercase tracking-widest">/ {stats.optional.total}</span>
           </p>
         </div>
       </div>

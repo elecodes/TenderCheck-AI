@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 export const LandingPage: React.FC = () => {
   return (
-    <div className="min-h-screen w-full bg-[#D3D0C2] bg-gradient-to-br from-[#E8E6DE] via-[#D3D0C2] to-[#B8C1B7] dark:bg-[#0a0a0a] dark:bg-gradient-to-br dark:from-[#121212] dark:via-[#0a0a0a] dark:to-black text-[#2D312D] dark:text-white overflow-hidden relative font-sans isolation-auto transition-colors duration-500">
+    <div className="min-h-screen w-full bg-[#D3D0C2] bg-gradient-to-br from-[#E8E6DE] via-[#D3D0C2] to-[#B8C1B7] dark:bg-[#1a1f24] dark:bg-gradient-to-br dark:from-[#3a4450] dark:via-[#242b33] dark:to-[#1a1f24] text-[#2D312D] dark:text-white overflow-hidden relative font-sans isolation-auto transition-colors duration-500">
       <Navbar />
 
       {/* Decorative Orbs */}
@@ -45,7 +45,7 @@ export const LandingPage: React.FC = () => {
                     </p>
                 </div>
 
-                <Link to="/register" className="w-full py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold tracking-widest uppercase shadow-xl shadow-emerald-600/20 transition-soft active:scale-[0.98] flex items-center justify-center mt-4 group-hover:shadow-2xl group-hover:shadow-emerald-600/30 border border-emerald-500/20">
+                <Link to="/register" className="w-full py-4 rounded-xl bg-[#C5A028] hover:bg-[#B08D20] text-white text-sm font-bold tracking-widest uppercase shadow-xl shadow-[#C5A028]/20 transition-soft active:scale-[0.98] flex items-center justify-center mt-4 group-hover:shadow-2xl group-hover:shadow-[#C5A028]/30 border border-[#C5A028]/20">
                    Subir Licitación
                 </Link>
             </div>

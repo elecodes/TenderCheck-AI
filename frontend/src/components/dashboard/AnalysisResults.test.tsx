@@ -51,7 +51,7 @@ describe('AnalysisResults', () => {
     it('renders requirements list', () => {
         render(<AnalysisResults analysis={mockAnalysis} onReset={mockOnReset} />);
         
-        expect(screen.getByText('Requisitos Extraídos del Pliego')).toBeInTheDocument();
+        expect(screen.getByText('Requisitos Detectados')).toBeInTheDocument();
         expect(screen.getByText('Must use React')).toBeInTheDocument();
         expect(screen.getByText('OBLIGATORIO')).toBeInTheDocument();
     });

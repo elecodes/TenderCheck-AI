@@ -32,8 +32,8 @@ describe('TenderUpload', () => {
             />
         );
         expect(screen.getByText('test-file.pdf')).toBeInTheDocument();
-        expect(screen.getByText('Documento Listo')).toBeInTheDocument();
-        expect(screen.getByText('Cambiar Archivo')).toBeInTheDocument();
+        expect(screen.getByText('Documento Verificado')).toBeInTheDocument();
+        expect(screen.getByText('Eliminar')).toBeInTheDocument();
     });
 
     it('calls onFileSelect when a file is uploaded', () => {
