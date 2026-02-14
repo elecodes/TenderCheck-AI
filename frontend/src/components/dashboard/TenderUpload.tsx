@@ -93,6 +93,7 @@ export const TenderUpload = ({ onFileSelect, selectedFile, disabled, className, 
           className="hidden" 
           accept=".pdf"
           onChange={handleChange}
+          onClick={(e) => e.stopPropagation()}
           disabled={disabled}
         />
         
