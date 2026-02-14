@@ -46,13 +46,13 @@
 
 <p align="center">
 <img src="screenshots/0B-register-page.png" width="400">
-<img src="screenshots/01-login-page.png" width="400">
+<img src="screenshots/01-login-page-light.png" width="400">
 </p>
 
 <p align="center">
 <img src="screenshots/03-ready-to-analyze.png" width="300">
-<img src="screenshots/04-analysis-results.png" width="300">
-<img src="screenshots/05-validation-results.png" width="300">
+<img src="screenshots/04-analysis-results-light.png" width="300">
+<img src="screenshots/05-validation-results.png" width="300">  
 </p>
 
 
