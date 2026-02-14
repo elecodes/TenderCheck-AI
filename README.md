@@ -318,9 +318,11 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   │   │   ├── AnalysisResults.tsx
 │   │   │   │   ├── ComparisonResults.tsx
 │   │   │   │   ├── Dashboard.tsx
+│   │   │   │   ├── HistorySidebar.test.tsx
 │   │   │   │   ├── HistorySidebar.tsx
 │   │   │   │   ├── TenderUpload.test.tsx
 │   │   │   │   ├── TenderUpload.tsx
+│   │   │   │   ├── ValidationSummary.test.tsx
 │   │   │   │   └── ValidationSummary.tsx
 │   │   │   ├── layout
 │   │   │   │   ├── Navbar.tsx
