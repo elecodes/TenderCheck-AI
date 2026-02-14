@@ -92,10 +92,50 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 <!-- TREE_START -->
 ```text
 ├── AGENTS.md
+├── Design
+│   └── Light_mode
+│       ├── Register.png
+│       ├── Screenshot 2026-02-13 at 11.57.30.png
+│       ├── Screenshot 2026-02-13 at 13.49.03.png
+│       ├── Screenshot 2026-02-13 at 14.28.38.png
+│       ├── dashboard.png
+│       ├── landing.png
+│       └── percentage.png
 ├── Dockerfile
 ├── README.md
 ├── backend
 │   ├── Dockerfile
+│   ├── coverage_tmp
+│   │   ├── lcov-report
+│   │   │   ├── base.css
+│   │   │   ├── block-navigation.js
+│   │   │   ├── errors
+│   │   │   │   ├── AppError.ts.html
+│   │   │   │   └── index.html
+│   │   │   ├── favicon.png
+│   │   │   ├── index.html
+│   │   │   ├── prettify.css
+│   │   │   ├── prettify.js
+│   │   │   ├── repositories
+│   │   │   │   ├── ITenderRepository.ts.html
+│   │   │   │   ├── UserRepository.ts.html
+│   │   │   │   └── index.html
+│   │   │   ├── schemas
+│   │   │   │   ├── TenderAnalysisSchema.ts.html
+│   │   │   │   └── index.html
+│   │   │   ├── services
+│   │   │   │   ├── RequirementsExtractor.ts.html
+│   │   │   │   └── index.html
+│   │   │   ├── sort-arrow-sprite.png
+│   │   │   ├── sorter.js
+│   │   │   └── validation
+│   │   │       ├── ValidationEngine.ts.html
+│   │   │       ├── ValidationRuleFactory.ts.html
+│   │   │       ├── index.html
+│   │   │       └── rules
+│   │   │           ├── ScopeValidationRule.ts.html
+│   │   │           └── index.html
+│   │   └── lcov.info
 │   ├── eslint.config.js
 │   ├── package-lock.json
 │   ├── package.json
@@ -304,14 +344,19 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   └── vite.svg
 │   ├── src
 │   │   ├── App.css
+│   │   ├── App.test.tsx
 │   │   ├── App.tsx
 │   │   ├── assets
 │   │   │   └── react.svg
 │   │   ├── components
 │   │   │   ├── auth
+│   │   │   │   ├── ForgotPasswordForm.test.tsx
 │   │   │   │   ├── ForgotPasswordForm.tsx
+│   │   │   │   ├── GoogleLoginButton.test.tsx
 │   │   │   │   ├── GoogleLoginButton.tsx
+│   │   │   │   ├── LoginForm.test.tsx
 │   │   │   │   ├── LoginForm.tsx
+│   │   │   │   ├── RegisterForm.test.tsx
 │   │   │   │   └── RegisterForm.tsx
 │   │   │   ├── dashboard
 │   │   │   │   ├── AnalysisResults.test.tsx
@@ -331,10 +376,13 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   │       ├── SentryErrorBoundary.tsx
 │   │   │       └── Skeleton.tsx
 │   │   ├── context
-│   │   │   └── AuthContext.tsx
+│   │   │   ├── AuthContext.test.tsx
+│   │   │   ├── AuthContext.tsx
+│   │   │   └── ThemeContext.tsx
 │   │   ├── index.css
 │   │   ├── main.tsx
 │   │   ├── pages
+│   │   │   ├── LandingPage.test.tsx
 │   │   │   └── LandingPage.tsx
 │   │   ├── services
 │   │   │   ├── api.ts
@@ -351,30 +399,34 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 ├── lint_output.txt
 ├── package-lock.json
 ├── package.json
-├── playwright-report
-│   ├── data
-│   │   ├── afcbe273a993c9918b62e9249edc000b39eb70cf.webm
-│   │   └── fd5f9ca5399fd49a176cfc80a29fb5b33a67d4e8.png
-│   └── index.html
 ├── playwright.config.ts
 ├── render.yaml
 ├── screenshots
+│   ├── 00-landing-page-dark.png
+│   ├── 00-landing-page-light.png
 │   ├── 00-landing-page.png
+│   ├── 01-login-page-dark.png
+│   ├── 01-login-page-light.png
 │   ├── 01-login-page.png
+│   ├── 03-ready-to-analyze-dark.png
+│   ├── 03-ready-to-analyze-light.png
 │   ├── 03-ready-to-analyze.png
+│   ├── 04-analysis-results-dark.png
+│   ├── 04-analysis-results-light.png
 │   ├── 04-analysis-results.png
+│   ├── 05-validation-results-dark.png
+│   ├── 05-validation-results-light.png
 │   ├── 05-validation-results.png
+│   ├── 0B-register-page-dark.png
+│   ├── 0B-register-page-light.png
 │   ├── 0B-register-page.png
 │   └── demo-video-full.webm
 ├── scripts
 │   └── docs-automator.js
 ├── start.sh
-├── test-results
-│   └── screenshots-📸-Generate-Marketing-Screenshots-Video-chromium
-│       ├── test-finished-1.png
-│       └── video.webm
 └── tests
     ├── e2e
+    │   ├── screenshots-light.spec.ts
     │   ├── screenshots.spec.ts
     │   └── tender-flow.spec.ts
     └── fixtures
