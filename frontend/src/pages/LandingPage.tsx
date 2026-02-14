@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 export const LandingPage: React.FC = () => {
   return (
-    <div className="min-h-screen w-full bg-[#D3D0C2] bg-gradient-to-br from-[#E8E6DE] via-[#D3D0C2] to-[#B8C1B7] dark:bg-[#1a1f24] dark:bg-gradient-to-br dark:from-[#3a4450] dark:via-[#242b33] dark:to-[#1a1f24] text-[#2D312D] dark:text-white overflow-hidden relative font-sans isolation-auto transition-colors duration-500">
+    <div className="min-h-screen w-full bg-[#CCC5B9] bg-gradient-to-br from-[#E3E0D6] via-[#CCC5B9] to-[#A9B4A8] dark:bg-[#1a1f24] dark:bg-gradient-to-br dark:from-[#3a4450] dark:via-[#242b33] dark:to-[#1a1f24] text-[#374151] dark:text-white overflow-hidden relative font-sans isolation-auto transition-colors duration-500">
       <Navbar />
 
       {/* Decorative Orbs */}
@@ -31,7 +31,7 @@ export const LandingPage: React.FC = () => {
             {/* Card Background */}
             <div className="absolute -inset-1 bg-gradient-to-b from-[#C5A028]/20 to-emerald-500/20 dark:from-[#D4AF37]/20 dark:to-emerald-500/20 rounded-[35px] blur-2xl opacity-30 group-hover:opacity-50 transition-soft duration-500"></div>
             
-            <div className="relative rounded-[32px] bg-white/40 dark:bg-white/[0.03] backdrop-blur-2xl border border-white/40 dark:border-white/10 shadow-2xl p-12 flex flex-col items-center gap-8 overflow-hidden transition-soft">
+            <div className="relative rounded-[32px] bg-white/30 dark:bg-white/[0.03] backdrop-blur-2xl border border-white/20 dark:border-white/10 shadow-2xl p-12 flex flex-col items-center gap-8 overflow-hidden transition-soft">
                 
                 {/* Icon Box */}
                 <div className="w-20 h-20 rounded-2xl bg-[#1a1c1a]/5 dark:bg-white/5 shadow-inner flex items-center justify-center mb-2 border border-black/5 dark:border-white/10 transition-soft group-hover:scale-110">

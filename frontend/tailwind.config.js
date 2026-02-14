@@ -20,9 +20,9 @@ export default {
           },
           charcoal: '#242B33', // Soft Charcoal (Dark BG)
           gris: '#374151', // Gris Profundo (Light Text) - Now Lighter
-          crema: '#D3D0C2', // Crema Base (Light BG)
-          'crema-light': '#E8E6DE', // Light Gradient Start
-          'crema-dark': '#B8C1B7', // Light Gradient End
+          crema: '#CCC5B9', // Crema Base (Darker/More Beige)
+          'crema-light': '#E3E0D6', // Light Gradient Start (Darker)
+          'crema-dark': '#A9B4A8', // Light Gradient End (Darker)
           dark: '#1a1c1a', // Keep existing as fallback or specific use
           green: '#2E8B57', // Sea Green (muted)
           cream: '#F5F5DC', // Beige/Cream text
