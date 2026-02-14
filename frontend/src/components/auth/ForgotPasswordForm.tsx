@@ -43,7 +43,7 @@ export function ForgotPasswordForm() {
 
   if (isSuccess) {
     return (
-      <div className="w-full max-w-md p-8 bg-[#F5F4F0]/90 dark:bg-white/[0.03] backdrop-blur-lg border border-white/40 dark:border-white/10 rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-300 text-center">
+      <div className="w-full max-w-md p-8 bg-white/30 dark:bg-white/[0.03] backdrop-blur-3xl border border-white/50 dark:border-white/10 rounded-2xl shadow-[0_20px_50px_rgba(31,38,135,0.1)] animate-in fade-in zoom-in duration-300 text-center">
         <div className="mx-auto w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mb-6">
             <CheckCircle className="w-8 h-8 text-emerald-400" />
         </div>
@@ -62,7 +62,7 @@ export function ForgotPasswordForm() {
   }
 
   return (
-    <div className="w-full max-w-md p-8 space-y-8 bg-[#F5F4F0]/90 dark:bg-white/[0.03] backdrop-blur-lg border border-white/40 dark:border-white/10 rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-300 transition-colors duration-300">
+    <div className="w-full max-w-md p-8 space-y-8 bg-white/30 dark:bg-white/[0.03] backdrop-blur-3xl border border-white/50 dark:border-white/10 rounded-2xl shadow-[0_20px_50px_rgba(31,38,135,0.1)] animate-in fade-in zoom-in duration-300 transition-colors duration-300">
       <div className="text-center space-y-2">
         <h1 className="text-3xl font-serif text-brand-charcoal dark:text-white tracking-tight">Recuperar Contraseña</h1>
         <p className="text-brand-charcoal/60 dark:text-gray-400 font-light">Introduce tu email para recibir instrucciones</p>

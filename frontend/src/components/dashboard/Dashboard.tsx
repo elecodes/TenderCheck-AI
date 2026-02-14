@@ -10,6 +10,7 @@ import { getCurrentUser, logout as logoutService } from '../../services/auth.ser
 import type { TenderAnalysis, ValidationResult } from '../../types'
 import { FileText, ArrowRight, Play, LogOut, User as UserIcon, PanelLeftClose, PanelLeftOpen } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { ApiError } from '../../services/api'
 
 export const Dashboard = () => {
   const navigate = useNavigate()
@@ -32,8 +33,11 @@ export const Dashboard = () => {
         try {
             const data = await fetchHistory();
             setHistory(data);
-        } catch (err) {
+        } catch (err: any) {
             console.error("Failed to load history:", err);
+            if (err instanceof ApiError && err.status === 401) {
+                handleLogout();
+            }
         }
     };
     loadHistory();
@@ -80,8 +84,12 @@ export const Dashboard = () => {
 
       const updatedHistory = await fetchHistory();
       setHistory(updatedHistory);
-    } catch (err) {
-      setError((err as Error).message)
+    } catch (err: any) {
+      if (err instanceof ApiError && err.status === 401) {
+          handleLogout();
+          return;
+      }
+      setError(err.message || "An error occurred during analysis")
     } finally {
       setIsAnalyzing(false)
     }
@@ -94,8 +102,12 @@ export const Dashboard = () => {
     try {
       const { results } = await validateProposal(analysis.id, selectedProposal)
       setComparisonResults(results)
-    } catch (err) {
-      setError((err as Error).message)
+    } catch (err: any) {
+      if (err instanceof ApiError && err.status === 401) {
+          handleLogout();
+          return;
+      }
+      setError(err.message || "Comparación fallida")
     } finally {
       setIsComparing(false)
     }
@@ -109,7 +121,11 @@ export const Dashboard = () => {
         if (analysis?.id === id) {
             handleReset();
         }
-    } catch {
+    } catch (err: any) {
+        if (err instanceof ApiError && err.status === 401) {
+            handleLogout();
+            return;
+        }
         setError("Error al eliminar el historial");
     }
   }
@@ -128,7 +144,7 @@ export const Dashboard = () => {
         
         {/* Navbar */}
         {/* Navbar */}
-        <header className="border-b border-white/20 dark:border-white/10 bg-[#F5F4F0]/80 dark:bg-[#242b33]/80 backdrop-blur-md z-10 sticky top-0 transition-colors duration-300">
+        <header className="border-b border-white/20 dark:border-white/10 bg-white/30 dark:bg-[#242b33]/80 backdrop-blur-md z-10 sticky top-0 transition-colors duration-300">
           <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
             <div className="flex items-center space-x-3">
                <button 
@@ -172,7 +188,7 @@ export const Dashboard = () => {
         <div className="flex flex-1 overflow-hidden h-[calc(100vh-64px)]">
           {/* History Sidebar */}
           {/* History Sidebar */}
-          <aside className={`flex-shrink-0 hidden lg:block transition-all duration-300 ease-in-out border-r border-white/20 dark:border-white/10 bg-[#F5F4F0]/50 dark:bg-[#1a1f24]/50 backdrop-blur-sm ${isSidebarOpen ? 'w-80 opacity-100' : 'w-0 opacity-0 overflow-hidden'}`}>
+          <aside className={`flex-shrink-0 hidden lg:block transition-all duration-300 ease-in-out border-r border-white/20 dark:border-white/10 bg-white/20 dark:bg-[#1a1f24]/50 backdrop-blur-sm ${isSidebarOpen ? 'w-80 opacity-100' : 'w-0 opacity-0 overflow-hidden'}`}>
             <div className="w-80 h-full"> {/* Inner wrapper to maintain sidebar content width while transition happens */}
                 <HistorySidebar 
                     history={history} 
@@ -213,7 +229,7 @@ export const Dashboard = () => {
                      </div>
 
                     {/* Upload Section */}
-                    <div className="w-full max-w-4xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl rounded-[32px] border border-white/60 dark:border-white/10 p-10 shadow-xl transition-soft hover:shadow-2xl hover:border-white/80 dark:hover:border-emerald-500/20">
+                    <div className="w-full max-w-4xl bg-white/30 dark:bg-white/[0.03] backdrop-blur-3xl rounded-[32px] border border-white/50 dark:border-white/10 p-10 shadow-[0_20px_50px_rgba(31,38,135,0.1)] transition-soft hover:shadow-2xl hover:border-white/80 dark:hover:border-emerald-500/20">
                        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                           <div className="space-y-4">
                              <div className="text-center">

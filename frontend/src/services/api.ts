@@ -7,6 +7,7 @@ const getFetchOptions = (method: string, body?: any) => {
   const token = localStorage.getItem('auth_token');
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
+    'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
   };
 
   if (token) {
@@ -19,6 +20,24 @@ const getFetchOptions = (method: string, body?: any) => {
     credentials: 'include' as RequestCredentials, // IMPORTANT: Send cookies
     body: body ? JSON.stringify(body) : undefined,
   };
+};
+
+
+export class ApiError extends Error {
+  status: number;
+  constructor(message: string, status: number) {
+    super(message);
+    this.status = status;
+    this.name = 'ApiError';
+  }
+}
+
+const handleResponse = async (response: Response, errorMessage: string) => {
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new ApiError(errorData.message || errorData.error || errorMessage, response.status);
+  }
+  return response.json();
 };
 
 export const uploadTender = async (file: File): Promise<TenderAnalysis> => {
@@ -44,12 +63,7 @@ export const uploadTender = async (file: File): Promise<TenderAnalysis> => {
     body: formData,
   });
 
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || 'Failed to analyze tender');
-  }
-
-  return response.json();
+  return handleResponse(response, 'Failed to analyze tender');
 };
 
 export const validateProposal = async (tenderId: string, file: File) => {
@@ -75,31 +89,15 @@ export const validateProposal = async (tenderId: string, file: File) => {
     body: formData,
   });
 
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.error || 'Validation failed');
-  }
-
-  return data;
+  return handleResponse(response, 'Validation failed');
 };
 
 export const fetchHistory = async (): Promise<TenderAnalysis[]> => {
   const response = await fetch(`${API_URL}/api/tenders`, getFetchOptions('GET'));
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch history');
-  }
-
-  return response.json();
+  return handleResponse(response, 'Failed to fetch history');
 };
 
 export const deleteTender = async (id: string) => {
   const response = await fetch(`${API_URL}/api/tenders/${id}`, getFetchOptions('DELETE'));
-
-  if (!response.ok) {
-    throw new Error('Failed to delete tender');
-  }
-
-  return response.json();
+  return handleResponse(response, 'Failed to delete tender');
 };

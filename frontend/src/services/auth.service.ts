@@ -121,7 +121,10 @@ export const getMe = async (): Promise<User | null> => {
   try {
     const response = await fetch(`${API_URL}/api/auth/me`, {
        method: 'GET',
-       headers: getAuthHeaders(), // Send token if available
+       headers: { 
+         ...getAuthHeaders(), 
+         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate' 
+       },
        credentials: 'include'
     });
     

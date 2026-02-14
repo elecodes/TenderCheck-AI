@@ -28,7 +28,7 @@ export const AnalysisResults = ({ analysis, validationResults, onReset }: Analys
     <div className="w-full max-w-4xl mx-auto space-y-10 animate-fade-up">
       
       {/* Header Card */}
-      <div className="bg-[#F5F4F0]/60 dark:bg-[#1a1f24]/60 backdrop-blur-3xl rounded-[32px] shadow-xl border border-white/40 dark:border-white/10 p-10 transition-soft hover-lift hover:border-emerald-100/50 dark:hover:border-emerald-900/50">
+      <div className="bg-white/30 dark:bg-[#1a1f24]/60 backdrop-blur-3xl rounded-[32px] shadow-[0_20px_50px_rgba(31,38,135,0.1)] border border-white/40 dark:border-white/10 p-10 transition-soft hover-lift hover:border-emerald-100/50 dark:hover:border-emerald-900/50">
         
         {/* Row 1: Title (Full Width) */}
         <div className="flex items-start space-x-6 mb-8">
@@ -104,7 +104,7 @@ export const AnalysisResults = ({ analysis, validationResults, onReset }: Analys
         <div className="grid gap-6">
             {analysis.requirements && analysis.requirements.length > 0 ? (
                 analysis.requirements.map((req, idx) => (
-                    <div key={idx} className={`p-8 rounded-[28px] border bg-white/60 dark:bg-white/[0.03] backdrop-blur-md transition-soft hover-lift shadow-sm hover:shadow-md ${
+                    <div key={idx} className={`p-8 rounded-[28px] border bg-white/40 dark:bg-white/[0.03] backdrop-blur-md transition-soft hover-lift shadow-sm hover:shadow-md ${
                         req.type === 'MANDATORY' 
                             ? 'border-white/40 dark:border-white/5 hover:border-emerald-200 dark:hover:border-emerald-700' 
                             : 'border-white/40 dark:border-white/5 hover:border-purple-200 dark:hover:border-purple-700'
