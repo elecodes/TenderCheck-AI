@@ -29,9 +29,9 @@ export const authMiddleware = (
     if (authHeader && authHeader.startsWith("Bearer ")) {
       token = authHeader.split(" ")[1];
     } else {
-        console.log('⚠️ [AuthMiddleware] No token in cookie or header.');
-        console.log('   Cookies:', req.cookies);
-        console.log('   Auth Header:', req.headers.authorization);
+      console.log("⚠️ [AuthMiddleware] No token in cookie or header.");
+      console.log("   Cookies:", req.cookies);
+      console.log("   Auth Header:", req.headers.authorization);
     }
   }
 

@@ -180,7 +180,10 @@ export class AuthController {
       options.maxAge = 30 * 24 * 60 * 60 * 1000; // 30 days
     }
 
-    console.log('🍪 [AuthController] Setting cookie:', { token: token.substring(0, 10) + '...', options });
+    console.log("🍪 [AuthController] Setting cookie:", {
+      token: token.substring(0, 10) + "...",
+      options,
+    });
     res.cookie("token", token, options);
   }
 }
