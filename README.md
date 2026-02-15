@@ -264,6 +264,9 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   └── Final_TenderCheckAI_Presentation2026.pdf
 │   ├── SRS.md
 │   ├── TFM_PLAN.md
+│   ├── Testing_docs
+│   │   ├── Oferta_Offer_IT_Security.pdf
+│   │   └── Pliego_Tender_IT_Security.pdf
 │   ├── VALIDATION_REPORT.md
 │   ├── adr
 │   │   ├── 000-template.md
