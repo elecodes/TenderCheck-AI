@@ -13,6 +13,8 @@ const getFetchOptions = (method: string, body?: any) => {
   if (token) {
     headers['Authorization'] = `Bearer ${token}`; // Fallback for when cookies fail
   }
+  
+  console.log('📡 [API] Fetch Options Headers:', headers);
 
   return {
     method,

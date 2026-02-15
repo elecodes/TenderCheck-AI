@@ -6,7 +6,7 @@ import { ComparisonResults } from './ComparisonResults'
 import { ValidationSummary } from './ValidationSummary'
 import { HistorySidebar } from './HistorySidebar'
 import { uploadTender, validateProposal, fetchHistory, deleteTender } from '../../services/api'
-import { getCurrentUser, logout as logoutService } from '../../services/auth.service'
+import { useAuth } from '../../context/AuthContext'
 import type { TenderAnalysis, ValidationResult } from '../../types'
 import { FileText, ArrowRight, Play, LogOut, User as UserIcon, PanelLeftClose, PanelLeftOpen } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
@@ -14,7 +14,7 @@ import { ApiError } from '../../services/api'
 
 export const Dashboard = () => {
   const navigate = useNavigate()
-  const user = getCurrentUser()
+  const { user, logout } = useAuth()
 
   // Dashboard State
   const [isAnalyzing, setIsAnalyzing] = useState(false)
@@ -31,6 +31,7 @@ export const Dashboard = () => {
   useEffect(() => {
     const loadHistory = async () => {
         try {
+            console.log('🔍 [Dashboard] Loading history. Token in localStorage:', localStorage.getItem('auth_token'));
             const data = await fetchHistory();
             setHistory(data);
         } catch (err: any) {
@@ -44,7 +45,7 @@ export const Dashboard = () => {
   }, []);
 
   const handleLogout = () => {
-    logoutService()
+    logout()
     navigate('/')
   }
 

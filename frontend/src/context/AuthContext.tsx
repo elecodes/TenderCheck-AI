@@ -55,9 +55,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
              localStorage.setItem('user', JSON.stringify(user));
           } else {
              localStorage.removeItem('user');
+             localStorage.removeItem('auth_token'); // Ensure token is also cleared
           }
        } catch {
           localStorage.removeItem('user');
+          localStorage.removeItem('auth_token'); // Ensure token is also cleared
        } finally {
           setIsLoading(false);
        }
@@ -98,6 +100,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const logout = () => {
     apiLogout(); // Calls backend to clear cookie
     localStorage.removeItem('user');
+    localStorage.removeItem('auth_token'); // Consistency
     setUser(null);
   };
 

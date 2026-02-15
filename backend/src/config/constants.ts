@@ -3,8 +3,8 @@ export const BYTES_PER_KB = 1024;
 export const BYTES_PER_MB = 1024 * 1024;
 export const MAX_FILE_SIZE_BYTES = FILE_UPLOAD_LIMIT_MB * BYTES_PER_MB;
 
-export const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
-export const RATE_LIMIT_MAX_ATTEMPTS = 3;
+export const RATE_LIMIT_WINDOW_MS = 1 * 60 * 1000; // 1 minute (Debugging)
+export const RATE_LIMIT_MAX_ATTEMPTS = 300; // Debugging: Increased limit
 
 export const PASSWORD_MIN_LENGTH = 8;
 export const SALT_ROUNDS = 10;

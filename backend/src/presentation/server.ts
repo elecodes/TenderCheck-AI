@@ -200,5 +200,6 @@ if (import.meta.url === `file://${process.argv[1]}`) {
 
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`✅ [Server] Ready and listening on port ${PORT}`);
+    console.log("🔄 [Server] Auth Fixes applied.");
   });
 }

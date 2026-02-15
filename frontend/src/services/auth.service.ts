@@ -101,8 +101,12 @@ export const loginWithGoogle = async (token: string): Promise<AuthResponse> => {
     }
     
     const data = await response.json();
+    console.log('✅ [AuthService] Google Login Response Data:', data); // DEBUG
     if (data.token) {
+      console.log('💾 [AuthService] Saving token to localStorage:', data.token.substring(0, 10) + '...');
       localStorage.setItem('auth_token', data.token);
+    } else {
+      console.error('⚠️ [AuthService] Google Login Response missing token!', data);
     }
     return data;
   };
@@ -130,10 +134,18 @@ export const getMe = async (): Promise<User | null> => {
     
     if (response.ok) {
        const data = await response.json();
+       console.log('✅ [AuthService] getMe success. Token present:', !!data.token, 'User:', data.user?.email);
+       if (data.token) {
+         localStorage.setItem('auth_token', data.token);
+       } else {
+         console.warn('⚠️ [AuthService] getMe returned user but NO token. API calls may fail.');
+       }
        return data.user;
     }
+    console.warn('⚠️ [AuthService] getMe failed with status:', response.status);
     return null;
-  } catch {
+  } catch (error) {
+    console.error('❌ [AuthService] getMe error:', error);
     return null;
   }
 };

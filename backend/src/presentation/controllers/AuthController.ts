@@ -98,6 +98,7 @@ export class AuthController {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      path: "/", // Critical to match setCookie
     });
     res.json({ message: "Logged out successfully" });
   };
@@ -106,7 +107,9 @@ export class AuthController {
     if (!req.user) {
       return res.status(401).json({ error: "Not authenticated" });
     }
-    res.json({ user: req.user });
+    // Return token to allow client to restore localStorage if needed
+    const token = req.cookies?.token;
+    res.json({ user: req.user, token });
   };
 
   requestPasswordReset = async (
@@ -177,6 +180,7 @@ export class AuthController {
       options.maxAge = 30 * 24 * 60 * 60 * 1000; // 30 days
     }
 
+    console.log('🍪 [AuthController] Setting cookie:', { token: token.substring(0, 10) + '...', options });
     res.cookie("token", token, options);
   }
 }
