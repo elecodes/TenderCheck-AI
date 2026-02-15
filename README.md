@@ -504,5 +504,10 @@ npm run security:scan
 
 ```
 
+#### 📂 Test Data
+We provide sample documents in [`docs/Testing_docs`](docs/Testing_docs) to test the application's core features:
+- **[📄 Tender / Pliego](docs/Testing_docs/Pliego%20(Tender_IT_Security.pdf).pdf)**: Use this to test the **Tender Analysis** flow.
+- **[📄 Offer / Oferta](docs/Testing_docs/Oferta%20(Offer_IT_Security.pdf).pdf)**: Use this to test the **Proposal Validation** flow (requires a completed analysis).
+
 ## 📜 License
 MIT
