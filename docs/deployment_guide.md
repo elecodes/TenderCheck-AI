@@ -75,7 +75,9 @@ This project is compatible with the **Google AI Studio Free Tier**. However, you
 ## 7. Troubleshooting
 If the backend fails to start, check the "Logs" tab in Render.
 *   **"Table not found"**: Ensure `SqliteDatabase.initializeSchema()` ran correctly (it should run automatically on startup).
-*   **"404 Models"**: If the AI fails, check that the `GOOGLE_GENAI_API_KEY` (or `GOOGLE_API_KEY`) is correct and has access to `gemini-2.5-flash` and `gemini-embedding-001`.
+*   **CORS Errors**:
+    *   Verify `ALLOWED_ORIGINS` in Render environment matches your frontend URL (`https://your-app.onrender.com`).
+    *   **Allowed Headers**: If seeing CORS errors on "Hard Reload", ensure backend allows `Cache-Control`, `Pragma`, and `Expires`.
 *   **"Google Auth Error: redirect_uri_mismatch"**:
     1.  Go to [Google Cloud Console > Credentials](https://console.cloud.google.com/apis/credentials).
     2.  Edit your OAuth 2.0 Client ID.

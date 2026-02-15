@@ -152,7 +152,9 @@ See `docs/adr/021-manual-native-redirect.md` for details.
 3.  **Troubleshooting**:
     - **"Table not found"**: Check if `SqliteDatabase.initializeSchema()` ran in the logs.
     - **"404 Model"**: Check `GeminiGenkitService` model string and API Key scope.
-    - **CORS Errors**: Verify `ALLOWED_ORIGINS` in Render environment matches your frontend URL (`https://your-app.onrender.com`).
+    - **CORS Errors**:
+      - Verify `ALLOWED_ORIGINS` match your frontend URL.
+      - Ensure `Cache-Control` is in `allowedHeaders` to support Hard Reloads.
     - **Google Sign-In Issues**: Ensure `VITE_GOOGLE_CLIENT_ID` is correctly set in the Render frontend environment.
 
 
