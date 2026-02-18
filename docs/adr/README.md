@@ -37,4 +37,4 @@
 | 028 | [28. UI Design System & Theming Strategy](./028-ui-design-system.md) | Unknown |
 | 029 | [29. Authentication Error Handling and Caching Strategy](./029-auth-error-handling.md) | Unknown |
 | 030 | [30. Global Theme Strategy and Glassmorphism UI](./030-global-theme-strategy.md) | Unknown |
-| 031 | [31. Reaching 100% Domain Coverage](./031-reaching-100-domain-coverage.md) | accepted |
+| 031 | [ADR 031: Reaching 100% Domain Coverage](./031-reaching-100-domain-coverage.md) | Unknown |

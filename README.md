@@ -202,9 +202,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │       │   └── TenderRoutes.ts
 │   │       └── server.ts
 │   ├── test
-│   │   ├── AppError.test.ts
 │   │   ├── PdfParserAdapter.test.ts
-│   │   ├── RequirementsExtractor.test.ts
 │   │   ├── ValidationEngine.test.ts
 │   │   ├── api_integration.test.ts
 │   │   ├── application
@@ -217,8 +215,6 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   │   ├── RequirementsExtractor.test.ts
 │   │   │   ├── TenderAnalysisSchema.test.ts
 │   │   │   ├── ValidationEngine.test.ts
-│   │   │   ├── errors
-│   │   │   │   └── AppError.test.ts
 │   │   │   └── validation
 │   │   │       ├── ValidationEngine.test.ts
 │   │   │       ├── ValidationRuleFactory.test.ts
@@ -303,6 +299,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── 028-ui-design-system.md
 │   │   ├── 029-auth-error-handling.md
 │   │   ├── 030-global-theme-strategy.md
+│   │   ├── 031-reaching-100-domain-coverage.md
 │   │   └── README.md
 │   ├── architecture
 │   │   ├── mcp_feasibility_study.md
