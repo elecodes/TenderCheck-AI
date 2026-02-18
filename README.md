@@ -6,7 +6,7 @@
 
 ![Deployment](https://img.shields.io/badge/Deployment-Render-46E3B7?style=flat-square&logo=render&logoColor=white)
 ![Tech](https://img.shields.io/badge/Stack-TypeScript_React_Turso_Gemini-orange)
-![Coverage](https://img.shields.io/badge/Coverage-100%25_Domain_/_84%25_Global-brightgreen)
+![Coverage](https://img.shields.io/badge/Coverage-100%25_Domain_/_92%25_Global-brightgreen)
 ![Data](https://img.shields.io/badge/Storage-Turso_(LibSQL)-blue)
 ![AI](https://img.shields.io/badge/AI-Gemini_2.5_Flash-red)
 ![Observability](https://img.shields.io/badge/Observability-LangSmith-blueviolet)
@@ -494,10 +494,9 @@ npx playwright test
 # View Test Report
 npx playwright show-report
 
-# Check Coverage (Critical Baseline > 80%)
-# We have achieved **100% Domain / 84% Global Coverage**, ensuring high reliability across
-# Domain logic, AI Services, and API Routes.
-
+# Check Coverage (Critical Gate: 100% Domain)
+# We have achieved **100% Domain / 92% Global Coverage**, ensuring absolute reliability 
+# for core business rules and domain entities.
 npm run test:coverage
 
 # Run Security Scan (Snyk)

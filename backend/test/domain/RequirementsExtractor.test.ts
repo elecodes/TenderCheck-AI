@@ -26,12 +26,23 @@ describe("RequirementsExtractor", () => {
   });
 
   it("should ignore empty sentences", () => {
-    const text = "El sistema debe ser rápido...    . ! ";
     // "debe" is not in the keyword list in the file ["deberá", "must", "requiere", "obligatorio", "shall"]
     // Let's use a known keyword "must"
     const text2 = "It must be fast...   . !";
     const result = extractor.extract(text2);
     expect(result).toHaveLength(1);
     expect(result[0].text).toBe("It must be fast");
+  });
+
+  it("should handle empty text input", () => {
+    const result = extractor.extract("");
+    expect(result).toEqual([]);
+  });
+
+  it("should handle text without punctuation", () => {
+    const text = "El sistema deberá tener login";
+    const result = extractor.extract(text);
+    expect(result).toHaveLength(1);
+    expect(result[0].text).toBe("El sistema deberá tener login");
   });
 });

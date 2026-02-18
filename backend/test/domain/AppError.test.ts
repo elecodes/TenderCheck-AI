@@ -40,4 +40,34 @@ describe("AppError", () => {
     expect(error.message).toBe("Crash");
     expect(error.isOperational).toBe(false);
   });
+
+  it("should be an instance of Error and AppError", () => {
+    const error = AppError.badRequest("Test");
+    expect(error).toBeInstanceOf(Error);
+    expect(error).toBeInstanceOf(AppError);
+    expect(error.name).toBe("Error");
+  });
+
+  it("should have a stack trace", () => {
+    const error = new AppError("Stack test", 500);
+    expect(error.stack).toBeDefined();
+    expect(error.stack).toContain("AppError");
+  });
+
+  it("should allow creating a non-operational error via constructor", () => {
+    const error = new AppError("Not operational", 500, false);
+    expect(error.isOperational).toBe(false);
+  });
+  it("should handle environments without Error.captureStackTrace", () => {
+    const originalCaptureStackTrace = Error.captureStackTrace;
+    try {
+      // @ts-expect-error - Simulating non-V8 environment
+      Error.captureStackTrace = undefined;
+      const error = new AppError("No stack trace", 500);
+      expect(error.message).toBe("No stack trace");
+      expect(error.statusCode).toBe(500);
+    } finally {
+      Error.captureStackTrace = originalCaptureStackTrace;
+    }
+  });
 });

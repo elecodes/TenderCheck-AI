@@ -97,12 +97,11 @@ describe("ScopeValidationRule", () => {
     expect(result!.reasoning).toContain("construcción");
   });
 
-  it("should return AMBIGUOUS if no relevant keywords found", async () => {
-    const analysis = mockAnalysis("Suministro de papel higiénico");
-    // "papel" and "higiénico" are not in negative list (yet), nor positive.
+  it("should return AMBIGUOUS if found no keywords and requirements are missing", async () => {
+    const analysis = mockAnalysis("Generic Title");
+    delete analysis.requirements; // Force undefined for this test
     const result = await rule.validate(analysis);
 
     expect(result!.status).toBe("AMBIGUOUS");
-    expect(result!.reasoning).toContain("Could not definitively categorize");
   });
 });

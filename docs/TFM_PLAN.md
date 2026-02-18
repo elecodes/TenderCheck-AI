@@ -37,7 +37,7 @@
 - [x] **Render**: Setup `render.yaml` blueprint.
 - [x] **Turso**: Migrate DB to LibSQL Client.
 - [x] **Gemini**: Integrate Gemini 2.5 Flash for AI analysis.
-- [x] **COVR**: Achieved **100% Domain / 84% Global Coverage** (Exceeded Goals).
+- [x] **COVR**: Achieved **100% Domain / 92% Global Coverage** (Exceeded Goals).
 - [x] **Security**: Automated vulnerability scanning with Snyk (CI/CD Gate).
 - [x] **E2E**: Validated "Happy Path" with Playwright (Video Artifact).
 
