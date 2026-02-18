@@ -92,15 +92,6 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 <!-- TREE_START -->
 ```text
 ├── AGENTS.md
-├── Design
-│   └── Light_mode
-│       ├── Register.png
-│       ├── Screenshot 2026-02-13 at 11.57.30.png
-│       ├── Screenshot 2026-02-13 at 13.49.03.png
-│       ├── Screenshot 2026-02-13 at 14.28.38.png
-│       ├── dashboard.png
-│       ├── landing.png
-│       └── percentage.png
 ├── Dockerfile
 ├── README.md
 ├── backend
@@ -258,6 +249,14 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 ├── docs
 │   ├── ARCHITECTURE_SIMPLE_GUIDE.md
 │   ├── CLEAN_ARCHITECTURE_MAP.md
+│   ├── Light_mode
+│   │   ├── Register.png
+│   │   ├── Screenshot 2026-02-13 at 11.57.30.png
+│   │   ├── Screenshot 2026-02-13 at 13.49.03.png
+│   │   ├── Screenshot 2026-02-13 at 14.28.38.png
+│   │   ├── dashboard.png
+│   │   ├── landing.png
+│   │   └── percentage.png
 │   ├── PLAYBOOK.md
 │   ├── PROJECT_PLAN.md
 │   ├── Presentation
