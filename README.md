@@ -333,9 +333,6 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 ├── frontend
 │   ├── README.md
 │   ├── eslint.config.js
-│   ├── frontend
-│   │   ├── package-lock.json
-│   │   └── package.json
 │   ├── index.html
 │   ├── package-lock.json
 │   ├── package.json
