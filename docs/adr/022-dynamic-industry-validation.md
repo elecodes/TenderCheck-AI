@@ -2,7 +2,7 @@
 
 * Status: accepted
 * Deciders: Elena, Antigravity
-* Date: 2026-02-09
+* Date: 2026-03-04
 
 ## Context and Problem Statement
 

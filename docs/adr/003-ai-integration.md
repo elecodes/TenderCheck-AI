@@ -2,7 +2,7 @@
 
 * Status: superseded by [ADR 012](./012-cloud-pivot-render-turso.md)
 * Deciders: Elena, Senior Architect
-* Date: 2026-01-23
+* Date: 2026-03-04
 
 ## Context and Problem Statement
 We need to extract structured technical requirements from unstructured PDF text. 

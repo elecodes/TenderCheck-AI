@@ -2,7 +2,7 @@
 
 ## Status
 Accepted
-Date: 2026-01-27
+Date: 2026-03-04
 
 ## Context
 As the application moves towards cloud deployment (Phase 4) and targets enterprise/public sector users, we need a robust, secure, and user-friendly authentication mechanism. The previous custom JWT implementation was sufficient for local dev but lacked features like "Forgot Password" (securely) and single-sign-on (SSO).

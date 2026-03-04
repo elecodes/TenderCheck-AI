@@ -2,7 +2,7 @@
 
 * Status: accepted
 * Deciders: Elena, Senior Architect
-* Date: 2026-01-23
+* Date: 2026-03-04
 
 ## Context and Problem Statement
 We need a lightweight, performant, and maintainable frontend framework to build the document upload and validation dashboard. The solution must support rapid prototyping while allowing for future complexity (e.g., complex state).

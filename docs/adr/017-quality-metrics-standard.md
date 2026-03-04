@@ -4,7 +4,7 @@
 Accepted (Amended)
 
 ## Date
-2026-01-30 (Updated 2026-02-02)
+2026-03-04 (Updated 2026-02-02)
 
 ## Context
 As the project moves closer to the Master's Thesis defense, we needed a more rigorous yet pragmatic approach to testing. A blanket "80% coverage" rule was insufficient because it treated critical business logic (Domain) the same as boilerplate configuration code. We needed a strategy that prioritizes business risk.

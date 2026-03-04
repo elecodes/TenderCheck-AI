@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2026-01-30
+2026-03-04
 
 ## Context
 As the application scales, questions regarding data freshness and dashboard performance have arisen. Currently, the application fetches fresh data from the backend (Turso + Node.js) on every page load or component mount. We needed to decide whether to implement a caching layer (client-side or server-side) now or defer it.
