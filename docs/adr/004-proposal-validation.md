@@ -2,7 +2,7 @@
 
 * Status: accepted
 * Deciders: Elena, Senior Architect
-* Date: 2026-01-24
+* Date: 2026-03-04
 
 ## Context and Problem Statement
 We need to validate that a "Technical Proposal" (Oferta) meets the "Mandatory Requirements" extracted from the "Tender Document" (Pliego).

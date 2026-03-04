@@ -1,7 +1,7 @@
 # ADR 031: Reaching 100% Domain Coverage
 
 ## Date
-2026-02-18
+2026-03-04
 
 ## Status
 Accepted

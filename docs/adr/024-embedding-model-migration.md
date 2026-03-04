@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2026-02-11
+2026-03-04
 
 ## Context
 Since the release of Google Genkit v1.28.0, the previous identifier `text-embedding-004` (and its alias `embedding-001`) became unregistered in the `@genkit-ai/google-genai` plugin. Attempts to use these identifiers resulted in a 404 error from the Google AI SDK.

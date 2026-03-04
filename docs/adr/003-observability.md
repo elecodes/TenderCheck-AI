@@ -2,7 +2,7 @@
 
 * Status: accepted
 * Deciders: Elena, Senior Observability Engineer
-* Date: 2026-01-23
+* Date: 2026-03-04
 
 ## Context and Problem Statement
 In production, silent failures (e.g., PDF parsing errors, AI timeouts) destroy user trust. We need a way to track, diagnose, and resolve errors without relying on user reports.

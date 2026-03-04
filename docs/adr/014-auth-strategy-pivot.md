@@ -2,7 +2,7 @@
 
 * Status: accepted
 * Deciders: Elena (Lead Developer), Antigravity (AI Assistant)
-* Date: 2026-01-29
+* Date: 2026-03-04
 
 ## Context and Problem Statement
 

@@ -4,7 +4,7 @@
 Aceptado
 
 ## Fecha
-2026-01-28
+2026-03-04
 
 ## Contexto
 El sistema inicial sufría de "ceguera" (no encontraba requisitos en documentos largos), imprecisión en la extracción (confundía texto relleno con requisitos), y dependía de Ollama para la búsqueda vectorial (incompatible con el despliegue en Render).

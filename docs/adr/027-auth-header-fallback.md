@@ -1,6 +1,6 @@
 # 27. Auth Header Fallback Strategy
 
-Date: 2026-02-12
+Date: 2026-03-04
 
 ## Status
 
