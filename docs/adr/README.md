@@ -14,7 +14,7 @@
 | 009 | [ADR 009: UI Theme, Routing & Brand Identity](./009-ui-theme-routing.md) | Unknown |
 | 010 | [ADR 010: Security Hardening Strategy (Defense in Depth)](./010-security-hardening.md) | Unknown |
 | 011 | [ADR 011: Local SQL Persistence (SQLite)](./011-local-sql-persistence.md) | Unknown |
-| 012 | [ADR 012: Vector Search and Performance Optimization](./012-vector-search-performance.md) | ** Accepted |
+| 012 | [ADR 012: Vector Search and Performance Optimization](./012-vector-search-performance.md) | ** Accepted   |
 | 013 | [ADR 013: Frontend Localization and Security Hardening](./013-frontend-localization-security.md) | Unknown |
 | 014 | [ADR 014: Cloud Authentication Strategy (Google OAuth)](./014-cloud-authentication.md) | Unknown |
 | 015 | [ADR 015: Estrategia de Despliegue en Nube (Hugging Face Spaces)](./015-cloud-deployment.md) | Unknown |

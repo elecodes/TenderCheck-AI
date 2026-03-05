@@ -96,37 +96,6 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 ├── README.md
 ├── backend
 │   ├── Dockerfile
-│   ├── coverage_tmp
-│   │   ├── lcov-report
-│   │   │   ├── base.css
-│   │   │   ├── block-navigation.js
-│   │   │   ├── errors
-│   │   │   │   ├── AppError.ts.html
-│   │   │   │   └── index.html
-│   │   │   ├── favicon.png
-│   │   │   ├── index.html
-│   │   │   ├── prettify.css
-│   │   │   ├── prettify.js
-│   │   │   ├── repositories
-│   │   │   │   ├── ITenderRepository.ts.html
-│   │   │   │   ├── UserRepository.ts.html
-│   │   │   │   └── index.html
-│   │   │   ├── schemas
-│   │   │   │   ├── TenderAnalysisSchema.ts.html
-│   │   │   │   └── index.html
-│   │   │   ├── services
-│   │   │   │   ├── RequirementsExtractor.ts.html
-│   │   │   │   └── index.html
-│   │   │   ├── sort-arrow-sprite.png
-│   │   │   ├── sorter.js
-│   │   │   └── validation
-│   │   │       ├── ValidationEngine.ts.html
-│   │   │       ├── ValidationRuleFactory.ts.html
-│   │   │       ├── index.html
-│   │   │       └── rules
-│   │   │           ├── ScopeValidationRule.ts.html
-│   │   │           └── index.html
-│   │   └── lcov.info
 │   ├── eslint.config.js
 │   ├── package-lock.json
 │   ├── package.json
@@ -237,7 +206,6 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   │       └── TenderRoutes.test.ts
 │   │   └── security.test.ts
 │   ├── test-db-connection.js
-│   ├── test-results.json
 │   ├── tsconfig.json
 │   └── vitest.config.ts
 ├── ci_cd_plan.md
@@ -268,38 +236,38 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── 001-validation-strategy.md
 │   │   ├── 002-frontend-stack.md
 │   │   ├── 003-ai-integration.md
-│   │   ├── 003-observability.md
-│   │   ├── 004-google-auth-limitation.md
-│   │   ├── 004-proposal-validation.md
-│   │   ├── 004-rules-engine.md
-│   │   ├── 005-local-auth-and-ollama.md
-│   │   ├── 006-ui-theme-routing.md
-│   │   ├── 007-security-hardening.md
-│   │   ├── 008-local-sql-persistence.md
-│   │   ├── 009-vector-search-performance.md
-│   │   ├── 010-frontend-localization-security.md
-│   │   ├── 011-cloud-authentication.md
-│   │   ├── 011-cloud-deployment.md
-│   │   ├── 012-cloud-pivot-render-turso.md
-│   │   ├── 013-ai-logic-refinements.md
-│   │   ├── 014-auth-strategy-pivot.md
-│   │   ├── 015-frontend-ui-and-security.md
-│   │   ├── 016-caching-strategy.md
-│   │   ├── 017-quality-metrics-standard.md
-│   │   ├── 018-mobile-first-ui.md
-│   │   ├── 019-resilience-testing-strategy.md
-│   │   ├── 020-auth-ux-enhancements.md
-│   │   ├── 021-manual-native-redirect.md
-│   │   ├── 022-dynamic-industry-validation.md
-│   │   ├── 023-langsmith-tracing-integration.md
-│   │   ├── 024-embedding-model-migration.md
-│   │   ├── 025-enforce-https-turso.md
-│   │   ├── 026-high-coverage-standard.md
-│   │   ├── 027-auth-header-fallback.md
-│   │   ├── 028-ui-design-system.md
-│   │   ├── 029-auth-error-handling.md
-│   │   ├── 030-global-theme-strategy.md
-│   │   ├── 031-reaching-100-domain-coverage.md
+│   │   ├── 004-observability.md
+│   │   ├── 005-google-auth-limitation.md
+│   │   ├── 006-proposal-validation.md
+│   │   ├── 007-rules-engine.md
+│   │   ├── 008-local-auth-and-ollama.md
+│   │   ├── 009-ui-theme-routing.md
+│   │   ├── 010-security-hardening.md
+│   │   ├── 011-local-sql-persistence.md
+│   │   ├── 012-vector-search-performance.md
+│   │   ├── 013-frontend-localization-security.md
+│   │   ├── 014-cloud-authentication.md
+│   │   ├── 015-cloud-deployment.md
+│   │   ├── 016-cloud-pivot-render-turso.md
+│   │   ├── 017-ai-logic-refinements.md
+│   │   ├── 018-auth-strategy-pivot.md
+│   │   ├── 019-frontend-ui-and-security.md
+│   │   ├── 020-caching-strategy.md
+│   │   ├── 021-quality-metrics-standard.md
+│   │   ├── 022-mobile-first-ui.md
+│   │   ├── 023-resilience-testing-strategy.md
+│   │   ├── 024-auth-ux-enhancements.md
+│   │   ├── 025-manual-native-redirect.md
+│   │   ├── 026-dynamic-industry-validation.md
+│   │   ├── 027-langsmith-tracing-integration.md
+│   │   ├── 028-embedding-model-migration.md
+│   │   ├── 029-enforce-https-turso.md
+│   │   ├── 030-high-coverage-standard.md
+│   │   ├── 031-auth-header-fallback.md
+│   │   ├── 032-ui-design-system.md
+│   │   ├── 033-auth-error-handling.md
+│   │   ├── 034-global-theme-strategy.md
+│   │   ├── 035-reaching-100-domain-coverage.md
 │   │   └── README.md
 │   ├── architecture
 │   │   ├── mcp_feasibility_study.md
@@ -394,7 +362,6 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   ├── tsconfig.json
 │   ├── tsconfig.node.json
 │   └── vite.config.ts
-├── lint_output.txt
 ├── package-lock.json
 ├── package.json
 ├── playwright.config.ts
