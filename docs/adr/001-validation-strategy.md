@@ -1,4 +1,4 @@
-# ADR-001: Runtime Validation Strategy
+# ADR 001: Runtime Validation Strategy
 **Fecha**: 2026-01-23
 
 ## Status

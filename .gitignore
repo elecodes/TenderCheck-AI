@@ -20,6 +20,13 @@ backend/.env
 .huggingface/.cache/
 *.sqlite*
 *.db*
+database.sqlite*
+
+# Tool Artifacts
+lint_output.txt
+coverage_report.txt
+test-results.json
+backend/coverage_tmp/
 
 # Documentation and Defense Notes
 docs/TFM_DEFENSE_NOTES.md
