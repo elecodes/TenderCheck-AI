@@ -5,6 +5,7 @@
 > [**🚀 Ver Demo en Vivo (Render)**](https://tendercheck-frontend.onrender.com)
 
 ![Deployment](https://img.shields.io/badge/Deployment-Render-46E3B7?style=flat-square&logo=render&logoColor=white)
+![Security](https://img.shields.io/badge/Security-0%20High%20Vulnerabilities-brightgreen)
 ![Tech](https://img.shields.io/badge/Stack-TypeScript_React_Turso_Gemini-orange)
 ![Coverage](https://img.shields.io/badge/Coverage-100%25_Domain_/_92%25_Global-brightgreen)
 ![Data](https://img.shields.io/badge/Storage-Turso_(LibSQL)-blue)
