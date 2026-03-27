@@ -94,6 +94,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 <!-- TREE_START -->
 ```text
 ├── AGENTS.md
+├── CHANGELOG.md
 ├── Dockerfile
 ├── README.md
 ├── backend
@@ -163,6 +164,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   │   │   ├── GeminiGenkitService.ts
 │   │   │   │   └── VectorSearchService.ts
 │   │   │   └── utils
+│   │   │       ├── chunking.ts
 │   │   │       └── safeExecute.ts
 │   │   └── presentation
 │   │       ├── controllers
