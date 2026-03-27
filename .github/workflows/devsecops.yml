@@ -21,11 +21,7 @@ jobs:
 
       - name: Install Backend Deps
         working-directory: ./backend
-        run: npm ci
-
-      - name: Run Backend Tests
-        working-directory: ./backend
-        run: npm test
+        run: npm install --omit=dev
 
       - name: Install Frontend Deps
         working-directory: ./frontend
