@@ -1,4 +1,4 @@
-import pdf from "pdf-parse";
+import * as pdf from "pdf-parse";
 import type { IPdfParser } from "../../domain/interfaces/IPdfParser.js";
 import { AppError } from "../../domain/errors/AppError.js";
 import { safeExecute } from "../utils/safeExecute.js";
@@ -7,7 +7,7 @@ export class PdfParserAdapter implements IPdfParser {
   async parse(buffer: Buffer): Promise<string> {
     return safeExecute(async () => {
       try {
-        const data = await pdf(buffer);
+        const data = await pdf.default(buffer);
         if (!data || !data.text) {
           throw new Error("PDF extraction returned empty result");
         }
@@ -23,15 +23,15 @@ export class PdfParserAdapter implements IPdfParser {
   async parsePages(buffer: Buffer): Promise<string[]> {
     return safeExecute(async () => {
       try {
-        const data = await pdf(buffer);
-        
+        const data = await pdf.default(buffer);
+
         if (!data?.text) {
           throw new Error("Failed to extract PDF text");
         }
 
         const fullText = data.text;
         const pageCount = data.numpages || 1;
-        
+
         if (pageCount <= 1) {
           return [fullText];
         }
@@ -40,14 +40,14 @@ export class PdfParserAdapter implements IPdfParser {
         const pages: string[] = [];
         let lastIndex = 0;
         let match;
-        
+
         while ((match = pageRegex.exec(fullText)) !== null) {
           if (lastIndex > 0) {
             pages.push(fullText.substring(lastIndex, match.index).trim());
           }
           lastIndex = match.index + match[0].length;
         }
-        
+
         if (lastIndex < fullText.length) {
           pages.push(fullText.substring(lastIndex).trim());
         }
@@ -73,7 +73,7 @@ export class PdfParserAdapter implements IPdfParser {
   async getPageCount(buffer: Buffer): Promise<number> {
     return safeExecute(async () => {
       try {
-        const data = await pdf(buffer);
+        const data = await pdf.default(buffer);
         return data?.numpages || 0;
       } catch (error) {
         throw AppError.badRequest(
