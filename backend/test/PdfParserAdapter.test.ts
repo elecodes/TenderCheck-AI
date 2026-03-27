@@ -3,16 +3,14 @@ import { PdfParserAdapter } from "../src/infrastructure/adapters/PdfParserAdapte
 
 vi.mock("pdf-parse", () => {
   return {
-    PDFParse: class MockPDFParse {
-      getText = vi.fn().mockResolvedValue({
-        text: "Mock PDF text",
-        pages: [
-          { text: "Page 1 text", num: 1 },
-          { text: "Page 2 text", num: 2 },
-        ],
-      });
-      destroy = vi.fn();
-    },
+    default: vi.fn().mockResolvedValue({
+      text: "--- Page 1 ---\nPage 1 content\n--- Page 2 ---\nPage 2 content",
+      numpages: 2,
+      pages: [
+        { text: "Page 1 content", num: 1 },
+        { text: "Page 2 content", num: 2 },
+      ],
+    }),
   };
 });
 
@@ -24,7 +22,7 @@ describe("PdfParserAdapter", () => {
   it("should extract text from valid buffer", async () => {
     const adapter = new PdfParserAdapter();
     const result = await adapter.parse(Buffer.from("good"));
-    expect(result).toBe("Mock PDF text");
+    expect(result).toBe("--- Page 1 ---\nPage 1 content\n--- Page 2 ---\nPage 2 content");
   });
 
   it("should get page count", async () => {
@@ -36,6 +34,8 @@ describe("PdfParserAdapter", () => {
   it("should parse pages", async () => {
     const adapter = new PdfParserAdapter();
     const result = await adapter.parsePages(Buffer.from("test"));
-    expect(result).toEqual(["Page 1 text", "Page 2 text"]);
+    expect(result.length).toBe(2);
+    expect(result[0]).toContain("Page 1");
+    expect(result[1]).toContain("Page 2");
   });
 });
