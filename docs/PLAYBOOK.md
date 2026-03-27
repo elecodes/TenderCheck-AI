@@ -28,6 +28,7 @@ Welcome to the team! This playbook defines **how we work** to ensure high qualit
 >
 > **💡 Why 100/80?** We enforce **Absolute Reliability** on critical **Domain logic** (Rules, Validation) and ensuring robust error handling in all layers.
 > **🔴 Important:** Attempting to bypass these hooks is a violation of the [Quality Metrics Policy](../docs/standards/quality_metrics.md).
+> **Note:** Tests run locally. CI (GitHub Actions) runs lint + build only due to rolldown native binding issues on Linux runners.
 
 ### 3. Architecture Guidelines
 - **Domain Layer**: PURE TypeScript. No external libraries (except absolute essentials like `uuid` or `zod` types).

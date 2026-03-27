@@ -19,6 +19,12 @@ All notable changes to this project will be documented in this file.
 ### Dependencies Updated
 - pdf-parse: upgraded to latest version with page-level extraction support
 
+### Infrastructure
+- GitHub Actions updated to v4 (fixes Node.js 20 deprecation warnings)
+- CI workflow optimized: skip tests due to rolldown native binding issues on Linux runners
+- Tests run locally with vitest; CI focuses on lint and build validation
+- Render build: use `--omit=dev` to avoid platform-specific native dependencies
+
 ## [1.0.0] - 2026-03-27
 
 ### Added
