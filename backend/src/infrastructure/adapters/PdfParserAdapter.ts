@@ -25,17 +25,40 @@ export class PdfParserAdapter implements IPdfParser {
       try {
         const data = await pdf(buffer);
         
-        if (!data?.pages || data.pages.length === 0) {
-          const fullText = data?.text || "";
-          if (fullText) {
-            return [fullText];
-          }
-          throw new Error("Failed to extract page information");
+        if (!data?.text) {
+          throw new Error("Failed to extract PDF text");
         }
 
+        const fullText = data.text;
+        const pageCount = data.numpages || 1;
+        
+        if (pageCount <= 1) {
+          return [fullText];
+        }
+
+        const pageRegex = /--- Page (\d+) ---/gi;
         const pages: string[] = [];
-        for (const page of data.pages) {
-          pages.push(page.text || "");
+        let lastIndex = 0;
+        let match;
+        
+        while ((match = pageRegex.exec(fullText)) !== null) {
+          if (lastIndex > 0) {
+            pages.push(fullText.substring(lastIndex, match.index).trim());
+          }
+          lastIndex = match.index + match[0].length;
+        }
+        
+        if (lastIndex < fullText.length) {
+          pages.push(fullText.substring(lastIndex).trim());
+        }
+
+        if (pages.length === 0) {
+          const charsPerPage = Math.ceil(fullText.length / pageCount);
+          for (let i = 0; i < pageCount; i++) {
+            const start = i * charsPerPage;
+            const end = Math.min(start + charsPerPage, fullText.length);
+            pages.push(fullText.substring(start, end));
+          }
         }
 
         return pages;
