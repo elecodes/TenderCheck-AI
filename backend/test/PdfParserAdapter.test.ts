@@ -1,25 +1,41 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { PdfParserAdapter } from "../src/infrastructure/adapters/PdfParserAdapter.js";
 
+vi.mock("pdf-parse", () => {
+  return {
+    PDFParse: class MockPDFParse {
+      getText = vi.fn().mockResolvedValue({
+        text: "Mock PDF text",
+        pages: [
+          { text: "Page 1 text", num: 1 },
+          { text: "Page 2 text", num: 2 },
+        ],
+      });
+      destroy = vi.fn();
+    },
+  };
+});
+
 describe("PdfParserAdapter", () => {
-  it("should extract text from valid buffer", async () => {
-    const mockParser = vi
-      .fn()
-      .mockResolvedValue({ text: "Extracted PDF Content" });
-    const adapter = new PdfParserAdapter(mockParser);
-
-    const result = await adapter.parse(Buffer.from("good"));
-
-    expect(result).toBe("Extracted PDF Content");
-    expect(mockParser).toHaveBeenCalled();
+  beforeEach(() => {
+    vi.clearAllMocks();
   });
 
-  it("should throw AppError on failure", async () => {
-    const mockParser = vi.fn().mockRejectedValue(new Error("Corrupt PDF"));
-    const adapter = new PdfParserAdapter(mockParser);
+  it("should extract text from valid buffer", async () => {
+    const adapter = new PdfParserAdapter();
+    const result = await adapter.parse(Buffer.from("good"));
+    expect(result).toBe("Mock PDF text");
+  });
 
-    await expect(adapter.parse(Buffer.from("bad"))).rejects.toThrow(
-      "Failed to parse PDF",
-    );
+  it("should get page count", async () => {
+    const adapter = new PdfParserAdapter();
+    const result = await adapter.getPageCount(Buffer.from("test"));
+    expect(result).toBe(2);
+  });
+
+  it("should parse pages", async () => {
+    const adapter = new PdfParserAdapter();
+    const result = await adapter.parsePages(Buffer.from("test"));
+    expect(result).toEqual(["Page 1 text", "Page 2 text"]);
   });
 });

@@ -51,7 +51,9 @@ describe("Integration: POST /api/tenders/analyze", () => {
     );
 
     // Spy on the real PdfParserAdapter to return fake text without needing a real PDF
-    // Spy on the real PdfParserAdapter to return fake text without needing a real PDF
+    vi.spyOn(PdfParserAdapter.prototype, "getPageCount").mockImplementation(
+      async () => 5,
+    );
     const parseSpy = vi
       .spyOn(PdfParserAdapter.prototype, "parse")
       .mockImplementation(

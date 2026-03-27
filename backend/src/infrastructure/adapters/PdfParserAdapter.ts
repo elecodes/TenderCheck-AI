@@ -1,22 +1,15 @@
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const pdf = require("pdf-parse");
-
+import { PDFParse } from "pdf-parse";
 import type { IPdfParser } from "../../domain/interfaces/IPdfParser.js";
 import { AppError } from "../../domain/errors/AppError.js";
 import { safeExecute } from "../utils/safeExecute.js";
 
 export class PdfParserAdapter implements IPdfParser {
-  private parser: (buffer: Buffer) => Promise<{ text: string }>;
-
-  constructor(parser?: (buffer: Buffer) => Promise<{ text: string }>) {
-    this.parser = parser || pdf;
-  }
-
   async parse(buffer: Buffer): Promise<string> {
     return safeExecute(async () => {
       try {
-        const data = await this.parser(buffer);
+        const parser = new PDFParse({ data: buffer });
+        const data = await parser.getText();
+        await parser.destroy();
         if (!data || !data.text) {
           throw new Error("PDF extraction returned empty result");
         }
@@ -27,5 +20,45 @@ export class PdfParserAdapter implements IPdfParser {
         );
       }
     }, "PDF Parsing Error");
+  }
+
+  async parsePages(buffer: Buffer): Promise<string[]> {
+    return safeExecute(async () => {
+      try {
+        const parser = new PDFParse({ data: buffer });
+        const data = await parser.getText();
+        await parser.destroy();
+
+        if (!data?.pages || data.pages.length === 0) {
+          throw new Error("Failed to extract page information");
+        }
+
+        const pages: string[] = [];
+        for (const page of data.pages) {
+          pages.push(page.text || "");
+        }
+
+        return pages;
+      } catch (error) {
+        throw AppError.badRequest(
+          `Failed to parse PDF pages: ${(error as Error).message}`,
+        );
+      }
+    }, "PDF Page Parsing Error");
+  }
+
+  async getPageCount(buffer: Buffer): Promise<number> {
+    return safeExecute(async () => {
+      try {
+        const parser = new PDFParse({ data: buffer });
+        const data = await parser.getText();
+        await parser.destroy();
+        return data?.pages?.length || 0;
+      } catch (error) {
+        throw AppError.badRequest(
+          `Failed to get PDF page count: ${(error as Error).message}`,
+        );
+      }
+    }, "PDF Page Count Error");
   }
 }

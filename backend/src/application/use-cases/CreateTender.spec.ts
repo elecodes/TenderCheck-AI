@@ -26,9 +26,13 @@ describe("CreateTender Use Case", () => {
     };
     mockPdfParser = {
       parse: vi.fn(),
+      parsePages: vi.fn(),
+      getPageCount: vi.fn().mockResolvedValue(5),
     };
     mockAnalyzer = {
       analyze: vi.fn(),
+      analyzeChunk: vi.fn(),
+      analyzeChunks: vi.fn(),
     };
     mockVectorSearch = {
       generateEmbedding: vi

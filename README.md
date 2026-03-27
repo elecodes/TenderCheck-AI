@@ -22,6 +22,7 @@
 - **Intelligent Analysis (Dual Persona)**: 
   - **Legal Auditor (Extraction)**: Identifies strict requirements ("deberá", "obligatorio").
   - **Senior Evaluator (Validation)**: Understands technical synonyms and partial compliance nuances.
+- **Large PDF Support**: Page-based chunking for documents up to 80+ pages. Automatically splits PDFs > 15 pages into 10-page chunks, processes them in parallel (up to 3 concurrent), and aggregates results.
 - **Cloud Semantic Search**: Native Vector Search with Google Genkit (`gemini-embedding-001` - 3072D).
 - **Cloud-Native Architecture**: Backend on Render + Turso Database (Edge SQLite).
 - **Modern React Interface**: 

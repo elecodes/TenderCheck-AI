@@ -73,6 +73,17 @@ To add a new check for tenders:
 - **Prompting**: Keep System Prompts in the Service or a dedicated config. Use clear instructions ("You are...", "Return JSON...").
 - **Observability**: Use **LangSmith** to monitor AI performance. Ensure `LANGCHAIN_API_KEY` is set. Tracing is manually instrumented via the `traceable` wrapper in `GeminiGenkitService`.
 
+### 5.1 Large PDF Processing (Chunking)
+- **Threshold**: PDFs with > 15 pages automatically use chunked processing.
+- **Chunk Size**: 10 pages per chunk (configurable in `constants.ts`).
+- **Parallelism**: Up to 3 chunks processed concurrently.
+- **Context**: Each chunk includes metadata ("Analyzing pages X-Y of total Z") so the AI knows its relative position.
+- **Error Handling**: Failed chunks don't crash the entire process - they are logged and skipped.
+- **Files**: 
+  - `backend/src/infrastructure/utils/chunking.ts` - Chunking utility
+  - `IPdfParser.parsePages()` - Page extraction
+  - `ITenderAnalyzer.analyzeChunks()` - Parallel processing
+
 
 ### 6. Authentication Flow 🔐
 - **Register**: Create a new account at `/register`. Upon success, a JWT is issued automatically and the user is redirected to the dashboard.

@@ -1,8 +1,12 @@
 import { z } from "zod";
 import { traceable } from "langsmith/traceable";
-import type { ITenderAnalyzer } from "../../domain/interfaces/ITenderAnalyzer.js";
+import type {
+  ITenderAnalyzer,
+  ChunkAnalysisResult,
+} from "../../domain/interfaces/ITenderAnalyzer.js";
 import type { TenderAnalysis } from "../../domain/entities/TenderAnalysis.js";
-import { ai } from "../../config/genkit.config.js"; // Import shared instance
+import { ai } from "../../config/genkit.config.js";
+import type { PageChunk } from "../utils/chunking.js";
 
 export class GeminiGenkitService implements ITenderAnalyzer {
   /**
@@ -187,6 +191,105 @@ export class GeminiGenkitService implements ITenderAnalyzer {
 
   async analyze(text: string): Promise<TenderAnalysis> {
     return this._analyze(text);
+  }
+
+  async analyzeChunk(chunk: PageChunk): Promise<ChunkAnalysisResult> {
+    const AnalysisSchema = z.object({
+      summary: z.string(),
+      requirements: z.array(
+        z.object({
+          id: z.string(),
+          text: z.string(),
+          type: z.enum(["TECHNICAL", "ADMINISTRATIVE", "LEGAL", "FINANCIAL"]),
+          confidence: z.number(),
+          keywords: z.array(z.string()),
+        }),
+      ),
+    });
+
+    try {
+      console.log(
+        `🤖 Analyzing chunk ${chunk.chunkIndex + 1}: pages ${chunk.startPage}-${chunk.endPage} of ${chunk.totalPages}`,
+      );
+
+      const { output } = await ai.generate({
+        prompt: `Actúa como un Auditor Legal y Técnico (Legal & Technical Auditor). Analiza las páginas ${chunk.startPage} a ${chunk.endPage} de un Pliego de Licitación (documento de ${chunk.totalPages} páginas).
+        
+        **CONTEXTO**: Estás analizando la PARTE ${chunk.chunkIndex + 1} del documento completo. El documento tiene ${chunk.totalPages} páginas en total.
+        
+        Texto de las páginas ${chunk.startPage}-${chunk.endPage}:
+        ${chunk.text}
+
+        INSTRUCCIONES DE EXTRACCIÓN:
+        1. **Rol**: Eres un auditor estricto. Solo te importan las reglas que son motivo de exclusión o puntuación.
+        2. **Foco**: Busca frases con IMPERATIVOS: "deberá", "será obligatorio", "se requiere", "es indispensable", "must", "shall".
+        3. **Ignora**: Texto introductorio, paja, o descripciones generales que no son reglas.
+        
+        Para CADA requisito extraído:
+        - **text**: La demanda técnica completa y exacta.
+        - **type**: Clasifícalo en TECHNICAL, ADMINISTRATIVE, LEGAL, FINANCIAL.
+        - **confidence**: 1.0 si es un mandato claro ("deberá"), 0.5 si es deseable.
+        - **keywords**: 3-4 palabras clave para búsqueda vectorial.
+
+        **Idioma**: La salida debe estar ESTRICTAMENTE en ESPAÑOL.`,
+        output: { schema: AnalysisSchema },
+      });
+
+      if (!output) {
+        throw new Error("Empty response from AI model");
+      }
+
+      const requirements = output.requirements.map((req: any) => ({
+        id: crypto.randomUUID(),
+        text: req.text,
+        type: req.type,
+        confidence: req.confidence,
+        keywords: req.keywords,
+        source: {
+          pageNumber: chunk.startPage,
+          snippet: req.text.substring(0, 50) + "...",
+        },
+      }));
+
+      return {
+        chunkIndex: chunk.chunkIndex,
+        startPage: chunk.startPage,
+        endPage: chunk.endPage,
+        requirements,
+      };
+    } catch (error) {
+      console.error(`❌ Chunk ${chunk.chunkIndex} analysis failed:`, error);
+      return {
+        chunkIndex: chunk.chunkIndex,
+        startPage: chunk.startPage,
+        endPage: chunk.endPage,
+        requirements: [],
+        error: (error as Error).message,
+      };
+    }
+  }
+
+  async analyzeChunks(chunks: PageChunk[]): Promise<ChunkAnalysisResult[]> {
+    console.log(`🚀 Processing ${chunks.length} chunks in parallel...`);
+
+    const results = await Promise.all(
+      chunks.map((chunk) => this.analyzeChunk(chunk)),
+    );
+
+    const failedChunks = results.filter((r) => r.error);
+    if (failedChunks.length > 0) {
+      console.warn(
+        `⚠️ ${failedChunks.length} chunk(s) failed:`,
+        failedChunks.map((r) => r.chunkIndex),
+      );
+    }
+
+    const successfulResults = results.filter((r) => !r.error);
+    console.log(
+      `✅ ${successfulResults.length}/${chunks.length} chunks processed successfully`,
+    );
+
+    return results;
   }
 
   async compareProposal(

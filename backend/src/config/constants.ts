@@ -30,6 +30,12 @@ export const GENKIT_TIMEOUT = 60000; // 60 seconds
 export const GENKIT_MAX_RETRIES = 3;
 export const GENKIT_RETRY_DELAY = 1000; // 1 second
 
+// PDF Chunking Constants
+export const PAGES_PER_CHUNK = 10; // Number of pages per chunk
+export const CHUNK_MAX_CHARS = 500000; // Max characters per chunk ( Gemini 2.5 Flash limit)
+export const CHUNK_PARALLEL_PROCESSING = 3; // Process up to 3 chunks in parallel
+export const LARGE_PDF_THRESHOLD = 15; // PDFs with more than this many pages use chunking
+
 // Vector Search Constants
 export const VECTOR_DIMENSIONS = 768; // nomic-embed-text dimension (updated from 1536)
 export const SIMILARITY_THRESHOLD = 0.3; // Very low threshold - process almost all (was 0.6)
