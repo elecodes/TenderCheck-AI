@@ -22,7 +22,9 @@ describe("PdfParserAdapter", () => {
   it("should extract text from valid buffer", async () => {
     const adapter = new PdfParserAdapter();
     const result = await adapter.parse(Buffer.from("good"));
-    expect(result).toBe("--- Page 1 ---\nPage 1 content\n--- Page 2 ---\nPage 2 content");
+    expect(result).toBe(
+      "--- Page 1 ---\nPage 1 content\n--- Page 2 ---\nPage 2 content",
+    );
   });
 
   it("should get page count", async () => {
