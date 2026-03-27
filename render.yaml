@@ -4,7 +4,7 @@ services:
     name: tendercheck-backend
     env: node
     plan: free
-    buildCommand: cd backend && rm -f package-lock.json && npm install --omit=dev --ignore-scripts --prefer-offline && npm rebuild @libsql/client && npm run build
+    buildCommand: cd backend && rm -rf node_modules package-lock.json && npm install --omit=dev --ignore-scripts --no-optional --legacy-peer-deps && npm rebuild @libsql/client && npm run build
     startCommand: cd backend && npm start
     envVars:
       - key: NODE_ENV
