@@ -32,7 +32,6 @@
     "@types/supertest": "^6.0.3",
     "@typescript-eslint/eslint-plugin": "^8.53.1",
     "@typescript-eslint/parser": "^8.53.1",
-    "@vitest/coverage-v8": "^4.0.18",
     "dependency-cruiser": "^17.3.7",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
@@ -44,8 +43,7 @@
     "supertest": "^7.2.2",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.53.1",
-    "vitest": "^4.0.18"
+    "typescript-eslint": "^8.53.1"
   },
   "dependencies": {
     "@genkit-ai/ai": "^1.28.0",
