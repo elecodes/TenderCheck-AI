@@ -111,7 +111,7 @@ export class GeminiGenkitService implements ITenderAnalyzer {
       try {
         const { output } = await ai.generate({
           system: `You are a senior tender auditor specializind in IT public tenders. You must perform a deep semantic search within the provided context. Even if the text is a fragment, identify any mention of years, projects, or certifications. If you see 'Participado en al menos dos proyectos...', that IS the experience requirement. DO NOT say 'not specified' if there is any numerical requirement present.`,
-          prompt: `Context: ${proposalText.substring(0, 500000)}\n\nQuestion: Evalúa si la propuesta cumple con el requisito: "${requirementText}"`,
+          prompt: `Context: ${proposalText.substring(0, 500000)}\n\nQuestion: Evalúa si la propuesta cumple con el requisito: ${JSON.stringify(requirementText)}`,
           output: { schema: ComparisonSchema },
         });
 
