@@ -15,6 +15,7 @@ export const ai = genkit({
 // Lazy import to avoid circular dependency
 setTimeout(() => {
   import("../genkit/flows/index.js").catch(console.error);
+  import("../genkit/flows/embeddings.js").catch(console.error);
 }, 0);
 
 /**
