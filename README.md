@@ -100,6 +100,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 ├── backend
 │   ├── Dockerfile
 │   ├── eslint.config.js
+│   ├── package-lock.json
 │   ├── package.json
 │   ├── scripts
 │   │   ├── debug_gemini.ts
