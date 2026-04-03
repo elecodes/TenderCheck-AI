@@ -1,4 +1,3 @@
-import { defineFlow } from "genkit";
 import { ai } from "../../config/genkit.config.js";
 import { z } from "zod";
 
@@ -25,11 +24,11 @@ const ComparisonSchema = z.object({
 /**
  * Flow: Legal Auditor - Extrae requisitos del pliego
  */
-export const legalAuditorFlow = defineFlow(
+export const legalAuditorFlow = ai.defineFlow(
   {
     name: "legalAuditor",
     inputSchema: z.object({
-      text: z.string().describe("Texto del pliego de licitación"),
+      text: z.string().describe("Texto del pliego de licitação"),
     }),
     outputSchema: AnalysisSchema,
   },
@@ -69,7 +68,7 @@ Para CADA requisito extraído:
 /**
  * Flow: Senior Evaluator - Valida propuesta contra requisito
  */
-export const seniorEvaluatorFlow = defineFlow(
+export const seniorEvaluatorFlow = ai.defineFlow(
   {
     name: "seniorEvaluator",
     inputSchema: z.object({
