@@ -142,6 +142,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   │           └── ScopeValidationRule.ts
 │   │   ├── genkit
 │   │   │   └── flows
+│   │   │       ├── embeddings.ts
 │   │   │       └── index.ts
 │   │   ├── infrastructure
 │   │   │   ├── adapters
