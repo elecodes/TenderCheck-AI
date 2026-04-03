@@ -94,7 +94,6 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 <!-- TREE_START -->
 ```text
 ├── AGENTS.md
-├── CHANGELOG.md
 ├── Dockerfile
 ├── README.md
 ├── backend
@@ -141,6 +140,9 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   │       ├── ValidationRuleFactory.ts
 │   │   │       └── rules
 │   │   │           └── ScopeValidationRule.ts
+│   │   ├── genkit
+│   │   │   └── flows
+│   │   │       └── index.ts
 │   │   ├── infrastructure
 │   │   │   ├── adapters
 │   │   │   │   └── PdfParserAdapter.ts
