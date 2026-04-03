@@ -1,4 +1,4 @@
-import { defineFlow, runFlow } from "@genkit-ai/flow";
+import { defineFlow } from "genkit";
 import { ai } from "../../config/genkit.config.js";
 import { z } from "zod";
 
