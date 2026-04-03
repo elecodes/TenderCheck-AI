@@ -12,8 +12,10 @@ export const ai = genkit({
   model: "googleai/gemini-2.5-flash",
 });
 
-// Import flows to register them with Genkit
-import "../genkit/flows/index.js";
+// Lazy import to avoid circular dependency
+setTimeout(() => {
+  import("../genkit/flows/index.js").catch(console.error);
+}, 0);
 
 /**
  * Genkit Model Constants
