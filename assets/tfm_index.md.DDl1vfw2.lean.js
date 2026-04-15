@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as i,ae as r}from"./chunks/framework.Czhw_PXq.js";const f=JSON.parse('{"title":"TFM","description":"","frontmatter":{},"headers":[],"relativePath":"tfm/index.md","filePath":"tfm/index.md"}'),l={name:"tfm/index.md"};function o(n,a,s,c,d,_){return t(),i("div",null,[...a[0]||(a[0]=[r("",4)])])}const h=e(l,[["render",o]]);export{f as __pageData,h as default};
