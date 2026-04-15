@@ -1,1 +1,0 @@
-import{_ as a,o as t,c as i,ae as r}from"./chunks/framework.Czhw_PXq.js";const m=JSON.parse('{"title":"ADRs","description":"","frontmatter":{},"headers":[],"relativePath":"adr/index.md","filePath":"adr/index.md"}'),o={name:"adr/index.md"};function s(l,e,n,d,c,h){return t(),i("div",null,[...e[0]||(e[0]=[r("",5)])])}const p=a(o,[["render",s]]);export{m as __pageData,p as default};
