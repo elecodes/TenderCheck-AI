@@ -276,11 +276,14 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── 033-auth-error-handling.md
 │   │   ├── 034-global-theme-strategy.md
 │   │   ├── 035-reaching-100-domain-coverage.md
-│   │   └── README.md
+│   │   ├── README.md
+│   │   └── index.md
 │   ├── architecture
+│   │   ├── index.md
 │   │   ├── mcp_feasibility_study.md
 │   │   └── system_architecture.md
 │   ├── deployment_guide.md
+│   ├── index.md
 │   ├── standards
 │   │   ├── architecture_systems.md
 │   │   ├── code_quality_policy.md
@@ -288,6 +291,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── devops_policy.md
 │   │   ├── devsecops_free_tools.md
 │   │   ├── health_and_errors_policy.md
+│   │   ├── index.md
 │   │   ├── lifecycle_paradigms.md
 │   │   ├── metrics_policy.md
 │   │   ├── microcopy_policy.md
@@ -305,7 +309,8 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │       ├── 01_introduccion_objetivos.md
 │       ├── 02_marco_teorico.md
 │       ├── 03_arquitectura.md
-│       └── 04_implementacion.md
+│       ├── 04_implementacion.md
+│       └── index.md
 ├── frontend
 │   ├── README.md
 │   ├── eslint.config.js
