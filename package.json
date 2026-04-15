@@ -3,6 +3,9 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "docs:dev": "NO_PROXY=127.0.0.1,localhost,::1 no_proxy=127.0.0.1,localhost,::1 vitepress dev docs",
+    "docs:build": "NO_PROXY=127.0.0.1,localhost,::1 no_proxy=127.0.0.1,localhost,::1 vitepress build docs",
+    "docs:preview": "NO_PROXY=127.0.0.1,localhost,::1 no_proxy=127.0.0.1,localhost,::1 vitepress preview docs",
     "install:all": "npm install && npm install --prefix backend && npm install --prefix frontend",
     "test": "npm test --prefix backend",
     "test:coverage": "npm run test:coverage --prefix backend",
@@ -15,6 +18,8 @@
     "@playwright/test": "^1.58.1",
     "@types/node": "^25.1.0",
     "concurrently": "^9.2.1",
-    "husky": "^9.1.7"
+    "husky": "^9.1.7",
+    "vitepress": "^1.5.0",
+    "zod": "^4.0.0"
   }
 }

@@ -27,7 +27,7 @@ Welcome to the team! This playbook defines **how we work** to ensure high qualit
 > 2. `test:coverage` fails to meet the **80% Global / 100% Domain** threshold.
 >
 > **💡 Why 100/80?** We enforce **Absolute Reliability** on critical **Domain logic** (Rules, Validation) and ensuring robust error handling in all layers.
-> **🔴 Important:** Attempting to bypass these hooks is a violation of the [Quality Metrics Policy](../docs/standards/quality_metrics.md).
+> **🔴 Important:** Attempting to bypass these hooks is a violation of the [Quality Metrics Policy](/standards/quality_metrics).
 > **Note:** Tests run locally. CI (GitHub Actions) runs lint + build only due to rolldown native binding issues on Linux runners.
 
 ### 3. Architecture Guidelines
@@ -37,7 +37,7 @@ Welcome to the team! This playbook defines **how we work** to ensure high qualit
 - **Dependency Rule**: Source code dependencies must point **inwards** (Infrastructure -> Application -> Domain).
 
 ## 🛡️ Standards & Best Practices
-Please read the full [Coding Best Practices](../docs/standards/coding_best_practices.md) and [Testing Policy](../docs/standards/testing_policy.md) documents.
+Please read the full [Coding Best Practices](/standards/coding_best_practices) and [Testing Policy](/standards/testing_policy) documents.
 
 ### ✅ Do's
 - **Validate Everything**: Use `Zod` schemas for any data entering the system (API inputs, parsed PDF text).
@@ -104,7 +104,7 @@ To add a new check for tenders:
 ### 7. Performance & Caching Strategy 🚀
 *   **Current State**: Real-time fetching (Fetch-on-mount). We prioritize strictly fresh data over instant navigation.
 *   **Future Actions**: If dashboard loading exceeds **800ms**, we will migrate to **React Query** (TanStack Query) with a 5-minute `staleTime`.
-*   **Reference**: See [ADR 016](../docs/adr/016-caching-strategy.md).
+*   **Reference**: See [ADR 016](/adr/020-caching-strategy).
 
 ## 📝 Common Commands Cheat Sheet
 
