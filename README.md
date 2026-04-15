@@ -65,7 +65,9 @@ https://github.com/user-attachments/assets/338457ab-3e39-43c9-b377-9a2bf3889e1d
 - **[📘 Developer Playbook](docs/PLAYBOOK.md)**: Setup, Workflows, Commands.
 - **[📋 Project Plan](docs/PROJECT_PLAN.md)**: Roadmap & Phases.
 - **[🚀 Deployment Guide](docs/deployment_guide.md)**: Run on Render.
-- **[📖 Documentation Site](docs/)**: VitePress-powered docs (run `npm run docs:dev` to preview).
+- **[📖 Documentation Site](docs/)**: VitePress-powered docs.
+  - **Live**: https://elecodes.github.io/TenderCheck-AI/
+  - **Local**: `npm run docs:dev` → http://localhost:5173/
 
 ## 🏗 Architecture
 This project implements **Clean Architecture** with a Modular Monolith approach:
