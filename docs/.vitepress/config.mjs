@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress';
 
 export default defineConfig({
+  base: '/TenderCheck-AI/',
   title: 'TenderCheck AI',
   description: 'Documentación del proyecto TenderCheck AI',
   ignoreDeadLinks: true,
