@@ -86,3 +86,29 @@ If the backend fails to start, check the "Logs" tab in Render.
     5.  **Wait 5 minutes** (Google takes time to propagate changes).
 
 **Enjoy your scalable, cloud-native AI app!** 🚀
+
+---
+
+## 8. Deployment to Vercel (Frontend & Custom Domains) 🚀
+
+If you want better performance and custom subdomains (like `tendercheck.elecodes.online`), Vercel is the recommended choice for the frontend.
+
+### Steps:
+1.  **Import to Vercel**: Connect your GitHub repository.
+2.  **Project Configuration**:
+    - **Framework Preset**: `Vite` (automatically detected).
+    - **Root Directory**: `frontend/`
+    - **Build Command**: `npm run build`
+    - **Output Directory**: `dist`
+3.  **Environment Variables**:
+    - `VITE_GOOGLE_CLIENT_ID`: Your Client ID from Google Cloud Console.
+    - `VITE_API_BASE_URL`: The URL of your **Backend on Render** (e.g., `https://tendercheck-backend.onrender.com`).
+4.  **Custom Domain**:
+    - Go to **Settings > Domains** and add your subdomain (e.g., `tendercheck.yourdomain.com`).
+    - Follow Vercel's instructions to add a **CNAME** record in your DNS provider (Namecheap, etc.):
+        - **Type**: `CNAME`
+        - **Name**: `tendercheck` (o el prefijo que elijas)
+        - **Value**: `cname.vercel-dns.com`
+
+### SPA Routing
+El archivo `frontend/vercel.json` incluido en esta rama maneja los *rewrites* automáticamente para que las rutas de React funcionen al recargar la página.
