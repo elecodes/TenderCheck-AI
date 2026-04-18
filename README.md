@@ -103,6 +103,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 <!-- TREE_START -->
 ```text
 ├── AGENTS.md
+├── CHANGELOG.md
 ├── Dockerfile
 ├── README.md
 ├── backend
@@ -284,6 +285,8 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── 033-auth-error-handling.md
 │   │   ├── 034-global-theme-strategy.md
 │   │   ├── 035-reaching-100-domain-coverage.md
+│   │   ├── 036-vercel-frontend-deployment.md
+│   │   ├── 037-remediate-protobufjs-vulnerability.md
 │   │   ├── README.md
 │   │   └── index.md
 │   ├── architecture
@@ -382,6 +385,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   ├── tsconfig.app.json
 │   ├── tsconfig.json
 │   ├── tsconfig.node.json
+│   ├── vercel.json
 │   └── vite.config.ts
 ├── package-lock.json
 ├── package.json

@@ -38,5 +38,6 @@
 | 033 | [ADR 033: Authentication Error Handling and Caching Strategy](./033-auth-error-handling.md) | Unknown |
 | 034 | [ADR 034: Global Theme Strategy and Glassmorphism UI](./034-global-theme-strategy.md) | Unknown |
 | 035 | [ADR 035: Reaching 100% Domain Coverage](./035-reaching-100-domain-coverage.md) | Unknown |
-| 036 | [ADR 036: Vercel Frontend Deployment](./036-vercel-frontend-deployment.md) | accepted |
+| 036 | [ADR 036: Vercel Frontend Deployment](./036-vercel-frontend-deployment.md) | Unknown |
+| 037 | [ADR 037: Remediate Critical Vulnerability in `protobufjs`](./037-remediate-protobufjs-vulnerability.md) | Unknown |
 | index.md | [ADRs](./index.md) | Unknown |
