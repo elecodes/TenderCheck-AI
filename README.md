@@ -1,8 +1,13 @@
 # TenderCheck AI 🤖
 
 > **Automated Formal Validation for Public Tenders**
->
-> [**🚀 Ver Demo en Vivo (Vercel)**](https://tendercheckai.elecodes.online)
+# TenderCheck AI 🚀
+
+[![Production](https://img.shields.io/badge/Live-tendercheckai.elecodes.online-emerald?style=for-the-badge&logo=vercel)](https://tendercheckai.elecodes.online)
+[![CI/CD](https://github.com/elecodes/TenderCheck-AI/actions/workflows/ci.yml/badge.svg)](https://github.com/elecodes/TenderCheck-AI/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/badge/Coverage-92%25-emerald)](https://github.com/elecodes/TenderCheck-AI)
+
+> **Empowering SMEs to win more tenders with AI-driven analysis and validation.**
 
 ![Deployment](https://img.shields.io/badge/Deployment-Vercel%20%26%20Render-46E3B7?style=flat-square&logo=vercel&logoColor=white)
 ![Security](https://img.shields.io/badge/Security-0%20High%20Vulnerabilities-brightgreen)

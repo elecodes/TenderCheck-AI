@@ -181,6 +181,19 @@ See `docs/adr/036-vercel-frontend-deployment.md` for details.
 
 
 
+### 9.1 Custom Domain Aliasing (Vercel)
+If the custom subdomain (e.g., `tendercheckai.elecodes.online`) is not automatically linked to the production deployment:
+1.  Verify DNS is pointing to Vercel (CNAME `cname.vercel-dns.com`).
+2.  Run manually: `vercel alias set <deployment-url> tendercheckai.elecodes.online`.
+
+## 🛡️ Security Maintenance
+
+### Transitive Vulnerabilities
+When Snyk detects vulnerabilities in deep dependencies (e.g., inside Genkit):
+1.  Check if a patch exists for the sub-dependency.
+2.  Use `overrides` in `package.json` to force the secure version.
+3.  **Example**: `protobufjs` was forced to `^7.5.5` to fix `GHSA-xq3m-2v4x-88gg` (See [ADR 037](/docs/adr/037-remediate-protobufjs-vulnerability.md)).
+
 ## 🔧 Troubleshooting
 
 ### Database Connection Errors (500/503)
