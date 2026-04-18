@@ -76,7 +76,7 @@ This project is compatible with the **Google AI Studio Free Tier**. However, you
 If the backend fails to start, check the "Logs" tab in Render.
 *   **"Table not found"**: Ensure `SqliteDatabase.initializeSchema()` ran correctly (it should run automatically on startup).
 *   **CORS Errors**:
-    *   Verify `ALLOWED_ORIGINS` in Render environment matches your frontend URL (`https://your-app.onrender.com`).
+    *   Verify `ALLOWED_ORIGINS` in Render environment matches your frontend URL (e.g., `https://your-app.onrender.com` or `https://tendercheck.elecodes.online`).
     *   **Allowed Headers**: If seeing CORS errors on "Hard Reload", ensure backend allows `Cache-Control`, `Pragma`, and `Expires`.
 *   **"Google Auth Error: redirect_uri_mismatch"**:
     1.  Go to [Google Cloud Console > Credentials](https://console.cloud.google.com/apis/credentials).
@@ -102,13 +102,26 @@ If you want better performance and custom subdomains (like `tendercheck.elecodes
     - **Output Directory**: `dist`
 3.  **Environment Variables**:
     - `VITE_GOOGLE_CLIENT_ID`: Your Client ID from Google Cloud Console.
+    - `VITE_ENABLE_GOOGLE_AUTH`: Set to `true` to enable the Google login button.
     - `VITE_API_BASE_URL`: The URL of your **Backend on Render** (e.g., `https://tendercheck-backend.onrender.com`).
 4.  **Custom Domain**:
-    - Go to **Settings > Domains** and add your subdomain (e.g., `tendercheck.yourdomain.com`).
+    - Go to **Settings > Domains** and add your subdomain (e.g., `tendercheckai.elecodes.online`).
     - Follow Vercel's instructions to add a **CNAME** record in your DNS provider (Namecheap, etc.):
         - **Type**: `CNAME`
-        - **Name**: `tendercheck` (o el prefijo que elijas)
+        - **Name**: `tendercheckai`
         - **Value**: `cname.vercel-dns.com`
+
+### Google Cloud Console (OAuth)
+- Go to [Google Cloud Console > Credentials](https://console.cloud.google.com/apis/credentials).
+- Edit your OAuth 2.0 Client ID.
+- **Authorized JavaScript origins**: Add `https://tendercheckai.elecodes.online` and `https://tender-check-ai.vercel.app`.
+- **Authorized redirect URIs**: Add `https://tendercheckai.elecodes.online` and `https://tender-check-ai.vercel.app`.
+- **Wait 5 minutes** for propagation.
+
+### Backend CORS Settings
+- Go to your **Render Backend** settings.
+- Add `https://tendercheckai.elecodes.online` and `https://tender-check-ai.vercel.app` to the `ALLOWED_ORIGINS` environment variable (comma-separated).
+- If you don't do this, login and API calls will fail.
 
 ### SPA Routing
 El archivo `frontend/vercel.json` incluido en esta rama maneja los *rewrites* automáticamente para que las rutas de React funcionen al recargar la página.

@@ -2,9 +2,9 @@
 
 > **Automated Formal Validation for Public Tenders**
 >
-> [**🚀 Ver Demo en Vivo (Render)**](https://tendercheck-frontend.onrender.com)
+> [**🚀 Ver Demo en Vivo (Vercel)**](https://tendercheckai.elecodes.online)
 
-![Deployment](https://img.shields.io/badge/Deployment-Render-46E3B7?style=flat-square&logo=render&logoColor=white)
+![Deployment](https://img.shields.io/badge/Deployment-Vercel%20%26%20Render-46E3B7?style=flat-square&logo=vercel&logoColor=white)
 ![Security](https://img.shields.io/badge/Security-0%20High%20Vulnerabilities-brightgreen)
 ![Tech](https://img.shields.io/badge/Stack-TypeScript_React_Turso_Gemini-orange)
 ![Coverage](https://img.shields.io/badge/Coverage-100%25_Domain_/_92%25_Global-brightgreen)
@@ -24,7 +24,7 @@
   - **Senior Evaluator (Validation)**: Understands technical synonyms and partial compliance nuances.
 - **Large PDF Support**: Page-based chunking for documents up to 80+ pages. Automatically splits PDFs > 15 pages into 10-page chunks, processes them in parallel (up to 3 concurrent), and aggregates results.
 - **Cloud Semantic Search**: Native Vector Search with Google Genkit (`gemini-embedding-001` - 3072D).
-- **Cloud-Native Architecture**: Backend on Render + Turso Database (Edge SQLite).
+- **Hybrid Cloud Architecture**: Frontend on **Vercel** (Global CDN) + Backend on **Render** (Node.js) + **Turso** Database (Edge SQLite).
 - **Modern React Interface**: 
   - **Dual Theme Support**: Comprehensive **Light** (Beige/Gold) and **Dark** (Charcoal/Emerald) modes with a global toggle.
   - **Premium Aesthetic**: **Glassmorphism** design with backdrop blurs, soft shadows, and mesh gradients.
@@ -450,8 +450,8 @@ cd backend && npm run dev
 cd frontend && npm run dev
 
 ## ⚠️ Known Limitations (Deployment)
-- **Startup Delay**: This project is hosted on **Render's Free Tier**. If the application hasn't been used recently, it may take **30-50 seconds** to "wake up" on the first load. We appreciate your patience!
-- **Google Authentication**: The "Sign in with Google" feature is fully functional in both local and production (Render) environments. It uses a custom **Manual Native Redirect** flow to bypass Cross-Origin limitations on shared domains.
+- **Startup Delay**: The backend is hosted on **Render's Free Tier**. If the application hasn't been used recently, it may take **30-50 seconds** to "wake up" on the first load. The frontend is on **Vercel** and is always instant. We appreciate your patience!
+- **Google Authentication**: The "Sign in with Google" feature is fully functional. It uses a custom **Manual Native Redirect** flow to bypass Cross-Origin limitations on shared domains. Ensure your `VITE_ENABLE_GOOGLE_AUTH` is set to `true`.
 - **AI Service Costs**: While this project is designed for the **Google AI Studio Free Tier**, project owners may incur costs if they link a Google Cloud Billing account to their project (switching it to the **Pay-as-you-go** tier). In the Free Tier, Google may use your data to improve their models. Please check your [AI Studio Plan Settings](https://aistudio.google.com/app/plan_information) for details.
 
 ### Troubleshooting

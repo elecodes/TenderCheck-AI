@@ -62,7 +62,7 @@ Para CADA requisito extraído:
     }
 
     return output;
-  }
+  },
 );
 
 /**
@@ -91,5 +91,5 @@ export const seniorEvaluatorFlow = ai.defineFlow(
     }
 
     return output;
-  }
+  },
 );

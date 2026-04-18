@@ -26,8 +26,8 @@ export const generateEmbeddingFlow = ai.defineFlow(
       });
 
       // El resultado puede venir como array o como objeto
-      const embedding = Array.isArray(result) 
-        ? result[0]?.embedding 
+      const embedding = Array.isArray(result)
+        ? result[0]?.embedding
         : (result as any)?.embedding;
 
       if (!embedding) {
@@ -46,7 +46,7 @@ export const generateEmbeddingFlow = ai.defineFlow(
         success: false,
       };
     }
-  }
+  },
 );
 
 /**
@@ -64,7 +64,7 @@ export const semanticSearchFlow = ai.defineFlow(
         index: z.number(),
         document: z.string(),
         relevance: z.number(),
-      })
+      }),
     ),
   },
   async ({ query, documents }) => {
@@ -73,7 +73,7 @@ export const semanticSearchFlow = ai.defineFlow(
       model: "googleai/gemini-embedding-001",
       content: query,
     });
-    
+
     const queryEmbedding = Array.isArray(queryResult)
       ? queryResult[0]?.embedding
       : (queryResult as any)?.embedding;
@@ -90,7 +90,7 @@ export const semanticSearchFlow = ai.defineFlow(
             model: "googleai/gemini-embedding-001",
             content: doc.slice(0, 32000),
           });
-          
+
           const docEmbedding = Array.isArray(docResult)
             ? docResult[0]?.embedding
             : (docResult as any)?.embedding;
@@ -100,7 +100,7 @@ export const semanticSearchFlow = ai.defineFlow(
           }
 
           const similarity = cosineSimilarity(queryEmbedding, docEmbedding);
-          
+
           return {
             index,
             document: doc.slice(0, 50) + "...",
@@ -109,19 +109,19 @@ export const semanticSearchFlow = ai.defineFlow(
         } catch {
           return { index, document: doc.slice(0, 50), relevance: 0 };
         }
-      })
+      }),
     );
 
     // Ordenar por relevancia
     results.sort((a, b) => b.relevance - a.relevance);
-    
+
     return results;
-  }
+  },
 );
 
 function cosineSimilarity(a: number[], b: number[]): number {
   if (a.length !== b.length) return 0;
-  
+
   let dotProduct = 0;
   let normA = 0;
   let normB = 0;

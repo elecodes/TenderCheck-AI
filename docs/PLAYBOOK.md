@@ -135,21 +135,30 @@ To add a new check for tenders:
   - Register: "No se pudo crear la cuenta"
 - **Localization**: The UI is Spanish-first. Ensure all new features are fully marked up with Spanish copy.
 
-### 9. Deployment (Render)
-Pushing to `main` triggers auto-deployment.
+### 9. Deployment (Hybrid: Vercel + Render)
+Frontend is hosted on **Vercel**, Backend on **Render**.
+Pushing to `main` triggers auto-deployment on both platforms.
+
 **Note:** Google Auth is fully supported via the manual redirect flow.
-See `docs/adr/021-manual-native-redirect.md` for details.
-- **Hosting**: Render (Web Service + Static Site).
+See `docs/adr/036-vercel-frontend-deployment.md` for details.
+
+#### Infrastructure
+- **Frontend**: Vercel (Global CDN).
+- **Backend**: Render (Web Service).
 - **Database**: Turso (LibSQL).
 - **AI**: Gemini 2.5 Flash (Google AI Studio).
 
 #### Prerequisites
 1.  **Turso**: A database created with `CREATE TABLE...` (handled by `SqliteDatabase.ts` auto-init).
-2.  **Environment Variables**:
-    - `TURSO_DB_URL`: `libsql://...` or `https://...` (System enforces HTTPS automatically).
+2.  **Environment Variables (Vercel - Frontend)**:
+    - `VITE_API_BASE_URL`: URL of the Render backend.
+    - `VITE_GOOGLE_CLIENT_ID`: Google OAuth Client ID.
+    - `VITE_ENABLE_GOOGLE_AUTH`: `true`.
+3.  **Environment Variables (Render - Backend)**:
+    - `TURSO_DB_URL`: `libsql://...` or `https://...`.
     - `TURSO_AUTH_TOKEN`: `...`
     - `GOOGLE_GENAI_API_KEY`: `...`
-    - `GOOGLE_API_KEY`: `...` (Same as above, required by some Genkit plugins)
+    - `ALLOWED_ORIGINS`: Comma-separated list (Vercel domains).
 
 #### Workflow
 1.  **Verify Locally**:
@@ -159,15 +168,16 @@ See `docs/adr/021-manual-native-redirect.md` for details.
     npx tsx scripts/verify_cloud.ts
     ```
 2.  **Push to GitHub**:
-    Render triggers automatically on push to `main` (if configured).
+    Render and Vercel trigger automatically on push to `main`.
 
 3.  **Troubleshooting**:
     - **"Table not found"**: Check if `SqliteDatabase.initializeSchema()` ran in the logs.
     - **"404 Model"**: Check `GeminiGenkitService` model string and API Key scope.
     - **CORS Errors**:
-      - Verify `ALLOWED_ORIGINS` match your frontend URL.
-      - Ensure `Cache-Control` is in `allowedHeaders` to support Hard Reloads.
-    - **Google Sign-In Issues**: Ensure `VITE_GOOGLE_CLIENT_ID` is correctly set in the Render frontend environment.
+      - Verify `ALLOWED_ORIGINS` in Render includes your Vercel URL and custom subdomain.
+    - **Google Sign-In Issues**: 
+      - Ensure `VITE_GOOGLE_CLIENT_ID` and `VITE_ENABLE_GOOGLE_AUTH` are set in Vercel.
+      - Verify Authorized Redirect URIs in Google Cloud Console match the Vercel domains.
 
 
 
