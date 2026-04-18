@@ -81,7 +81,7 @@ If the backend fails to start, check the "Logs" tab in Render.
 *   **"Google Auth Error: redirect_uri_mismatch"**:
     1.  Go to [Google Cloud Console > Credentials](https://console.cloud.google.com/apis/credentials).
     2.  Edit your OAuth 2.0 Client ID.
-    3.  Under **Authorized JavaScript origins**, ADD your Render URL (e.g., `https://tendercheck-frontend.onrender.com`).
+    3.  Under **Authorized JavaScript origins**, ADD your Vercel URL (e.g., `https://tendercheckai.elecodes.online`).
     4.  Under **Authorized redirect URIs**, ADD the same URL (just in case).
     5.  **Wait 5 minutes** (Google takes time to propagate changes).
 
