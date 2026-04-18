@@ -67,6 +67,7 @@ https://github.com/user-attachments/assets/338457ab-3e39-43c9-b377-9a2bf3889e1d
 - **[🚀 Deployment Guide](docs/deployment_guide.md)**: Run on Render.
 - **[📖 Documentation Site](docs/)**: VitePress-powered docs.
   - **Live**: https://elecodes.github.io/TenderCheck-AI/
+  - **Includes**: **35+ ADRs**, **18+ Standards** (Security, UX, Quality), and **System Architecture**.
   - **Local**: `npm run docs:dev` → http://localhost:5173/
 
 ## 🏗 Architecture
