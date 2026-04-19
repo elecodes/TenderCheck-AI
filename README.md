@@ -46,6 +46,8 @@
 ## 📌 Overview
 **TenderCheck AI** is an intelligent assistant designed to validate public tender documents. Originally built for local inference, it has pivoted to a **Cloud-Native Architecture** (Render + Turso + Gemini) to ensure stability, persistence, and performance within free-tier limits.
 
+🌐 **Live Application**: [https://tendercheckai.elecodes.online/](https://tendercheckai.elecodes.online/)
+
 ## Demo
 <p align="center">
 <img src="screenshots/00-landing-page.png" width="600">
