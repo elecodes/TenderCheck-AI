@@ -9,7 +9,7 @@
 
 > **Empowering SMEs to win more tenders with AI-driven analysis and validation.**
 
-![Deployment](https://img.shields.io/badge/Deployment-Vercel%20%26%20Render-46E3B7?style=flat-square&logo=vercel&logoColor=white)
+![Deployment](https://img.shields.io/badge/Deployment-Vercel-46E3B7?style=flat-square&logo=vercel&logoColor=white)
 ![Security](https://img.shields.io/badge/Security-0%20High%20Vulnerabilities-brightgreen)
 ![Tech](https://img.shields.io/badge/Stack-TypeScript_React_Turso_Gemini-orange)
 ![Coverage](https://img.shields.io/badge/Coverage-100%25_Domain_/_92%25_Global-brightgreen)
@@ -29,7 +29,7 @@
   - **Senior Evaluator (Validation)**: Understands technical synonyms and partial compliance nuances.
 - **Large PDF Support**: Page-based chunking for documents up to 80+ pages. Automatically splits PDFs > 15 pages into 10-page chunks, processes them in parallel (up to 3 concurrent), and aggregates results.
 - **Cloud Semantic Search**: Native Vector Search with Google Genkit (`gemini-embedding-001` - 3072D).
-- **Hybrid Cloud Architecture**: Frontend on **Vercel** (Global CDN) + Backend on **Render** (Node.js) + **Turso** Database (Edge SQLite).
+- **Cloud-Native Architecture**: Frontend + Backend on **Vercel** + **Turso** Database (Edge SQLite).
 - **Modern React Interface**: 
   - **Dual Theme Support**: Comprehensive **Light** (Beige/Gold) and **Dark** (Charcoal/Emerald) modes with a global toggle.
   - **Premium Aesthetic**: **Glassmorphism** design with backdrop blurs, soft shadows, and mesh gradients.
@@ -44,7 +44,7 @@
 - **AI Observability**: Integrated with **LangSmith** for real-time tracing, prompt versioning, and performance monitoring.
 
 ## 📌 Overview
-**TenderCheck AI** is an intelligent assistant designed to validate public tender documents. Originally built for local inference, it has pivoted to a **Cloud-Native Architecture** (Render + Turso + Gemini) to ensure stability, persistence, and performance within free-tier limits.
+**TenderCheck AI** is an intelligent assistant designed to validate public tender documents. Originally built for local inference, it has pivoted to a **Cloud-Native Architecture** (Vercel + Turso + Gemini) to ensure stability, persistence, and performance.
 
 🌐 **Live Application**: [https://tendercheckai.elecodes.online/](https://tendercheckai.elecodes.online/)
 
@@ -71,7 +71,7 @@ https://github.com/user-attachments/assets/338457ab-3e39-43c9-b377-9a2bf3889e1d
 ## 📚 Key Documentation
 - **[📘 Developer Playbook](docs/PLAYBOOK.md)**: Setup, Workflows, Commands.
 - **[📋 Project Plan](docs/PROJECT_PLAN.md)**: Roadmap & Phases.
-- **[🚀 Deployment Guide](docs/deployment_guide.md)**: Run on Render.
+- **[🚀 Deployment Guide](docs/deployment_guide.md)**: Deploy to Vercel.
 - **[📖 Documentation Site](docs/)**: VitePress-powered docs.
   - **Live**: https://elecodes.github.io/TenderCheck-AI/
   - **Includes**: **35+ ADRs**, **18+ Standards** (Security, UX, Quality), and **System Architecture**.
@@ -461,13 +461,13 @@ cd backend && npm run dev
 cd frontend && npm run dev
 
 ## ⚠️ Known Limitations (Deployment)
-- **Startup Delay**: The backend is hosted on **Render's Free Tier**. If the application hasn't been used recently, it may take **30-50 seconds** to "wake up" on the first load. The frontend is on **Vercel** and is always instant. We appreciate your patience!
-- **Google Authentication**: The "Sign in with Google" feature is fully functional. It uses a custom **Manual Native Redirect** flow to bypass Cross-Origin limitations on shared domains. Ensure your `VITE_ENABLE_GOOGLE_AUTH` is set to `true`.
-- **AI Service Costs**: While this project is designed for the **Google AI Studio Free Tier**, project owners may incur costs if they link a Google Cloud Billing account to their project (switching it to the **Pay-as-you-go** tier). In the Free Tier, Google may use your data to improve their models. Please check your [AI Studio Plan Settings](https://aistudio.google.com/app/plan_information) for details.
+- **Backend on Vercel**: The backend is deployed on Vercel at https://tendercheckai.elecodes.online/ - cold starts may take a few seconds on first request.
+- **Google Authentication**: Fully functional. Uses custom **Manual Native Redirect** flow to bypass Cross-Origin limitations. Ensure `VITE_ENABLE_GOOGLE_AUTH` is set to `true`.
+- **AI Service Costs**: While this project uses the **Google AI Studio Free Tier**, owners may incur costs if they upgrade to **Pay-as-you-go**. In the Free Tier, Google may use your data to improve their models.
 
 ### Troubleshooting
-- **503 / Database Connection Errors**: If you encounter intermittent database errors, ensure your `TURSO_DB_URL` is correct. The system now automatically enforces `https://` for stability on serverless platforms.
-- **Render Build**: Ensure your build command includes `--include=dev` (to access TypeScript/Husky) and `npm rebuild @libsql/client` (for Linux). Example: `cd backend && npm install --include=dev && npm rebuild @libsql/client && npm run build`
+- **503 / Database Connection Errors**: Ensure your `TURSO_DB_URL` is correct. The system enforces `https://` for stability.
+- **Vercel Build**: Backend deploys automatically from `/backend`. Ensure `VERCEL_PREPATH` matches your API routes.
 
 
 ### Testing
