@@ -135,30 +135,31 @@ To add a new check for tenders:
   - Register: "No se pudo crear la cuenta"
 - **Localization**: The UI is Spanish-first. Ensure all new features are fully marked up with Spanish copy.
 
-### 9. Deployment (Hybrid: Vercel + Render)
-Frontend is hosted on **Vercel**, Backend on **Render**.
-Pushing to `main` triggers auto-deployment on both platforms.
+### 9. Deployment (Vercel)
+Frontend and Backend are hosted on **Vercel**.
+Pushing to `main` triggers auto-deployment.
 
 **Note:** Google Auth is fully supported via the manual redirect flow.
 See `docs/adr/036-vercel-frontend-deployment.md` for details.
 
 #### Infrastructure
 - **Frontend**: Vercel (Global CDN).
-- **Backend**: Render (Web Service).
+- **Backend**: Vercel (Serverless).
 - **Database**: Turso (LibSQL).
 - **AI**: Gemini 2.5 Flash (Google AI Studio).
 
 #### Prerequisites
 1.  **Turso**: A database created with `CREATE TABLE...` (handled by `SqliteDatabase.ts` auto-init).
 2.  **Environment Variables (Vercel - Frontend)**:
-    - `VITE_API_BASE_URL`: URL of the Render backend.
+    - `VITE_API_BASE_URL`: URL of the Vercel backend.
     - `VITE_GOOGLE_CLIENT_ID`: Google OAuth Client ID.
     - `VITE_ENABLE_GOOGLE_AUTH`: `true`.
-3.  **Environment Variables (Render - Backend)**:
-    - `TURSO_DB_URL`: `libsql://...` or `https://...`.
+3.  **Environment Variables (Vercel - Backend)**:
+    - `TURSO_DB_URL`: `https://...` (not `libsql://` for serverless).
     - `TURSO_AUTH_TOKEN`: `...`
     - `GOOGLE_GENAI_API_KEY`: `...`
     - `ALLOWED_ORIGINS`: Comma-separated list (Vercel domains).
+    - `VERCEL_PREPATH`: `/api` (if using API routes).
 
 #### Workflow
 1.  **Verify Locally**:
@@ -168,16 +169,16 @@ See `docs/adr/036-vercel-frontend-deployment.md` for details.
     npx tsx scripts/verify_cloud.ts
     ```
 2.  **Push to GitHub**:
-    Render and Vercel trigger automatically on push to `main`.
+    Vercel triggers automatically on push to `main`.
 
 3.  **Troubleshooting**:
     - **"Table not found"**: Check if `SqliteDatabase.initializeSchema()` ran in the logs.
     - **"404 Model"**: Check `GeminiGenkitService` model string and API Key scope.
     - **CORS Errors**:
-      - Verify `ALLOWED_ORIGINS` in Render includes your Vercel URL and custom subdomain.
+      - Verify `ALLOWED_ORIGINS` includes your Vercel domain.
     - **Google Sign-In Issues**: 
-      - Ensure `VITE_GOOGLE_CLIENT_ID` and `VITE_ENABLE_GOOGLE_AUTH` are set in Vercel.
-      - Verify Authorized Redirect URIs in Google Cloud Console match the Vercel domains.
+      - Ensure `VITE_GOOGLE_CLIENT_ID` and `VITE_ENABLE_GOOGLE_AUTH` are set.
+      - Verify Authorized Redirect URIs in Google Cloud Console match the domains.
 
 
 
@@ -198,11 +199,10 @@ When Snyk detects vulnerabilities in deep dependencies (e.g., inside Genkit):
 
 ### Database Connection Errors (500/503)
 **Symtom:** `LibsqlError: SQLITE_UNKNOWN: SQLite error: connection not opened`
-**Cause:** In serverless environments (Render) or during "Scale to Zero", the WebSocket connection (`libsql://`) may drop or fail to establish quickly.
+**Cause:** In serverless environments, the WebSocket connection (`libsql://`) may drop.
 **Solution:**
 1.  **Enforce HTTPS**: The `TursoDatabase` singleton automatically replaces `libsql://` with `https://` to use the stateless HTTP protocol.
-2.  **Rebuild Client**: Ensure `render.yaml` includes `npm rebuild @libsql/client` to compile the native binary for the correct architecture (Linux).
 
-### "Invalid ELF Header" (Render)
+### "Invalid ELF Header"
 **Cause:** The `@libsql/client` package includes a native binary. If installed on macOS and deployed to Linux without rebuilding, it will fail.
-**Solution:** Update the build command: `npm install && npm rebuild @libsql/client && npm run build`.
+**Solution:** Run `npm rebuild @libsql/client` before build.
