@@ -289,6 +289,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── 035-reaching-100-domain-coverage.md
 │   │   ├── 036-vercel-frontend-deployment.md
 │   │   ├── 037-remediate-protobufjs-vulnerability.md
+│   │   ├── 038-vercel-fullstack-deployment.md
 │   │   ├── README.md
 │   │   └── index.md
 │   ├── architecture
