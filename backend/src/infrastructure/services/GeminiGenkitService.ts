@@ -82,7 +82,17 @@ export class GeminiGenkitService implements ITenderAnalyzer {
         };
       } catch (error) {
         console.error("Gemini Analysis Failed:", error);
-        throw new Error("Failed to analyze tender with Gemini AI");
+        return {
+          id: crypto.randomUUID(),
+          userId: "",
+          tenderTitle: "Analysis Failed - Quota Exceeded",
+          documentUrl: "",
+          status: "FAILED" as const,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          requirements: [],
+          results: [],
+        };
       }
     },
     { name: "analyze_tender" },

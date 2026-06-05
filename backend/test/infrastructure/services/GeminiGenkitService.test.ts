@@ -44,20 +44,24 @@ describe("GeminiGenkitService", () => {
       expect(result.requirements[0].source?.pageNumber).toBe(0);
     });
 
-    it("should throw an error if AI returns empty output", async () => {
+    it("should return graceful fallback if AI returns empty output", async () => {
       mockGenerate.mockResolvedValueOnce({ output: null });
 
-      await expect(service.analyze("text")).rejects.toThrow(
-        "Failed to analyze tender with Gemini AI",
-      );
+      const result = await service.analyze("text");
+
+      expect(result.status).toBe("FAILED");
+      expect(result.requirements).toHaveLength(0);
+      expect(result.results).toHaveLength(0);
     });
 
-    it("should handle unexpected errors during generation", async () => {
+    it("should return graceful fallback on unexpected errors", async () => {
       mockGenerate.mockRejectedValueOnce(new Error("API Error"));
 
-      await expect(service.analyze("text")).rejects.toThrow(
-        "Failed to analyze tender with Gemini AI",
-      );
+      const result = await service.analyze("text");
+
+      expect(result.status).toBe("FAILED");
+      expect(result.requirements).toHaveLength(0);
+      expect(result.results).toHaveLength(0);
     });
   });
 
