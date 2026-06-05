@@ -110,7 +110,7 @@ export class GeminiGenkitService implements ITenderAnalyzer {
 
       try {
         const { output } = await ai.generate({
-          system: `You are a senior tender auditor specializind in IT public tenders. You must perform a deep semantic search within the provided context. Even if the text is a fragment, identify any mention of years, projects, or certifications. If you see 'Participado en al menos dos proyectos...', that IS the experience requirement. DO NOT say 'not specified' if there is any numerical requirement present. CRITICAL: The sourceQuote field MUST be in SPANISH.`,
+          system: `You are a senior tender auditor specializind in IT public tenders. You must perform a deep semantic search within the provided context. Even if the text is a fragment, identify any mention of years, projects, or certifications. If you see 'Participado en al menos dos proyectos...', that IS the experience requirement. DO NOT say 'not specified' if there is any numerical requirement present.`,
           prompt: `Context: ${proposalText.substring(0, 500000)}\n\nQuestion: Evalúa si la propuesta cumple con el requisito: ${JSON.stringify(requirementText)}`,
           output: { schema: ComparisonSchema },
         });
@@ -167,7 +167,7 @@ export class GeminiGenkitService implements ITenderAnalyzer {
           .join("\n---\n");
 
         const { output } = await ai.generate({
-          system: `You are a senior tender auditor specialized in IT public tenders. You must perform a deep semantic search within the provided context. Even if the text is a fragment, identify any mention of years, projects, or certifications. If you see 'Participado en al menos dos proyectos...', that IS the experience requirement. DO NOT say 'not specified' if there is any numerical requirement present. Respond strictly in SPANISH for reasoning. CRITICAL: The sourceQuote field MUST be in SPANISH.`,
+          system: `You are a senior tender auditor specialized in IT public tenders. You must perform a deep semantic search within the provided context. Even if the text is a fragment, identify any mention of years, projects, or certifications. If you see 'Participado en al menos dos proyectos...', that IS the experience requirement. DO NOT say 'not specified' if there is any numerical requirement present. Respond strictly in SPANISH for reasoning.`,
           prompt: `Context: ${proposalText.substring(0, 500000)}\n\nQuestion: Compara los siguientes requisitos técnicos contra el texto de la propuesta:\n${reqList}`,
           output: { schema: BatchSchema },
         });

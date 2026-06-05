@@ -127,6 +127,7 @@ export class ValidateProposal {
                   : comparison?.score || 0.75,
               evidence: {
                 text:
+                  comparison?.reasoning ||
                   comparison?.sourceQuote ||
                   "No se encontró evidencia específica.",
                 pageNumber: 0,
@@ -293,7 +294,9 @@ export class ValidateProposal {
               : comparison?.score || 0.75,
           evidence: {
             text:
-              comparison?.sourceQuote || "No se encontró evidencia específica.",
+              comparison?.reasoning ||
+              comparison?.sourceQuote ||
+              "No se encontró evidencia específica.",
             pageNumber: 0,
           },
         });
