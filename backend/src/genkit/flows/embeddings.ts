@@ -21,11 +21,10 @@ export const generateEmbeddingFlow = ai.defineFlow(
     try {
       // Usar ai.embed directamente con el modelo correcto
       const result = await ai.embed({
-        model: "googleai/gemini-embedding-001",
+        embedder: "googleai/gemini-embedding-001",
         content: text.slice(0, 32000),
       });
 
-      // El resultado puede venir como array o como objeto
       const embedding = Array.isArray(result)
         ? result[0]?.embedding
         : (result as any)?.embedding;
@@ -70,7 +69,7 @@ export const semanticSearchFlow = ai.defineFlow(
   async ({ query, documents }) => {
     // Embed query
     const queryResult = await ai.embed({
-      model: "googleai/gemini-embedding-001",
+      embedder: "googleai/gemini-embedding-001",
       content: query,
     });
 
@@ -87,7 +86,7 @@ export const semanticSearchFlow = ai.defineFlow(
       documents.map(async (doc, index) => {
         try {
           const docResult = await ai.embed({
-            model: "googleai/gemini-embedding-001",
+            embedder: "googleai/gemini-embedding-001",
             content: doc.slice(0, 32000),
           });
 
@@ -126,10 +125,13 @@ function cosineSimilarity(a: number[], b: number[]): number {
   let normA = 0;
   let normB = 0;
 
-  for (let i = 0; i < a.length; i++) {
-    dotProduct += a[i] * b[i];
-    normA += a[i] * a[i];
-    normB += b[i] * b[i];
+  const len = a.length;
+  for (let i = 0; i < len; i++) {
+    const ai = a[i]!;
+    const bi = b[i]!;
+    dotProduct += ai * bi;
+    normA += ai * ai;
+    normB += bi * bi;
   }
 
   const denominator = Math.sqrt(normA) * Math.sqrt(normB);
