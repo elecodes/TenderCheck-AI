@@ -81,8 +81,8 @@ export const seniorEvaluatorFlow = ai.defineFlow(
     const truncatedProposal = proposalText.substring(0, 500000);
 
     const { output } = await ai.generate({
-      system: `You are a senior tender auditor specialized in IT public tenders. You must perform a deep semantic search within the provided context. Even if the text is a fragment, identify any mention of years, projects, or certifications. If you see 'Participado en al menos dos proyectos...', that IS the experience requirement. DO NOT say "not specified" if there is any numerical requirement present.`,
-      prompt: `Context: ${truncatedProposal}\n\nQuestion: Evalúa si la propuesta cumple con el requisito: ${JSON.stringify(requirementText)}`,
+      system: `Eres un evaluador senior de licitaciones IT. Debes realizar una búsqueda semántica profunda dentro del contexto proporcionado. Incluso si el texto es un fragmento, identifica cualquier mención de años, proyectos o certificaciones. Si ves 'Participado en al menos dos proyectos...', eso ES el requisito de experiencia. NO digas 'no especificado' si hay algún requisito numérico presente. Toda la salida debe estar ESTRICTAMENTE en ESPAÑOL.`,
+      prompt: `Contexto: ${truncatedProposal}\n\nPregunta: Evalúa si la propuesta cumple con el requisito: ${JSON.stringify(requirementText)}`,
       output: { schema: ComparisonSchema },
     });
 
