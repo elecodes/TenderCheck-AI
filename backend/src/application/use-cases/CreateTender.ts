@@ -74,13 +74,25 @@ export class CreateTender {
     userId: string,
     pdfBuffer: Buffer,
   ): Promise<TenderAnalysis> {
-    const text = await this.pdfParser.parse(pdfBuffer);
+    const [text, pageResult] = await Promise.all([
+      this.pdfParser.parse(pdfBuffer),
+      this.pdfParser.parsePages(pdfBuffer).catch(() => [] as string[]),
+    ]);
     if (!text) {
       throw AppError.badRequest("Could not extract text from PDF");
     }
 
-    const analysis = await this.tenderAnalyzer.analyze(text);
+    const pages = Array.isArray(pageResult) ? pageResult : [];
+    const pageMarkedText =
+      pages.length > 0
+        ? pages.map((page, i) => `--- PAGE ${i + 1} ---\n${page}`).join("\n")
+        : text;
+
+    const analysis = await this.tenderAnalyzer.analyze(pageMarkedText);
     analysis.userId = userId;
+    if (pages.length > 0) {
+      analysis.pageTexts = pages;
+    }
     return analysis;
   }
 
@@ -140,6 +152,7 @@ export class CreateTender {
       updatedAt: new Date(),
       requirements: allRequirements,
       results: [],
+      pageTexts: pages,
     };
   }
 }

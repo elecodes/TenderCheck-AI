@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import type { TenderAnalysis, ValidationResult } from '../../types';
-import { FileText, Download, FileJson, RotateCcw } from 'lucide-react';
+import { FileText, Download, FileJson, RotateCcw, ExternalLink } from 'lucide-react';
 import { exportToJSON, exportToPDF } from '../../services/export.service';
+import { CitationPreview } from '../ui/CitationPreview';
 
 interface AnalysisResultsProps {
   analysis: TenderAnalysis;
@@ -9,6 +11,10 @@ interface AnalysisResultsProps {
 }
 
 export const AnalysisResults = ({ analysis, validationResults, onReset }: AnalysisResultsProps) => {
+  const [citation, setCitation] = useState<{
+    pageNumber: number;
+    highlightText: string;
+  } | null>(null);
 
   const handleExport = (type: 'pdf' | 'json') => {
       // Merge analysis with validation results for export
@@ -129,9 +135,16 @@ export const AnalysisResults = ({ analysis, validationResults, onReset }: Analys
                                     })()}
                                 </span>
                                 {req.source.pageNumber > 0 && (
-                                    <span className="text-[9px] uppercase tracking-[0.2em] font-black text-gray-400 dark:text-gray-500">
-                                        Pág. {req.source.pageNumber}
-                                    </span>
+                                    <button
+                                        onClick={() => setCitation({
+                                            pageNumber: req.source.pageNumber,
+                                            highlightText: req.source.snippet,
+                                        })}
+                                        className="inline-flex items-center space-x-1.5 text-[9px] uppercase tracking-[0.2em] font-black text-blue-500 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 rounded-lg border border-blue-100 dark:border-blue-500/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-soft hover:shadow-sm active:scale-95"
+                                    >
+                                        <span>Pág. {req.source.pageNumber}</span>
+                                        <ExternalLink className="w-3 h-3" />
+                                    </button>
                                 )}
                             </div>
                         </div>
@@ -155,6 +168,18 @@ export const AnalysisResults = ({ analysis, validationResults, onReset }: Analys
             )}
         </div>
       </div>
+
+      <CitationPreview
+        pageNumber={citation?.pageNumber ?? 0}
+        pageText={
+          citation && analysis.pageTexts
+            ? analysis.pageTexts[citation.pageNumber - 1] ?? ""
+            : ""
+        }
+        highlightText={citation?.highlightText ?? ""}
+        isOpen={citation !== null}
+        onClose={() => setCitation(null)}
+      />
     </div>
   );
 };

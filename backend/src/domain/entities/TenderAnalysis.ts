@@ -18,6 +18,9 @@ export interface TenderAnalysis {
   // Validation results after comparing with a proposal
   results?: ValidationResult[];
 
+  // Full page texts for citation viewing
+  pageTexts?: string[];
+
   // Metadata
   metadata?: {
     pageCount?: number;
