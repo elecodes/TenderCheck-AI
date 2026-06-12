@@ -291,6 +291,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── 036-vercel-frontend-deployment.md
 │   │   ├── 037-remediate-protobufjs-vulnerability.md
 │   │   ├── 038-vercel-fullstack-deployment.md
+│   │   ├── 039-clickable-citations.md
 │   │   ├── README.md
 │   │   └── index.md
 │   ├── architecture
@@ -367,6 +368,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   │   │   ├── Navbar.tsx
 │   │   │   │   └── ProtectedRoute.tsx
 │   │   │   └── ui
+│   │   │       ├── CitationPreview.tsx
 │   │   │       ├── SentryErrorBoundary.tsx
 │   │   │       └── Skeleton.tsx
 │   │   ├── context
