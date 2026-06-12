@@ -103,44 +103,4 @@ describe("AuthService", () => {
       ).rejects.toThrow("Invalid credentials");
     });
   });
-
-  describe("loginWithGoogle", () => {
-    it("should login existing user with Google token", async () => {
-      // Mock Google API response
-      (global.fetch as any).mockResolvedValue({
-        ok: true,
-        json: async () => ({
-          email: "google@example.com",
-          name: "Google User",
-        }),
-      });
-
-      const mockUser = { id: "g-1", email: "google@example.com" };
-      mockUserRepository.findByEmail.mockResolvedValue(mockUser);
-
-      const result = await authService.loginWithGoogle("valid-google-token");
-
-      expect(result.token).toBe("mock-token");
-      expect(result.user).toEqual(mockUser);
-      expect(mockUserRepository.save).not.toHaveBeenCalled(); // No save needed for existing
-    });
-
-    it("should register new user if not found", async () => {
-      (global.fetch as any).mockResolvedValue({
-        ok: true,
-        json: async () => ({
-          email: "new@example.com",
-          name: "New Google User",
-        }),
-      });
-
-      mockUserRepository.findByEmail.mockResolvedValue(null);
-
-      const result = await authService.loginWithGoogle("valid-token");
-
-      expect(mockUserRepository.save).toHaveBeenCalled();
-      expect(result.user.email).toBe("new@example.com");
-      expect(result.token).toBe("mock-token");
-    });
-  });
 });

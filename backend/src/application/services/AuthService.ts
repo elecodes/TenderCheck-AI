@@ -81,57 +81,6 @@ export class AuthService {
     // In a real app, save token to DB and send email
   }
 
-  async loginWithGoogle(
-    accessToken: string,
-  ): Promise<{ token: string; user: User }> {
-    // 1. Get User Info from Google
-    console.log("📡 [AuthService] Fetching Google user info...");
-    let googleResponse;
-    try {
-      googleResponse = await fetch(
-        "https://www.googleapis.com/oauth2/v3/userinfo",
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        },
-      );
-    } catch (fetchError: any) {
-      console.error("💥 [AuthService] Google Fetch CRASH:", fetchError);
-      console.error("Stack:", fetchError.stack);
-      throw new AppError(
-        `Google API connection failed: ${fetchError.message}`,
-        502,
-      );
-    }
-
-    if (!googleResponse.ok) {
-      const errorText = await googleResponse.text();
-      console.error("❌ [AuthService] Google API Error:", errorText);
-      throw new AppError("Invalid Google Token or Session Expired", 401);
-    }
-
-    const googleUser = (await googleResponse.json()) as any;
-    console.log(
-      "✅ [AuthService] Google User Info received for:",
-      googleUser.email,
-    );
-
-    if (!googleUser.email) {
-      throw new AppError("Google account must have an email", 400);
-    }
-
-    // 2. Find or Create User
-    const user = await this.findOrCreateGoogleUser(googleUser);
-
-    // 3. Issue Token
-    const token = jwt.sign(
-      { userId: user.id },
-      process.env.JWT_SECRET || JWT_SECRET_FALLBACK,
-      { expiresIn: "1d" },
-    );
-
-    return { token, user };
-  }
-
   async loginWithGoogleCode(
     code: string,
     codeVerifier: string,

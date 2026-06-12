@@ -136,38 +136,6 @@ export class AuthController {
     }
   };
 
-  googleLogin = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      console.log(
-        "📥 [AuthController] Google Login Request received",
-        req.body,
-      );
-      const schema = z.object({ token: z.string() });
-      const { token: accessToken } = schema.parse(req.body);
-
-      const { token, user } =
-        await this.authService.loginWithGoogle(accessToken);
-
-      this.setCookie(res, token, true); // Assume implicit Remember Me for Google
-
-      res.json({
-        token,
-        user: {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          company: user.company,
-        },
-      });
-    } catch (error: any) {
-      if (error instanceof z.ZodError) {
-        next(AppError.badRequest("Invalid Google Token format"));
-      } else {
-        next(error);
-      }
-    }
-  };
-
   googleCallback = async (req: Request, res: Response, next: NextFunction) => {
     try {
       console.log("📥 [AuthController] Google PKCE Callback received");

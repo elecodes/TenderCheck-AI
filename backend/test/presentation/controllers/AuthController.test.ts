@@ -16,7 +16,6 @@ describe("AuthController", () => {
       register: vi.fn(),
       login: vi.fn(),
       requestPasswordReset: vi.fn(),
-      loginWithGoogle: vi.fn(),
     };
 
     authController = new AuthController(mockAuthService as AuthService);
@@ -142,42 +141,6 @@ describe("AuthController", () => {
       expect(mockRes.json).toHaveBeenCalledWith({
         message: "Logged out successfully",
       });
-    });
-  });
-
-  describe("googleLogin", () => {
-    it("should login with google token successfully", async () => {
-      mockReq.body = { token: "google-token" };
-      const mockUser = { id: "1", email: "g@example.com" };
-      const mockAuthResult = { token: "jwt-token", user: mockUser };
-
-      mockAuthService.loginWithGoogle.mockResolvedValue(mockAuthResult);
-
-      await authController.googleLogin(
-        mockReq as Request,
-        mockRes as Response,
-        mockNext,
-      );
-
-      expect(mockAuthService.loginWithGoogle).toHaveBeenCalledWith(
-        "google-token",
-      );
-      expect(mockRes.json).toHaveBeenCalledWith({
-        token: "jwt-token",
-        user: expect.objectContaining({ id: "1" }),
-      });
-    });
-
-    it("should validate google token presence", async () => {
-      mockReq.body = {}; // no token
-
-      await authController.googleLogin(
-        mockReq as Request,
-        mockRes as Response,
-        mockNext,
-      );
-
-      expect(mockNext).toHaveBeenCalledWith(expect.any(AppError));
     });
   });
 });
