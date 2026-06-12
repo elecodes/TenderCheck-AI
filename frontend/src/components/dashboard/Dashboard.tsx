@@ -31,7 +31,7 @@ export const Dashboard = () => {
   useEffect(() => {
     const loadHistory = async () => {
         try {
-            console.log('🔍 [Dashboard] Loading history. Token in localStorage:', localStorage.getItem('auth_token'));
+            console.log('🔍 [Dashboard] Loading history.');
             const data = await fetchHistory();
             setHistory(data);
         } catch (err: any) {
