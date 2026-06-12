@@ -29,7 +29,9 @@ Se ha implementado un sistema robusto para la gestión de datos.
 
 **Desafío Técnico: Aislamiento Cross-Origin (COOP)**
 Durante la integración de Google Sign-In en producción, se identificó un conflicto crítico con las políticas de seguridad `Cross-Origin-Opener-Policy` (COOP). Los navegadores modernos bloqueaban la comunicación entre la aplicación (React) y la ventana emergente (Popup) de Google.
-*Solución*: Se implementó un cambio de estrategia hacia el flujo `redirect` (v1.1.0). En lugar de depender de ventanas secundarias, la aplicación realiza una navegación completa al proveedor de identidad y recupera el token del fragmento URL (`#access_token`) al retornar, garantizando la compatibilidad universal sin comprometer la seguridad.
+*Solución (v1.1.0)*: Se implementó un cambio de estrategia hacia el flujo `redirect`. En lugar de depender de ventanas secundarias, la aplicación realiza una navegación completa al proveedor de identidad.
+
+*Mejora de Seguridad (v1.3.0)*: Se migró el flujo de **Implicit Grant** a **Authorization Code + PKCE** (Proof Key for Code Exchange). El token de acceso (`#access_token`) ya no aparece en la URL del navegador. En su lugar, el frontend genera un `code_verifier` criptográfico y un `code_challenge` (SHA-256), redirige con `response_type=code`, y envía el código de autorización al backend para su intercambio seguro usando `GOOGLE_CLIENT_SECRET`. Ver ADR 040.
 
 ### 4.2.3 Refinamiento de la Lógica de IA (Fases 6 y 7)
 Se implementó una estrategia de "Doble Prompt" para maximizar la precisión:

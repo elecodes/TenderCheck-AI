@@ -1,6 +1,6 @@
 # ADR 018: Authentication Strategy Pivot (Popup vs Redirect)
 
-* Status: accepted
+* Status: superseded by [ADR 040](./040-google-oauth-pkce.md) (implicit grant → PKCE)
 * Deciders: Elena (Lead Developer), Antigravity (AI Assistant)
 * Date: 2026-03-04
 

@@ -119,7 +119,7 @@ export default defineConfig({
               ]
             },
             {
-              text: 'ADRs 031 - 035',
+              text: 'ADRs 031 - 040',
               collapsed: true,
               items: [
                 { text: '031 Auth Header', link: '/adr/031-auth-header-fallback' },
@@ -127,6 +127,11 @@ export default defineConfig({
                 { text: '033 Auth Error', link: '/adr/033-auth-error-handling' },
                 { text: '034 Global Theme', link: '/adr/034-global-theme-strategy' },
                 { text: '035 Domain', link: '/adr/035-reaching-100-domain-coverage' },
+                { text: '036 Vercel Deploy', link: '/adr/036-vercel-frontend-deployment' },
+                { text: '037 Protobufjs', link: '/adr/037-remediate-protobufjs-vulnerability' },
+                { text: '038 Fullstack Vercel', link: '/adr/038-vercel-fullstack-deployment' },
+                { text: '039 Citations', link: '/adr/039-clickable-citations' },
+                { text: '040 OAuth PKCE', link: '/adr/040-google-oauth-pkce' },
               ]
             },
           ],
