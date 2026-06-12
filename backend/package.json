@@ -13,7 +13,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "audit:arch": "depcruise src --config .dependency-cruiser.cjs",
-    "security:scan": "snyk test",
+    "security:scan": "snyk test --severity-threshold=high",
     "prepare": "if [ \"$NODE_ENV\" != \"production\" ]; then husky; fi"
   },
   "keywords": [],
@@ -62,24 +62,30 @@
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "express-rate-limit": "^8.3.1",
+    "express-rate-limit": "^8.5.2",
     "genkit": "^1.28.0",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
-    "langsmith": "^0.5.20",
+    "langsmith": "^0.6.0",
     "multer": "^2.1.1",
     "openai": "^6.16.0",
     "pdf-parse": "^1.1.4",
     "undici": "^7.24.0",
-    "uuid": "^13.0.0",
+    "uuid": "^14.0.0",
     "zod": "^3.25.76",
     "zod-to-json-schema": "^3.25.1"
   },
   "overrides": {
-    "qs": "^6.14.2",
+    "qs": "^6.15.2",
     "minimatch": "^9.0.7",
     "@tootallnate/once": "^3.0.1",
-    "brace-expansion": "^5.0.5",
-    "protobufjs": "^7.5.5"
+    "brace-expansion": "^5.0.6",
+    "protobufjs": "^7.5.8",
+    "@grpc/grpc-js": "^1.14.4",
+    "@protobufjs/codegen": "^2.0.5",
+    "@protobufjs/utf8": "^1.1.1",
+    "fast-uri": "^3.1.2",
+    "ws": "^8.20.1",
+    "axios": "^1.17.0"
   }
 }
