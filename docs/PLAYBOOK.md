@@ -74,7 +74,16 @@ To add a new check for tenders:
 - **Prompting**: Keep System Prompts in the Service or a dedicated config. Use clear instructions ("You are...", "Return JSON...").
 - **Observability**: Use **LangSmith** to monitor AI performance. Ensure `LANGCHAIN_API_KEY` is set. Tracing is manually instrumented via the `traceable` wrapper in `GeminiGenkitService`.
 
-### 5.1 Large PDF Processing (Chunking)
+### 5.1 Clickable Citations (Source Text Preview)
+- **How it works**: When analyzing a PDF, the backend wraps page texts with `--- PAGE X ---` markers and asks Gemini to return `pageNumber` and `sourceText` for each extracted requirement.
+- **Frontend**: The "Pág. X" badge in `AnalysisResults.tsx` is a clickable button that opens `CitationPreview.tsx` — a modal showing the full page text with the AI-identified fragment highlighted.
+- **Data flow**: `pageTexts: string[]` is included in the `TenderAnalysis` response and stored in the local analysis state. The `CitationPreview` looks up `analysis.pageTexts[pageNumber - 1]` for the requested page.
+- **Fallback**: If `parsePages()` fails or page texts are unavailable, the modal shows "Texto de página no disponible" gracefully.
+- **Files**:
+  - `frontend/src/components/ui/CitationPreview.tsx` — Modal component with text highlighting
+  - `frontend/src/components/dashboard/AnalysisResults.tsx` — Clickable page badge integration
+
+### 5.2 Large PDF Processing (Chunking)
 - **Threshold**: PDFs with > 15 pages automatically use chunked processing.
 - **Chunk Size**: 10 pages per chunk (configurable in `constants.ts`).
 - **Parallelism**: Up to 3 chunks processed concurrently.

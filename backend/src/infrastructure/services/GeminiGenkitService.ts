@@ -14,16 +14,17 @@ export class GeminiGenkitService implements ITenderAnalyzer {
    */
   private _analyze = traceable(
     async (text: string): Promise<TenderAnalysis> => {
-      // Define the output schema structure for structured generation
       const AnalysisSchema = z.object({
         summary: z.string(),
         requirements: z.array(
           z.object({
             id: z.string(),
             text: z.string(),
-            type: z.enum(["TECHNICAL", "ADMINISTRATIVE", "LEGAL", "FINANCIAL"]), // Align with domain enums
+            type: z.enum(["TECHNICAL", "ADMINISTRATIVE", "LEGAL", "FINANCIAL"]),
             confidence: z.number(),
             keywords: z.array(z.string()),
+            pageNumber: z.number(),
+            sourceText: z.string(),
           }),
         ),
       });
@@ -43,11 +44,15 @@ export class GeminiGenkitService implements ITenderAnalyzer {
         2. **Foco**: Busca frases con IMPERATIVOS: "deberá", "será obligatorio", "se requiere", "es indispensable", "must", "shall".
         3. **Ignora**: Texto introductorio, paja, o descripciones generales que no son reglas.
         
+        El documento incluye marcadores de página en el formato "--- PAGE X ---". Usa estos marcadores para determinar en qué página aparece cada requisito.
+        
         Para CADA requisito extraído:
         - **text**: La demanda técnica completa y exacta.
         - **type**: Clasifícalo en TECHNICAL, ADMINISTRATIVE, LEGAL, FINANCIAL.
         - **confidence**: 1.0 si es un mandato claro ("deberá"), 0.5 si es deseable.
         - **keywords**: 3-4 palabras clave para búsqueda vectorial.
+        - **pageNumber**: El número de página donde aparece este requisito (basado en los marcadores --- PAGE X ---).
+        - **sourceText**: El fragmento EXACTO del documento donde encontraste este requisito (1-2 oraciones literales).
 
         **Idioma**: La salida debe estar ESTRICTAMENTE en ESPAÑOL.`,
           output: { schema: AnalysisSchema },
@@ -64,8 +69,8 @@ export class GeminiGenkitService implements ITenderAnalyzer {
           confidence: req.confidence,
           keywords: req.keywords,
           source: {
-            pageNumber: 0,
-            snippet: req.text.substring(0, 50) + "...",
+            pageNumber: req.pageNumber || 0,
+            snippet: req.sourceText || req.text.substring(0, 50) + "...",
           },
         }));
 
@@ -79,6 +84,7 @@ export class GeminiGenkitService implements ITenderAnalyzer {
           updatedAt: new Date(),
           requirements: requirements,
           results: [],
+          pageTexts: [],
         };
       } catch (error) {
         console.error("Gemini Analysis Failed:", error);
@@ -213,6 +219,8 @@ export class GeminiGenkitService implements ITenderAnalyzer {
           type: z.enum(["TECHNICAL", "ADMINISTRATIVE", "LEGAL", "FINANCIAL"]),
           confidence: z.number(),
           keywords: z.array(z.string()),
+          pageNumber: z.number(),
+          sourceText: z.string(),
         }),
       ),
     });
@@ -227,6 +235,8 @@ export class GeminiGenkitService implements ITenderAnalyzer {
         
         **CONTEXTO**: Estás analizando la PARTE ${chunk.chunkIndex + 1} del documento completo. El documento tiene ${chunk.totalPages} páginas en total.
         
+        El texto incluye marcadores "--- PAGE X ---" que indican el comienzo de cada página.
+        
         Texto de las páginas ${chunk.startPage}-${chunk.endPage}:
         ${chunk.text}
 
@@ -240,6 +250,8 @@ export class GeminiGenkitService implements ITenderAnalyzer {
         - **type**: Clasifícalo en TECHNICAL, ADMINISTRATIVE, LEGAL, FINANCIAL.
         - **confidence**: 1.0 si es un mandato claro ("deberá"), 0.5 si es deseable.
         - **keywords**: 3-4 palabras clave para búsqueda vectorial.
+        - **pageNumber**: El número de página absoluto donde aparece este requisito (basado en los marcadores --- PAGE X ---).
+        - **sourceText**: El fragmento EXACTO del documento donde encontraste este requisito (1-2 oraciones literales).
 
         **Idioma**: La salida debe estar ESTRICTAMENTE en ESPAÑOL.`,
         output: { schema: AnalysisSchema },
@@ -256,8 +268,8 @@ export class GeminiGenkitService implements ITenderAnalyzer {
         confidence: req.confidence,
         keywords: req.keywords,
         source: {
-          pageNumber: chunk.startPage,
-          snippet: req.text.substring(0, 50) + "...",
+          pageNumber: req.pageNumber || chunk.startPage,
+          snippet: req.sourceText || req.text.substring(0, 50) + "...",
         },
       }));
 

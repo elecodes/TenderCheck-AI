@@ -20,6 +20,7 @@
 ## 🚀 Key Features
 - **Secure Authentication**: Hybrid Strategy (HttpOnly Cookies + Bearer Token Fallback) ensures reliability on all platforms. Google OAuth integration (Production-ready).
 - **PDF Analysis**: Extracts text from tender documents to identify key requirements using **AI**: Gemini 2.5 Flash (Google AI Studio).
+- **Clickable Citations**: Every extracted requirement shows its source page as a clickable badge. Opens a modal displaying the full page text with the AI-identified fragment highlighted — no more blind trust in AI output.
 - **Observability**: **LangSmith** (via `traceable` SDK).
 - **Requirement Extraction**: Identifies technical clauses, distinguishing **OBLIGATORIO** vs **OPCIONAL**.
 - **Real Proposal Validation**: Real-time comparison of vendor proposals with AI reasoning.

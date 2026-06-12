@@ -27,5 +27,6 @@ export interface TenderAnalysis {
   status: "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
   requirements?: Requirement[];
   results?: ValidationResult[];
+  pageTexts?: string[];
   createdAt: string;
 }

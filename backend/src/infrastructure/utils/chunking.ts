@@ -21,7 +21,9 @@ export function chunkPages(
 
   for (let i = 0; i < pages.length; i += pagesPerChunk) {
     const chunkPages = pages.slice(i, i + pagesPerChunk);
-    const text = chunkPages.join("\n\n");
+    const text = chunkPages
+      .map((page, j) => `--- PAGE ${i + j + 1} ---\n${page}`)
+      .join("\n");
 
     const truncatedText =
       text.length > maxCharsPerChunk

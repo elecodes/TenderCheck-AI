@@ -41,4 +41,5 @@
 | 036 | [ADR 036: Vercel Frontend Deployment](./036-vercel-frontend-deployment.md) | Unknown |
 | 037 | [ADR 037: Remediate Critical Vulnerability in `protobufjs`](./037-remediate-protobufjs-vulnerability.md) | Unknown |
 | 038 | [ADR 038: Full Stack Vercel Deployment](./038-vercel-fullstack-deployment.md) | ** Accepted   |
+| 039 | [ADR 039: Clickable Citations for Extracted Requirements](./039-clickable-citations.md) | ** Accepted   |
 | index.md | [ADRs](./index.md) | Unknown |
