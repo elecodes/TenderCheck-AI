@@ -120,6 +120,102 @@ export class AuthService {
     }
 
     // 2. Find or Create User
+    const user = await this.findOrCreateGoogleUser(googleUser);
+
+    // 3. Issue Token
+    const token = jwt.sign(
+      { userId: user.id },
+      process.env.JWT_SECRET || JWT_SECRET_FALLBACK,
+      { expiresIn: "1d" },
+    );
+
+    return { token, user };
+  }
+
+  async loginWithGoogleCode(
+    code: string,
+    codeVerifier: string,
+  ): Promise<{ token: string; user: User }> {
+    const clientId =
+      process.env.GOOGLE_CLIENT_ID || process.env.VITE_GOOGLE_CLIENT_ID;
+    const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+
+    if (!clientId || !clientSecret) {
+      throw new AppError("Google OAuth not configured", 500);
+    }
+
+    // 1. Exchange authorization code for tokens
+    const isLocal = process.env.NODE_ENV !== "production";
+    const redirectUri = isLocal
+      ? "http://localhost:3000"
+      : "https://tendercheckai.elecodes.online";
+
+    const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        grant_type: "authorization_code",
+        code,
+        redirect_uri: redirectUri,
+        client_id: clientId,
+        client_secret: clientSecret,
+        code_verifier: codeVerifier,
+      }),
+    });
+
+    if (!tokenResponse.ok) {
+      const errorText = await tokenResponse.text();
+      console.error("❌ [AuthService] Google Token Exchange Error:", errorText);
+      throw new AppError("Failed to exchange authorization code", 401);
+    }
+
+    const tokenData = (await tokenResponse.json()) as any;
+    console.log("✅ [AuthService] Google token exchange successful");
+
+    // 2. Extract user info from ID token (JWT from Google)
+    let googleUser: any;
+    if (tokenData.id_token) {
+      const payloadBase64 = tokenData.id_token.split(".")[1];
+      const payloadJson = Buffer.from(payloadBase64, "base64").toString(
+        "utf-8",
+      );
+      googleUser = JSON.parse(payloadJson);
+    } else {
+      // Fallback: use access token to fetch userinfo
+      const userInfoResponse = await fetch(
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        { headers: { Authorization: `Bearer ${tokenData.access_token}` } },
+      );
+      if (!userInfoResponse.ok) {
+        throw new AppError("Failed to get user info from Google", 401);
+      }
+      googleUser = await userInfoResponse.json();
+    }
+
+    console.log(
+      "✅ [AuthService] Google User Info received for:",
+      googleUser.email,
+    );
+
+    if (!googleUser.email) {
+      throw new AppError("Google account must have an email", 400);
+    }
+
+    // 3. Find or Create User
+    const user = await this.findOrCreateGoogleUser(googleUser);
+
+    // 4. Issue Token
+    const token = jwt.sign(
+      { userId: user.id },
+      process.env.JWT_SECRET || JWT_SECRET_FALLBACK,
+      { expiresIn: "1d" },
+    );
+
+    return { token, user };
+  }
+
+  // Shared helper for both loginWithGoogle and loginWithGoogleCode
+  private async findOrCreateGoogleUser(googleUser: any): Promise<User> {
     const normalizedEmail = googleUser.email.toLowerCase();
     let user = await this.userRepository.findByEmail(normalizedEmail);
 
@@ -132,7 +228,6 @@ export class AuthService {
         id: uuidv4(),
         email: normalizedEmail,
         name: googleUser.name || "Google User",
-        // Set unguessable password for Google-only accounts
         passwordHash: await bcrypt.hash(uuidv4(), SALT_ROUNDS),
         createdAt: new Date(),
       };
@@ -144,13 +239,6 @@ export class AuthService {
       }
     }
 
-    // 3. Issue Token
-    const token = jwt.sign(
-      { userId: user.id },
-      process.env.JWT_SECRET || JWT_SECRET_FALLBACK,
-      { expiresIn: "1d" },
-    );
-
-    return { token, user };
+    return user;
   }
 }

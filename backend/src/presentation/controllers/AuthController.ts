@@ -151,7 +151,7 @@ export class AuthController {
       this.setCookie(res, token, true); // Assume implicit Remember Me for Google
 
       res.json({
-        token, // <-- Added for fallback
+        token,
         user: {
           id: user.id,
           email: user.email,
@@ -162,6 +162,40 @@ export class AuthController {
     } catch (error: any) {
       if (error instanceof z.ZodError) {
         next(AppError.badRequest("Invalid Google Token format"));
+      } else {
+        next(error);
+      }
+    }
+  };
+
+  googleCallback = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      console.log("📥 [AuthController] Google PKCE Callback received");
+      const schema = z.object({
+        code: z.string(),
+        codeVerifier: z.string(),
+      });
+      const { code, codeVerifier } = schema.parse(req.body);
+
+      const { token, user } = await this.authService.loginWithGoogleCode(
+        code,
+        codeVerifier,
+      );
+
+      this.setCookie(res, token, true);
+
+      res.json({
+        token,
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          company: user.company,
+        },
+      });
+    } catch (error: any) {
+      if (error instanceof z.ZodError) {
+        next(AppError.badRequest("Invalid callback data format"));
       } else {
         next(error);
       }

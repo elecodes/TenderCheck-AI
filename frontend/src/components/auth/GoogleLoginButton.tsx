@@ -3,13 +3,37 @@ import { useAuth } from '../../context/AuthContext';
 import { useEffect, useState } from 'react';
 import { Loader2 } from 'lucide-react';
 
-// Separate component to safely use the hook
+function base64URLEncode(buffer: Uint8Array): string {
+  return btoa(String.fromCharCode(...buffer))
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '');
+}
+
+function generateCodeVerifier(): string {
+  const array = new Uint8Array(32);
+  crypto.getRandomValues(array);
+  return base64URLEncode(array);
+}
+
+async function generateCodeChallenge(verifier: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(verifier);
+  const digest = await crypto.subtle.digest('SHA-256', data);
+  return base64URLEncode(new Uint8Array(digest));
+}
+
+function generateState(): string {
+  const array = new Uint8Array(16);
+  crypto.getRandomValues(array);
+  return base64URLEncode(array);
+}
+
 const LoginButtonDetails = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [isRedirecting, setIsRedirecting] = useState(false);
 
-  // If user becomes authenticated, go to dashboard
   useEffect(() => {
     if (user) {
       console.log('🚀 [Auth] User detected, navigating to dashboard...');
@@ -17,31 +41,38 @@ const LoginButtonDetails = () => {
     }
   }, [user, navigate]);
 
-  const handleManualLogin = () => {
+  const handlePKCELogin = async () => {
     const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    
-    // Normalize redirect URI for development (explicitly avoid trailing slash if needed)
+
     const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     const redirectUriBase = isLocal ? 'http://localhost:3000' : window.location.origin.replace(/\/$/, '');
-    
-    const redirectUri = encodeURIComponent(redirectUriBase);
-    const scope = encodeURIComponent('openid email profile');
-    const responseType = 'token'; // Implicit flow
-    
-    // Construct manual OAuth URL to bypass ALL library/popup logic
-    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
-    
-    console.log('📡 [Auth] Redirecting to Google Login...');
-    console.log('🔗 [Auth] Client ID:', clientId);
-    console.log('🔗 [Auth] Redirect URI:', redirectUriBase);
-    console.log('🔗 [Auth] Final URL:', authUrl);
-    
+
+    const codeVerifier = generateCodeVerifier();
+    const codeChallenge = await generateCodeChallenge(codeVerifier);
+    const state = generateState();
+
+    sessionStorage.setItem('pkce_code_verifier', codeVerifier);
+    sessionStorage.setItem('pkce_state', state);
+
+    const params = new URLSearchParams({
+      client_id: clientId,
+      redirect_uri: redirectUriBase,
+      response_type: 'code',
+      scope: 'openid email profile',
+      code_challenge: codeChallenge,
+      code_challenge_method: 'S256',
+      state,
+    });
+
+    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
+
+    console.log('📡 [Auth] Redirecting to Google Login (PKCE)...');
     window.location.href = authUrl;
   };
 
   const handleLogin = () => {
     setIsRedirecting(true);
-    handleManualLogin();
+    handlePKCELogin();
   };
 
   return (
@@ -84,7 +115,6 @@ const LoginButtonDetails = () => {
 };
 
 export const GoogleLoginButton = () => {
-    // Only render if Client ID is present
     const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
     if (!clientId) return null;
 

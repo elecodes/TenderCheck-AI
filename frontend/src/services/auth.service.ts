@@ -7,13 +7,12 @@ export interface User {
 
 export interface AuthResponse {
   user: User;
-  token?: string; // Fallback token
+  token?: string;
 }
 
 const API_URL = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/$/, '');
 console.log('🔌 [AuthService] Initialized in', API_URL ? `Absolute Mode (${API_URL})` : 'Proxy/Relative Mode');
 
-// Helper to get auth headers
 const getAuthHeaders = () => {
   const token = localStorage.getItem('auth_token');
   const headers: HeadersInit = { 'Content-Type': 'application/json' };
@@ -85,28 +84,25 @@ export const requestPasswordReset = async (email: string): Promise<void> => {
   }
 };
 
-export const loginWithGoogle = async (token: string): Promise<AuthResponse> => {
-    const targetUrl = `${API_URL}/api/auth/google`;
-    console.log('🚀 Attempting Google Login Fetch:', targetUrl);
+export const googleCallback = async (code: string, codeVerifier: string): Promise<AuthResponse> => {
+    const targetUrl = `${API_URL}/api/auth/google/callback`;
+    console.log('🚀 [AuthService] Google PKCE Callback:', targetUrl);
     const response = await fetch(targetUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify({ token }),
+      body: JSON.stringify({ code, codeVerifier }),
     });
-  
+
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error || 'Google Login failed');
+      throw new Error(errorData.error || 'Google PKCE login failed');
     }
-    
+
     const data = await response.json();
-    console.log('✅ [AuthService] Google Login Response Data:', data); // DEBUG
+    console.log('✅ [AuthService] Google PKCE Response received');
     if (data.token) {
-      console.log('💾 [AuthService] Saving token to localStorage:', data.token.substring(0, 10) + '...');
       localStorage.setItem('auth_token', data.token);
-    } else {
-      console.error('⚠️ [AuthService] Google Login Response missing token!', data);
     }
     return data;
   };
@@ -117,28 +113,25 @@ export const logout = async () => {
      credentials: 'include'
   });
   localStorage.removeItem('user');
-  localStorage.removeItem('auth_token'); // Cleanup token
+  localStorage.removeItem('auth_token');
 };
 
-// New Method: Verify Session via Cookie OR Token
 export const getMe = async (): Promise<User | null> => {
   try {
     const response = await fetch(`${API_URL}/api/auth/me`, {
        method: 'GET',
-       headers: { 
-         ...getAuthHeaders(), 
-         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate' 
+       headers: {
+         ...getAuthHeaders(),
+         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
        },
        credentials: 'include'
     });
-    
+
     if (response.ok) {
        const data = await response.json();
        console.log('✅ [AuthService] getMe success. Token present:', !!data.token, 'User:', data.user?.email);
        if (data.token) {
          localStorage.setItem('auth_token', data.token);
-       } else {
-         console.warn('⚠️ [AuthService] getMe returned user but NO token. API calls may fail.');
        }
        return data.user;
     }

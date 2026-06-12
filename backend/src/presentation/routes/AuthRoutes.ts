@@ -33,6 +33,7 @@ const loginLimiter = rateLimit({
 router.post("/register", authController.register);
 router.post("/login", loginLimiter, authController.login);
 router.post("/google", loginLimiter, authController.googleLogin);
+router.post("/google/callback", loginLimiter, authController.googleCallback);
 router.post("/logout", authController.logout);
 
 import { authMiddleware } from "../../infrastructure/middleware/authMiddleware.js";

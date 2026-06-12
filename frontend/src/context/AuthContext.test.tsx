@@ -4,7 +4,6 @@ import { vi } from 'vitest';
 import * as AuthService from '../services/auth.service';
 import { MemoryRouter } from 'react-router-dom';
 
-// Mock react-router-dom
 const mockNavigate = vi.fn();
 vi.mock('react-router-dom', async () => {
     const actual = await vi.importActual('react-router-dom');
@@ -14,19 +13,17 @@ vi.mock('react-router-dom', async () => {
     };
 });
 
-// Mock auth service
 vi.mock('../services/auth.service', () => ({
     login: vi.fn(),
     register: vi.fn(),
     logout: vi.fn(),
     getMe: vi.fn(),
-    loginWithGoogle: vi.fn(),
+    googleCallback: vi.fn(),
     requestPasswordReset: vi.fn(),
 }));
 
-// Helper component to consume context
 const TestComponent = () => {
-    const { user, login, register, logout, isLoading, isAuthenticated, requestPasswordReset, loginWithGoogle } = useAuth();
+    const { user, login, register, logout, isLoading, isAuthenticated, requestPasswordReset } = useAuth();
     return (
         <div>
             {isLoading ? 'Loading...' : 'Loaded'}
@@ -36,7 +33,6 @@ const TestComponent = () => {
             <button onClick={() => register('Test User', 'test@example.com', 'password')}>Register</button>
             <button onClick={() => logout()}>Logout</button>
             <button onClick={() => requestPasswordReset('test@example.com')}>Reset Password</button>
-            <button onClick={() => loginWithGoogle('manual-token')}>Google Login</button>
         </div>
     );
 };
@@ -52,7 +48,7 @@ describe('AuthContext', () => {
     beforeEach(() => {
         vi.resetAllMocks();
         localStorage.clear();
-        window.location.hash = '';
+        sessionStorage.clear();
         vi.spyOn(window.history, 'replaceState').mockImplementation(() => {});
     });
 
@@ -104,7 +100,6 @@ describe('AuthContext', () => {
             </MemoryRouter>
         );
 
-        // Wait for initial load
         await screen.findByText(/Loaded/i);
 
         const loginBtn = screen.getByText('Login');
@@ -162,13 +157,18 @@ describe('AuthContext', () => {
         expect(await screen.findByText(/No User/i)).toBeInTheDocument();
     });
 
-    it('handles Google login from URL hash', async () => {
-        // Redefine window.location to ensure hash is readable
+    it('handles Google PKCE callback from URL query params', async () => {
         const originalLocation = window.location;
         delete (window as any).location;
-        window.location = { ...originalLocation, hash: '#access_token=google-test-token' };
+        window.location = {
+            ...originalLocation,
+            search: '?code=google-auth-code&state=pkce-state-value',
+        };
 
-        (AuthService.loginWithGoogle as any).mockResolvedValue({ user: mockUser });
+        sessionStorage.setItem('pkce_code_verifier', 'test-verifier');
+        sessionStorage.setItem('pkce_state', 'pkce-state-value');
+
+        (AuthService.googleCallback as any).mockResolvedValue({ user: mockUser });
 
         render(
             <MemoryRouter>
@@ -178,22 +178,24 @@ describe('AuthContext', () => {
             </MemoryRouter>
         );
 
-        await waitFor(() => expect(AuthService.loginWithGoogle).toHaveBeenCalledWith('google-test-token'));
+        await waitFor(() => expect(AuthService.googleCallback).toHaveBeenCalledWith('google-auth-code', 'test-verifier'));
         expect(await screen.findByText(new RegExp(`User: ${mockUser.email}`))).toBeInTheDocument();
         expect(mockNavigate).toHaveBeenCalledWith('/dashboard');
 
-        // Cleanup
         window.location = originalLocation;
     });
 
-    it('handles Google login error', async () => {
+    it('handles Google PKCE callback with state mismatch', async () => {
         const originalLocation = window.location;
         delete (window as any).location;
-        window.location = { ...originalLocation, hash: '#access_token=invalid-token' };
+        window.location = {
+            ...originalLocation,
+            search: '?code=google-auth-code&state=wrong-state',
+        };
 
-        const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-        (AuthService.loginWithGoogle as any).mockRejectedValue(new Error('Google Auth Failed'));
-        // Make sure getMe resolves to null to verify fallback to No User
+        sessionStorage.setItem('pkce_code_verifier', 'test-verifier');
+        sessionStorage.setItem('pkce_state', 'pkce-state-value');
+
         (AuthService.getMe as any).mockResolvedValue(null);
 
         render(
@@ -204,11 +206,41 @@ describe('AuthContext', () => {
             </MemoryRouter>
         );
 
-        await waitFor(() => expect(AuthService.loginWithGoogle).toHaveBeenCalledWith('invalid-token'));
+        await waitFor(() => {
+            expect(AuthService.googleCallback).not.toHaveBeenCalled();
+        });
+        expect(await screen.findByText(/No User/i)).toBeInTheDocument();
+
+        window.location = originalLocation;
+    });
+
+    it('handles Google PKCE callback error', async () => {
+        const originalLocation = window.location;
+        delete (window as any).location;
+        window.location = {
+            ...originalLocation,
+            search: '?code=google-auth-code&state=pkce-state-value',
+        };
+
+        sessionStorage.setItem('pkce_code_verifier', 'test-verifier');
+        sessionStorage.setItem('pkce_state', 'pkce-state-value');
+
+        const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+        (AuthService.googleCallback as any).mockRejectedValue(new Error('PKCE Auth Failed'));
+        (AuthService.getMe as any).mockResolvedValue(null);
+
+        render(
+            <MemoryRouter>
+                <AuthProvider>
+                    <TestComponent />
+                </AuthProvider>
+            </MemoryRouter>
+        );
+
+        await waitFor(() => expect(AuthService.googleCallback).toHaveBeenCalledWith('google-auth-code', 'test-verifier'));
         expect(await screen.findByText(/No User/i)).toBeInTheDocument();
         expect(consoleSpy).toHaveBeenCalled();
-        
-        // Cleanup
+
         window.location = originalLocation;
     });
 
@@ -234,34 +266,11 @@ describe('AuthContext', () => {
         expect(AuthService.requestPasswordReset).toHaveBeenCalledWith('test@example.com');
     });
 
-    it('handles explicit Google login', async () => {
-        (AuthService.getMe as any).mockResolvedValue(null);
-        (AuthService.loginWithGoogle as any).mockResolvedValue({ user: mockUser });
-
-        render(
-            <MemoryRouter>
-                <AuthProvider>
-                    <TestComponent />
-                </AuthProvider>
-            </MemoryRouter>
-        );
-
-        await screen.findByText(/Loaded/i);
-
-        const googleLoginBtn = screen.getByText('Google Login');
-        await act(async () => {
-            googleLoginBtn.click();
-        });
-
-        expect(AuthService.loginWithGoogle).toHaveBeenCalledWith('manual-token');
-        expect(await screen.findByText(new RegExp(`User: ${mockUser.email}`))).toBeInTheDocument();
-    });
-
     it('throws error when useAuth is used outside provider', () => {
         const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-        
+
         expect(() => render(<TestComponent />)).toThrow('useAuth must be used within an AuthProvider');
-        
+
         consoleSpy.mockRestore();
     });
 });
