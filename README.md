@@ -292,6 +292,7 @@ This project implements **Clean Architecture** with a Modular Monolith approach:
 │   │   ├── 037-remediate-protobufjs-vulnerability.md
 │   │   ├── 038-vercel-fullstack-deployment.md
 │   │   ├── 039-clickable-citations.md
+│   │   ├── 040-google-oauth-pkce.md
 │   │   ├── README.md
 │   │   └── index.md
 │   ├── architecture

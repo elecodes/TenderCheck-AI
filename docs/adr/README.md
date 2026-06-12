@@ -20,8 +20,7 @@
 | 015 | [ADR 015: Estrategia de Despliegue en Nube (Hugging Face Spaces)](./015-cloud-deployment.md) | Unknown |
 | 016 | [ADR 016: Cloud Architecture Pivot: Render, Turso, and Gemini](./016-cloud-pivot-render-turso.md) | Unknown |
 | 017 | [ADR 017: Refinamiento de Lógica AI y Migración Vectorial Cloud](./017-ai-logic-refinements.md) | Unknown |
-| 018 | [ADR 018: Authentication Strategy Pivot (Popup vs Redirect)](./018-auth-strategy-pivot.md) | superseded by [ADR 040](./040-google-oauth-pkce.md) |
-| 040 | [ADR 040: Google OAuth PKCE Migration](./040-google-oauth-pkce.md) | accepted |
+| 018 | [ADR 018: Authentication Strategy Pivot (Popup vs Redirect)](./018-auth-strategy-pivot.md) | superseded by [ADR 040](./040-google-oauth-pkce.md) (implicit grant → PKCE) |
 | 019 | [ADR 019: Frontend UI Refinements and CORS Security Strategy](./019-frontend-ui-and-security.md) | Unknown |
 | 020 | [ADR 020: Global Caching Strategy](./020-caching-strategy.md) | Unknown |
 | 021 | [ADR 021: Adoption of Strategic "Honest Coverage" (100/60/0)](./021-quality-metrics-standard.md) | Unknown |
@@ -43,4 +42,5 @@
 | 037 | [ADR 037: Remediate Critical Vulnerability in `protobufjs`](./037-remediate-protobufjs-vulnerability.md) | Unknown |
 | 038 | [ADR 038: Full Stack Vercel Deployment](./038-vercel-fullstack-deployment.md) | ** Accepted   |
 | 039 | [ADR 039: Clickable Citations for Extracted Requirements](./039-clickable-citations.md) | ** Accepted   |
+| 040 | [ADR 040: Google OAuth PKCE Migration](./040-google-oauth-pkce.md) | accepted |
 | index.md | [ADRs](./index.md) | Unknown |
