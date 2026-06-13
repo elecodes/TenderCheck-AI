@@ -99,6 +99,13 @@ export class AuthService {
       ? "http://localhost:3000"
       : "https://tendercheckai.elecodes.online";
 
+    console.log("🔍 [AuthService] GOOGLE_CLIENT_ID:", JSON.stringify(clientId));
+    console.log(
+      "🔍 [AuthService] GOOGLE_CLIENT_SECRET (length):",
+      clientSecret?.length,
+    );
+    console.log("🔍 [AuthService] redirect_uri:", redirectUri);
+
     const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
