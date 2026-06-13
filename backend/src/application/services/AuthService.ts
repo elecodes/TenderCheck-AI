@@ -85,9 +85,8 @@ export class AuthService {
     code: string,
     codeVerifier: string,
   ): Promise<{ token: string; user: User }> {
-    const clientId =
-      process.env.GOOGLE_CLIENT_ID || process.env.VITE_GOOGLE_CLIENT_ID;
-    const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+    const clientId = (process.env.GOOGLE_CLIENT_ID || process.env.VITE_GOOGLE_CLIENT_ID)?.trim();
+    const clientSecret = process.env.GOOGLE_CLIENT_SECRET?.trim();
 
     if (!clientId || !clientSecret) {
       throw new AppError("Google OAuth not configured", 500);
@@ -98,13 +97,6 @@ export class AuthService {
     const redirectUri = isLocal
       ? "http://localhost:3000"
       : "https://tendercheckai.elecodes.online";
-
-    console.log("🔍 [AuthService] GOOGLE_CLIENT_ID:", JSON.stringify(clientId));
-    console.log(
-      "🔍 [AuthService] GOOGLE_CLIENT_SECRET (length):",
-      clientSecret?.length,
-    );
-    console.log("🔍 [AuthService] redirect_uri:", redirectUri);
 
     const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
       method: "POST",
