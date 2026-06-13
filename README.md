@@ -18,7 +18,7 @@
 ![Observability](https://img.shields.io/badge/Observability-LangSmith-blueviolet)
 
 ## 🚀 Key Features
-- **Secure Authentication**: Hybrid Strategy (HttpOnly Cookies + Bearer Token Fallback) ensures reliability on all platforms. Google OAuth integration (Production-ready).
+- **Secure Authentication**: Hybrid Strategy (HttpOnly Cookies + Bearer Token Fallback) ensures reliability on all platforms. Google OAuth integration (PKCE, no access token in URL).
 - **PDF Analysis**: Extracts text from tender documents to identify key requirements using **AI**: Gemini 2.5 Flash (Google AI Studio).
 - **Clickable Citations**: Every extracted requirement shows its source page as a clickable badge. Opens a modal displaying the full page text with the AI-identified fragment highlighted — no more blind trust in AI output.
 - **Observability**: **LangSmith** (via `traceable` SDK).
@@ -467,7 +467,7 @@ cd frontend && npm run dev
 
 ## ⚠️ Known Limitations (Deployment)
 - **Backend on Vercel**: The backend is deployed on Vercel at https://tendercheckai.elecodes.online/ - cold starts may take a few seconds on first request.
-- **Google Authentication**: Fully functional. Uses custom **Manual Native Redirect** flow to bypass Cross-Origin limitations. Ensure `VITE_ENABLE_GOOGLE_AUTH` is set to `true`.
+- **Google Authentication**: Fully functional (PKCE). Uses **Authorization Code + PKCE** (Proof Key for Code Exchange) to eliminate access token exposure in the URL. Requires `GOOGLE_CLIENT_SECRET` in Render backend environment. See [ADR 040](docs/adr/040-google-oauth-pkce.md).
 - **AI Service Costs**: While this project uses the **Google AI Studio Free Tier**, owners may incur costs if they upgrade to **Pay-as-you-go**. In the Free Tier, Google may use your data to improve their models.
 
 ### Troubleshooting

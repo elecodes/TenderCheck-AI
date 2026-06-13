@@ -85,7 +85,9 @@ export class AuthService {
     code: string,
     codeVerifier: string,
   ): Promise<{ token: string; user: User }> {
-    const clientId = (process.env.GOOGLE_CLIENT_ID || process.env.VITE_GOOGLE_CLIENT_ID)?.trim();
+    const clientId = (
+      process.env.GOOGLE_CLIENT_ID || process.env.VITE_GOOGLE_CLIENT_ID
+    )?.trim();
     const clientSecret = process.env.GOOGLE_CLIENT_SECRET?.trim();
 
     if (!clientId || !clientSecret) {

@@ -97,8 +97,9 @@ To add a new check for tenders:
 
 ### 6. Authentication Flow 🔐
 - **Register**: Create a new account at `/register`. Upon success, a JWT is issued automatically and the user is redirected to the dashboard.
-- **Login**: Use credentials or **Google Sign-In (Native Redirect Mode)** to obtain a JWT. The Google flow uses a manual full-page redirection to bypass COOP/COEP browser restrictions on shared domains.
-- **Global Capture**: The `AuthContext` globally monitors for auth tokens in the URL fragment after redirect.
+- **Login**: Use credentials or **Google Sign-In (PKCE + Redirect Mode)**. The Google flow uses **Authorization Code + PKCE** (Proof Key for Code Exchange) to eliminate access token exposure in the URL. The frontend generates a `code_verifier` (crypto.getRandomValues) and `code_challenge` (SHA-256 via crypto.subtle), then redirects to Google with `response_type=code` and `code_challenge_method=S256`.
+- **Callback**: After Google redirects back with `?code=...`, the frontend verifies the `state` param (CSRF protection), then sends the code + verifier to `POST /api/auth/google/callback`. The backend exchanges the code server-side using `GOOGLE_CLIENT_SECRET`.
+- **Security**: No access token is ever exposed in the URL. The authorization code is single-use and short-lived (~5 min). See [ADR 040](/adr/040-google-oauth-pkce).
 - **Session Persistence**: 
   - **Mechanic**: Hybrid Strategy.
     1. **Primary**: `HttpOnly` Cookies (Secure, SameSite) for security.
@@ -144,31 +145,34 @@ To add a new check for tenders:
   - Register: "No se pudo crear la cuenta"
 - **Localization**: The UI is Spanish-first. Ensure all new features are fully marked up with Spanish copy.
 
-### 9. Deployment (Vercel)
-Frontend and Backend are hosted on **Vercel**.
-Pushing to `main` triggers auto-deployment.
+### 9. Deployment (Render + Vercel)
+Frontend is hosted on **Vercel** (custom domain: `tendercheckai.elecodes.online`). Backend is hosted on **Render** (`tendercheck-backend.onrender.com`).
+Pushing to `main` triggers auto-deployment on both platforms.
 
-**Note:** Google Auth is fully supported via the manual redirect flow.
-See `docs/adr/036-vercel-frontend-deployment.md` for details.
+**Note:** Google Auth uses **PKCE (Authorization Code + PKCE)** flow. See `docs/adr/040-google-oauth-pkce.md` for details.
 
 #### Infrastructure
 - **Frontend**: Vercel (Global CDN).
-- **Backend**: Vercel (Serverless).
+- **Backend**: Render (Web Service, Node.js).
 - **Database**: Turso (LibSQL).
 - **AI**: Gemini 2.5 Flash (Google AI Studio).
 
 #### Prerequisites
 1.  **Turso**: A database created with `CREATE TABLE...` (handled by `SqliteDatabase.ts` auto-init).
-2.  **Environment Variables (Vercel - Frontend)**:
-    - `VITE_API_BASE_URL`: URL of the Vercel backend.
+2.  **Google Cloud Console**: OAuth 2.0 Web Client with:
+    - **Authorized JavaScript origins**: `https://tendercheckai.elecodes.online`, `http://localhost:3000`
+    - **Authorized redirect URIs**: `https://tendercheckai.elecodes.online`, `http://localhost:3000`
+3.  **Environment Variables (Vercel - Frontend)**:
+    - `VITE_API_BASE_URL`: URL of the Render backend (`https://tendercheck-backend.onrender.com`).
     - `VITE_GOOGLE_CLIENT_ID`: Google OAuth Client ID.
     - `VITE_ENABLE_GOOGLE_AUTH`: `true`.
-3.  **Environment Variables (Vercel - Backend)**:
+4.  **Environment Variables (Render - Backend)**:
     - `TURSO_DB_URL`: `https://...` (not `libsql://` for serverless).
     - `TURSO_AUTH_TOKEN`: `...`
     - `GOOGLE_GENAI_API_KEY`: `...`
-    - `ALLOWED_ORIGINS`: Comma-separated list (Vercel domains).
-    - `VERCEL_PREPATH`: `/api` (if using API routes).
+    - `GOOGLE_CLIENT_ID`: Same value as `VITE_GOOGLE_CLIENT_ID` (needed for server-side PKCE code exchange).
+    - `GOOGLE_CLIENT_SECRET`: Google OAuth Client Secret (set in Dashboard, `sync: false`).
+    - `ALLOWED_ORIGINS`: Comma-separated list (Vercel domains + custom domain).
 
 #### Workflow
 1.  **Verify Locally**:
@@ -186,8 +190,11 @@ See `docs/adr/036-vercel-frontend-deployment.md` for details.
     - **CORS Errors**:
       - Verify `ALLOWED_ORIGINS` includes your Vercel domain.
     - **Google Sign-In Issues**: 
-      - Ensure `VITE_GOOGLE_CLIENT_ID` and `VITE_ENABLE_GOOGLE_AUTH` are set.
-      - Verify Authorized Redirect URIs in Google Cloud Console match the domains.
+      - Ensure `VITE_GOOGLE_CLIENT_ID` and `VITE_ENABLE_GOOGLE_AUTH` are set in Vercel (frontend).
+      - Ensure `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set in Render (backend).
+      - Verify Authorized Redirect URIs in Google Cloud Console match the frontend domain.
+      - Check Render logs for `❌ [AuthService] Google Token Exchange Error:` — the most common cause is a leading newline in the env var value (`.trim()` is applied as safety net).
+      - Verify the backend is deployed with the latest commit (check Render Events dashboard).
 
 
 
