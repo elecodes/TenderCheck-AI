@@ -78,6 +78,23 @@ https://github.com/user-attachments/assets/338457ab-3e39-43c9-b377-9a2bf3889e1d
   - **Includes**: **35+ ADRs**, **18+ Standards** (Security, UX, Quality), and **System Architecture**.
   - **Local**: `npm run docs:dev` → http://localhost:5173/
 
+# 📚 Documentation
+
+TenderCheckAI includes complete interactive documentation built with **Mintlify**.
+
+👉 **Read the documentation**
+
+https://mintlify.wiki/elecodes/TenderCheck-AI
+
+The documentation includes:
+
+- Architecture
+- Installation
+- Features
+- API
+- Project structure
+- Future improvements
+
 ## 🏗 Architecture
 This project implements **Clean Architecture** with a Modular Monolith approach:
 
