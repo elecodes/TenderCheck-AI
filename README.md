@@ -69,6 +69,12 @@
 ▶ Watch demo video
 https://github.com/user-attachments/assets/338457ab-3e39-43c9-b377-9a2bf3889e1d
 
+# 🏆 Recognition
+
+My Master's Final Project was selected by **BIG School** as one of the featured projects.
+
+As part of this recognition, I was invited to record a short interview discussing the project, my learning experience, and my journey in Artificial Intelligence.
+
 ## 📚 Key Documentation
 - **[📘 Developer Playbook](docs/PLAYBOOK.md)**: Setup, Workflows, Commands.
 - **[📋 Project Plan](docs/PROJECT_PLAN.md)**: Roadmap & Phases.
